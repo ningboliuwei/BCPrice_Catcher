@@ -7,11 +7,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BCPrice_Catcher.Model;
+using BCPrice_Catcher.Util;
+using Newtonsoft.Json.Linq;
 using Quobject.SocketIoClientDotNet.Client;
 
 namespace BCPrice_Catcher
 {
-	class BtccHelper
+	class BtccHelper : MarketHelper
 	{
 		private string _accessKey;
 		private string _secretKey;
@@ -39,26 +42,41 @@ namespace BCPrice_Catcher
 		}
 
 
-		public string GetCurrentMarket()
+		public override TickerInfo GetTicker()
 		{
 			_socket.On("ticker", data =>
 			{
 				_result = data.ToString();
 			});
 
-			return _result;
+			if (_result.Length != 0)
+			{
+				JObject o = JObject.Parse(_result);
+
+				return new TickerInfo()
+				{
+					Open = Convert.ToDouble(o["ticker"]["open"]),
+					Vol = Convert.ToDouble(o["ticker"]["vol"]),
+					Last = Convert.ToDouble(o["ticker"]["last"]),
+					Sell = Convert.ToDouble(o["ticker"]["sell"]),
+					High = Convert.ToDouble(o["ticker"]["high"]),
+					Low = Convert.ToDouble(o["ticker"]["low"]),
+					Time = Utilities.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+				};
+			}
+
+			return null;
 		}
 
 
-		public string GetCurrentTrade()
+		public TradeInfo GetTrade()
 		{
-			string s = "";
 			_socket.On("trade", data =>
 			{
 				_result = data.ToString();
 			});
 
-			return _result;
+			
 		}
 
 		public string GetGroupOrder()
