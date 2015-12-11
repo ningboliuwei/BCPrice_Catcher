@@ -24,5 +24,8 @@ namespace BCPrice_Catcher.Model
 		public double Last { get; set; }
 		//成交总金额
 		public double Total { get; set; }
+		//时间
+		public DateTime Time { get; set; }
+
 	}
 }

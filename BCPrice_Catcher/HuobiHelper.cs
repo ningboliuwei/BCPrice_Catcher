@@ -20,9 +20,9 @@ namespace BCPrice_Catcher
 		private const string _tickerLtcCnyUrl = "http://api.huobi.com/staticmarket/ticker_ltc_json.js";
 		private const string _tickerBtcUsdUrl = "http://api.huobi.com/usdmarket/ticker_btc_json.js";
 
-		private const string _tradeBtcCnyUrl = "http://api.huobi.com/usdmarket/ticker_btc_json.js";
-		private const string _tradeLtcCnyUrl = "http://api.huobi.com/usdmarket/ticker_btc_json.js";
-		private const string _tradeBtcUsdUrl = "http://api.huobi.com/usdmarket/ticker_btc_json.js";
+		private const string _tradeBtcCnyUrl = "http://api.huobi.com/staticmarket/detail_btc_json.js";
+		private const string _tradeLtcCnyUrl = "http://api.huobi.com/staticmarket/detail_ltc_json.js";
+		private const string _tradeBtcUsdUrl = "http://api.huobi.com/usdmarket/detail_btc_json.js";
 
 		private const string _depthBtcCnyUrl = "http://api.huobi.com/staticmarket/depth_btc_json.js";
 		private const string _depthLtcCnyUrl = "http://api.huobi.com/staticmarket/depth_ltc_json.js";
@@ -40,10 +40,11 @@ namespace BCPrice_Catcher
 					Open = Convert.ToDouble(o["ticker"]["open"]),
 					Vol = Convert.ToDouble(o["ticker"]["vol"]),
 					Last = Convert.ToDouble(o["ticker"]["last"]),
+					Buy = Convert.ToDouble(o["ticker"]["buy"]),
 					Sell = Convert.ToDouble(o["ticker"]["sell"]),
 					High = Convert.ToDouble(o["ticker"]["high"]),
 					Low = Convert.ToDouble(o["ticker"]["low"]),
-					Time = Utilities.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+					Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["time"].ToString())
 				};
 			}
 
@@ -68,6 +69,7 @@ namespace BCPrice_Catcher
 					Last = Convert.ToDouble(o["p_last"]),
 					Total = Convert.ToDouble(o["total"]),
 				};
+
 			}
 
 		}

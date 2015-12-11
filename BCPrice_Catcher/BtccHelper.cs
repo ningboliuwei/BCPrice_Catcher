@@ -21,7 +21,7 @@ namespace BCPrice_Catcher
 		private const string Url = "https://websocket.btcc.com/";
 		private readonly Socket _socket = IO.Socket(Url);
 		private static DateTime _dateOriginal = new DateTime(1970, 1, 1);
-		private string _result = "";
+		private string _dataText = "";
 
 		public string Usage { get; set; }
 
@@ -46,12 +46,12 @@ namespace BCPrice_Catcher
 		{
 			_socket.On("ticker", data =>
 			{
-				_result = data.ToString();
+				_dataText = data.ToString();
 			});
 
-			if (_result.Length != 0)
+			if (_dataText.Length != 0)
 			{
-				JObject o = JObject.Parse(_result);
+				JObject o = JObject.Parse(_dataText);
 
 				return new TickerInfo()
 				{
@@ -61,7 +61,7 @@ namespace BCPrice_Catcher
 					Sell = Convert.ToDouble(o["ticker"]["sell"]),
 					High = Convert.ToDouble(o["ticker"]["high"]),
 					Low = Convert.ToDouble(o["ticker"]["low"]),
-					Time = Utilities.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+					Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
 				};
 			}
 
@@ -73,11 +73,21 @@ namespace BCPrice_Catcher
 		{
 			_socket.On("trade", data =>
 			{
-				_result = data.ToString();
+				_dataText = data.ToString();
 			});
 
-			return null;
+			if (_dataText.Length != 0)
+			{
+				JObject o = JObject.Parse(_dataText);
 
+				return new TradeInfo()
+				{
+					Amount = Convert.ToDouble(o["amount"]),
+					New = Convert.ToDouble(o["price"]),
+					Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["date"].ToString())
+				};
+			}
+			return null;
 		}
 
 		public string GetGroupOrder()
@@ -85,10 +95,10 @@ namespace BCPrice_Catcher
 			string s = "";
 			_socket.On("grouporder", data =>
 			{
-				_result = data.ToString();
+				_dataText = data.ToString();
 			});
 
-			return _result;
+			return _dataText;
 		}
 
 
