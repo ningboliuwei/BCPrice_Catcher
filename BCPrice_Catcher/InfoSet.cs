@@ -7,9 +7,9 @@ using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher
 {
-	abstract class MarketHelper
+	class InfoSet
 	{
-		public abstract TickerInfo GetTicker();
-		public abstract TradeInfo GetTrade();
+		public TickerInfo Ticker { get; set; }
+		public TradeInfo Trade { get; set; }
 	}
 }

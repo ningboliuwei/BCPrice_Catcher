@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher
@@ -13,13 +13,10 @@ namespace BCPrice_Catcher
 	{
 		public Dictionary<string, Timer> Timers { get; } = new Dictionary<string, Timer>();
 
-		public void Add(string key, int interval, EventHandler eventHandler)
+		public void Add(string key, int interval, TimerCallback timerCallback)
 		{
-			using (System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer { Interval = interval })
-			{
-				timer.Tick += eventHandler;
-				Timers.Add(key, timer);
-			}
+			Timer timer = new Timer(timerCallback, null, 0, interval);
+			Timers.Add(key, timer);
 		}
 	}
 }

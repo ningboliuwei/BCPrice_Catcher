@@ -14,7 +14,7 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace BCPrice_Catcher
 {
-	class BtccHelper : MarketHelper
+	class BtccFetcher : PriceFetcher
 	{
 		private string _accessKey;
 		private string _secretKey;
@@ -25,7 +25,7 @@ namespace BCPrice_Catcher
 
 		public string Usage { get; set; }
 
-		public BtccHelper(string accessKey, string secretKey)
+		public BtccFetcher(string accessKey, string secretKey)
 		{
 			_accessKey = accessKey;
 			_secretKey = secretKey;

@@ -66,16 +66,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InfoSet.cs" />
     <Compile Include="TimerList.cs" />
-    <Compile Include="HuobiHelper.cs" />
-    <Compile Include="BtccHelper.cs" />
+    <Compile Include="HuobiFetcher.cs" />
+    <Compile Include="BtccFetcher.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="MarketHelper.cs" />
+    <Compile Include="PriceFetcher.cs" />
     <Compile Include="Model\TickerInfo.cs" />
     <Compile Include="Model\TradeInfo.cs" />
     <Compile Include="Program.cs" />
