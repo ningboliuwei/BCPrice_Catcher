@@ -21,7 +21,7 @@ namespace BCPrice_Catcher
 {
 	public partial class Form1 : Form
 	{
-		List<MarketHelper> _helpers = new List<MarketHelper>();
+		Dictionary<string, MarketHelper> _helpers = new Dictionary<string, MarketHelper>();
 
 		public Form1()
 		{
@@ -49,23 +49,24 @@ namespace BCPrice_Catcher
 			timer6.Enabled = true;
 			timer6.Interval = 300;
 
-			for (int i = 0; i < 3; i++)
-			{
-				_helpers.Add(new BtccHelper("000c2d29-2e8a-4d17-b493-dc13a86543d1", "62464917-3acf-4fa1-bc02-611e0c833c68"));
-			}
+		
+			_helpers.Add("btcc_trade", new BtccHelper("000c2d29-2e8a-4d17-b493-dc13a86543d1", "62464917-3acf-4fa1-bc02-611e0c833c68"));
+			_helpers.Add("btcc_ticker", new BtccHelper("000c2d29-2e8a-4d17-b493-dc13a86543d1", "62464917-3acf-4fa1-bc02-611e0c833c68"));
+			_helpers.Add("btcc_orders", new BtccHelper("000c2d29-2e8a-4d17-b493-dc13a86543d1", "62464917-3acf-4fa1-bc02-611e0c833c68"));
 
-			_helpers.Add(new HuobiHelper());
+			_helpers.Add("huobi_trade", new HuobiHelper());
+			_helpers.Add("huobi_ticker", new HuobiHelper());
 
-//			foreach (var a in _helpers)
-//			{
-//				a.Subscribe();
-//			}
+			//			foreach (var a in _helpers)
+			//			{
+			//				a.Subscribe();
+			//			}
 		}
 
 		async private void timer1_Tick(object sender, EventArgs e)
 		{
-//			Task<TickerInfo> task = Task.Run(() => _helpers[0].GetTicker());
-//			ShowCurrentMarketInDataGridView(await task);
+			Task<TickerInfo> task = Task.Run(() => _helpers["huobi_ticker"].GetTicker());
+			ShowCurrentMarketInDataGridView(await task);
 		}
 
 		async private void timer2_Tick(object sender, EventArgs e)
