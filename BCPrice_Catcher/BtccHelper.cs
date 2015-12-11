@@ -69,14 +69,15 @@ namespace BCPrice_Catcher
 		}
 
 
-		public TradeInfo GetTrade()
+		public override TradeInfo GetTrade()
 		{
 			_socket.On("trade", data =>
 			{
 				_result = data.ToString();
 			});
 
-			
+			return null;
+
 		}
 
 		public string GetGroupOrder()
