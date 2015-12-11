@@ -64,8 +64,8 @@ namespace BCPrice_Catcher
 
 		async private void timer1_Tick(object sender, EventArgs e)
 		{
-//			Task<TickerInfo> task = Task.Run(() => _helpers[0].GetTicker());
-//			ShowCurrentMarketInDataGridView(await task);
+			Task<TickerInfo> task = Task.Run(() => _helpers[0].GetTicker());
+			ShowCurrentMarketInDataGridView(await task);
 		}
 
 		async private void timer2_Tick(object sender, EventArgs e)
