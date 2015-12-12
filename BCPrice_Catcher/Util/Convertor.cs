@@ -36,21 +36,21 @@ namespace BCPrice_Catcher.Util
 			return new Dictionary<string, string>();
 		}
 
-		public static Dictionary<string, string> ConvertTradeInfoToDictionary(CurrentTradeInfo tradeInfo)
+		public static Dictionary<string, string> ConvertTradeDetailToDictionary(TradeDetail tradeDetail)
 		{
-			if (tradeInfo != null)
+			if (tradeDetail != null)
 			{
 				return new Dictionary<string, string>()
 				{
-					{"Amount", tradeInfo.Amount.ToString()},
-					{"Level", tradeInfo.Level.ToString()},
-					{"High", tradeInfo.High.ToString()},
-					{"Low", tradeInfo.Low.ToString()},
-					{"New", tradeInfo.New.ToString()},
-					{"Open", tradeInfo.Open.ToString()},
-					{"Last", tradeInfo.Last.ToString()},
-					{"Total", tradeInfo.Total.ToString()},
-					{"Time", tradeInfo.Time.ToString("yyyy-MM-dd HH:mm:ss")}
+					{"Amount", tradeDetail.Amount.ToString()},
+					{"Level", tradeDetail.Level.ToString()},
+					{"High", tradeDetail.High.ToString()},
+					{"Low", tradeDetail.Low.ToString()},
+					{"New", tradeDetail.New.ToString()},
+					{"Open", tradeDetail.Open.ToString()},
+					{"Last", tradeDetail.Last.ToString()},
+					{"Total", tradeDetail.Total.ToString()},
+					{"Time", tradeDetail.Time.ToString("yyyy-MM-dd HH:mm:ss")}
 				};
 			}
 			return new Dictionary<string, string>();
