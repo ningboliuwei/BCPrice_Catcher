@@ -10,6 +10,7 @@ namespace BCPrice_Catcher
 	class InfoSet
 	{
 		public TickerInfo Ticker { get; set; }
-		public TradeInfo Trade { get; set; }
+		public CurrentTradeInfo Trade { get; set; }
+		public List<OrderInfo> Orders { get; set; }
 	}
 }

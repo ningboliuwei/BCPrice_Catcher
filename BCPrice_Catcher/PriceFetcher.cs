@@ -10,6 +10,7 @@ namespace BCPrice_Catcher
 	abstract class PriceFetcher
 	{
 		public abstract TickerInfo GetTicker();
-		public abstract TradeInfo GetTrade();
+		public abstract CurrentTradeInfo GetTrade();
+		public abstract List<OrderInfo> GetOrders();
 	}
 }

@@ -50,7 +50,7 @@ namespace BCPrice_Catcher
 
 		}
 
-		public override TradeInfo GetTrade()
+		public override CurrentTradeInfo GetTrade()
 		{
 
 			using (WebClient client = new WebClient())
@@ -58,7 +58,7 @@ namespace BCPrice_Catcher
 				string dataText = client.DownloadString(_tradeBtcCnyUrl);
 				JObject o = JObject.Parse(dataText);
 
-				return new TradeInfo()
+				return new CurrentTradeInfo()
 				{
 					Amount = Convert.ToDouble(o["amount"]),
 					Level = Convert.ToDouble(o["level"]),
@@ -74,9 +74,23 @@ namespace BCPrice_Catcher
 
 		}
 
-
-
-
-
+		public override List<OrderInfo> GetOrders()
+		{
+//			using (WebClient client = new WebClient())
+//			{
+//				string dataText = client.DownloadString(_tradeBtcCnyUrl);
+//				if (dataText.Length != 0)
+//				{
+//					var o = JObject.Parse(dataText);
+//
+////					var q = (from c in o["grouporder"]["bid"].Children()
+////												select new { Price = c["price"], TotalAmount = c["totalamount"], Type = c["type"] })
+////						.Union(from c in o["grouporder"]["ask"].Children()
+////							   select new { Price = c["price"], TotalAmount = c["totalamount"], Type = c["type"] }).ToList();
+//				}
+//
+//			}
+			return null;
+		}
 	}
 }

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BCPrice_Catcher</RootNamespace>
     <AssemblyName>BCPrice_Catcher</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InfoSet.cs" />
+    <Compile Include="Model\OrderInfo.cs" />
     <Compile Include="TimerList.cs" />
     <Compile Include="HuobiFetcher.cs" />
     <Compile Include="BtccFetcher.cs" />
@@ -78,7 +79,7 @@
     </Compile>
     <Compile Include="PriceFetcher.cs" />
     <Compile Include="Model\TickerInfo.cs" />
-    <Compile Include="Model\TradeInfo.cs" />
+    <Compile Include="Model\CurrentTradeInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Convertor.cs" />

@@ -36,7 +36,7 @@ namespace BCPrice_Catcher.Util
 			return new Dictionary<string, string>();
 		}
 
-		public static Dictionary<string, string> ConvertTradeInfoToDictionary(TradeInfo tradeInfo)
+		public static Dictionary<string, string> ConvertTradeInfoToDictionary(CurrentTradeInfo tradeInfo)
 		{
 			if (tradeInfo != null)
 			{
