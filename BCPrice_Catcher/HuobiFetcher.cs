@@ -28,6 +28,8 @@ namespace BCPrice_Catcher
 		private const string _depthLtcCnyUrl = "http://api.huobi.com/staticmarket/depth_ltc_json.js";
 		private const string _depthBtcUsdUrl = "http://api.huobi.com/usdmarket/depth_btc_json.js";
 
+		public int TradesCount { get; set; } = 100;
+
 		public override TickerInfo GetTicker()
 		{
 			using (WebClient client = new WebClient())
@@ -67,6 +69,24 @@ namespace BCPrice_Catcher
 					Last = Convert.ToDouble(o["p_last"]),
 					Total = Convert.ToDouble(o["total"]),
 				};
+			}
+		}
+
+		public override List<TradeInfo> GetTrades()
+		{
+			using (WebClient client = new WebClient())
+			{
+				string dataText = client.DownloadString(_tradeBtcCnyUrl);
+				JObject o = JObject.Parse(dataText);
+
+				return (from c in o["trades"].Children()
+					select new TradeInfo()
+					{
+						Amount = Convert.ToDouble(c["amount"]),
+						Price = Convert.ToDouble(c["price"]),
+						Time = c["time"].ToString(),
+						Type = c["en_type"].ToString()
+					}).Take(TradesCount).ToList();
 			}
 		}
 	}

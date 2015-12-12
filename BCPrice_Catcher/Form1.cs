@@ -28,29 +28,30 @@ namespace BCPrice_Catcher
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			_infoSets.Add("huobi", new InfoSet());
-			_infoSets.Add("btcc", new InfoSet());
+			_infoSets.Add("btcc_socket", new InfoSet());
 			_infoSets.Add("btcc_http", new InfoSet());
 
 			#region 添加 btcc_ticker
 
-			_fetchers.Add("btcc_ticker",
-				new BtccSocketFetcher("000c2d29-2e8a-4d17-b493-dc13a86543d1", "62464917-3acf-4fa1-bc02-611e0c833c68"));
-			(_fetchers["btcc_ticker"] as BtccSocketFetcher)?.Subscribe();
-
-			_timerList.Add("btcc_ticker", FetchInterval, async o =>
-			{
-				var task = Task.Run(() => _fetchers["btcc_ticker"].GetTicker());
-				_infoSets["btcc"].Ticker = await task;
-			});
+			//
+			//			_fetchers.Add("btcc_socket_ticker",
+			//				new BtccSocketFetcher("000c2d29-2e8a-4d17-b493-dc13a86543d1", "62464917-3acf-4fa1-bc02-611e0c833c68"));
+			//			(_fetchers["btcc_socket_ticker"] as BtccSocketFetcher)?.Subscribe();
+			//
+			//			_timerList.Add("btcc_socket_ticker", FetchInterval, async o =>
+			//			{
+			//				var task = Task.Run(() => _fetchers["btcc_ticker"].GetTicker());
+			//				_infoSets["btcc_socket"].Ticker = await task;
+			//			});
+			//
 
 			#endregion
-
 
 			#region 添加 btcc_http_ticker
 
 			_fetchers.Add("btcc_http_ticker",
 				new BtccHttpFetcher());
-			
+
 			_timerList.Add("btcc_http_ticker", FetchInterval, async o =>
 			{
 				var task = Task.Run(() => _fetchers["btcc_http_ticker"].GetTicker());
@@ -94,6 +95,32 @@ namespace BCPrice_Catcher
 			//			});
 			//
 			//			#endregion
+
+						#region 添加 huobi_trades
+			
+						_fetchers.Add("huobi_trades",
+							new HuobiFetcher());
+			
+						_timerList.Add("huobi_trades", FetchInterval, async o =>
+						{
+							var task = Task.Run(() => _fetchers["huobi_trades"].GetTrades());
+							_infoSets["huobi"].Trades = await task;
+						});
+
+			#endregion
+
+			#region 添加 btcc_http_trades
+
+			_fetchers.Add("btcc_http_trades",
+				new HuobiFetcher());
+
+			_timerList.Add("btcc_http_trades", FetchInterval, async o =>
+			{
+				var task = Task.Run(() => _fetchers["btcc_http_trades"].GetTrades());
+				_infoSets["btcc_http"].Trades = await task;
+			});
+
+			#endregion
 		}
 
 		private void ShowGroupOrdersInDataGridView(string dataText)
@@ -102,7 +129,7 @@ namespace BCPrice_Catcher
 			{
 				var o = JObject.Parse(dataText);
 
-				dgvHuobiTrade.DataSource = (from c in o["grouporder"]["bid"].Children()
+				dgvHuobiTrades.DataSource = (from c in o["grouporder"]["bid"].Children()
 					select new {Price = c["price"], TotalAmount = c["totalamount"], Type = c["type"]})
 					.Union(from c in o["grouporder"]["ask"].Children()
 						select new {Price = c["price"], TotalAmount = c["totalamount"], Type = c["type"]}).ToList();
@@ -111,9 +138,10 @@ namespace BCPrice_Catcher
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			dgvBtccTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets["btcc"].Ticker).ToList();
+			dgvBtccTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets["btcc_http"].Ticker).ToList();
 			dgvHuobiTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets["huobi"].Ticker).ToList();
-			dgvBtccOrders.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets["btcc_http"].Ticker).ToList();
+			dgvHuobiTrades.DataSource = _infoSets["huobi"].Trades;
+			dgvBtccTrades.DataSource = _infoSets["btcc_http"].Trades;
 
 			//			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
 			//			dgvHuobiTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["huobi"].Trade).ToList();

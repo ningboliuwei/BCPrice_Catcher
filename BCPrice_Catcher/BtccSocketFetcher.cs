@@ -89,6 +89,11 @@ namespace BCPrice_Catcher
 			return null;
 		}
 
+		public override List<TradeInfo> GetTrades()
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetGroupOrder()
 		{
 			_socket.On("grouporder", data =>

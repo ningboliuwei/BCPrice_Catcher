@@ -31,17 +31,17 @@
 			this.components = new System.ComponentModel.Container();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.dgvHuobiTicker = new System.Windows.Forms.DataGridView();
-			this.dgvHuobiTrade = new System.Windows.Forms.DataGridView();
 			this.dgvHuobiOrders = new System.Windows.Forms.DataGridView();
-			this.dgvBtccTrade = new System.Windows.Forms.DataGridView();
+			this.dgvHuobiTrades = new System.Windows.Forms.DataGridView();
+			this.dgvHuobiTicker = new System.Windows.Forms.DataGridView();
+			this.dgvBtccTrades = new System.Windows.Forms.DataGridView();
 			this.dgvBtccTicker = new System.Windows.Forms.DataGridView();
 			this.dgvBtccOrders = new System.Windows.Forms.DataGridView();
 			this.tableLayoutPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTicker)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTrade)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiOrders)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dgvBtccTrade)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTrades)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTicker)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvBtccTrades)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvBtccTicker)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvBtccOrders)).BeginInit();
 			this.SuspendLayout();
@@ -59,9 +59,9 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
 			this.tableLayoutPanel1.Controls.Add(this.dgvHuobiOrders, 2, 1);
-			this.tableLayoutPanel1.Controls.Add(this.dgvHuobiTrade, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.dgvHuobiTrades, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.dgvHuobiTicker, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.dgvBtccTrade, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.dgvBtccTrades, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.dgvBtccTicker, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.dgvBtccOrders, 2, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -75,30 +75,6 @@
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(1641, 744);
 			this.tableLayoutPanel1.TabIndex = 8;
 			// 
-			// dgvHuobiTicker
-			// 
-			this.dgvHuobiTicker.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dgvHuobiTicker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvHuobiTicker.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dgvHuobiTicker.Location = new System.Drawing.Point(3, 374);
-			this.dgvHuobiTicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.dgvHuobiTicker.Name = "dgvHuobiTicker";
-			this.dgvHuobiTicker.RowTemplate.Height = 30;
-			this.dgvHuobiTicker.Size = new System.Drawing.Size(540, 368);
-			this.dgvHuobiTicker.TabIndex = 13;
-			// 
-			// dgvHuobiTrade
-			// 
-			this.dgvHuobiTrade.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dgvHuobiTrade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvHuobiTrade.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dgvHuobiTrade.Location = new System.Drawing.Point(549, 374);
-			this.dgvHuobiTrade.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.dgvHuobiTrade.Name = "dgvHuobiTrade";
-			this.dgvHuobiTrade.RowTemplate.Height = 30;
-			this.dgvHuobiTrade.Size = new System.Drawing.Size(540, 368);
-			this.dgvHuobiTrade.TabIndex = 12;
-			// 
 			// dgvHuobiOrders
 			// 
 			this.dgvHuobiOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -111,17 +87,41 @@
 			this.dgvHuobiOrders.Size = new System.Drawing.Size(543, 368);
 			this.dgvHuobiOrders.TabIndex = 11;
 			// 
-			// dgvBtccTrade
+			// dgvHuobiTrades
 			// 
-			this.dgvBtccTrade.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dgvBtccTrade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvBtccTrade.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dgvBtccTrade.Location = new System.Drawing.Point(549, 2);
-			this.dgvBtccTrade.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.dgvBtccTrade.Name = "dgvBtccTrade";
-			this.dgvBtccTrade.RowTemplate.Height = 30;
-			this.dgvBtccTrade.Size = new System.Drawing.Size(540, 368);
-			this.dgvBtccTrade.TabIndex = 10;
+			this.dgvHuobiTrades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dgvHuobiTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvHuobiTrades.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dgvHuobiTrades.Location = new System.Drawing.Point(549, 374);
+			this.dgvHuobiTrades.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.dgvHuobiTrades.Name = "dgvHuobiTrades";
+			this.dgvHuobiTrades.RowTemplate.Height = 30;
+			this.dgvHuobiTrades.Size = new System.Drawing.Size(540, 368);
+			this.dgvHuobiTrades.TabIndex = 12;
+			// 
+			// dgvHuobiTicker
+			// 
+			this.dgvHuobiTicker.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dgvHuobiTicker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvHuobiTicker.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dgvHuobiTicker.Location = new System.Drawing.Point(3, 374);
+			this.dgvHuobiTicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.dgvHuobiTicker.Name = "dgvHuobiTicker";
+			this.dgvHuobiTicker.RowTemplate.Height = 30;
+			this.dgvHuobiTicker.Size = new System.Drawing.Size(540, 368);
+			this.dgvHuobiTicker.TabIndex = 13;
+			// 
+			// dgvBtccTrades
+			// 
+			this.dgvBtccTrades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dgvBtccTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvBtccTrades.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dgvBtccTrades.Location = new System.Drawing.Point(549, 2);
+			this.dgvBtccTrades.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.dgvBtccTrades.Name = "dgvBtccTrades";
+			this.dgvBtccTrades.RowTemplate.Height = 30;
+			this.dgvBtccTrades.Size = new System.Drawing.Size(540, 368);
+			this.dgvBtccTrades.TabIndex = 10;
 			// 
 			// dgvBtccTicker
 			// 
@@ -157,10 +157,10 @@
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.tableLayoutPanel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTicker)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTrade)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiOrders)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dgvBtccTrade)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTrades)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvHuobiTicker)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvBtccTrades)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvBtccTicker)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvBtccOrders)).EndInit();
 			this.ResumeLayout(false);
@@ -170,9 +170,9 @@
 		#endregion
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.DataGridView dgvBtccTrade;
+		private System.Windows.Forms.DataGridView dgvBtccTrades;
 		private System.Windows.Forms.DataGridView dgvHuobiTicker;
-		private System.Windows.Forms.DataGridView dgvHuobiTrade;
+		private System.Windows.Forms.DataGridView dgvHuobiTrades;
 		private System.Windows.Forms.DataGridView dgvHuobiOrders;
 		private System.Windows.Forms.DataGridView dgvBtccTicker;
 		private System.Windows.Forms.DataGridView dgvBtccOrders;

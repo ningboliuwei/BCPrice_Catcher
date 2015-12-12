@@ -69,5 +69,22 @@ namespace BCPrice_Catcher
 			return null;
 		}
 
+		public override List<TradeInfo> GetTrades()
+		{
+			using (WebClient client = new WebClient())
+			{
+				string dataText = client.DownloadString(_tradesUrl);
+				JObject o = JObject.Parse(dataText);
+
+				return (from c in o.Children()
+						select new TradeInfo()
+						{
+							Amount = Convert.ToDouble(c["amount"]),
+							Price = Convert.ToDouble(c["price"]),
+							Time = Convertor.ConvertJsonDateTimeToChinaDateTime(c["date"].ToString()).ToString("HH:mm:ss"),
+							Type = c["type"].ToString()
+						}).Take(TradesCount).ToList();
+			}
+		}
 	}
 }
