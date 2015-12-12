@@ -94,6 +94,11 @@ namespace BCPrice_Catcher
 			throw new NotImplementedException();
 		}
 
+		public override List<OrderInfo> GetOrders()
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetGroupOrder()
 		{
 			_socket.On("grouporder", data =>

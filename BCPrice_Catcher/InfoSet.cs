@@ -11,5 +11,6 @@ namespace BCPrice_Catcher
 	{
 		public TickerInfo Ticker { get; set; }
 		public List<TradeInfo> Trades { get; set; }
+		public List<OrderInfo> Orders { get; set; } 
 	}
 }

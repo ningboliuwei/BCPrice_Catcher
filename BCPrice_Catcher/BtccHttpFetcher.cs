@@ -23,6 +23,7 @@ namespace BCPrice_Catcher
 
 		private readonly string _ordersUrl = $"https://data.btcchina.com/data/orderbook?limit={OrdersCount}";
 
+
 		public static int TradesCount { get; set; } = 100;
 		public static int OrdersCount { get; set; } = 100;
 
@@ -77,13 +78,36 @@ namespace BCPrice_Catcher
 				JObject o = JObject.Parse(dataText);
 
 				return (from c in o.Children()
-						select new TradeInfo()
+					select new TradeInfo()
+					{
+						Amount = Convert.ToDouble(c["amount"]),
+						Price = Convert.ToDouble(c["price"]),
+						Time = Convertor.ConvertJsonDateTimeToChinaDateTime(c["date"].ToString()).ToString("HH:mm:ss"),
+						Type = c["type"].ToString()
+					}).Take(TradesCount).ToList();
+			}
+		}
+
+		public override List<OrderInfo> GetOrders()
+		{
+			using (WebClient client = new WebClient())
+			{
+				string dataText = client.DownloadString(_ordersUrl);
+				JObject o = JObject.Parse(dataText);
+
+				return (from c in o["asks"].Children().Take(5)
+					select new OrderInfo()
+					{
+						Amount = Convert.ToDouble(c[1]),
+						Price = Convert.ToDouble(c[0]),
+						Type = "sell"
+					}).Union(from c in o["bids"].Children().Take(5)
+						select new OrderInfo()
 						{
-							Amount = Convert.ToDouble(c["amount"]),
-							Price = Convert.ToDouble(c["price"]),
-							Time = Convertor.ConvertJsonDateTimeToChinaDateTime(c["date"].ToString()).ToString("HH:mm:ss"),
-							Type = c["type"].ToString()
-						}).Take(TradesCount).ToList();
+							Amount = Convert.ToDouble(c[1]),
+							Price = Convert.ToDouble(c[0]),
+							Type = "buy"
+						}).ToList();
 			}
 		}
 	}

@@ -9,7 +9,7 @@ namespace BCPrice_Catcher.Model
 	class OrderInfo
 	{
 		public double Price { get; set; }
-		public double TotalAmount { get; set; }
-		public string OrderType { get; set; }
+		public double Amount { get; set; }
+		public string Type { get; set; }
 	}
 }

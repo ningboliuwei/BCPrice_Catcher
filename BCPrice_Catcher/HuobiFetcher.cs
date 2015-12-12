@@ -89,5 +89,28 @@ namespace BCPrice_Catcher
 					}).Take(TradesCount).ToList();
 			}
 		}
+
+		public override List<OrderInfo> GetOrders()
+		{
+			using (WebClient client = new WebClient())
+			{
+				string dataText = client.DownloadString(_tradeBtcCnyUrl);
+				JObject o = JObject.Parse(dataText);
+
+				return (from c in o["sells"].Children().Take(5)
+					select new OrderInfo()
+					{
+						Amount = Convert.ToDouble(c["amount"]),
+						Price = Convert.ToDouble(c["price"]),
+						Type = "sell"
+					}).Union(from c in o["buys"].Children().Take(5)
+						select new OrderInfo()
+						{
+							Amount = Convert.ToDouble(c["amount"]),
+							Price = Convert.ToDouble(c["price"]),
+							Type = "buy"
+						}).ToList();
+			}
+		}
 	}
 }
