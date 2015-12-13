@@ -14,15 +14,16 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace BCPrice_Catcher
 {
-	class BtccHttpFetcher : PriceFetcher
+	class OkcHttpFetcher : PriceFetcher
 	{
-		private const string _tickerBtcCnyUrl = "https://data.btcchina.com/data/ticker?market=btccny";
-		private const string _tickerLtcCnyUrl = "https://data.btcchina.com/data/ticker?market=ltccny";
+		private const string _tickerBtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=btc_cny";
+		private const string _tickerLtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=ltc_cny";
 
-		private readonly string _tradesUrl = $"https://data.btcchina.com/data/historydata?limit={TradesCount}";
+		private readonly string _tradesBtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=btc_cny";
+		private readonly string _tradesLtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=ltc_cny";
 
-		private readonly string _ordersUrl = $"https://data.btcchina.com/data/orderbook?limit={OrdersCount}";
-
+		private readonly string _ordersBtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=btc_cny";
+		private readonly string _ordersLtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=ltc_cny";
 
 		public static int TradesCount { get; set; } = 100;
 		public static int OrdersCount { get; set; } = 100;
@@ -36,14 +37,14 @@ namespace BCPrice_Catcher
 
 				return new TickerInfo()
 				{
-					Open = Convert.ToDouble(o["ticker"]["open"]),
+					Open = -1,
 					Vol = Convert.ToDouble(o["ticker"]["vol"]),
 					Last = Convert.ToDouble(o["ticker"]["last"]),
 					Buy = Convert.ToDouble(o["ticker"]["buy"]),
 					Sell = Convert.ToDouble(o["ticker"]["sell"]),
 					High = Convert.ToDouble(o["ticker"]["high"]),
 					Low = Convert.ToDouble(o["ticker"]["low"]),
-					Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+					Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["date"].ToString())
 				};
 			}
 		}
@@ -74,10 +75,10 @@ namespace BCPrice_Catcher
 		{
 			using (WebClient client = new WebClient())
 			{
-				string dataText = client.DownloadString(_tradesUrl);
-				JObject o = JObject.Parse(dataText);
+				string dataText = client.DownloadString(_tradesBtcCnyUrl);
+				JObject o = JObject.Parse("{trades:" + dataText + "}");
 
-				return (from c in o.Children()
+				return (from c in o["trades"].Children()
 					select new TradeInfo()
 					{
 						Amount = Convert.ToDouble(c["amount"]),
@@ -92,7 +93,7 @@ namespace BCPrice_Catcher
 		{
 			using (WebClient client = new WebClient())
 			{
-				string dataText = client.DownloadString(_ordersUrl);
+				string dataText = client.DownloadString(_ordersBtcCnyUrl);
 				JObject o = JObject.Parse(dataText);
 
 				return (from c in o["asks"].Children().Take(5)

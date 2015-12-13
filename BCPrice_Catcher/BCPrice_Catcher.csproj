@@ -66,20 +66,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BtccHttpFetcher.cs" />
-    <Compile Include="InfoSet.cs" />
+    <Compile Include="Fetcher\OkcHttpFetcher.cs" />
+    <Compile Include="Fetcher\BtccHttpFetcher.cs" />
+    <Compile Include="Collection\InfoSet.cs" />
     <Compile Include="Model\OrderInfo.cs" />
     <Compile Include="Model\TradeDetail.cs" />
-    <Compile Include="TimerList.cs" />
-    <Compile Include="HuobiFetcher.cs" />
-    <Compile Include="BtccSocketFetcher.cs" />
+    <Compile Include="Collection\TimerList.cs" />
+    <Compile Include="Fetcher\HuobiFetcher.cs" />
+    <Compile Include="Fetcher\BtccSocketFetcher.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="PriceFetcher.cs" />
+    <Compile Include="Fetcher\PriceFetcher.cs" />
     <Compile Include="Model\TickerInfo.cs" />
     <Compile Include="Model\TradeInfo.cs" />
     <Compile Include="Program.cs" />
