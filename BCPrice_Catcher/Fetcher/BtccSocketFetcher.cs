@@ -14,20 +14,21 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace BCPrice_Catcher
 {
-	class BtccSocketFetcher : PriceFetcher
+	class BtccSocketFetcher : Fetcher
 	{
-		private string _accessKey;
-		private string _secretKey;
 		private const string Url = "https://websocket.btcc.com/";
 		private readonly Socket _socket = IO.Socket(Url);
 		private string _dataText = "";
 
+		private const string BtcSocketAccessKey = "000c2d29-2e8a-4d17-b493-dc13a86543d1";
+		private const string BtcSocketSecretKey = "62464917-3acf-4fa1-bc02-611e0c833c68";
+
+
 		public string Usage { get; set; }
 
-		public BtccSocketFetcher(string accessKey, string secretKey)
+		public BtccSocketFetcher()
 		{
-			_accessKey = accessKey;
-			_secretKey = secretKey;
+			
 		}
 
 

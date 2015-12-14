@@ -11,7 +11,7 @@ namespace BCPrice_Catcher
 	public partial class Form1 : Form
 	{
 		private const int FetchInterval = 500;
-		private readonly Dictionary<string, PriceFetcher> _fetchers = new Dictionary<string, PriceFetcher>();
+		private readonly Dictionary<string, Fetcher> _fetchers = new Dictionary<string, Fetcher>();
 		private readonly Dictionary<string, InfoSet> _infoSets = new Dictionary<string, InfoSet>();
 		private readonly TimerList _timerList = new TimerList();
 
@@ -20,8 +20,7 @@ namespace BCPrice_Catcher
 		private const string HuobiPrefix = "huobi";
 		private const string OkcHttpPrefix = "okc_http";
 
-		private const string BtcSocketAccessKey = "000c2d29-2e8a-4d17-b493-dc13a86543d1";
-		private const string BtcSocketSecretKey = "62464917-3acf-4fa1-bc02-611e0c833c68";
+
 
 		public Form1()
 		{
@@ -192,7 +191,7 @@ namespace BCPrice_Catcher
 			#region 添加 btcc_socket_ticker
 
 			_fetchers.Add($"{BtcSocketPrefix}_ticker",
-				new BtccSocketFetcher(BtcSocketAccessKey, BtcSocketSecretKey));
+				new BtccSocketFetcher());
 
 			(_fetchers[$"{BtcSocketPrefix}_ticker"] as BtccSocketFetcher)?.Subscribe();
 

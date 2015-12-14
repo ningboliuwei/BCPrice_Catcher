@@ -14,7 +14,7 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace BCPrice_Catcher
 {
-	class HuobiFetcher : PriceFetcher
+	class HuobiFetcher : Fetcher
 	{
 		private const string _tickerBtcCnyUrl = "http://api.huobi.com/staticmarket/ticker_btc_json.js";
 		private const string _tickerLtcCnyUrl = "http://api.huobi.com/staticmarket/ticker_ltc_json.js";

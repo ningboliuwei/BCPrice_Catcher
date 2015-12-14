@@ -14,7 +14,7 @@ using Quobject.SocketIoClientDotNet.Client;
 
 namespace BCPrice_Catcher
 {
-	class OkcHttpFetcher : PriceFetcher
+	class OkcHttpFetcher : Fetcher
 	{
 		private const string _tickerBtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=btc_cny";
 		private const string _tickerLtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=ltc_cny";

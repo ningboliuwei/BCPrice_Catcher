@@ -17,6 +17,12 @@ namespace BCPrice_Catcher.Util
 			return chinaTime;
 		}
 
+		public static double ConvertDateTimeToJsonTimeStamp(DateTime dateTime)
+		{
+			return (dateTime - new DateTime(1970, 1, 1)).Milliseconds;
+
+		}
+
 		public static Dictionary<string, string> ConvertTickerInfoToDictionary(TickerInfo tickerInfo)
 		{
 			if (tickerInfo != null)

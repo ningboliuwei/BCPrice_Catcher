@@ -7,7 +7,7 @@ using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher
 {
-	abstract class PriceFetcher
+	abstract class Fetcher
 	{
 		public abstract TickerInfo GetTicker();
 		public abstract TradeDetail GetTradeDetail();
