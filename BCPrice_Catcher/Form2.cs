@@ -23,7 +23,7 @@ namespace BCPrice_Catcher
 			HuobiTrader trader = new HuobiTrader();
 
 			textBox1.Text = trader.GetAccountInfo();
-			MessageBox.Show(trader.GetAccountInfo());
+			//MessageBox.Show(trader.GetAccountInfo());
 		}
 	}
 }
