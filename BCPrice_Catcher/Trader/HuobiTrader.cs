@@ -33,9 +33,9 @@ namespace BCPrice_Catcher.Trader
 				$"sign={sign}access_key={AccessKey}&created={Convertor.ConvertDateTimeToJsonTimeStamp(DateTime.Now)}&method=get_account_info&secret_key={SecretKey})";
 
 
-			byte[] result = _client.UploadData(postUrl, Encoding.UTF8.GetBytes(paraString));
+			byte[] result = _client.UploadData(postUrl,"POST", Encoding.UTF8.GetBytes(paraString));
 
-			return BitConverter.ToString(result);
+			return Encoding.UTF8.GetString(result);
 
 		}
 	}
