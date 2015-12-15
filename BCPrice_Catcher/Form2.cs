@@ -22,6 +22,7 @@ namespace BCPrice_Catcher
 		{
 			MessageBox.Show(new HuobiTrader().GetAccountInfo());
 			MessageBox.Show(new HuobiTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
+			MessageBox.Show(new HuobiTrader().BuyMarket(10, Trader.Trader.CoinType.Btc));
 			MessageBox.Show(new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc));
 		}
 	}

@@ -128,6 +128,20 @@ namespace BCPrice_Catcher.Trader
 			return DoMethod(parasText);
 		}
 
+		public override string BuyMarket(double amount, CoinType coinType)
+		{
+			var builder = new HuobiParasTextBuilder("buy_market");
+
+			builder.Parameters.Add("market", Market);
+			builder.Parameters.Add("amount", amount.ToString());
+			builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			builder.Parameters.Add("trade_password", TradePassword);
+
+			string parasText =
+				builder.GetParasText(new string[] {"amount", "coin_type"});
+			return DoMethod(parasText);
+		}
+
 		/// <summary>
 		/// 从火币网交易 API 得到结果
 		/// </summary>
