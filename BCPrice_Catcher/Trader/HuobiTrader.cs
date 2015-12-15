@@ -21,7 +21,9 @@ namespace BCPrice_Catcher.Trader
 		private const string Market = "cny";
 		private const string TradePassword = "password";
 
-
+		/// <summary>
+		/// 构建火币网交易 API 请求参数的辅助类
+		/// </summary>
 		public class HuobiParasTextBuilder
 		{
 			public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
@@ -100,16 +102,21 @@ namespace BCPrice_Catcher.Trader
 		{
 			var builder = new HuobiParasTextBuilder("sell_market");
 
-			//builder.Parameters.Add("market", Market);
+			builder.Parameters.Add("market", Market);
 			builder.Parameters.Add("amount", amount.ToString());
 			builder.Parameters.Add("coin_type", ((int) coinType).ToString());
-			//builder.Parameters.Add("trade_password", TradePassword);
+			builder.Parameters.Add("trade_password", TradePassword);
 
 			string parasText =
 				builder.GetParasText(new string[] {"amount", "coin_type"});
 			return DoMethod(parasText);
 		}
 
+		/// <summary>
+		/// 获取所有正在进行的委托
+		/// </summary>
+		/// <param name="coinType"></param>
+		/// <returns></returns>
 		public override string GetOrders(CoinType coinType)
 		{
 			var builder = new HuobiParasTextBuilder("get_orders");
@@ -121,6 +128,11 @@ namespace BCPrice_Catcher.Trader
 			return DoMethod(parasText);
 		}
 
+		/// <summary>
+		/// 从火币网交易 API 得到结果
+		/// </summary>
+		/// <param name="parasText">要发送的所有参数的文本</param>
+		/// <returns></returns>
 		private string DoMethod(string parasText)
 		{
 			return Encoding.UTF8.GetString(_client.UploadData(postUrl, Encoding.UTF8.GetBytes(parasText)));
