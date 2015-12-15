@@ -20,10 +20,9 @@ namespace BCPrice_Catcher
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			HuobiTrader trader = new HuobiTrader();
-
-			textBox1.Text = trader.GetAccountInfo();
-			//MessageBox.Show(trader.GetAccountInfo());
+			MessageBox.Show(new HuobiTrader().GetAccountInfo());
+			MessageBox.Show(new HuobiTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
+			MessageBox.Show(new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc));
 		}
 	}
 }
