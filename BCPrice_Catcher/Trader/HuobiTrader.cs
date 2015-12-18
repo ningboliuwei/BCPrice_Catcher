@@ -142,7 +142,12 @@ namespace BCPrice_Catcher.Trader
 			return DoMethod(parasText);
 		}
 
-		/// <summary>
+	    public override string Buy(double price, double amount, CoinType coinType)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    /// <summary>
 		/// 从火币网交易 API 得到结果
 		/// </summary>
 		/// <param name="parasText">要发送的所有参数的文本</param>
