@@ -15,10 +15,12 @@ namespace BCPrice_Catcher
 		private readonly Dictionary<string, InfoSet> _infoSets = new Dictionary<string, InfoSet>();
 		private readonly TimerList _timerList = new TimerList();
 
-		private const string BtcHttpPrefix = "btc_http";
+		private const string BtccHttpPrefix = "btc_http";
 		private const string BtcSocketPrefix = "btc_socket";
 		private const string HuobiPrefix = "huobi";
 		private const string OkcHttpPrefix = "okc_http";
+
+	    private Form3 _form3 = new Form3();
 
 
 
@@ -34,7 +36,7 @@ namespace BCPrice_Catcher
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			_infoSets.Add(BtcHttpPrefix, new InfoSet());
+			_infoSets.Add(BtccHttpPrefix, new InfoSet());
 			_infoSets.Add(HuobiPrefix, new InfoSet());
 
 			_infoSets.Add(BtcSocketPrefix, new InfoSet());
@@ -42,6 +44,8 @@ namespace BCPrice_Catcher
 			_infoSets.Add("okc_http", new InfoSet());
 
 			InitializeFetchers();
+
+            _form3.Show();
 		}
 
 		private async void InitializeFetchers()
@@ -66,39 +70,39 @@ namespace BCPrice_Catcher
 
 			#region 添加 btcc_http_ticker
 
-			_fetchers.Add($"{BtcHttpPrefix}_ticker",
+			_fetchers.Add($"{BtccHttpPrefix}_ticker",
 				new BtccHttpFetcher());
 
-			_timerList.Add($"{BtcHttpPrefix}_ticker", FetchInterval, async o =>
+			_timerList.Add($"{BtccHttpPrefix}_ticker", FetchInterval, async o =>
 			{
-				var task = Task.Run(() => _fetchers[$"{BtcHttpPrefix}_ticker"].GetTicker());
-				_infoSets[BtcHttpPrefix].Ticker = await task;
+				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_ticker"].GetTicker());
+				_infoSets[BtccHttpPrefix].Ticker = await task;
 			});
 
 			#endregion
 
 			#region 添加 btcc_http_trades
 
-			_fetchers.Add($"{BtcHttpPrefix}_trades",
+			_fetchers.Add($"{BtccHttpPrefix}_trades",
 				new BtccHttpFetcher());
 
-			_timerList.Add($"{BtcHttpPrefix}_trades", FetchInterval, async o =>
+			_timerList.Add($"{BtccHttpPrefix}_trades", FetchInterval, async o =>
 			{
-				var task = Task.Run(() => _fetchers[$"{BtcHttpPrefix}_trades"].GetTrades());
-				_infoSets[BtcHttpPrefix].Trades = await task;
+				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_trades"].GetTrades());
+				_infoSets[BtccHttpPrefix].Trades = await task;
 			});
 
 			#endregion
 
 			#region 添加 btcc_http_orders
 
-			_fetchers.Add($"{BtcHttpPrefix}_orders",
+			_fetchers.Add($"{BtccHttpPrefix}_orders",
 				new BtccHttpFetcher());
 
-			_timerList.Add($"{BtcHttpPrefix}_orders", FetchInterval, async o =>
+			_timerList.Add($"{BtccHttpPrefix}_orders", FetchInterval, async o =>
 			{
-				var task = Task.Run(() => _fetchers[$"{BtcHttpPrefix}_orders"].GetOrders());
-				_infoSets[BtcHttpPrefix].Orders = await task;
+				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_orders"].GetOrders());
+				_infoSets[BtccHttpPrefix].Orders = await task;
 			});
 
 			//---------------------------------------------------------------------------
@@ -220,9 +224,9 @@ namespace BCPrice_Catcher
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			dgvBtccTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[BtcHttpPrefix].Ticker).ToList();
-			dgvBtccTrades.DataSource = _infoSets[BtcHttpPrefix].Trades;
-			dgvBtccOrders.DataSource = _infoSets[BtcHttpPrefix].Orders;
+			dgvBtccTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[BtccHttpPrefix].Ticker).ToList();
+			dgvBtccTrades.DataSource = _infoSets[BtccHttpPrefix].Trades;
+			dgvBtccOrders.DataSource = _infoSets[BtccHttpPrefix].Orders;
 
 
 			dgvHuobiTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[HuobiPrefix].Ticker).ToList();
@@ -234,8 +238,24 @@ namespace BCPrice_Catcher
 			dgvOkcOrders.DataSource = _infoSets[OkcHttpPrefix].Orders;
 
 
-			//			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
-			//			dgvHuobiTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["huobi"].Trade).ToList();
+            //			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
+            //			dgvHuobiTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["huobi"].Trade).ToList();
+         
+                SendPrice();
 		}
+
+
+	    private void SendPrice()
+	    {
+	        var  prices = new Dictionary<string, double>(); ;
+            if (_infoSets[BtccHttpPrefix].Ticker != null && _infoSets[HuobiPrefix].Ticker != null)
+	        {
+             
+                prices.Add("Btcc", _infoSets[BtccHttpPrefix].Ticker.Last);
+                prices.Add("Huobi", _infoSets[HuobiPrefix].Ticker.Last);
+            }
+	        _form3.Tag = prices;
+
+	    }
 	}
 }
