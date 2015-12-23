@@ -31,20 +31,28 @@ namespace BCPrice_Catcher
 		{
 			using (WebClient client = new WebClient())
 			{
-				string dataText = client.DownloadString(_tickerBtcCnyUrl);
-				JObject o = JObject.Parse(dataText);
+			    try
+			    {
+			        string dataText = client.DownloadString(_tickerBtcCnyUrl);
+			        JObject o = JObject.Parse(dataText);
 
-				return new TickerInfo()
-				{
-					Open = Convert.ToDouble(o["ticker"]["open"]),
-					Vol = Convert.ToDouble(o["ticker"]["vol"]),
-					Last = Convert.ToDouble(o["ticker"]["last"]),
-					Buy = Convert.ToDouble(o["ticker"]["buy"]),
-					Sell = Convert.ToDouble(o["ticker"]["sell"]),
-					High = Convert.ToDouble(o["ticker"]["high"]),
-					Low = Convert.ToDouble(o["ticker"]["low"]),
-					Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
-				};
+			        return new TickerInfo()
+			        {
+			            Open = Convert.ToDouble(o["ticker"]["open"]),
+			            Vol = Convert.ToDouble(o["ticker"]["vol"]),
+			            Last = Convert.ToDouble(o["ticker"]["last"]),
+			            Buy = Convert.ToDouble(o["ticker"]["buy"]),
+			            Sell = Convert.ToDouble(o["ticker"]["sell"]),
+			            High = Convert.ToDouble(o["ticker"]["high"]),
+			            Low = Convert.ToDouble(o["ticker"]["low"]),
+			            Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+			        };
+			    }
+			    catch (Exception ex)
+			    {
+			        throw new Exception(ex.Message);
+			    }
+				
 			}
 		}
 

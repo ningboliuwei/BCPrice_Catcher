@@ -202,6 +202,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "Form3";
             this.Text = "Form3";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();
 

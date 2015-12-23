@@ -27,8 +27,8 @@ namespace BCPrice_Catcher
                     CoinAmount -= amount;
                     Balance += price * amount;
 
-                    textbox.Text = textbox.Text.Insert(0, Environment.NewLine + $"卖 {amount} 币 at {price} with 总价 {price * amount}");
-                    
+                    textbox.Text = textbox.Text.Insert(0,
+                        Environment.NewLine + $"卖 {amount} 币 at {price} with 总价 {price * amount}");
                 }
             }
 
@@ -38,21 +38,24 @@ namespace BCPrice_Catcher
                 {
                     CoinAmount += amount;
                     Balance -= price * amount;
-                   textbox.Text= textbox.Text.Insert(0, Environment.NewLine + $"买 {amount} 币 at {price} with 总价 {price * amount}");
+                    textbox.Text = textbox.Text.Insert(0,
+                        Environment.NewLine + $"买 {amount} 币 at {price} with 总价 {price * amount}");
                 }
             }
         }
 
-        Account btccAccount = new Account() {Balance = 100000, CoinAmount = 5};
-        Account huobiAccount = new Account() {Balance = 100000, CoinAmount = 5};
+        Account btccAccount = new Account() {Balance = 1000000, CoinAmount = 50};
+        Account huobiAccount = new Account() {Balance = 1000000, CoinAmount = 50};
 
         private double lowerLimit;
         private double upperLimit;
         private double tradeAmount;
+        private double totalAmountLimit;
 
         public Form3()
         {
             InitializeComponent();
+            totalAmountLimit = btccAccount.CoinAmount + huobiAccount.CoinAmount;
         }
 
         public void AutoTrade()
@@ -63,27 +66,44 @@ namespace BCPrice_Catcher
             {
                 if (btccPrice > huobiPrice) //btcc卖价高
                 {
-                    btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
-                    huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
+                    if (btccAccount.CoinAmount != 0)
+                    {
+                        btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
+                        huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
+                        ShowTotalAssets();
+                    }
                 }
                 else //huobi卖价高
                 {
-                    btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
-                    huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
+                    if (huobiAccount.CoinAmount != 0)
+                    {
+                        huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
+                        btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
+                        ShowTotalAssets();
+                    }
                 }
+               
             }
 
             if (differ <= lowerLimit)
             {
                 if (btccAccount.CoinAmount > huobiAccount.CoinAmount) //btcc币多
                 {
-                    btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
-                    huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
+                    if (btccAccount.CoinAmount != 0)
+                    {
+                        btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
+                        huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
+                        ShowTotalAssets();
+                    }
                 }
                 else //huobi币多
                 {
-                    btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
-                    huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
+                    if (huobiAccount.CoinAmount != 0)
+                    {
+                        huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
+                        btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
+                        ShowTotalAssets();
+                    }
                 }
             }
         }
@@ -105,8 +125,10 @@ namespace BCPrice_Catcher
 
         private void ShowAccount()
         {
-            label5.Text = $"BTCC金额：{Environment.NewLine}{btccAccount.Balance}{Environment.NewLine}币数：{btccAccount.CoinAmount}";
-            label6.Text = $"Huobi金额：{Environment.NewLine}{huobiAccount.Balance}{Environment.NewLine}币数：{huobiAccount.CoinAmount}";
+            label5.Text =
+                $"BTCC金额：{Environment.NewLine}{btccAccount.Balance}{Environment.NewLine}币数：{btccAccount.CoinAmount}";
+            label6.Text =
+                $"Huobi金额：{Environment.NewLine}{huobiAccount.Balance}{Environment.NewLine}币数：{huobiAccount.CoinAmount}";
         }
 
         private void ChangeParas()
@@ -123,15 +145,12 @@ namespace BCPrice_Catcher
             ShowPrice();
             AutoTrade();
             ShowAccount();
-           
-            ShowTotalAssets();
         }
 
         private void ShowTotalAssets()
         {
-           textBox6.Text=  textBox6.Text.Insert(0, (huobiPrice * huobiAccount.CoinAmount + huobiAccount.Balance +
-                                     btccPrice * btccAccount.CoinAmount + btccAccount.Balance).ToString() +
-                                    Environment.NewLine);
+            textBox6.Text = textBox6.Text.Insert(0, (huobiAccount.Balance + btccAccount.Balance).ToString() +
+                                                    Environment.NewLine);
         }
 
 
