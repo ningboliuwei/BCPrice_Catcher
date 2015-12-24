@@ -215,14 +215,14 @@ namespace BCPrice_Catcher
         private void ShowAccountsInfo()
         {
             lblBtccAccount.Text =
-                $"BTCC{Environment.NewLine}现金：{_accounts["btcc"].Balance}{Environment.NewLine}币数：{_accounts["btcc"].CoinAmount}";
+                $"BTCC({trackBar1.Value}%){Environment.NewLine}现金：{_accounts["btcc"].Balance}{Environment.NewLine}币数：{_accounts["btcc"].CoinAmount}";
             lblHuobiAccount.Text =
-                $"HUOBI{Environment.NewLine}现金：{_accounts["huobi"].Balance}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount}";
+                $"HUOBI({trackBar1.Maximum-trackBar1.Value}%){Environment.NewLine}现金：{_accounts["huobi"].Balance}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount}";
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            AdjustAccounts(trackBar1.Value / 100D);
+            AdjustAccounts(trackBar1.Value / Convert.ToDouble(trackBar1.Maximum));
             ShowAccountsInfo();
         }
 
@@ -251,6 +251,7 @@ namespace BCPrice_Catcher
             lblBtccPrice.Text = $"BTCC{Environment.NewLine}{_btccPrice.ToString("0.00")}";
             lblHuobiPrice.Text = $"HUOBI{Environment.NewLine}{_huobiPrice.ToString("0.00")}";
             lblDifferPrice.Text =Math.Abs((_btccPrice - _huobiPrice)).ToString("0.00");
+
             if (_btccPrice > _huobiPrice)
             {
                 lblDifferPrice.Text = lblDifferPrice.Text.Insert(0, "<< ");
@@ -259,6 +260,11 @@ namespace BCPrice_Catcher
             {
                 lblDifferPrice.Text = lblDifferPrice.Text + " >>";
             }
+        }
+
+        private void Form4_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -110,7 +110,7 @@
             this.lblHuobiPrice.TabIndex = 5;
             this.lblHuobiPrice.Text = "Huobi价格";
             // 
-            // lblPriceDiffer
+            // lblDifferPrice
             // 
             this.lblDifferPrice.AutoSize = true;
             this.lblDifferPrice.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -409,6 +409,7 @@
             this.Text = "Form4";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.Form4_Activated);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_FormClosed);
             this.Load += new System.EventHandler(this.Form4_Load);
             this.Shown += new System.EventHandler(this.Form4_Shown);
             this.ResizeBegin += new System.EventHandler(this.Form4_ResizeBegin);
