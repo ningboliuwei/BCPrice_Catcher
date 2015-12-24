@@ -20,7 +20,7 @@ namespace BCPrice_Catcher
 		private const string HuobiPrefix = "huobi";
 		private const string OkcHttpPrefix = "okc_http";
 
-	    private Form3 _form3 = new Form3();
+		private Form4 _form4 = new Form4();
 
 
 
@@ -44,8 +44,7 @@ namespace BCPrice_Catcher
 			_infoSets.Add("okc_http", new InfoSet());
 
 			InitializeFetchers();
-
-            _form3.Show();
+			
 		}
 
 		private async void InitializeFetchers()
@@ -238,24 +237,33 @@ namespace BCPrice_Catcher
 			dgvOkcOrders.DataSource = _infoSets[OkcHttpPrefix].Orders;
 
 
-            //			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
-            //			dgvHuobiTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["huobi"].Trade).ToList();
-         
-                SendPrice();
+			//			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
+			//			dgvHuobiTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["huobi"].Trade).ToList();
+		 
+				SendPrice();
 		}
 
 
-	    private void SendPrice()
-	    {
-	        var  prices = new Dictionary<string, double>(); ;
-            if (_infoSets[BtccHttpPrefix].Ticker != null && _infoSets[HuobiPrefix].Ticker != null)
-	        {
-             
-                prices.Add("Btcc", _infoSets[BtccHttpPrefix].Ticker.Last);
-                prices.Add("Huobi", _infoSets[HuobiPrefix].Ticker.Last);
-            }
-	        _form3.Tag = prices;
+		private void SendPrice()
+		{
+			var  prices = new Dictionary<string, double>(); ;
+			if (_infoSets[BtccHttpPrefix].Ticker != null && _infoSets[HuobiPrefix].Ticker != null)
+			{
+			 
+				prices.Add("btcc", _infoSets[BtccHttpPrefix].Ticker.Last);
+				prices.Add("huobi", _infoSets[HuobiPrefix].Ticker.Last);
+			}
+			//change to send to form4
+			//_form3.Tag = prices;
+			_form4.Tag = prices;
 
-	    }
-	}
+
+		}
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            _form4.Show();
+            _form4.Activate();
+        }
+    }
 }

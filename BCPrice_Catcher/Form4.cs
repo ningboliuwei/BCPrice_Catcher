@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BCPrice_Catcher.Class;
 using BCPrice_Catcher.Util;
 
 namespace BCPrice_Catcher
@@ -16,6 +17,10 @@ namespace BCPrice_Catcher
         private int _strategyCount = 0;
         private const int StrategyLimit = 8;
         private const int StrategyControlColumnCount = 12;
+        private Dictionary<string, Account> _accounts = new Dictionary<string, Account>();
+
+        private double _btccPrice;
+        private double _huobiPrice;
 
         public Form4()
         {
@@ -95,7 +100,7 @@ namespace BCPrice_Catcher
             tableLayoutPanelStrategies.Controls.Add(
                 new TextBox()
                 {
-                    Name = $"txtPeroid{rowIndex}",
+                    Name = $"txtTradeQuantityLimit{rowIndex}",
                     Text = ((rowIndex + 1) * 100).ToString()
                 }, 8,
                 rowIndex);
@@ -127,6 +132,18 @@ namespace BCPrice_Catcher
 
         private void Form4_Load(object sender, EventArgs e)
         {
+            InitializeControls();
+
+            //show accounts for the first time
+            trackBar1_ValueChanged(null, null);
+        }
+
+        private void InitializeControls()
+        {
+            tableLayoutPanelStrategies.Visible = false;
+            AutoGenerateStrategyControls(_strategyCount + 1);
+            //tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+            tableLayoutPanelStrategies.Visible = true;
         }
 
         private void Form4_Activated(object sender, EventArgs e)
@@ -135,10 +152,6 @@ namespace BCPrice_Catcher
 
         private void Form4_Shown(object sender, EventArgs e)
         {
-            tableLayoutPanelStrategies.Visible = false;
-            AutoGenerateStrategyControls(_strategyCount + 1);
-            tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-            tableLayoutPanelStrategies.Visible = true;
         }
 
         private void btnAddStrategy_Click(object sender, EventArgs e)
@@ -152,7 +165,7 @@ namespace BCPrice_Catcher
 
         private void btnRemoveStrategy_Click(object sender, EventArgs e)
         {
-           
+            //至少保留一行控件
             if (_strategyCount > 0)
             {
                 _strategyCount--;
@@ -164,6 +177,87 @@ namespace BCPrice_Catcher
                 {
                     tableLayoutPanelStrategies.Controls.Remove(tableLayoutPanelStrategies.Controls[i]);
                 }
+            }
+        }
+
+        private void Form4_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void Form4_ResizeBegin(object sender, EventArgs e)
+        {
+        }
+
+        private void Form4_ResizeEnd(object sender, EventArgs e)
+        {
+        }
+
+        private void AdjustAccounts(double pecentage)
+        {
+            const double totalBalance = 400000;
+            const double totalCoinAmount = 100;
+
+            _accounts.Clear();
+            _accounts.Add("btcc",
+                new Account
+                {
+                    Balance = Math.Round(totalBalance * pecentage),
+                    CoinAmount = Math.Round(totalCoinAmount * (1 - pecentage))
+                });
+            _accounts.Add("huobi",
+                new Account
+                {
+                    Balance = Math.Round(totalBalance * (1 - pecentage)),
+                    CoinAmount = Math.Round(totalCoinAmount * (pecentage))
+                });
+        }
+
+        private void ShowAccountsInfo()
+        {
+            lblBtccAccount.Text =
+                $"BTCC{Environment.NewLine}现金：{_accounts["btcc"].Balance}{Environment.NewLine}币数：{_accounts["btcc"].CoinAmount}";
+            lblHuobiAccount.Text =
+                $"HUOBI{Environment.NewLine}现金：{_accounts["huobi"].Balance}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount}";
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            AdjustAccounts(trackBar1.Value / 100D);
+            ShowAccountsInfo();
+        }
+
+        private void GetPrices()
+        {
+            if (Tag != null)
+            {
+                Dictionary<string, double> prices = Tag as Dictionary<string, double>;
+
+                if (prices.Count == 2)
+                {
+                    _btccPrice = Convert.ToDouble(prices["btcc"]);
+                    _huobiPrice = Convert.ToDouble(prices["huobi"]);
+                }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            GetPrices();
+            ShowPrices();
+        }
+
+        private void ShowPrices()
+        {
+            lblBtccPrice.Text = $"BTCC{Environment.NewLine}{_btccPrice.ToString("0.00")}";
+            lblHuobiPrice.Text = $"HUOBI{Environment.NewLine}{_huobiPrice.ToString("0.00")}";
+            lblDifferPrice.Text =Math.Abs((_btccPrice - _huobiPrice)).ToString("0.00");
+            if (_btccPrice > _huobiPrice)
+            {
+                lblDifferPrice.Text = lblDifferPrice.Text.Insert(0, "<< ");
+            }
+            else if (_btccPrice < _huobiPrice)
+            {
+                lblDifferPrice.Text = lblDifferPrice.Text + " >>";
             }
         }
     }

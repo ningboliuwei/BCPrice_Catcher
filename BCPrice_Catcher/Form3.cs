@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BCPrice_Catcher.Class;
 
 namespace BCPrice_Catcher
 {
@@ -15,34 +16,7 @@ namespace BCPrice_Catcher
         private double btccPrice;
         private double huobiPrice;
 
-        class Account
-        {
-            public double Balance { get; set; }
-            public double CoinAmount { get; set; }
-
-            public void Sell(double price, double amount, TextBox textbox)
-            {
-                if (CoinAmount >= amount)
-                {
-                    CoinAmount -= amount;
-                    Balance += price * amount;
-
-                    textbox.Text = textbox.Text.Insert(0,
-                        Environment.NewLine + $"卖 {amount} 币 at {price} with 总价 {price * amount}");
-                }
-            }
-
-            public void Buy(double price, double amount, TextBox textbox)
-            {
-                if (Balance >= price * amount)
-                {
-                    CoinAmount += amount;
-                    Balance -= price * amount;
-                    textbox.Text = textbox.Text.Insert(0,
-                        Environment.NewLine + $"买 {amount} 币 at {price} with 总价 {price * amount}");
-                }
-            }
-        }
+       
 
         Account btccAccount = new Account() {Balance = 1000000, CoinAmount = 50};
         Account huobiAccount = new Account() {Balance = 1000000, CoinAmount = 50};
@@ -68,8 +42,8 @@ namespace BCPrice_Catcher
                 {
                     if (btccAccount.CoinAmount != 0)
                     {
-                        btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
-                        huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
+//                        btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
+//                        huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
                         ShowTotalAssets();
                     }
                 }
@@ -77,8 +51,8 @@ namespace BCPrice_Catcher
                 {
                     if (huobiAccount.CoinAmount != 0)
                     {
-                        huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
-                        btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
+//                        huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
+//                        btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
                         ShowTotalAssets();
                     }
                 }
@@ -91,8 +65,8 @@ namespace BCPrice_Catcher
                 {
                     if (btccAccount.CoinAmount != 0)
                     {
-                        btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
-                        huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
+//                        btccAccount.Sell(btccPrice, tradeAmount, textBox1); //btcc卖出
+//                        huobiAccount.Buy(huobiPrice, tradeAmount, textBox2); //huobi买入
                         ShowTotalAssets();
                     }
                 }
@@ -100,8 +74,8 @@ namespace BCPrice_Catcher
                 {
                     if (huobiAccount.CoinAmount != 0)
                     {
-                        huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
-                        btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
+//                        huobiAccount.Sell(huobiPrice, tradeAmount, textBox2); //huobi卖出
+//                        btccAccount.Buy(btccPrice, tradeAmount, textBox1); //btcc买入
                         ShowTotalAssets();
                     }
                 }
