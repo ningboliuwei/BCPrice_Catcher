@@ -88,11 +88,11 @@ namespace BCPrice_Catcher.Trader
 
 			builder.Parameters.Add("market", Market);
 
-			string parasText = builder.GetParasText(new string[] {});
+			byte[] result = _client.UploadData(postUrl, Encoding.UTF8.GetBytes(paraString));
 			return DoMethod(parasText);
 		}
 
-		/// <summary>
+			return BitConverter.ToString(result);
 		/// 卖出（市价单）
 		/// </summary>
 		/// <param name="amount"></param>
