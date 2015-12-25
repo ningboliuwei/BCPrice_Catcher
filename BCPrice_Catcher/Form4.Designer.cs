@@ -54,7 +54,6 @@
 			this.label10 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -87,7 +86,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(1651, 765);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1276, 765);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// lblBtccPrice
@@ -104,7 +103,7 @@
 			// 
 			this.lblHuobiPrice.AutoSize = true;
 			this.lblHuobiPrice.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblHuobiPrice.Location = new System.Drawing.Point(1103, 0);
+			this.lblHuobiPrice.Location = new System.Drawing.Point(853, 0);
 			this.lblHuobiPrice.Name = "lblHuobiPrice";
 			this.lblHuobiPrice.Size = new System.Drawing.Size(126, 29);
 			this.lblHuobiPrice.TabIndex = 5;
@@ -114,7 +113,7 @@
 			// 
 			this.lblDifferPrice.AutoSize = true;
 			this.lblDifferPrice.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblDifferPrice.Location = new System.Drawing.Point(553, 0);
+			this.lblDifferPrice.Location = new System.Drawing.Point(428, 0);
 			this.lblDifferPrice.Name = "lblDifferPrice";
 			this.lblDifferPrice.Size = new System.Drawing.Size(61, 29);
 			this.lblDifferPrice.TabIndex = 5;
@@ -134,10 +133,10 @@
 			// 
 			this.trackBar1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.trackBar1.LargeChange = 10;
-			this.trackBar1.Location = new System.Drawing.Point(553, 83);
+			this.trackBar1.Location = new System.Drawing.Point(428, 83);
 			this.trackBar1.Maximum = 100;
 			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(544, 74);
+			this.trackBar1.Size = new System.Drawing.Size(419, 74);
 			this.trackBar1.TabIndex = 6;
 			this.trackBar1.TickFrequency = 5;
 			this.trackBar1.Value = 40;
@@ -147,7 +146,7 @@
 			// 
 			this.lblHuobiAccount.AutoSize = true;
 			this.lblHuobiAccount.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblHuobiAccount.Location = new System.Drawing.Point(1103, 80);
+			this.lblHuobiAccount.Location = new System.Drawing.Point(853, 80);
 			this.lblHuobiAccount.Name = "lblHuobiAccount";
 			this.lblHuobiAccount.Size = new System.Drawing.Size(126, 29);
 			this.lblHuobiAccount.TabIndex = 5;
@@ -160,7 +159,7 @@
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 163);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(544, 74);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(419, 74);
 			this.flowLayoutPanel1.TabIndex = 7;
 			// 
 			// label2
@@ -176,7 +175,7 @@
 			// textBox1
 			// 
 			this.textBox1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.textBox1.Location = new System.Drawing.Point(94, 3);
+			this.textBox1.Location = new System.Drawing.Point(3, 32);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(436, 39);
 			this.textBox1.TabIndex = 6;
@@ -186,9 +185,9 @@
 			this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
 			this.btnAllStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStart.Location = new System.Drawing.Point(553, 163);
+			this.btnAllStart.Location = new System.Drawing.Point(428, 163);
 			this.btnAllStart.Name = "btnAllStart";
-			this.btnAllStart.Size = new System.Drawing.Size(544, 74);
+			this.btnAllStart.Size = new System.Drawing.Size(419, 74);
 			this.btnAllStart.TabIndex = 8;
 			this.btnAllStart.Text = "全部开始(&S)";
 			this.btnAllStart.UseVisualStyleBackColor = false;
@@ -198,31 +197,31 @@
 			this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
 			this.btnAllStop.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStop.Location = new System.Drawing.Point(1103, 163);
+			this.btnAllStop.Location = new System.Drawing.Point(853, 163);
 			this.btnAllStop.Name = "btnAllStop";
-			this.btnAllStop.Size = new System.Drawing.Size(545, 74);
+			this.btnAllStop.Size = new System.Drawing.Size(420, 74);
 			this.btnAllStop.TabIndex = 8;
 			this.btnAllStop.Text = "全部停止(&T)";
 			this.btnAllStop.UseVisualStyleBackColor = false;
 			// 
 			// tableLayoutPanelStrategies
 			// 
-			this.tableLayoutPanelStrategies.ColumnCount = 14;
+			this.tableLayoutPanelStrategies.ColumnCount = 12;
 			this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanelStrategies, 3);
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.142856F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelStrategies.Controls.Add(this.label3, 0, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.label4, 1, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.label5, 2, 0);
@@ -230,28 +229,27 @@
 			this.tableLayoutPanelStrategies.Controls.Add(this.label7, 4, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.lblRegressionPrice, 5, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.label9, 6, 0);
-			this.tableLayoutPanelStrategies.Controls.Add(this.btnAddStrategy, 12, 0);
-			this.tableLayoutPanelStrategies.Controls.Add(this.btnRemoveStrategy, 13, 0);
+			this.tableLayoutPanelStrategies.Controls.Add(this.btnAddStrategy, 10, 0);
+			this.tableLayoutPanelStrategies.Controls.Add(this.btnRemoveStrategy, 11, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.label10, 7, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.label11, 8, 0);
 			this.tableLayoutPanelStrategies.Controls.Add(this.label12, 9, 0);
-			this.tableLayoutPanelStrategies.Controls.Add(this.label13, 10, 0);
 			this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(3, 243);
 			this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
 			this.tableLayoutPanelStrategies.RowCount = 11;
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090909F));
-			this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1645, 519);
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.090908F));
+			this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1270, 519);
 			this.tableLayoutPanelStrategies.TabIndex = 9;
 			// 
 			// label3
@@ -268,7 +266,7 @@
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label4.Location = new System.Drawing.Point(120, 0);
+			this.label4.Location = new System.Drawing.Point(108, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(64, 17);
 			this.label4.TabIndex = 5;
@@ -278,7 +276,7 @@
 			// 
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label5.Location = new System.Drawing.Point(237, 0);
+			this.label5.Location = new System.Drawing.Point(213, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(92, 17);
 			this.label5.TabIndex = 5;
@@ -288,7 +286,7 @@
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label6.Location = new System.Drawing.Point(354, 0);
+			this.label6.Location = new System.Drawing.Point(318, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(92, 17);
 			this.label6.TabIndex = 5;
@@ -298,16 +296,17 @@
 			// 
 			this.label7.AutoSize = true;
 			this.label7.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label7.Location = new System.Drawing.Point(471, 0);
+			this.label7.Location = new System.Drawing.Point(423, 0);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(0, 17);
+			this.label7.Size = new System.Drawing.Size(36, 17);
 			this.label7.TabIndex = 5;
+			this.label7.Text = "周期";
 			// 
 			// lblRegressionPrice
 			// 
 			this.lblRegressionPrice.AutoSize = true;
 			this.lblRegressionPrice.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblRegressionPrice.Location = new System.Drawing.Point(588, 0);
+			this.lblRegressionPrice.Location = new System.Drawing.Point(528, 0);
 			this.lblRegressionPrice.Name = "lblRegressionPrice";
 			this.lblRegressionPrice.Size = new System.Drawing.Size(64, 17);
 			this.lblRegressionPrice.TabIndex = 5;
@@ -317,7 +316,7 @@
 			// 
 			this.label9.AutoSize = true;
 			this.label9.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label9.Location = new System.Drawing.Point(705, 0);
+			this.label9.Location = new System.Drawing.Point(633, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(92, 17);
 			this.label9.TabIndex = 5;
@@ -328,9 +327,9 @@
 			this.btnAddStrategy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
 			this.btnAddStrategy.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnAddStrategy.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAddStrategy.Location = new System.Drawing.Point(1407, 3);
+			this.btnAddStrategy.Location = new System.Drawing.Point(1053, 3);
 			this.btnAddStrategy.Name = "btnAddStrategy";
-			this.btnAddStrategy.Size = new System.Drawing.Size(111, 41);
+			this.btnAddStrategy.Size = new System.Drawing.Size(99, 41);
 			this.btnAddStrategy.TabIndex = 8;
 			this.btnAddStrategy.Text = "＋";
 			this.btnAddStrategy.UseVisualStyleBackColor = false;
@@ -341,9 +340,9 @@
 			this.btnRemoveStrategy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
 			this.btnRemoveStrategy.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnRemoveStrategy.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnRemoveStrategy.Location = new System.Drawing.Point(1524, 3);
+			this.btnRemoveStrategy.Location = new System.Drawing.Point(1158, 3);
 			this.btnRemoveStrategy.Name = "btnRemoveStrategy";
-			this.btnRemoveStrategy.Size = new System.Drawing.Size(118, 41);
+			this.btnRemoveStrategy.Size = new System.Drawing.Size(109, 41);
 			this.btnRemoveStrategy.TabIndex = 8;
 			this.btnRemoveStrategy.Text = "－";
 			this.btnRemoveStrategy.UseVisualStyleBackColor = false;
@@ -353,7 +352,7 @@
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label10.Location = new System.Drawing.Point(822, 0);
+			this.label10.Location = new System.Drawing.Point(738, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(92, 17);
 			this.label10.TabIndex = 5;
@@ -363,7 +362,7 @@
 			// 
 			this.label11.AutoSize = true;
 			this.label11.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label11.Location = new System.Drawing.Point(939, 0);
+			this.label11.Location = new System.Drawing.Point(843, 0);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(92, 17);
 			this.label11.TabIndex = 5;
@@ -373,21 +372,11 @@
 			// 
 			this.label12.AutoSize = true;
 			this.label12.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label12.Location = new System.Drawing.Point(1056, 0);
+			this.label12.Location = new System.Drawing.Point(948, 0);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(36, 17);
 			this.label12.TabIndex = 5;
 			this.label12.Text = "涌动";
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label13.Location = new System.Drawing.Point(1173, 0);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(36, 17);
-			this.label13.TabIndex = 5;
-			this.label13.Text = "成交";
 			// 
 			// timer1
 			// 
@@ -399,7 +388,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1651, 765);
+			this.ClientSize = new System.Drawing.Size(1276, 765);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -450,9 +439,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnAddStrategy;
         private System.Windows.Forms.Button btnRemoveStrategy;
         private System.Windows.Forms.Timer timer1;
-    }
+	}
 }

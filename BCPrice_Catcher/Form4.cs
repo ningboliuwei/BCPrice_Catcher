@@ -15,11 +15,11 @@ namespace BCPrice_Catcher
 {
 	public partial class Form4 : Form
 	{
-		private int _strategyCount = 0;
-		private const int StrategyLimit = 8;
+		private const int StrategyMaxNumber = 9;
+		private const int StrategyMinNumber = 1;
 		private const int StrategyControlColumnCount = 12;
 		private Dictionary<string, SimulateAccount> _accounts = new Dictionary<string, SimulateAccount>();
-		private List<StrategyParas> _strategyParasList = new List<StrategyParas>();
+		private List<Strategy> _strategies = new List<Strategy>();
 
 		private double _btccPrice;
 		private double _huobiPrice;
@@ -30,104 +30,104 @@ namespace BCPrice_Catcher
 			InitializeComponent();
 		}
 
-		private void AutoGenerateStrategyControls(int rowIndex)
+		private void AddStrategyControls()
 		{
-
+			int rowPosition = _strategies.Count;
 			//策略号
 			tableLayoutPanelStrategies.Controls.Add(
 				new Label
 				{
-					Name = $"lblStrategyID{rowIndex}",
-					Text = (rowIndex).ToString(),
-				}, 0, rowIndex);
+					Name = $"lblStrategyID{rowPosition - 1}",
+					Text = (rowPosition).ToString(),
+				}, 0, rowPosition);
 			//启动阙值
 			tableLayoutPanelStrategies.Controls.Add(
-				new Label {Name = $"lblStartupThreshold{rowIndex}", Text = (rowIndex + 1).ToString()}, 1,
-				rowIndex);
+				new Label {Name = $"lblStartupThreshold{rowPosition - 1}", Text = (rowPosition + 1).ToString()}, 1,
+				rowPosition);
 			//启动阙值增量
 			tableLayoutPanelStrategies.Controls.Add(
 				new NumericUpDown
 				{
-					Name = $"nudStartupThresholdIncrement{rowIndex}",
+					Name = $"nudStartupThresholdIncrement{rowPosition - 1}",
 					Value = 0,
 					Maximum = 10,
 					Minimum = -10
-				}, 2, rowIndex);
+				}, 2, rowPosition);
 			//启动阙值系数
 			tableLayoutPanelStrategies.Controls.Add(
 				new NumericUpDown
 				{
-					Name = $"nudStartupThresholdCoefficient{rowIndex}",
+					Name = $"nudStartupThresholdCoefficient{rowPosition - 1}",
 					Value = 1,
 					Maximum = 2M,
 					Minimum = 0.1M,
 					DecimalPlaces = 1,
 					Increment = 0.1M
-				}, 3, rowIndex);
+				}, 3, rowPosition);
 
 			//周期
 			tableLayoutPanelStrategies.Controls.Add(
 				new TextBox()
 				{
-					Name = $"txtPeriod{rowIndex}",
-					Text = ((rowIndex + 1) * 100).ToString()
+					Name = $"txtPeriod{rowPosition - 1}",
+					Text = ((rowPosition + 1) * 100).ToString()
 				}, 4,
-				rowIndex);
+				rowPosition);
 
 			//默认回归价
 			tableLayoutPanelStrategies.Controls.Add(
-				new Label() {Name = $"lblRegressionThreshold{rowIndex}", Text = "0"}, 5,
-				rowIndex);
+				new Label() {Name = $"lblRegressionThreshold{rowPosition - 1}", Text = "0"}, 5,
+				rowPosition);
 
 			//回归阙值增量
 			tableLayoutPanelStrategies.Controls.Add(
 				new NumericUpDown
 				{
-					Name = $"nudRegressionThresholdIncrement{rowIndex}",
+					Name = $"nudRegressionThresholdIncrement{rowPosition - 1}",
 					Value = 1,
 					Maximum = 10,
 					Minimum = -10,
 					Increment = 1
-				}, 6, rowIndex);
+				}, 6, rowPosition);
 
 			//回归阙值系数
 			tableLayoutPanelStrategies.Controls.Add(
 				new NumericUpDown
 				{
-					Name = $"nudRegressionThresholdCoefficient{rowIndex}",
+					Name = $"nudRegressionThresholdCoefficient{rowPosition - 1}",
 					Value = 1,
 					Maximum = 2,
 					Minimum = 0.1M,
 					DecimalPlaces = 1,
 					Increment = 0.1M
-				}, 7, rowIndex);
+				}, 7, rowPosition);
 
 			//成交数量阙值
 			tableLayoutPanelStrategies.Controls.Add(
 				new TextBox()
 				{
-					Name = $"txtTradeQuantityThreshold{rowIndex}",
-					Text = ((rowIndex + 1) * 100).ToString()
+					Name = $"txtTradeQuantityThreshold{rowPosition - 1}",
+					Text = ((rowPosition + 1) * 100).ToString()
 				}, 8,
-				rowIndex);
+				rowPosition);
 
 			//开始按钮
 			tableLayoutPanelStrategies.Controls.Add(
 				new Button()
 				{
-					Name = $"btnStrategyStart{rowIndex}",
+					Name = $"btnStrategyStart{rowPosition - 1}",
 					Text = "开始",
 					BackColor = Color.LightGreen
-				}, 9, rowIndex);
+				}, 9, rowPosition);
 
 			//结束按钮
 			tableLayoutPanelStrategies.Controls.Add(
 				new Button()
 				{
-					Name = $"btnStrategyStop{rowIndex}",
+					Name = $"btnStrategyStop{rowPosition - 1}",
 					Text = "结束",
 					BackColor = Color.LightCoral
-				}, 10, rowIndex);
+				}, 10, rowPosition);
 
 //                foreach (var c in tableLayoutPanelStrategies.Controls)
 //                {
@@ -136,10 +136,19 @@ namespace BCPrice_Catcher
 //                }
 		}
 
+		private void AddStrategy()
+		{
+			_strategies.Add(new Strategy());
+			AddStrategyControls();
+		}
+
 		private void Form4_Load(object sender, EventArgs e)
 		{
+			btnAddStrategy.Click += CheckControlStatus;
+			btnRemoveStrategy.Click += CheckControlStatus;
+
 			InitializeControls();
-			_strategyParasList.Add(new StrategyParas());
+			AddStrategy();
 
 			//show accounts for the first time
 			trackBar1_ValueChanged(null, null);
@@ -148,7 +157,6 @@ namespace BCPrice_Catcher
 		private void InitializeControls()
 		{
 			tableLayoutPanelStrategies.Visible = false;
-			AutoGenerateStrategyControls(_strategyCount + 1);
 			//tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 			tableLayoutPanelStrategies.Visible = true;
 		}
@@ -163,29 +171,49 @@ namespace BCPrice_Catcher
 
 		private void btnAddStrategy_Click(object sender, EventArgs e)
 		{
-			if (_strategyCount < StrategyLimit)
+			if (_strategies.Count < StrategyMaxNumber)
 			{
-				_strategyCount++;
-				AutoGenerateStrategyControls(_strategyCount + 1);
-				_strategyParasList.Add(new StrategyParas());
+				AddStrategy();
+			}
+		}
+
+		private void RemoveStrategy()
+		{
+			_strategies.Remove(_strategies[_strategies.Count - 1]);
+			RemoveStrategyControls();
+		}
+
+		private void RemoveStrategyControls()
+		{
+			int controlCount = tableLayoutPanelStrategies.Controls.Count;
+			for (int i = tableLayoutPanelStrategies.Controls.Count - 1;
+				i > controlCount - StrategyControlColumnCount;
+				i--)
+			{
+				tableLayoutPanelStrategies.Controls.Remove(tableLayoutPanelStrategies.Controls[i]);
+			}
+		}
+
+		private void CheckControlStatus(object sender, EventArgs e)
+		{
+			if (_strategies.Count == StrategyMaxNumber)
+			{
+				btnAddStrategy.Enabled = false;
+			}
+			else if (_strategies.Count == StrategyMinNumber)
+			{
+				btnRemoveStrategy.Enabled = false;
+			}
+			else
+			{
+				btnAddStrategy.Enabled = true;
+				btnRemoveStrategy.Enabled = true;
 			}
 		}
 
 		private void btnRemoveStrategy_Click(object sender, EventArgs e)
 		{
-			//至少保留一行控件
-			if (_strategyCount > 0)
-			{
-				_strategyCount--;
-
-				int controlCount = tableLayoutPanelStrategies.Controls.Count;
-				for (int i = tableLayoutPanelStrategies.Controls.Count - 1;
-					i > controlCount - StrategyControlColumnCount;
-					i--)
-				{
-					tableLayoutPanelStrategies.Controls.Remove(tableLayoutPanelStrategies.Controls[i]);
-				}
-			}
+			RemoveStrategy();
 		}
 
 		private void Form4_Paint(object sender, PaintEventArgs e)
@@ -253,12 +281,13 @@ namespace BCPrice_Catcher
 		{
 			GetPrices();
 			ShowPrices();
-			GetStrategyParaValues(0);
-			(tableLayoutPanelStrategies.Controls[$"lblStartupThreshold1"] as Label).Text =
-				_strategyParasList[0].StartupThresholdCoefficient.ToString();
 
-			(tableLayoutPanelStrategies.Controls[$"lblRegressionThreshold1"] as Label).Text =
-				_strategyParasList[0].RegressionThreshold.ToString();
+			for (int i = 0; i < _strategies.Count; i++)
+			{
+				GetStrategyParaValues(i);
+			}
+
+			ShowStrategyValues();
 		}
 
 		//for btcc, huobi and differ price
@@ -284,35 +313,49 @@ namespace BCPrice_Catcher
 			Application.Exit();
 		}
 
+		private void ShowStrategyValues()
+		{
+			for (int i = 0; i < _strategies.Count; i++)
+			{
+				(tableLayoutPanelStrategies.Controls[$"lblStartupThreshold{i}"] as Label).Text =
+					_strategies[i].StartupThreshold.ToString("0.00");
+
+				(tableLayoutPanelStrategies.Controls[$"lblRegressionThreshold{i}"] as Label).Text =
+					_strategies[i].RegressionThreshold.ToString("0.00");
+			}
+		}
+
 		private void GetStrategyParaValues(int index)
 		{
-			int controlRowIndex = index + 1;
-			StrategyParas paras = _strategyParasList[index];
+			Strategy currentStrategy = _strategies[index];
 
-			paras.StartupThresholdIncrement = Convert.ToDouble(
-				(tableLayoutPanelStrategies.Controls[$"nudStartupThresholdIncrement{controlRowIndex}"] as NumericUpDown).Value);
-			paras.StartupThresholdCoefficient = Convert.ToDouble(
-				(tableLayoutPanelStrategies.Controls[$"nudStartupThresholdCoefficient{controlRowIndex}"] as NumericUpDown).Value);
-			paras.Period =
-				Convert.ToInt32((tableLayoutPanelStrategies.Controls[$"txtPeriod{controlRowIndex}"] as TextBox).Text);
-			paras.RegressionThresholdIncrement = Convert.ToDouble(
-				(tableLayoutPanelStrategies.Controls[$"nudRegressionThresholdIncrement{controlRowIndex}"] as NumericUpDown).Value);
-			paras.RegressionThresholdCoefficient = Convert.ToDouble(
-				(tableLayoutPanelStrategies.Controls[$"nudRegressionThresholdCoefficient{controlRowIndex}"] as NumericUpDown).Value);
-			paras.TradeQuantityThreshold =
-				Convert.ToInt32((tableLayoutPanelStrategies.Controls[$"txtTradeQuantityThreshold{controlRowIndex}"] as TextBox).Text);
+			currentStrategy.InputParameters.StartupThresholdIncrement = Convert.ToDouble(
+				(tableLayoutPanelStrategies.Controls[$"nudStartupThresholdIncrement{index}"] as NumericUpDown).Value);
+			currentStrategy.InputParameters.StartupThresholdCoefficient = Convert.ToDouble(
+				(tableLayoutPanelStrategies.Controls[$"nudStartupThresholdCoefficient{index}"] as NumericUpDown).Value);
+			currentStrategy.InputParameters.Period =
+				Convert.ToInt32((tableLayoutPanelStrategies.Controls[$"txtPeriod{index}"] as TextBox).Text);
+			currentStrategy.InputParameters.RegressionThresholdIncrement = Convert.ToDouble(
+				(tableLayoutPanelStrategies.Controls[$"nudRegressionThresholdIncrement{index}"] as NumericUpDown).Value);
+			currentStrategy.InputParameters.RegressionThresholdCoefficient = Convert.ToDouble(
+				(tableLayoutPanelStrategies.Controls[$"nudRegressionThresholdCoefficient{index}"] as NumericUpDown).Value);
+			currentStrategy.InputParameters.TradeQuantityThreshold =
+				Convert.ToInt32((tableLayoutPanelStrategies.Controls[$"txtTradeQuantityThreshold{index}"] as TextBox).Text);
 
 			if (index == 0) //first strategy
 			{
-				paras.StartupThreshold = _baseDifferPrice * paras.StartupThresholdCoefficient + paras.StartupThresholdIncrement;
+				currentStrategy.StartupThreshold = _baseDifferPrice * currentStrategy.InputParameters.StartupThresholdCoefficient +
+				                                   currentStrategy.InputParameters.StartupThresholdIncrement;
 			}
 			else
 			{
-				paras.StartupThreshold = _strategyParasList[index - 1].StartupThreshold * paras.StartupThresholdCoefficient +
-				                         paras.StartupThresholdIncrement;
+				currentStrategy.StartupThreshold = _strategies[index - 1].StartupThreshold *
+				                                   currentStrategy.InputParameters.StartupThresholdCoefficient +
+				                                   currentStrategy.InputParameters.StartupThresholdIncrement;
 			}
-			paras.RegressionThreshold = paras.StartupThreshold * paras.StartupThresholdCoefficient +
-			                            paras.StartupThresholdIncrement;
+			currentStrategy.RegressionThreshold = currentStrategy.StartupThreshold *
+			                                      currentStrategy.InputParameters.StartupThresholdCoefficient +
+			                                      currentStrategy.InputParameters.StartupThresholdIncrement;
 		}
 	}
 }
