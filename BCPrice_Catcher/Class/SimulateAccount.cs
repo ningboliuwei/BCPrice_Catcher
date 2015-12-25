@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BCPrice_Catcher.Class
 {
-    class Account
+    class SimulateAccount
     {
         public double Balance { get; set; }
         public double CoinAmount { get; set; }

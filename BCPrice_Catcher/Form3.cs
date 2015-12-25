@@ -18,8 +18,8 @@ namespace BCPrice_Catcher
 
        
 
-        Account btccAccount = new Account() {Balance = 1000000, CoinAmount = 50};
-        Account huobiAccount = new Account() {Balance = 1000000, CoinAmount = 50};
+        SimulateAccount btccAccount = new SimulateAccount() {Balance = 1000000, CoinAmount = 50};
+        SimulateAccount huobiAccount = new SimulateAccount() {Balance = 1000000, CoinAmount = 50};
 
         private double lowerLimit;
         private double upperLimit;

@@ -66,7 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\Account.cs" />
+    <Compile Include="Class\SimulateAccount.cs" />
     <Compile Include="Fetcher\OkcHttpFetcher.cs" />
     <Compile Include="Fetcher\BtccHttpFetcher.cs" />
     <Compile Include="Collection\InfoSet.cs" />
@@ -90,7 +90,7 @@
     </Compile>
     <Compile Include="Model\AccountInfo.cs" />
     <Compile Include="Model\OrderInfo.cs" />
-    <Compile Include="Model\StrategyInfo.cs" />
+    <Compile Include="Model\StrategyParas.cs" />
     <Compile Include="Model\TradeDetail.cs" />
     <Compile Include="Collection\TimerList.cs" />
     <Compile Include="Fetcher\HuobiFetcher.cs" />
