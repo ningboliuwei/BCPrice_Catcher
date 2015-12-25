@@ -11,19 +11,19 @@ using BCPrice_Catcher.Trader;
 
 namespace BCPrice_Catcher
 {
-	public partial class Form2 : Form
-	{
-		public Form2()
-		{
-			InitializeComponent();
-		}
+    public partial class Form2 : Form
+    {
+        public Form2()
+        {
+            InitializeComponent();
+        }
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show(new HuobiTrader().GetAccountInfo());
-			MessageBox.Show(new HuobiTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
-			MessageBox.Show(new HuobiTrader().BuyMarket(10, Trader.Trader.CoinType.Btc));
-			MessageBox.Show(new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc));
-		}
-	}
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(new HuobiTrader().GetAccountInfo());
+            MessageBox.Show(new HuobiTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
+            MessageBox.Show(new HuobiTrader().BuyMarket(10, Trader.Trader.CoinType.Btc));
+            MessageBox.Show(new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc));
+        }
+    }
 }

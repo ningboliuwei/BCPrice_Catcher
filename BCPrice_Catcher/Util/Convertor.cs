@@ -21,7 +21,7 @@ namespace BCPrice_Catcher.Util
 //            return chinaTime;
             return
                 TimeZone.CurrentTimeZone.ToLocalTime(
-                    new DateTime(1970, 1, 1).AddMilliseconds(Convert.ToInt64(dateString)*1000));
+                    new DateTime(1970, 1, 1).AddMilliseconds(Convert.ToInt64(dateString) * 1000));
         }
 
         public static long ConvertDateTimeToJsonTimeStamp(DateTime time)

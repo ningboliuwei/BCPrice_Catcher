@@ -7,11 +7,11 @@ using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher
 {
-	abstract class Fetcher
-	{
-		public abstract TickerInfo GetTicker();
-		public abstract TradeDetail GetTradeDetail();
-		public abstract List<TradeInfo> GetTrades(); 
-		public abstract List<OrderInfo> GetOrders();
-	}
+    abstract class Fetcher
+    {
+        public abstract TickerInfo GetTicker();
+        public abstract TradeDetail GetTradeDetail();
+        public abstract List<TradeInfo> GetTrades();
+        public abstract List<OrderInfo> GetOrders();
+    }
 }

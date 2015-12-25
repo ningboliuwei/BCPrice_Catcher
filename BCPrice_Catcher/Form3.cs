@@ -16,7 +16,6 @@ namespace BCPrice_Catcher
         private double btccPrice;
         private double huobiPrice;
 
-       
 
         SimulateAccount btccAccount = new SimulateAccount() {Balance = 1000000, CoinAmount = 50};
         SimulateAccount huobiAccount = new SimulateAccount() {Balance = 1000000, CoinAmount = 50};
@@ -56,7 +55,6 @@ namespace BCPrice_Catcher
                         ShowTotalAssets();
                     }
                 }
-               
             }
 
             if (differ <= lowerLimit)

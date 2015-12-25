@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BCPrice_Catcher.Model
 {
-	class OrderInfo
-	{
-		public string Type { get; set; }
-		public double Price { get; set; }
-		public double Amount { get; set; }
-	}
+    class OrderInfo
+    {
+        public string Type { get; set; }
+        public double Price { get; set; }
+        public double Amount { get; set; }
+    }
 }

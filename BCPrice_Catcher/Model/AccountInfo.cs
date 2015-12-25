@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BCPrice_Catcher.Model
 {
-	class AccountInfo
-	{
-		public double Total { get; set; }
-		public double NetAsset { get; set; }
-		public double AvailableCny { get; set; }
-		public double AvailableBtc { get; set; }
-	}
+    class AccountInfo
+    {
+        public double Total { get; set; }
+        public double NetAsset { get; set; }
+        public double AvailableCny { get; set; }
+        public double AvailableBtc { get; set; }
+    }
 }

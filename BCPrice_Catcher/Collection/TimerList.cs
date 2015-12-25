@@ -9,14 +9,14 @@ using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher
 {
-	class TimerList
-	{
-		public Dictionary<string, Timer> Timers { get; } = new Dictionary<string, Timer>();
+    class TimerList
+    {
+        public Dictionary<string, Timer> Timers { get; } = new Dictionary<string, Timer>();
 
-		public void Add(string key, int interval, TimerCallback timerCallback)
-		{
-			Timer timer = new Timer(timerCallback, null, 0, interval);
-			Timers.Add(key, timer);
-		}
-	}
+        public void Add(string key, int interval, TimerCallback timerCallback)
+        {
+            Timer timer = new Timer(timerCallback, null, 0, interval);
+            Timers.Add(key, timer);
+        }
+    }
 }
