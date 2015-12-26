@@ -49,8 +49,8 @@ namespace BCPrice_Catcher
             nudTradeCountThreshold,
             nudTotalTradeCountLimit,
             nudPeriod,
-            btnStrategyStart,
-            btnStrategyStop
+            btnStartStrategy,
+            btnStopStrategy
         }
 
 
@@ -240,14 +240,14 @@ namespace BCPrice_Catcher
             //开始按钮
             Button btnStart = new Button
             {
-                Name = $"{ControlName.btnStrategyStart}{strategyId}",
+                Name = $"{ControlName.btnStartStrategy}{strategyId}",
                 Text = "开始",
                 BackColor = Color.LightGreen,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill
             };
             btnStart.Tag = strategyId;
-            btnStart.Click += StartStrategy;
+            btnStart.Click += btnStartStrategy_Click;
 
             tableLayoutPanelStrategies.Controls.Add(btnStart, columnPosition++, rowPosition);
 
@@ -256,14 +256,14 @@ namespace BCPrice_Catcher
 
             Button btnStop = new Button()
             {
-                Name = $"{ControlName.btnStrategyStop}{strategyId}",
-                Text = "结束",
+                Name = $"{ControlName.btnStopStrategy}{strategyId}",
+                Text = "停止",
                 BackColor = Color.LightCoral,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill
             };
             btnStop.Tag = strategyId;
-            btnStop.Click += StopStrategy;
+            btnStop.Click += btnStopStrategy_Click;
             tableLayoutPanelStrategies.Controls.Add(btnStop, columnPosition++, rowPosition);
 
 //                foreach (var c in tableLayoutPanelStrategies.Controls)
@@ -273,20 +273,29 @@ namespace BCPrice_Catcher
 //                }
         }
 
-        private void StopStrategy(object sender, EventArgs e)
+        private void btnStopStrategy_Click(object sender, EventArgs e)
         {
             int strategyId = Convert.ToInt32((sender as Button).Tag);
+            StopStrategy(strategyId);
+        }
+
+        private void StopStrategy(int strategyId)
+        {
             _strategyTimerList.Timers[$"strategy_timer{strategyId}"].Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        private void StartStrategy(object sender, EventArgs e)
+        private void btnStartStrategy_Click(object sender, EventArgs e)
         {
             int strategyId = Convert.ToInt32((sender as Button).Tag);
-            //            MessageBox.Show((sender as Button).Tag.ToString());
-            _strategyTimerList.Timers[$"strategy_timer{strategyId}"].Change(0,
-                _strategies[strategyId].InputParameters.Peroid * 1000);
+            StartStrategy(strategyId);
         }
 
+        private void StartStrategy(int strategyId)
+        {
+            _strategyTimerList.Timers[$"strategy_timer{strategyId}"].Change(0, 1000);
+        }
+
+        //add a new strategy
         private void AddStrategy()
         {
             int strategyId = _strategies.Count;
@@ -301,16 +310,18 @@ namespace BCPrice_Catcher
 
             //need await here?
             //need task here?
-            _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, async o =>
+            _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, o =>
             {
-                await Task.Run(() => { _strategies[strategy.Id].Update(GetStrategyParameters(strategy.Id)); });
-
-
-                //strategies[strategy.Id] = await task;
+                Task.Run(() =>
+                {
+                    _strategies[strategy.Id].Update(GetStrategyParameters(strategy.Id));
+                    _strategies[strategy.Id].TryTrade(_accounts, new Dictionary<string, double>
+                    {
+                        {"btcc", _btccPrice},
+                        {"huobi", _huobiPrice}
+                    });
+                });
             });
-            //_strategyTimerList.Timers[$"strategy{strategy.Id}"].Change()
-
-            //_strategyCounters.Add(((strategy.Id + 1) * 2 - 1));
         }
 
         private void Strategy_Updated(int strategyId)
@@ -344,12 +355,13 @@ namespace BCPrice_Catcher
 
         private void Form4_Shown(object sender, EventArgs e)
         {
-            AddStrategy();
-            AddStrategy();
-            AddStrategy();
-
+            //accounts must be set first (because accounts is need in strategy)
             //show accounts for the first time
             trackBar1_ValueChanged(null, null);
+
+            AddStrategy();
+            AddStrategy();
+            AddStrategy();
         }
 
         private void btnAddStrategy_Click(object sender, EventArgs e)
@@ -476,6 +488,8 @@ namespace BCPrice_Catcher
             {
                 ShowStrategyValues(_strategies[i]);
             }
+
+            ShowTrades();
         }
 
         //for btcc, huobi and differ price
@@ -547,12 +561,14 @@ namespace BCPrice_Catcher
 
             if (strategyId == 0)
             {
-                parameters.BaseDPrice = _baseDifferPrice;
+                parameters.BaseThreshold = _baseDifferPrice;
             }
             else
             {
-                parameters.BaseDPrice = _strategies[strategyId - 1].TradeThreshold;
+                parameters.BaseThreshold = _strategies[strategyId - 1].TradeThreshold;
             }
+
+            parameters.DifferPrice = _baseDifferPrice;
             //            currentStrategy.InputParameters.TradeQuantityThreshold =
             //                Convert.ToInt32(
             //                    (tableLayoutPanelStrategies.Controls[$"{ControlNames[8]}{index}"] as TextBox).Text);
@@ -562,6 +578,45 @@ namespace BCPrice_Catcher
 
         private void btnAllStart_Click(object sender, EventArgs e)
         {
+            foreach (var s in _strategies)
+            {
+                StartStrategy(s.Id);
+            }
+        }
+
+        private void btnAllStop_Click(object sender, EventArgs e)
+        {
+            foreach (var s in _strategies)
+            {
+                StopStrategy(s.Id);
+            }
+        }
+
+        private void ShowTrades()
+        {
+            gdvBtccTrades.DataSource =
+                _accounts["btcc"].Trades.OrderByDescending(t => t.Time)
+                    .Select(
+                        t =>
+                            new
+                            {
+                                StrategyID = t.StrategyId,
+                                Price = t.Price.ToString("0.00"),
+                                t.Amount,
+                                Time = t.Time.ToString("HH:mm:ss"),
+                                t.Type
+                            })
+                    .ToList();
+            gdvHuobiTrades.DataSource = _accounts["huobi"].Trades.OrderByDescending(t => t.Time).Select(
+                t =>
+                    new
+                    {
+                        StrategyID = t.StrategyId,
+                        Price = t.Price.ToString("0.00"),
+                        t.Amount,
+                        Time = t.Time.ToString("HH:mm:ss"),
+                        t.Type
+                    }).ToList();
         }
     }
 }

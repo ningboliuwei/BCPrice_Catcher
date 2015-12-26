@@ -11,7 +11,8 @@ namespace BCPrice_Catcher.Class
     {
         public class StrategyInputParameters
         {
-            public double BaseDPrice { get; set; }
+            public double DifferPrice { get; set; }
+            public double BaseThreshold { get; set; }
             public double TradeThresholdIncrement { get; set; }
             public double TradeThresholdCoefficient { get; set; }
             public double RegressionThresholdIncrement { get; set; }
@@ -21,11 +22,11 @@ namespace BCPrice_Catcher.Class
             public int TotalTradeCountLimit { get; set; }
             public double StartPrice { get; set; }
             public int Peroid { get; set; }
-
         }
 
         public int Id { get; set; }
         public double TradeThreshold { get; set; }
+        public double RealtimeTradeThreshold { get; set; }
         public double RegressionThreshold { get; set; }
         public double Range { get; set; }
         public int Countdown { get; set; }
@@ -34,23 +35,81 @@ namespace BCPrice_Catcher.Class
 
         public void Update(StrategyInputParameters parameters)
         {
-            InputParameters = parameters;
-
-
-            TradeThreshold = parameters.BaseDPrice * parameters.TradeThresholdCoefficient +
-                             parameters.TradeThresholdIncrement;
-
-
-            RegressionThreshold = TradeThreshold * parameters.RegressionThresholdCoefficient +
-                                  parameters.RegressionThresholdIncrement;
-
             if (Countdown != 0)
             {
                 Countdown--;
             }
             else
             {
-                Countdown = InputParameters.Peroid;
+                Countdown = InputParameters.Peroid - 1;
+            }
+
+            InputParameters = parameters;
+            RealtimeTradeThreshold = parameters.BaseThreshold * parameters.TradeThresholdCoefficient +
+                                     parameters.TradeThresholdIncrement;
+
+            if (Countdown == 0)
+            {
+                TradeThreshold = RealtimeTradeThreshold;
+            }
+
+            RegressionThreshold = RealtimeTradeThreshold * parameters.RegressionThresholdCoefficient +
+                                  parameters.RegressionThresholdIncrement;
+        }
+
+        public void TryTrade(Dictionary<string, SimulateAccount> accounts, Dictionary<string, double> prices)
+        {
+            double differPrice = InputParameters.DifferPrice;
+
+            SimulateAccount btccAccount = accounts["btcc"];
+            SimulateAccount huobiAccount = accounts["huobi"];
+
+
+            double btccPrice = prices["btcc"];
+            double huobiPrice = prices["huobi"];
+
+            const int tradeAmount = 10;
+            if (differPrice > InputParameters.StartPrice)
+            {
+                if (differPrice > TradeThreshold)
+                {
+                    if (btccPrice > huobiPrice) //btcc卖价高
+                    {
+                        if (btccAccount.CoinAmount != 0)
+                        {
+                            btccAccount.Sell(Id, btccPrice, tradeAmount); //btcc卖出
+                            huobiAccount.Buy(Id, huobiPrice, tradeAmount); //huobi买入
+                        }
+                    }
+                    else //huobi卖价高
+                    {
+                        if (huobiAccount.CoinAmount != 0)
+                        {
+                            huobiAccount.Sell(Id, huobiPrice, tradeAmount); //huobi卖出
+                            btccAccount.Buy(Id, btccPrice, tradeAmount); //btcc买入
+                        }
+                    }
+                }
+
+                if (differPrice < RegressionThreshold)
+                {
+                    if (btccAccount.CoinAmount > huobiAccount.CoinAmount) //btcc币多
+                    {
+                        if (btccAccount.CoinAmount != 0)
+                        {
+                            btccAccount.Sell(Id, btccPrice, tradeAmount); //btcc卖出
+                            huobiAccount.Buy(Id, huobiPrice, tradeAmount); //huobi买入
+                        }
+                    }
+                    else //huobi币多
+                    {
+                        if (huobiAccount.CoinAmount != 0)
+                        {
+                            huobiAccount.Sell(Id, huobiPrice, tradeAmount); //huobi卖出
+                            btccAccount.Buy(Id, btccPrice, tradeAmount); //btcc买入
+                        }
+                    }
+                }
             }
         }
     }
