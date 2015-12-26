@@ -72,7 +72,8 @@ namespace BCPrice_Catcher
                     Name = "btnAddStrategy",
                     Text = "增加策略",
                     BackColor = Color.LightGreen,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 80
                 }, 10, 0);
 
             tableLayoutPanelStrategies.Controls.Add(
@@ -81,7 +82,8 @@ namespace BCPrice_Catcher
                     Name = "btnRemoveStrategy",
                     Text = "减少策略",
                     BackColor = Color.LightCoral,
-                    Dock=DockStyle.Fill
+                    Dock=DockStyle.Fill,
+                    Width = 80
                 }, 11, 0);
         }
 

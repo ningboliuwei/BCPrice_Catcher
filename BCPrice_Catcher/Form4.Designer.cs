@@ -324,7 +324,7 @@
             this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(3, 597);
             this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
             this.tableLayoutPanelStrategies.RowCount = 17;
-            this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
