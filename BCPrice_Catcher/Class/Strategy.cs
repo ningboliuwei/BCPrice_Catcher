@@ -30,6 +30,7 @@ namespace BCPrice_Catcher.Class
         public double RegressionThreshold { get; set; }
         public double Range { get; set; }
         public int Countdown { get; set; }
+        public int TradeCount { get; set; }
 
         public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
 
@@ -69,7 +70,10 @@ namespace BCPrice_Catcher.Class
             double huobiPrice = prices["huobi"];
 
             const int tradeAmount = 10;
-            if (differPrice > InputParameters.StartPrice)
+
+            bool sellSucceeded = false;
+            bool buySucceeded = false;
+            if (differPrice > InputParameters.StartPrice && TradeCount < InputParameters.TotalTradeCountLimit)
             {
                 if (differPrice > TradeThreshold)
                 {
@@ -77,16 +81,16 @@ namespace BCPrice_Catcher.Class
                     {
                         if (btccAccount.CoinAmount != 0)
                         {
-                            btccAccount.Sell(Id, btccPrice, tradeAmount); //btcc卖出
-                            huobiAccount.Buy(Id, huobiPrice, tradeAmount); //huobi买入
+                            sellSucceeded = btccAccount.Sell(Id, btccPrice, tradeAmount); //btcc卖出
+                            buySucceeded = huobiAccount.Buy(Id, huobiPrice, tradeAmount); //huobi买入
                         }
                     }
                     else //huobi卖价高
                     {
                         if (huobiAccount.CoinAmount != 0)
                         {
-                            huobiAccount.Sell(Id, huobiPrice, tradeAmount); //huobi卖出
-                            btccAccount.Buy(Id, btccPrice, tradeAmount); //btcc买入
+                            sellSucceeded = huobiAccount.Sell(Id, huobiPrice, tradeAmount); //huobi卖出
+                            buySucceeded = btccAccount.Buy(Id, btccPrice, tradeAmount); //btcc买入
                         }
                     }
                 }
@@ -97,18 +101,23 @@ namespace BCPrice_Catcher.Class
                     {
                         if (btccAccount.CoinAmount != 0)
                         {
-                            btccAccount.Sell(Id, btccPrice, tradeAmount); //btcc卖出
-                            huobiAccount.Buy(Id, huobiPrice, tradeAmount); //huobi买入
+                            sellSucceeded = btccAccount.Sell(Id, btccPrice, tradeAmount); //btcc卖出
+                            buySucceeded = huobiAccount.Buy(Id, huobiPrice, tradeAmount); //huobi买入
                         }
                     }
                     else //huobi币多
                     {
                         if (huobiAccount.CoinAmount != 0)
                         {
-                            huobiAccount.Sell(Id, huobiPrice, tradeAmount); //huobi卖出
-                            btccAccount.Buy(Id, btccPrice, tradeAmount); //btcc买入
+                            sellSucceeded = huobiAccount.Sell(Id, huobiPrice, tradeAmount); //huobi卖出
+                            buySucceeded = btccAccount.Buy(Id, btccPrice, tradeAmount); //btcc买入
                         }
                     }
+                }
+
+                if (sellSucceeded || buySucceeded)
+                {
+                    TradeCount++;
                 }
             }
         }

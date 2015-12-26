@@ -14,10 +14,11 @@ namespace BCPrice_Catcher.Class
 
         public List<SimulateTradeInfo> Trades { get; set; } = new List<SimulateTradeInfo>();
 
-        public void Sell(int strategyId, double price, double amount)
+        public bool Sell(int strategyId, double price, double amount)
         {
             if (CoinAmount >= amount)
             {
+                double previousBalance = Balance;
                 CoinAmount -= amount;
                 Balance += price * amount;
 
@@ -27,30 +28,36 @@ namespace BCPrice_Catcher.Class
                     Price = price,
                     StrategyId = strategyId,
                     Amount = amount,
-                    Time = DateTime.Now
+                    Time = DateTime.Now,
+                    Profit = Balance - previousBalance
                 });
-//                textbox.Text = textbox.Text.Insert(0,
-//                    Environment.NewLine + $"卖 {amount} 币 at {price} with 总价 {price * amount}");
+                //if sell success
+                return true;
             }
+            //if fail (coin is not enough)
+            return false;
         }
 
-        public void Buy(int strategyId, double price, double amount)
+        public bool Buy(int strategyId, double price, double amount)
         {
             if (Balance >= price * amount)
             {
+                double previousBalance = Balance;
                 CoinAmount += amount;
                 Balance -= price * amount;
-                //                textbox.Text = textbox.Text.Insert(0,
-                //                    Environment.NewLine + $"买 {amount} 币 at {price} with 总价 {price * amount}");
                 Trades.Add(new SimulateTradeInfo
                 {
                     Type = "Sell",
                     Price = price,
                     StrategyId = strategyId,
                     Amount = amount,
-                    Time = DateTime.Now
+                    Time = DateTime.Now,
+                    Profit = Balance - previousBalance
                 });
+
+                return true;
             }
+            return false;
         }
     }
 }

@@ -13,5 +13,6 @@ namespace BCPrice_Catcher.Model
         public double Price { get; set; }
         public double Amount { get; set; }
         public DateTime Time { get; set; }
-}
+        public double Profit { get; set; }
+    }
 }

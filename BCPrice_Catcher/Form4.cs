@@ -28,6 +28,9 @@ namespace BCPrice_Catcher
         private double _huobiPrice;
         private double _baseDifferPrice;
 
+        const double TotalBalance = 400000;
+        const double TotalCoinAmount = 100;
+
         private static string[] Titles =
         {
             "策略ID", "交易阙值", "交易阙值增量", "交易阙值系数", "回归阙值", "回归阙值增量", "回归阙值系数", "交易延时阙值", "交易次数阙值", "总交易次数阙值", "周期"
@@ -209,12 +212,12 @@ namespace BCPrice_Catcher
                     Width = 50
                 }, columnPosition++, rowPosition);
 
-            //成交数量阙值
+            //策略成交总数量限制
             tableLayoutPanelStrategies.Controls.Add(
                 new NumericUpDown
                 {
                     Name = $"{ControlName.nudTotalTradeCountLimit}{strategyId}",
-                    Value = 1,
+                    Value = 100,
                     Maximum = int.MaxValue,
                     Minimum = 1,
                     DecimalPlaces = 0,
@@ -310,9 +313,9 @@ namespace BCPrice_Catcher
 
             //need await here?
             //need task here?
-            _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, o =>
+            _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, async o =>
             {
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
                     _strategies[strategy.Id].Update(GetStrategyParameters(strategy.Id));
                     _strategies[strategy.Id].TryTrade(_accounts, new Dictionary<string, double>
@@ -425,21 +428,18 @@ namespace BCPrice_Catcher
 
         private void AdjustAccounts(double pecentage)
         {
-            const double totalBalance = 400000;
-            const double totalCoinAmount = 100;
-
             _accounts.Clear();
             _accounts.Add("btcc",
                 new SimulateAccount
                 {
-                    Balance = Math.Round(totalBalance * pecentage),
-                    CoinAmount = Math.Round(totalCoinAmount * (1 - pecentage))
+                    Balance = Math.Round(TotalBalance * pecentage),
+                    CoinAmount = Math.Round(TotalCoinAmount * (1 - pecentage))
                 });
             _accounts.Add("huobi",
                 new SimulateAccount
                 {
-                    Balance = Math.Round(totalBalance * (1 - pecentage)),
-                    CoinAmount = Math.Round(totalCoinAmount * (pecentage))
+                    Balance = Math.Round(TotalBalance * (1 - pecentage)),
+                    CoinAmount = Math.Round(TotalCoinAmount * (pecentage))
                 });
         }
 
@@ -499,6 +499,8 @@ namespace BCPrice_Catcher
             lblBtccPrice.Text = $"BTCC{Environment.NewLine}{_btccPrice.ToString("0.00")}";
             lblHuobiPrice.Text = $"HUOBI{Environment.NewLine}{_huobiPrice.ToString("0.00")}";
             lblDifferPrice.Text = $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.00")}";
+            lblTotalProfits.Text =
+                $"总利润{Environment.NewLine}{(_accounts["btcc"].Balance + _accounts["huobi"].Balance - TotalBalance).ToString("0.00")}";
 
             if (_btccPrice > _huobiPrice)
             {
@@ -555,6 +557,11 @@ namespace BCPrice_Catcher
                     (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
                         as
                         NumericUpDown)
+                        .Value),
+                TotalTradeCountLimit = Convert.ToInt32(
+                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTotalTradeCountLimit}{strategyId}"]
+                        as
+                        NumericUpDown)
                         .Value)
             };
 
@@ -594,28 +601,35 @@ namespace BCPrice_Catcher
 
         private void ShowTrades()
         {
+            long index = 1;
             gdvBtccTrades.DataSource =
                 _accounts["btcc"].Trades.OrderByDescending(t => t.Time)
                     .Select(
                         t =>
                             new
                             {
+                                SN = index++,
                                 StrategyID = t.StrategyId,
                                 Price = t.Price.ToString("0.00"),
                                 t.Amount,
                                 Time = t.Time.ToString("HH:mm:ss"),
-                                t.Type
+                                t.Type,
+                                Profit = t.Profit.ToString("0.00")
                             })
                     .ToList();
+
+            index = 0;
             gdvHuobiTrades.DataSource = _accounts["huobi"].Trades.OrderByDescending(t => t.Time).Select(
                 t =>
                     new
                     {
+                        SN = index++,
                         StrategyID = t.StrategyId,
                         Price = t.Price.ToString("0.00"),
                         t.Amount,
                         Time = t.Time.ToString("HH:mm:ss"),
-                        t.Type
+                        t.Type,
+                        Profit = t.Profit.ToString("0.00")
                     }).ToList();
         }
     }

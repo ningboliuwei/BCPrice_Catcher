@@ -47,6 +47,7 @@
             this.tableLayoutPanelTrades = new System.Windows.Forms.TableLayoutPanel();
             this.gdvHuobiTrades = new System.Windows.Forms.DataGridView();
             this.gdvBtccTrades = new System.Windows.Forms.DataGridView();
+            this.lblTotalProfits = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
@@ -67,28 +68,27 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanelMain.SetColumnSpan(this.tableLayoutPanel1, 2);
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAllStop, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(662, 140);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(993, 140);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(995, 60);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(664, 60);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // btnAllStart
             // 
             this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAllStart.Location = new System.Drawing.Point(500, 3);
+            this.btnAllStart.Location = new System.Drawing.Point(335, 3);
             this.btnAllStart.Name = "btnAllStart";
-            this.btnAllStart.Size = new System.Drawing.Size(242, 54);
+            this.btnAllStart.Size = new System.Drawing.Size(160, 54);
             this.btnAllStart.TabIndex = 8;
             this.btnAllStart.Text = "全部开始(&S)";
             this.btnAllStart.UseVisualStyleBackColor = false;
@@ -98,9 +98,9 @@
             // 
             this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAllStop.Location = new System.Drawing.Point(748, 3);
+            this.btnAllStop.Location = new System.Drawing.Point(501, 3);
             this.btnAllStop.Name = "btnAllStop";
-            this.btnAllStop.Size = new System.Drawing.Size(244, 54);
+            this.btnAllStop.Size = new System.Drawing.Size(160, 54);
             this.btnAllStop.TabIndex = 8;
             this.btnAllStop.Text = "全部停止(&T)";
             this.btnAllStop.UseVisualStyleBackColor = false;
@@ -190,7 +190,7 @@
             // 
             this.lblDifferPrice.AutoEllipsis = true;
             this.lblDifferPrice.AutoSize = true;
-            this.lblDifferPrice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.lblDifferPrice.BackColor = System.Drawing.Color.PaleTurquoise;
             this.lblDifferPrice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblDifferPrice.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblDifferPrice.Location = new System.Drawing.Point(662, 0);
@@ -203,14 +203,13 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.BackColor = System.Drawing.Color.Green;
-            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
             this.trackBar1.LargeChange = 10;
-            this.trackBar1.Location = new System.Drawing.Point(662, 60);
+            this.trackBar1.Location = new System.Drawing.Point(662, 140);
             this.trackBar1.Margin = new System.Windows.Forms.Padding(0);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(331, 80);
+            this.trackBar1.Size = new System.Drawing.Size(331, 60);
             this.trackBar1.TabIndex = 6;
             this.trackBar1.TickFrequency = 5;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -238,16 +237,17 @@
             this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanelMain.Controls.Add(this.trackBar1, 1, 1);
             this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelStrategies, 0, 4);
             this.tableLayoutPanelMain.Controls.Add(this.lblHuobiPrice, 2, 0);
-            this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanel1, 1, 2);
+            this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanel1, 2, 2);
             this.tableLayoutPanelMain.Controls.Add(this.lblHuobiAccount, 2, 1);
             this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelTrades, 0, 3);
             this.tableLayoutPanelMain.Controls.Add(this.lblBtccPrice, 0, 0);
             this.tableLayoutPanelMain.Controls.Add(this.lblBtccAccount, 0, 1);
             this.tableLayoutPanelMain.Controls.Add(this.lblDifferPrice, 1, 0);
             this.tableLayoutPanelMain.Controls.Add(this.flowLayoutPanel1, 0, 2);
+            this.tableLayoutPanelMain.Controls.Add(this.trackBar1, 1, 2);
+            this.tableLayoutPanelMain.Controls.Add(this.lblTotalProfits, 1, 1);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
@@ -259,6 +259,7 @@
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelMain.Size = new System.Drawing.Size(1657, 703);
             this.tableLayoutPanelMain.TabIndex = 0;
             // 
@@ -348,6 +349,21 @@
             this.gdvBtccTrades.Size = new System.Drawing.Size(822, 390);
             this.gdvBtccTrades.TabIndex = 18;
             // 
+            // lblTotalProfits
+            // 
+            this.lblTotalProfits.AutoEllipsis = true;
+            this.lblTotalProfits.AutoSize = true;
+            this.lblTotalProfits.BackColor = System.Drawing.Color.SkyBlue;
+            this.lblTotalProfits.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTotalProfits.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblTotalProfits.Location = new System.Drawing.Point(662, 60);
+            this.lblTotalProfits.Margin = new System.Windows.Forms.Padding(0);
+            this.lblTotalProfits.Name = "lblTotalProfits";
+            this.lblTotalProfits.Size = new System.Drawing.Size(331, 80);
+            this.lblTotalProfits.TabIndex = 5;
+            this.lblTotalProfits.Text = "总利润";
+            this.lblTotalProfits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -400,5 +416,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTrades;
         private System.Windows.Forms.DataGridView gdvHuobiTrades;
         private System.Windows.Forms.DataGridView gdvBtccTrades;
+        private System.Windows.Forms.Label lblTotalProfits;
     }
 }
