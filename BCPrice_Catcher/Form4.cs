@@ -311,6 +311,7 @@ namespace BCPrice_Catcher
             };
             _strategies.Add(strategy);
 
+            int tradeAmount = Convert.ToInt32(nudTradeAmount.Value);
             //need await here?
             //need task here?
             _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, async o =>
@@ -322,7 +323,7 @@ namespace BCPrice_Catcher
                     {
                         {"btcc", _btccPrice},
                         {"huobi", _huobiPrice}
-                    });
+                    }, tradeAmount);
                 });
             });
         }

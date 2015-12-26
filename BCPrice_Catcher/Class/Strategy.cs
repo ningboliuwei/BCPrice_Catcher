@@ -58,7 +58,7 @@ namespace BCPrice_Catcher.Class
                                   parameters.RegressionThresholdIncrement;
         }
 
-        public void TryTrade(Dictionary<string, SimulateAccount> accounts, Dictionary<string, double> prices)
+        public void TryTrade(Dictionary<string, SimulateAccount> accounts, Dictionary<string, double> prices, int tradeAmount)
         {
             double differPrice = InputParameters.DifferPrice;
 
@@ -68,8 +68,6 @@ namespace BCPrice_Catcher.Class
 
             double btccPrice = prices["btcc"];
             double huobiPrice = prices["huobi"];
-
-            const int tradeAmount = 10;
 
             bool sellSucceeded = false;
             bool buySucceeded = false;
