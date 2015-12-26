@@ -22,7 +22,7 @@ namespace BCPrice_Catcher
         private Dictionary<string, SimulateAccount> _accounts = new Dictionary<string, SimulateAccount>();
         private List<Strategy> _strategies = new List<Strategy>();
         private TimerList _strategyTimerList = new TimerList();
-        private List<int> _strategyCounters = new List<int>();
+        //private List<int> _strategyCounters = new List<int>();
 
         private double _btccPrice;
         private double _huobiPrice;
@@ -30,7 +30,7 @@ namespace BCPrice_Catcher
 
         private static string[] Titles =
         {
-            "策略ID", "交易阙值", "交易阙值增量", "交易阙值系数", "回归阙值", "回归阙值增量", "回归阙值系数", "交易延时阙值", "交易次数阙值", "总交易次数阙值"
+            "策略ID", "交易阙值", "交易阙值增量", "交易阙值系数", "回归阙值", "回归阙值增量", "回归阙值系数", "交易延时阙值", "交易次数阙值", "总交易次数阙值", "周期"
         };
 
         //额外有两列放按钮
@@ -48,6 +48,7 @@ namespace BCPrice_Catcher
             nudTradeLagThreshold,
             nudTradeCountThreshold,
             nudTotalTradeCountLimit,
+            nudPeriod,
             btnStrategyStart,
             btnStrategyStop
         }
@@ -58,14 +59,15 @@ namespace BCPrice_Catcher
             InitializeComponent();
         }
 
-        private void AddTitleControls()
+        private void GenerateTitleControls()
         {
             for (int i = 0; i < Titles.Length; i++)
             {
                 tableLayoutPanelStrategies.Controls.Add(
                     new Label
                     {
-                        Text = Titles[i]
+                        Text = Titles[i],
+                        TextAlign = ContentAlignment.MiddleCenter
                     }, i, 0);
             }
 
@@ -77,7 +79,7 @@ namespace BCPrice_Catcher
                     BackColor = Color.LightGreen,
                     Dock = DockStyle.Fill,
                     Width = 80
-                }, 10, 0);
+                }, Titles.Length, 0);
 
             tableLayoutPanelStrategies.Controls.Add(
                 new Button()
@@ -87,7 +89,7 @@ namespace BCPrice_Catcher
                     BackColor = Color.LightCoral,
                     Dock = DockStyle.Fill,
                     Width = 80
-                }, 11, 0);
+                }, Titles.Length + 1, 0);
         }
 
         private void GenerateStrategyControls(int strategyId)
@@ -101,7 +103,8 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.lblStrategyID}{strategyId}",
                     Text = (rowPosition).ToString(),
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
                 }, columnPosition++, rowPosition);
 
             //启动阙值
@@ -110,7 +113,8 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.lblTradeThreshold}{strategyId}",
                     Text = (rowPosition + 1).ToString(),
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
                 }, columnPosition++,
                 rowPosition);
             //启动阙值增量
@@ -121,7 +125,8 @@ namespace BCPrice_Catcher
                     Value = 0,
                     Maximum = 10,
                     Minimum = -10,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
             //启动阙值系数
             tableLayoutPanelStrategies.Controls.Add(
@@ -133,7 +138,8 @@ namespace BCPrice_Catcher
                     Minimum = 0.1M,
                     DecimalPlaces = 1,
                     Increment = 0.1M,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
 
 
@@ -143,7 +149,8 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.lblRegressionThreshold}{strategyId}",
                     Text = "0",
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
                 }, columnPosition++,
                 rowPosition);
 
@@ -156,7 +163,8 @@ namespace BCPrice_Catcher
                     Maximum = 10,
                     Minimum = -10,
                     Increment = 1,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
 
             //回归阙值系数
@@ -169,7 +177,8 @@ namespace BCPrice_Catcher
                     Minimum = 0.1M,
                     DecimalPlaces = 1,
                     Increment = 0.1M,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
 
             //最小时间间隔
@@ -182,7 +191,8 @@ namespace BCPrice_Catcher
                     Minimum = 1,
                     DecimalPlaces = 0,
                     Increment = 1,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
 
             //
@@ -195,7 +205,8 @@ namespace BCPrice_Catcher
                     Minimum = 1,
                     DecimalPlaces = 0,
                     Increment = 1,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
 
             //成交数量阙值
@@ -208,13 +219,26 @@ namespace BCPrice_Catcher
                     Minimum = 1,
                     DecimalPlaces = 0,
                     Increment = 1,
-                    Dock = DockStyle.Fill
+                    Dock = DockStyle.Fill,
+                    Width = 50
+                }, columnPosition++, rowPosition);
+
+            //周期
+            tableLayoutPanelStrategies.Controls.Add(
+                new NumericUpDown
+                {
+                    Name = $"{ControlName.nudPeriod}{strategyId}",
+                    Value = Convert.ToInt32(Math.Pow(2, strategyId)),
+                    Maximum = int.MaxValue,
+                    Minimum = 1,
+                    DecimalPlaces = 0,
+                    Increment = 1,
+                    Dock = DockStyle.Fill,
+                    Width = 50
                 }, columnPosition++, rowPosition);
 
             //开始按钮
-
-
-            Button button = new Button
+            Button btnStart = new Button
             {
                 Name = $"{ControlName.btnStrategyStart}{strategyId}",
                 Text = "开始",
@@ -222,21 +246,25 @@ namespace BCPrice_Catcher
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill
             };
-            button.Click += StartStrategy;
+            btnStart.Tag = strategyId;
+            btnStart.Click += StartStrategy;
 
-            tableLayoutPanelStrategies.Controls.Add(button, columnPosition++, rowPosition);
+            tableLayoutPanelStrategies.Controls.Add(btnStart, columnPosition++, rowPosition);
 
 
             //结束按钮
-            tableLayoutPanelStrategies.Controls.Add(
-                new Button()
-                {
-                    Name = $"{ControlName.btnStrategyStop}{strategyId}",
-                    Text = "结束",
-                    BackColor = Color.LightCoral,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Dock = DockStyle.Fill
-                }, columnPosition++, rowPosition);
+
+            Button btnStop = new Button()
+            {
+                Name = $"{ControlName.btnStrategyStop}{strategyId}",
+                Text = "结束",
+                BackColor = Color.LightCoral,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill
+            };
+            btnStop.Tag = strategyId;
+            btnStop.Click += StopStrategy;
+            tableLayoutPanelStrategies.Controls.Add(btnStop, columnPosition++, rowPosition);
 
 //                foreach (var c in tableLayoutPanelStrategies.Controls)
 //                {
@@ -245,9 +273,18 @@ namespace BCPrice_Catcher
 //                }
         }
 
+        private void StopStrategy(object sender, EventArgs e)
+        {
+            int strategyId = Convert.ToInt32((sender as Button).Tag);
+            _strategyTimerList.Timers[$"strategy_timer{strategyId}"].Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
         private void StartStrategy(object sender, EventArgs e)
         {
-            MessageBox.Show(sender.ToString());
+            int strategyId = Convert.ToInt32((sender as Button).Tag);
+            //            MessageBox.Show((sender as Button).Tag.ToString());
+            _strategyTimerList.Timers[$"strategy_timer{strategyId}"].Change(0,
+                _strategies[strategyId].InputParameters.Peroid * 1000);
         }
 
         private void AddStrategy()
@@ -264,7 +301,7 @@ namespace BCPrice_Catcher
 
             //need await here?
             //need task here?
-            _strategyTimerList.Add($"strategy_timer{strategy.Id}", ((strategy.Id + 1) * 2) * 1000, async o =>
+            _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, async o =>
             {
                 await Task.Run(() => { _strategies[strategy.Id].Update(GetStrategyParameters(strategy.Id)); });
 
@@ -273,7 +310,7 @@ namespace BCPrice_Catcher
             });
             //_strategyTimerList.Timers[$"strategy{strategy.Id}"].Change()
 
-            _strategyCounters.Add(((strategy.Id + 1) * 2 - 1));
+            //_strategyCounters.Add(((strategy.Id + 1) * 2 - 1));
         }
 
         private void Strategy_Updated(int strategyId)
@@ -291,7 +328,7 @@ namespace BCPrice_Catcher
             tableLayoutPanelStrategies.Visible = false;
 //            tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tableLayoutPanelStrategies.Visible = true;
-            AddTitleControls();
+            GenerateTitleControls();
 
             tableLayoutPanelStrategies.Controls["btnAddStrategy"].Enabled = false;
             tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Enabled = false;
@@ -433,24 +470,12 @@ namespace BCPrice_Catcher
 //                ChangeStrategyValues(s);
 //            }
 
+            ShowAccounts();
+
             for (int i = 0; i < _strategies.Count; i++)
             {
                 ShowStrategyValues(_strategies[i]);
-
-                if (_strategyCounters[i] != 0)
-                {
-                    _strategyCounters[i]--;
-                }
-                else
-                {
-                    _strategyCounters[i] = ((_strategies[i].Id + 1) * 2-1);
-                }
-
-                (tableLayoutPanelStrategies.Controls[$"{ControlName.lblStrategyID}{i}"] as Label).Text =
-                    _strategyCounters[i].ToString();
             }
-
-            ShowAccounts();
         }
 
         //for btcc, huobi and differ price
@@ -483,6 +508,9 @@ namespace BCPrice_Catcher
 
             (tableLayoutPanelStrategies.Controls[$"{ControlName.lblRegressionThreshold}{strategy.Id}"] as Label).Text =
                 strategy.RegressionThreshold.ToString("0.00");
+
+            (tableLayoutPanelStrategies.Controls[$"{ControlName.lblStrategyID}{strategy.Id}"] as Label).Text =
+                strategy.Countdown.ToString();
         }
 
         private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)
@@ -508,7 +536,12 @@ namespace BCPrice_Catcher
                         as
                         NumericUpDown)
                         .Value),
-                StartPrice = Convert.ToDouble(nudStartPrice.Value)
+                StartPrice = Convert.ToDouble(nudStartPrice.Value),
+                Peroid = Convert.ToInt32(
+                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
+                        as
+                        NumericUpDown)
+                        .Value)
             };
 
 
@@ -525,6 +558,10 @@ namespace BCPrice_Catcher
             //                    (tableLayoutPanelStrategies.Controls[$"{ControlNames[8]}{index}"] as TextBox).Text);
 
             return parameters;
+        }
+
+        private void btnAllStart_Click(object sender, EventArgs e)
+        {
         }
     }
 }

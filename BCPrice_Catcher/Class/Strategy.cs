@@ -20,12 +20,15 @@ namespace BCPrice_Catcher.Class
             public int TradeCountThreshold { get; set; }
             public int TotalTradeCountLimit { get; set; }
             public double StartPrice { get; set; }
+            public int Peroid { get; set; }
+
         }
 
         public int Id { get; set; }
         public double TradeThreshold { get; set; }
         public double RegressionThreshold { get; set; }
         public double Range { get; set; }
+        public int Countdown { get; set; }
 
         public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
 
@@ -40,6 +43,15 @@ namespace BCPrice_Catcher.Class
 
             RegressionThreshold = TradeThreshold * parameters.RegressionThresholdCoefficient +
                                   parameters.RegressionThresholdIncrement;
+
+            if (Countdown != 0)
+            {
+                Countdown--;
+            }
+            else
+            {
+                Countdown = InputParameters.Peroid;
+            }
         }
     }
 }

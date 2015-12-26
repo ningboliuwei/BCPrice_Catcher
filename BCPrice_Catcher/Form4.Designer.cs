@@ -133,6 +133,7 @@
             this.btnAllStart.TabIndex = 8;
             this.btnAllStart.Text = "全部开始(&S)";
             this.btnAllStart.UseVisualStyleBackColor = false;
+            this.btnAllStart.Click += new System.EventHandler(this.btnAllStart_Click);
             // 
             // btnAllStop
             // 
@@ -306,7 +307,7 @@
             // tableLayoutPanelStrategies
             // 
             this.tableLayoutPanelStrategies.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLayoutPanelStrategies.ColumnCount = 12;
+            this.tableLayoutPanelStrategies.ColumnCount = 13;
             this.tableLayoutPanelMain.SetColumnSpan(this.tableLayoutPanelStrategies, 3);
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -320,6 +321,8 @@
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(3, 597);
             this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
