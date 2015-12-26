@@ -34,16 +34,16 @@
             this.gdvBtccTrades = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanelTrades = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnAllStart = new System.Windows.Forms.Button();
+            this.btnAllStop = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
             this.lblBtccPrice = new System.Windows.Forms.Label();
             this.lblHuobiAccount = new System.Windows.Forms.Label();
             this.lblHuobiPrice = new System.Windows.Forms.Label();
             this.lblDifferPrice = new System.Windows.Forms.Label();
-            this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnAllStop = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.btnAllStart = new System.Windows.Forms.Button();
             this.lblBtccAccount = new System.Windows.Forms.Label();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelStrategies = new System.Windows.Forms.TableLayoutPanel();
@@ -123,6 +123,28 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(995, 60);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
+            // btnAllStart
+            // 
+            this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnAllStart.Location = new System.Drawing.Point(500, 3);
+            this.btnAllStart.Name = "btnAllStart";
+            this.btnAllStart.Size = new System.Drawing.Size(242, 54);
+            this.btnAllStart.TabIndex = 8;
+            this.btnAllStart.Text = "全部开始(&S)";
+            this.btnAllStart.UseVisualStyleBackColor = false;
+            // 
+            // btnAllStop
+            // 
+            this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnAllStop.Location = new System.Drawing.Point(748, 3);
+            this.btnAllStop.Name = "btnAllStop";
+            this.btnAllStop.Size = new System.Drawing.Size(244, 54);
+            this.btnAllStop.TabIndex = 8;
+            this.btnAllStop.Text = "全部停止(&T)";
+            this.btnAllStop.UseVisualStyleBackColor = false;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
@@ -134,6 +156,31 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(662, 60);
             this.flowLayoutPanel1.TabIndex = 7;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(75, 28);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "启动价";
+            // 
+            // nudStartPrice
+            // 
+            this.nudStartPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudStartPrice.Location = new System.Drawing.Point(84, 3);
+            this.nudStartPrice.Name = "nudStartPrice";
+            this.nudStartPrice.Size = new System.Drawing.Size(261, 35);
+            this.nudStartPrice.TabIndex = 6;
+            this.nudStartPrice.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             // 
             // lblBtccPrice
             // 
@@ -195,42 +242,6 @@
             this.lblDifferPrice.Text = "差价";
             this.lblDifferPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // nudStartPrice
-            // 
-            this.nudStartPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudStartPrice.Location = new System.Drawing.Point(84, 3);
-            this.nudStartPrice.Name = "nudStartPrice";
-            this.nudStartPrice.Size = new System.Drawing.Size(261, 35);
-            this.nudStartPrice.TabIndex = 6;
-            this.nudStartPrice.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 28);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "启动价";
-            // 
-            // btnAllStop
-            // 
-            this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAllStop.Location = new System.Drawing.Point(748, 3);
-            this.btnAllStop.Name = "btnAllStop";
-            this.btnAllStop.Size = new System.Drawing.Size(244, 54);
-            this.btnAllStop.TabIndex = 8;
-            this.btnAllStop.Text = "全部停止(&T)";
-            this.btnAllStop.UseVisualStyleBackColor = false;
-            // 
             // trackBar1
             // 
             this.trackBar1.BackColor = System.Drawing.Color.Green;
@@ -246,17 +257,6 @@
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.Value = 40;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            // 
-            // btnAllStart
-            // 
-            this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAllStart.Location = new System.Drawing.Point(500, 3);
-            this.btnAllStart.Name = "btnAllStart";
-            this.btnAllStart.Size = new System.Drawing.Size(242, 54);
-            this.btnAllStart.TabIndex = 8;
-            this.btnAllStart.Text = "全部开始(&S)";
-            this.btnAllStart.UseVisualStyleBackColor = false;
             // 
             // lblBtccAccount
             // 
