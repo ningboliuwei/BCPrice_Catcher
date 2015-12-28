@@ -18,8 +18,28 @@ namespace BCPrice_Catcher
     {
         private const int StrategyMaxQuantity = 9;
         private const int StrategyMinQuantity = 1;
+        private const double InitialPecentage = 0.4d;
 
-        private Dictionary<string, SimulateAccount> _accounts = new Dictionary<string, SimulateAccount>();
+        private Dictionary<string, SimulateAccount> _accounts = new Dictionary<string, SimulateAccount>()
+        {
+            {
+                "btcc",
+                new SimulateAccount
+                {
+                    Balance = Math.Round(TotalBalance * InitialPecentage),
+                    CoinAmount = Math.Round(TotalCoinAmount * (1 - InitialPecentage))
+                }
+            },
+            {
+                "huobi",
+                new SimulateAccount
+                {
+                    Balance = Math.Round(TotalBalance * (1 - InitialPecentage)),
+                    CoinAmount = Math.Round(TotalCoinAmount * (InitialPecentage))
+                }
+            }
+        };
+
         private List<Strategy> _strategies = new List<Strategy>();
         private TimerList _strategyTimerList = new TimerList();
         //private List<int> _strategyCounters = new List<int>();
@@ -28,8 +48,8 @@ namespace BCPrice_Catcher
         private double _huobiPrice;
         private double _baseDifferPrice;
 
-        const double TotalBalance = 400000;
-        const double TotalCoinAmount = 100;
+        const double TotalBalance = 2000000;
+        const double TotalCoinAmount = 200;
 
         private static string[] Titles =
         {
@@ -139,9 +159,11 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.nudTradeThresholdIncrement}{strategyId}",
                     Value = 0,
-                    Maximum = 10,
-                    Minimum = -10,
+                    Maximum = int.MaxValue,
+                    Minimum = int.MinValue,
                     Dock = DockStyle.Fill,
+                    DecimalPlaces = 3,
+                    Increment = 0.001M,
                     Width = 50
                 }, columnPosition++, rowPosition);
             //启动阙值系数
@@ -151,9 +173,9 @@ namespace BCPrice_Catcher
                     Name = $"{ControlName.nudTradeThresholdCoefficient}{strategyId}",
                     Value = 1 + strategyId * 0.3M,
                     Maximum = int.MaxValue,
-                    Minimum = 0.1M,
-                    DecimalPlaces = 1,
-                    Increment = 0.1M,
+                    Minimum = 0,
+                    DecimalPlaces = 3,
+                    Increment = 0.001M,
                     Dock = DockStyle.Fill,
                     Width = 50
                 }, columnPosition++, rowPosition);
@@ -176,9 +198,9 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.nudRegressionThresholdIncrement}{strategyId}",
                     Value = 0,
-                    Maximum = 10,
-                    Minimum = -10,
-                    Increment = 1,
+                    Maximum = int.MaxValue,
+                    Minimum = int.MinValue,
+                    Increment = 0.001M,
                     Dock = DockStyle.Fill,
                     Width = 50
                 }, columnPosition++, rowPosition);
@@ -189,10 +211,10 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.nudRegressionThresholdCoefficient}{strategyId}",
                     Value = 0.5M,
-                    Maximum = 1,
-                    Minimum = 0.1M,
-                    DecimalPlaces = 1,
-                    Increment = 0.1M,
+                    Maximum = int.MaxValue,
+                    Minimum = int.MinValue,
+                    DecimalPlaces = 3,
+                    Increment = 0.001M,
                     Dock = DockStyle.Fill,
                     Width = 50
                 }, columnPosition++, rowPosition);
@@ -230,8 +252,8 @@ namespace BCPrice_Catcher
                 new NumericUpDown
                 {
                     Name = $"{ControlName.nudTotalTradeCountLimit}{strategyId}",
-                    Value = 100,
                     Maximum = int.MaxValue,
+                    Value = 99999999,
                     Minimum = 1,
                     DecimalPlaces = 0,
                     Increment = 1,
@@ -282,11 +304,11 @@ namespace BCPrice_Catcher
             btnStop.Click += btnStopStrategy_Click;
             tableLayoutPanelStrategies.Controls.Add(btnStop, columnPosition++, rowPosition);
 
-//                foreach (var c in tableLayoutPanelStrategies.Controls)
-//                {
-//                    ((Control) c).Dock = DockStyle.Fill;
-//                    ((Control) c).Anchor = AnchorStyles.Left | AnchorStyles.Right;
-//                }
+            //                foreach (var c in tableLayoutPanelStrategies.Controls)
+            //                {
+            //                    ((Control) c).Dock = DockStyle.Fill;
+            //                    ((Control) c).Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            //                }
         }
 
         private void btnStopStrategy_Click(object sender, EventArgs e)
@@ -317,10 +339,12 @@ namespace BCPrice_Catcher
             int strategyId = _strategies.Count;
             GenerateStrategyControls(strategyId);
 
+
             Strategy strategy = new Strategy()
             {
                 Id = strategyId,
                 InputParameters = GetStrategyParameters(strategyId),
+                //InputParameters = GetStrategyParameters(strategyId).Result,
                 PreviousStrategy = strategyId == 0 ? null : _strategies[strategyId - 1]
             };
             _strategies.Add(strategy);
@@ -355,7 +379,7 @@ namespace BCPrice_Catcher
         private void InitializeControls()
         {
             tableLayoutPanelStrategies.Visible = false;
-//            tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+            //            tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tableLayoutPanelStrategies.Visible = true;
             GenerateTitleControls();
 
@@ -443,26 +467,23 @@ namespace BCPrice_Catcher
 
         private void AdjustAccounts(double pecentage)
         {
-            _accounts.Clear();
-            _accounts.Add("btcc",
-                new SimulateAccount
-                {
-                    Balance = Math.Round(TotalBalance * pecentage),
-                    CoinAmount = Math.Round(TotalCoinAmount * (1 - pecentage))
-                });
-            _accounts.Add("huobi",
-                new SimulateAccount
-                {
-                    Balance = Math.Round(TotalBalance * (1 - pecentage)),
-                    CoinAmount = Math.Round(TotalCoinAmount * (pecentage))
-                });
+            //_accounts.Clear();
+
+            _accounts["btcc"].Balance = Math.Round(TotalBalance * pecentage);
+            _accounts["btcc"].CoinAmount = Math.Round(TotalCoinAmount * (1 - pecentage));
+
+            _accounts["huobi"].Balance = Math.Round(TotalBalance * (1 - pecentage));
+            _accounts["huobi"].CoinAmount = Math.Round(TotalCoinAmount * (pecentage));
         }
+
 
         private void ShowAccounts()
         {
-            lblBtccAccount.Text =
+            lblBtccAccount.Text
+                =
                 $"BTCC({trackBar1.Value}%){Environment.NewLine}现金：{_accounts["btcc"].Balance}{Environment.NewLine}币数：{_accounts["btcc"].CoinAmount}";
-            lblHuobiAccount.Text =
+            lblHuobiAccount.Text
+                =
                 $"HUOBI({trackBar1.Maximum - trackBar1.Value}%){Environment.NewLine}现金：{_accounts["huobi"].Balance}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount}";
         }
 
@@ -472,13 +493,17 @@ namespace BCPrice_Catcher
             ShowAccounts();
         }
 
-        private void GetPrices()
+        private
+            void GetPrices()
         {
-            if (Tag != null)
+            if (
+                Tag != null)
             {
                 Dictionary<string, double> prices = Tag as Dictionary<string, double>;
 
-                if (prices.Count == 2)
+                if (
+                    prices.Count
+                    == 2)
                 {
                     _btccPrice = prices["btcc"];
                     _huobiPrice = prices["huobi"];
@@ -487,19 +512,24 @@ namespace BCPrice_Catcher
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private
+            void timer1_Tick(object sender, EventArgs e)
         {
             GetPrices();
             ShowPrices();
 
-//            foreach (var s in _strategies)
-//            {
-//                ChangeStrategyValues(s);
-//            }
+            //            foreach (var s in _strategies)
+            //            {
+            //                ChangeStrategyValues(s);
+            //            }
 
             ShowAccounts();
 
-            for (int i = 0; i < _strategies.Count; i++)
+            for (
+                int i = 0;
+                i < _strategies.Count;
+                i
+                    ++)
             {
                 ShowStrategyValues(_strategies[i]);
             }
@@ -508,22 +538,42 @@ namespace BCPrice_Catcher
         }
 
         //for btcc, huobi and differ price
-        private void ShowPrices()
+        private
+            void ShowPrices()
         {
-            _baseDifferPrice = Math.Abs((_btccPrice - _huobiPrice));
-            lblBtccPrice.Text = $"BTCC{Environment.NewLine}{_btccPrice.ToString("0.00")}";
-            lblHuobiPrice.Text = $"HUOBI{Environment.NewLine}{_huobiPrice.ToString("0.00")}";
-            lblDifferPrice.Text = $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.00")}";
-            lblTotalProfits.Text =
-                $"总利润{Environment.NewLine}{(_accounts["btcc"].Balance + _accounts["huobi"].Balance - TotalBalance).ToString("0.00")}";
+            _baseDifferPrice
+                =
+                Math.Abs
+                    ((
+                        _btccPrice
+                        -
+                        _huobiPrice
+                        ));
+            lblBtccPrice.Text
+                = $"BTCC{Environment.NewLine}{_btccPrice.ToString("0.000")}";
+            lblHuobiPrice.Text
+                = $"HUOBI{Environment.NewLine}{_huobiPrice.ToString("0.000")}";
+            lblDifferPrice.Text
+                = $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
+            lblTotalProfits.Text
+                =
+                $"总利润{Environment.NewLine}{(_accounts["btcc"].Balance + _accounts["huobi"].Balance - TotalBalance).ToString("0.000")}";
 
-            if (_btccPrice > _huobiPrice)
+            if (
+                _btccPrice
+                >
+                _huobiPrice
+                )
             {
                 lblDifferPrice.Text = lblDifferPrice.Text.Insert(4, "<< ");
             }
-            else if (_btccPrice < _huobiPrice)
+            else if (
+                _btccPrice < _huobiPrice)
             {
-                lblDifferPrice.Text = lblDifferPrice.Text + " >>";
+                lblDifferPrice.Text
+                    =
+                    lblDifferPrice.Text
+                    + " >>";
             }
         }
 
@@ -535,10 +585,10 @@ namespace BCPrice_Catcher
         private void ShowStrategyValues(Strategy strategy)
         {
             (tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThreshold}{strategy.Id}"] as Label).Text =
-                strategy.TradeThreshold.ToString("0.00");
+                strategy.TradeThreshold.ToString("0.000");
 
             (tableLayoutPanelStrategies.Controls[$"{ControlName.lblRegressionThreshold}{strategy.Id}"] as Label).Text =
-                strategy.RegressionThreshold.ToString("0.00");
+                strategy.RegressionThreshold.ToString("0.000");
 
             (tableLayoutPanelStrategies.Controls[$"{ControlName.lblStrategyID}{strategy.Id}"] as Label).Text =
                 (strategy.Id + 1).ToString();
@@ -550,38 +600,43 @@ namespace BCPrice_Catcher
 
         private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)
         {
+            string s1 =
+                (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
+                    NumericUpDown).Text;
+
+            string s2 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdCoefficient}{strategyId}"]
+                as
+                NumericUpDown).Text;
+
+            string s3 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeLagThreshold}{strategyId}"] as
+                NumericUpDown).Text;
+            string s4 =
+                (tableLayoutPanelStrategies.Controls[
+                    $"{ControlName.nudRegressionThresholdIncrement}{strategyId}"]
+                    as NumericUpDown).Text;
+            string s5 =
+                (tableLayoutPanelStrategies.Controls[
+                    $"{ControlName.nudRegressionThresholdCoefficient}{strategyId}"]
+                    as NumericUpDown).Text;
+
+            string s6 = nudStartPrice.Text;
+            string s7 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
+                as NumericUpDown).Text;
+
+            string s8 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTotalTradeCountLimit}{strategyId}"]
+                as NumericUpDown).Text;
+
+
             var parameters = new Strategy.StrategyInputParameters
             {
-                TradeThresholdIncrement = Convert.ToDouble(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
-                        NumericUpDown).Value),
-                TradeThresholdCoefficient = Convert.ToDouble(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdCoefficient}{strategyId}"] as
-                        NumericUpDown).Value),
-                TradeLagThreshold = Convert.ToInt32(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeLagThreshold}{strategyId}"] as
-                        NumericUpDown)
-                        .Value),
-                RegressionThresholdIncrement = Convert.ToDouble(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudRegressionThresholdIncrement}{strategyId}"]
-                        as
-                        NumericUpDown).Value),
-                RegressionThresholdCoefficient = Convert.ToDouble(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudRegressionThresholdCoefficient}{strategyId}"]
-                        as
-                        NumericUpDown)
-                        .Value),
-                StartPrice = Convert.ToDouble(nudStartPrice.Value),
-                Peroid = Convert.ToInt32(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
-                        as
-                        NumericUpDown)
-                        .Value),
-                TotalTradeCountLimit = Convert.ToInt32(
-                    (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTotalTradeCountLimit}{strategyId}"]
-                        as
-                        NumericUpDown)
-                        .Value)
+                TradeThresholdIncrement = s1.Length != 0 ? Convert.ToDouble(s1) : 0,
+                TradeThresholdCoefficient = s2.Length != 0 ? Convert.ToDouble(s2) : 0,
+                TradeLagThreshold = s3.Length != 0 ? Convert.ToInt32(s3) : 0,
+                RegressionThresholdIncrement = s4.Length != 0 ? Convert.ToDouble(s4) : 0,
+                RegressionThresholdCoefficient = s5.Length != 0 ? Convert.ToDouble(s5) : 0,
+                StartPrice = s6.Length != 0 ? Convert.ToDouble(s6) : 3,
+                Peroid = s7.Length != 0 ? Convert.ToInt32(s7) : 1,
+                TotalTradeCountLimit = s8.Length != 0 ? Convert.ToInt32(s8) : 99999999,
             };
 
 
@@ -598,7 +653,6 @@ namespace BCPrice_Catcher
             //            currentStrategy.InputParameters.TradeQuantityThreshold =
             //                Convert.ToInt32(
             //                    (tableLayoutPanelStrategies.Controls[$"{ControlNames[8]}{index}"] as TextBox).Text);
-
             return parameters;
         }
 
@@ -620,35 +674,35 @@ namespace BCPrice_Catcher
 
         private void ShowTrades()
         {
-            long index = 1;
+            long index = _accounts["btcc"].Trades.Count;
             gdvBtccTrades.DataSource =
                 _accounts["btcc"].Trades.OrderByDescending(t => t.Time)
                     .Select(
                         t =>
                             new
                             {
-                                SN = index++,
+                                SN = index--,
                                 StrategyID = t.StrategyId,
-                                Price = t.Price.ToString("0.00"),
+                                Price = t.Price.ToString("0.000"),
                                 t.Amount,
                                 Time = t.Time.ToString("HH:mm:ss"),
                                 t.Type,
-                                Profit = t.Profit.ToString("0.00")
+                                Profit = t.Profit.ToString("0.000")
                             })
                     .ToList();
 
-            index = 0;
+            index = _accounts["huobi"].Trades.Count;
             gdvHuobiTrades.DataSource = _accounts["huobi"].Trades.OrderByDescending(t => t.Time).Select(
                 t =>
                     new
                     {
-                        SN = index++,
+                        SN = index--,
                         StrategyID = t.StrategyId,
-                        Price = t.Price.ToString("0.00"),
+                        Price = t.Price.ToString("0.000"),
                         t.Amount,
                         Time = t.Time.ToString("HH:mm:ss"),
                         t.Type,
-                        Profit = t.Profit.ToString("0.00")
+                        Profit = t.Profit.ToString("0.000")
                     }).ToList();
         }
     }

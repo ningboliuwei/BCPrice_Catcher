@@ -136,7 +136,7 @@
             // 
             // nudStartPrice
             // 
-            this.nudStartPrice.DecimalPlaces = 2;
+            this.nudStartPrice.DecimalPlaces = 3;
             this.nudStartPrice.Location = new System.Drawing.Point(84, 3);
             this.nudStartPrice.Maximum = new decimal(new int[] {
             100000,
@@ -170,7 +170,7 @@
             1,
             0,
             0,
-            131072});
+            262144});
             this.nudTradeAmount.Location = new System.Drawing.Point(334, 3);
             this.nudTradeAmount.Maximum = new decimal(new int[] {
             10000,

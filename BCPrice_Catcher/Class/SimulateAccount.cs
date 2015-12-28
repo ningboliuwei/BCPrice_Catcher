@@ -16,48 +16,54 @@ namespace BCPrice_Catcher.Class
 
         public bool Sell(int strategyId, double price, double amount)
         {
-            if (CoinAmount >= amount)
+            lock (this)
             {
-                double previousBalance = Balance;
-                CoinAmount -= amount;
-                Balance += price * amount;
-
-                Trades.Add(new SimulateTradeInfo
+                if (CoinAmount >= amount)
                 {
-                    Type = "Buy",
-                    Price = price,
-                    StrategyId = strategyId,
-                    Amount = amount,
-                    Time = DateTime.Now,
-                    Profit = Balance - previousBalance
-                });
-                //if sell success
-                return true;
+                    double previousBalance = Balance;
+                    CoinAmount -= amount;
+                    Balance += price * amount;
+
+                    Trades.Add(new SimulateTradeInfo
+                    {
+                        Type = "Buy",
+                        Price = price,
+                        StrategyId = strategyId + 1,
+                        Amount = amount,
+                        Time = DateTime.Now,
+                        Profit = Balance - previousBalance
+                    });
+                    //if sell success
+                    return true;
+                }
+                //if fail (coin is not enough)
+                return false;
             }
-            //if fail (coin is not enough)
-            return false;
         }
 
         public bool Buy(int strategyId, double price, double amount)
         {
-            if (Balance >= price * amount)
+            lock (this)
             {
-                double previousBalance = Balance;
-                CoinAmount += amount;
-                Balance -= price * amount;
-                Trades.Add(new SimulateTradeInfo
+                if (Balance >= price * amount)
                 {
-                    Type = "Sell",
-                    Price = price,
-                    StrategyId = strategyId,
-                    Amount = amount,
-                    Time = DateTime.Now,
-                    Profit = Balance - previousBalance
-                });
+                    double previousBalance = Balance;
+                    CoinAmount += amount;
+                    Balance -= price * amount;
+                    Trades.Add(new SimulateTradeInfo
+                    {
+                        Type = "Sell",
+                        Price = price,
+                        StrategyId = strategyId + 1,
+                        Amount = amount,
+                        Time = DateTime.Now,
+                        Profit = Balance - previousBalance
+                    });
 
-                return true;
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
     }
 }
