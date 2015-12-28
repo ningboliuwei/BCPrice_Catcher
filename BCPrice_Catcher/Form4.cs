@@ -224,9 +224,9 @@ namespace BCPrice_Catcher
                 new NumericUpDown
                 {
                     Name = $"{ControlName.nudTradeLagThreshold}{strategyId}",
-                    Value = 1,
+                    Value = 0,
                     Maximum = int.MaxValue,
-                    Minimum = 1,
+                    Minimum = 0,
                     DecimalPlaces = 0,
                     Increment = 1,
                     Dock = DockStyle.Fill,
@@ -238,9 +238,9 @@ namespace BCPrice_Catcher
                 new NumericUpDown
                 {
                     Name = $"{ControlName.nudTradeCountThreshold}{strategyId}",
-                    Value = 1,
+                    Value = 0,
                     Maximum = int.MaxValue,
-                    Minimum = 1,
+                    Minimum = 0,
                     DecimalPlaces = 0,
                     Increment = 1,
                     Dock = DockStyle.Fill,
