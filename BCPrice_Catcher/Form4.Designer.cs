@@ -165,6 +165,12 @@
             // 
             // nudTradeAmount
             // 
+            this.nudTradeAmount.DecimalPlaces = 4;
+            this.nudTradeAmount.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.nudTradeAmount.Location = new System.Drawing.Point(334, 3);
             this.nudTradeAmount.Maximum = new decimal(new int[] {
             10000,
@@ -172,7 +178,7 @@
             0,
             0});
             this.nudTradeAmount.Name = "nudTradeAmount";
-            this.nudTradeAmount.Size = new System.Drawing.Size(100, 35);
+            this.nudTradeAmount.Size = new System.Drawing.Size(150, 35);
             this.nudTradeAmount.TabIndex = 6;
             this.nudTradeAmount.Value = new decimal(new int[] {
             10,
