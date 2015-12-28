@@ -36,6 +36,8 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudTradeAmount = new System.Windows.Forms.NumericUpDown();
             this.lblBtccPrice = new System.Windows.Forms.Label();
             this.lblHuobiAccount = new System.Windows.Forms.Label();
             this.lblHuobiPrice = new System.Windows.Forms.Label();
@@ -48,17 +50,15 @@
             this.gdvHuobiTrades = new System.Windows.Forms.DataGridView();
             this.gdvBtccTrades = new System.Windows.Forms.DataGridView();
             this.lblTotalProfits = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nudTradeAmount = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTradeAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelTrades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gdvHuobiTrades)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvBtccTrades)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTradeAmount)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -148,6 +148,34 @@
             this.nudStartPrice.TabIndex = 6;
             this.nudStartPrice.Value = new decimal(new int[] {
             3,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(190, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 41);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "每次交易个数";
+            // 
+            // nudTradeAmount
+            // 
+            this.nudTradeAmount.Location = new System.Drawing.Point(334, 3);
+            this.nudTradeAmount.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudTradeAmount.Name = "nudTradeAmount";
+            this.nudTradeAmount.Size = new System.Drawing.Size(100, 35);
+            this.nudTradeAmount.TabIndex = 6;
+            this.nudTradeAmount.Value = new decimal(new int[] {
+            10,
             0,
             0,
             0});
@@ -277,7 +305,7 @@
             // tableLayoutPanelStrategies
             // 
             this.tableLayoutPanelStrategies.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLayoutPanelStrategies.ColumnCount = 13;
+            this.tableLayoutPanelStrategies.ColumnCount = 14;
             this.tableLayoutPanelMain.SetColumnSpan(this.tableLayoutPanelStrategies, 3);
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -292,7 +320,7 @@
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(3, 597);
             this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
@@ -375,34 +403,6 @@
             this.lblTotalProfits.Text = "总利润";
             this.lblTotalProfits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(190, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 41);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "每次交易个数";
-            // 
-            // nudTradeAmount
-            // 
-            this.nudTradeAmount.Location = new System.Drawing.Point(334, 3);
-            this.nudTradeAmount.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.nudTradeAmount.Name = "nudTradeAmount";
-            this.nudTradeAmount.Size = new System.Drawing.Size(100, 35);
-            this.nudTradeAmount.TabIndex = 6;
-            this.nudTradeAmount.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -426,13 +426,13 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTradeAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelMain.PerformLayout();
             this.tableLayoutPanelTrades.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gdvHuobiTrades)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvBtccTrades)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTradeAmount)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -33,7 +33,8 @@ namespace BCPrice_Catcher
 
         private static string[] Titles =
         {
-            "策略ID", "交易阙值", "交易阙值增量", "交易阙值系数", "回归阙值", "回归阙值增量", "回归阙值系数", "交易延时阙值", "交易次数阙值", "总交易次数阙值", "周期"
+            "策略ID", "交易阙值更新时间", "交易阙值", "交易阙值增量", "交易阙值系数", "回归阙值", "回归阙值增量", "回归阙值系数", "交易延时阙值", "交易次数阙值", "总交易次数阙值",
+            "周期"
         };
 
         //额外有两列放按钮
@@ -42,6 +43,7 @@ namespace BCPrice_Catcher
         private enum ControlName
         {
             lblStrategyID = 0,
+            lblTradeThresholdLastUpdated,
             lblTradeThreshold,
             nudTradeThresholdIncrement,
             nudTradeThresholdCoefficient,
@@ -110,7 +112,18 @@ namespace BCPrice_Catcher
                     TextAlign = ContentAlignment.MiddleCenter
                 }, columnPosition++, rowPosition);
 
-            //启动阙值
+            //交易阙值更新时间
+            tableLayoutPanelStrategies.Controls.Add(
+                new Label
+                {
+                    Name = $"{ControlName.lblTradeThresholdLastUpdated}{strategyId}",
+                    Text = (rowPosition).ToString(),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
+                }, columnPosition++, rowPosition);
+
+
+            //交易阙值
             tableLayoutPanelStrategies.Controls.Add(
                 new Label
                 {
@@ -307,7 +320,8 @@ namespace BCPrice_Catcher
             Strategy strategy = new Strategy()
             {
                 Id = strategyId,
-                InputParameters = GetStrategyParameters(strategyId)
+                InputParameters = GetStrategyParameters(strategyId),
+                PreviousStrategy = strategyId == 0 ? null : _strategies[strategyId - 1]
             };
             _strategies.Add(strategy);
 
@@ -527,7 +541,11 @@ namespace BCPrice_Catcher
                 strategy.RegressionThreshold.ToString("0.00");
 
             (tableLayoutPanelStrategies.Controls[$"{ControlName.lblStrategyID}{strategy.Id}"] as Label).Text =
-                strategy.Countdown.ToString();
+                (strategy.Id + 1).ToString();
+
+            (tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThresholdLastUpdated}{strategy.Id}"] as Label)
+                .Text =
+                strategy.TradeThresholdLastUpdated.ToString("HH:mm:ss");
         }
 
         private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)

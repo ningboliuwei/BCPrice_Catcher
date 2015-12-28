@@ -29,36 +29,36 @@ namespace BCPrice_Catcher.Class
         public double RealtimeTradeThreshold { get; set; }
         public double RegressionThreshold { get; set; }
         public double Range { get; set; }
-        public int Countdown { get; set; }
         public int TradeCount { get; set; }
+        public DateTime TradeLastTime { get; set; }
+
+        public DateTime TradeThresholdLastUpdated { get; set; } =
+            Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+        public Strategy PreviousStrategy { get; set; }
+
 
         public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
 
         public void Update(StrategyInputParameters parameters)
         {
-            if (Countdown != 0)
-            {
-                Countdown--;
-            }
-            else
-            {
-                Countdown = InputParameters.Peroid - 1;
-            }
-
             InputParameters = parameters;
             RealtimeTradeThreshold = parameters.BaseThreshold * parameters.TradeThresholdCoefficient +
                                      parameters.TradeThresholdIncrement;
 
-            if (Countdown == 0)
+            DateTime currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            if ((currentTime - TradeThresholdLastUpdated).TotalSeconds >= InputParameters.Peroid)
             {
                 TradeThreshold = RealtimeTradeThreshold;
+                TradeThresholdLastUpdated = currentTime;
             }
 
             RegressionThreshold = RealtimeTradeThreshold * parameters.RegressionThresholdCoefficient +
                                   parameters.RegressionThresholdIncrement;
         }
 
-        public void TryTrade(Dictionary<string, SimulateAccount> accounts, Dictionary<string, double> prices, int tradeAmount)
+        public void TryTrade(Dictionary<string, SimulateAccount> accounts, Dictionary<string, double> prices,
+            int tradeAmount)
         {
             double differPrice = InputParameters.DifferPrice;
 
@@ -71,7 +71,13 @@ namespace BCPrice_Catcher.Class
 
             bool sellSucceeded = false;
             bool buySucceeded = false;
-            if (differPrice > InputParameters.StartPrice && TradeCount < InputParameters.TotalTradeCountLimit)
+
+            DateTime currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+
+            if (differPrice > InputParameters.StartPrice && TradeCount < InputParameters.TotalTradeCountLimit
+                && (Id == 0 || (PreviousStrategy?.TradeCount > PreviousStrategy?.InputParameters.TradeCountThreshold))
+                && (Id == 0 || (currentTime > PreviousStrategy?.TradeLastTime.AddSeconds(InputParameters.TradeLagThreshold))))
             {
                 if (differPrice > TradeThreshold)
                 {
@@ -116,6 +122,7 @@ namespace BCPrice_Catcher.Class
                 if (sellSucceeded || buySucceeded)
                 {
                     TradeCount++;
+                    TradeThresholdLastUpdated = currentTime;
                 }
             }
         }
