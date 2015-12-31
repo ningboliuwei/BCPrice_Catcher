@@ -45,7 +45,7 @@ namespace BCPrice_Catcher
             InitializeFetchers();
         }
 
-        private async void InitializeFetchers()
+        private void InitializeFetchers()
         {
             #region 添加 btcc_ticker
 

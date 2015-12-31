@@ -50,6 +50,9 @@
             this.gdvHuobiTrades = new System.Windows.Forms.DataGridView();
             this.gdvBtccTrades = new System.Windows.Forms.DataGridView();
             this.lblTotalProfits = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
@@ -59,6 +62,7 @@
             this.tableLayoutPanelTrades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gdvHuobiTrades)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvBtccTrades)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -89,7 +93,8 @@
             // 
             this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAllStart.Location = new System.Drawing.Point(335, 3);
+            this.btnAllStart.Location = new System.Drawing.Point(334, 2);
+            this.btnAllStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAllStart.Name = "btnAllStart";
             this.btnAllStart.Size = new System.Drawing.Size(160, 54);
             this.btnAllStart.TabIndex = 8;
@@ -101,7 +106,8 @@
             // 
             this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAllStop.Location = new System.Drawing.Point(501, 3);
+            this.btnAllStop.Location = new System.Drawing.Point(500, 2);
+            this.btnAllStop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAllStop.Name = "btnAllStop";
             this.btnAllStop.Size = new System.Drawing.Size(160, 54);
             this.btnAllStop.TabIndex = 8;
@@ -128,16 +134,18 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(2, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 41);
+            this.label2.Size = new System.Drawing.Size(75, 39);
             this.label2.TabIndex = 5;
             this.label2.Text = "启动价";
             // 
             // nudStartPrice
             // 
             this.nudStartPrice.DecimalPlaces = 3;
-            this.nudStartPrice.Location = new System.Drawing.Point(84, 3);
+            this.nudStartPrice.Location = new System.Drawing.Point(81, 2);
+            this.nudStartPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nudStartPrice.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -157,9 +165,10 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(190, 0);
+            this.label1.Location = new System.Drawing.Point(185, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 41);
+            this.label1.Size = new System.Drawing.Size(138, 39);
             this.label1.TabIndex = 5;
             this.label1.Text = "每次交易个数";
             // 
@@ -171,7 +180,8 @@
             0,
             0,
             262144});
-            this.nudTradeAmount.Location = new System.Drawing.Point(334, 3);
+            this.nudTradeAmount.Location = new System.Drawing.Point(327, 2);
+            this.nudTradeAmount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nudTradeAmount.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -295,7 +305,7 @@
             this.tableLayoutPanelMain.Controls.Add(this.lblTotalProfits, 1, 1);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 32);
             this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 5;
@@ -305,30 +315,33 @@
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(1657, 703);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(1657, 671);
             this.tableLayoutPanelMain.TabIndex = 0;
             // 
             // tableLayoutPanelStrategies
             // 
             this.tableLayoutPanelStrategies.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLayoutPanelStrategies.ColumnCount = 14;
+            this.tableLayoutPanelStrategies.ColumnCount = 15;
             this.tableLayoutPanelMain.SetColumnSpan(this.tableLayoutPanelStrategies, 3);
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(3, 597);
+            this.tableLayoutPanelStrategies.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(2, 596);
+            this.tableLayoutPanelStrategies.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
             this.tableLayoutPanelStrategies.RowCount = 17;
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -348,7 +361,7 @@
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1651, 114);
+            this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1653, 116);
             this.tableLayoutPanelStrategies.TabIndex = 9;
             // 
             // tableLayoutPanelTrades
@@ -375,11 +388,11 @@
             this.gdvHuobiTrades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gdvHuobiTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gdvHuobiTrades.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gdvHuobiTrades.Location = new System.Drawing.Point(831, 2);
-            this.gdvHuobiTrades.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gdvHuobiTrades.Location = new System.Drawing.Point(830, 2);
+            this.gdvHuobiTrades.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gdvHuobiTrades.Name = "gdvHuobiTrades";
             this.gdvHuobiTrades.RowTemplate.Height = 30;
-            this.gdvHuobiTrades.Size = new System.Drawing.Size(823, 390);
+            this.gdvHuobiTrades.Size = new System.Drawing.Size(825, 390);
             this.gdvHuobiTrades.TabIndex = 19;
             // 
             // gdvBtccTrades
@@ -387,11 +400,11 @@
             this.gdvBtccTrades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gdvBtccTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gdvBtccTrades.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gdvBtccTrades.Location = new System.Drawing.Point(3, 2);
-            this.gdvBtccTrades.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gdvBtccTrades.Location = new System.Drawing.Point(2, 2);
+            this.gdvBtccTrades.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gdvBtccTrades.Name = "gdvBtccTrades";
             this.gdvBtccTrades.RowTemplate.Height = 30;
-            this.gdvBtccTrades.Size = new System.Drawing.Size(822, 390);
+            this.gdvBtccTrades.Size = new System.Drawing.Size(824, 390);
             this.gdvBtccTrades.TabIndex = 18;
             // 
             // lblTotalProfits
@@ -409,15 +422,43 @@
             this.lblTotalProfits.Text = "总利润";
             this.lblTotalProfits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.功能FToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1657, 32);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // 功能FToolStripMenuItem
+            // 
+            this.功能FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SettingsToolStripMenuItem});
+            this.功能FToolStripMenuItem.Name = "功能FToolStripMenuItem";
+            this.功能FToolStripMenuItem.Size = new System.Drawing.Size(80, 28);
+            this.功能FToolStripMenuItem.Text = "功能(&F)";
+            // 
+            // SettingsToolStripMenuItem
+            // 
+            this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(153, 30);
+            this.SettingsToolStripMenuItem.Text = "设置(&C)";
+            this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1657, 703);
             this.Controls.Add(this.tableLayoutPanelMain);
+            this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form4";
             this.Text = "Form4";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -439,7 +480,10 @@
             this.tableLayoutPanelTrades.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gdvHuobiTrades)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvBtccTrades)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -465,5 +509,8 @@
         private System.Windows.Forms.Label lblTotalProfits;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nudTradeAmount;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 功能FToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
     }
 }

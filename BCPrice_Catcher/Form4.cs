@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +20,8 @@ namespace BCPrice_Catcher
         private const int StrategyMaxQuantity = 9;
         private const int StrategyMinQuantity = 1;
         private const double InitialPecentage = 0.4d;
+        private const string ButtonStartText = "开始";
+        private const string ButtonStopText = "停止";
 
         private Dictionary<string, SimulateAccount> _accounts = new Dictionary<string, SimulateAccount>()
         {
@@ -53,8 +56,9 @@ namespace BCPrice_Catcher
 
         private static string[] Titles =
         {
-            "策略ID", "交易阙值更新时间", "交易阙值", "交易阙值增量", "交易阙值系数", "回归阙值", "回归阙值增量", "回归阙值系数", "交易延时阙值", "交易次数阙值", "总交易次数阙值",
-            "周期"
+            "策略ID", "交易阙值\n更新时间", "交易阙值", "交易阙值\n增量", "交易阙值\n系数", "回归阙值", "回归阙值\n增量", "回归阙值\n系数", "交易延时\n阙值", "交易次数\n阙值",
+            "总交易次数\n阙值",
+            "周期", "交易数量"
         };
 
         //额外有两列放按钮
@@ -74,8 +78,8 @@ namespace BCPrice_Catcher
             nudTradeCountThreshold,
             nudTotalTradeCountLimit,
             nudPeriod,
-            btnStartStrategy,
-            btnStopStrategy
+            lblTotalTradeCount,
+            btnStartStopStrategy
         }
 
 
@@ -92,7 +96,9 @@ namespace BCPrice_Catcher
                     new Label
                     {
                         Text = Titles[i],
-                        TextAlign = ContentAlignment.MiddleCenter
+                        TextAlign = ContentAlignment.TopCenter,
+                        AutoSize = false,
+                        Dock = DockStyle.Fill,
                     }, i, 0);
             }
 
@@ -164,9 +170,9 @@ namespace BCPrice_Catcher
                     Dock = DockStyle.Fill,
                     DecimalPlaces = 3,
                     Increment = 0.001M,
-                    Width = 50
+                    Width = 30
                 }, columnPosition++, rowPosition);
-            //启动阙值系数
+            //30
             tableLayoutPanelStrategies.Controls.Add(
                 new NumericUpDown
                 {
@@ -177,7 +183,7 @@ namespace BCPrice_Catcher
                     DecimalPlaces = 3,
                     Increment = 0.001M,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 30
                 }, columnPosition++, rowPosition);
 
 
@@ -202,7 +208,7 @@ namespace BCPrice_Catcher
                     Minimum = int.MinValue,
                     Increment = 0.001M,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 30
                 }, columnPosition++, rowPosition);
 
             //回归阙值系数
@@ -216,7 +222,7 @@ namespace BCPrice_Catcher
                     DecimalPlaces = 3,
                     Increment = 0.001M,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 30
                 }, columnPosition++, rowPosition);
 
             //最小时间间隔
@@ -230,7 +236,7 @@ namespace BCPrice_Catcher
                     DecimalPlaces = 0,
                     Increment = 1,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 30
                 }, columnPosition++, rowPosition);
 
             //
@@ -244,7 +250,7 @@ namespace BCPrice_Catcher
                     DecimalPlaces = 0,
                     Increment = 1,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 30
                 }, columnPosition++, rowPosition);
 
             //策略成交总数量限制
@@ -258,7 +264,7 @@ namespace BCPrice_Catcher
                     DecimalPlaces = 0,
                     Increment = 1,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 40
                 }, columnPosition++, rowPosition);
 
             //周期
@@ -272,49 +278,37 @@ namespace BCPrice_Catcher
                     DecimalPlaces = 0,
                     Increment = 1,
                     Dock = DockStyle.Fill,
-                    Width = 50
+                    Width = 40
                 }, columnPosition++, rowPosition);
+
+            //交易数量
+            tableLayoutPanelStrategies.Controls.Add(
+                new Label
+                {
+                    Name = $"{ControlName.lblTotalTradeCount}{strategyId}",
+                    Text = (rowPosition).ToString(),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
+                }, columnPosition++, rowPosition);
+
 
             //开始按钮
             Button btnStart = new Button
             {
-                Name = $"{ControlName.btnStartStrategy}{strategyId}",
+                Name = $"{ControlName.btnStartStopStrategy}{strategyId}",
                 Text = "开始",
                 BackColor = Color.LightGreen,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
             };
             btnStart.Tag = strategyId;
-            btnStart.Click += btnStartStrategy_Click;
+            btnStart.Click += btnStartStopStrategy_Click;
 
             tableLayoutPanelStrategies.Controls.Add(btnStart, columnPosition++, rowPosition);
-
-
-            //结束按钮
-
-            Button btnStop = new Button()
-            {
-                Name = $"{ControlName.btnStopStrategy}{strategyId}",
-                Text = "停止",
-                BackColor = Color.LightCoral,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Fill
-            };
-            btnStop.Tag = strategyId;
-            btnStop.Click += btnStopStrategy_Click;
-            tableLayoutPanelStrategies.Controls.Add(btnStop, columnPosition++, rowPosition);
-
-            //                foreach (var c in tableLayoutPanelStrategies.Controls)
-            //                {
-            //                    ((Control) c).Dock = DockStyle.Fill;
-            //                    ((Control) c).Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            //                }
         }
 
         private void btnStopStrategy_Click(object sender, EventArgs e)
         {
-            int strategyId = Convert.ToInt32((sender as Button).Tag);
-            StopStrategy(strategyId);
         }
 
         private void StopStrategy(int strategyId)
@@ -322,10 +316,24 @@ namespace BCPrice_Catcher
             _strategyTimerList.Timers[$"strategy_timer{strategyId}"].Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        private void btnStartStrategy_Click(object sender, EventArgs e)
+        private void btnStartStopStrategy_Click(object sender, EventArgs e)
         {
             int strategyId = Convert.ToInt32((sender as Button).Tag);
-            StartStrategy(strategyId);
+
+            Button button = sender as Button;
+
+            if (button.Text == ButtonStartText)
+            {
+                StartStrategy(strategyId);
+                (sender as Button).BackColor = Color.LightCoral;
+                (sender as Button).Text = ButtonStopText;
+            }
+            else
+            {
+                StopStrategy(strategyId);
+                (sender as Button).BackColor = Color.LightGreen;
+                (sender as Button).Text = ButtonStartText;
+            }
         }
 
         private void StartStrategy(int strategyId)
@@ -600,9 +608,12 @@ namespace BCPrice_Catcher
 
         private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)
         {
-            string s1 =
-                (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
-                    NumericUpDown).Text;
+            const string floatRegex = @"^(-?\d+)(\.\d+)?$";
+            const string integerRegex = @"^(\+|-)?\d+$";
+
+            string s1 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
+                NumericUpDown).Text;
+
 
             string s2 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdCoefficient}{strategyId}"]
                 as
@@ -629,14 +640,14 @@ namespace BCPrice_Catcher
 
             var parameters = new Strategy.StrategyInputParameters
             {
-                TradeThresholdIncrement = s1.Length != 0 ? Convert.ToDouble(s1) : 0,
-                TradeThresholdCoefficient = s2.Length != 0 ? Convert.ToDouble(s2) : 0,
-                TradeLagThreshold = s3.Length != 0 ? Convert.ToInt32(s3) : 0,
-                RegressionThresholdIncrement = s4.Length != 0 ? Convert.ToDouble(s4) : 0,
-                RegressionThresholdCoefficient = s5.Length != 0 ? Convert.ToDouble(s5) : 0,
-                StartPrice = s6.Length != 0 ? Convert.ToDouble(s6) : 3,
-                Peroid = s7.Length != 0 ? Convert.ToInt32(s7) : 1,
-                TotalTradeCountLimit = s8.Length != 0 ? Convert.ToInt32(s8) : 99999999,
+                TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
+                TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
+                TradeLagThreshold = Regex.IsMatch(s3, integerRegex) ? Convert.ToInt32(s3) : 0,
+                RegressionThresholdIncrement = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
+                RegressionThresholdCoefficient = Regex.IsMatch(s5, floatRegex) ? Convert.ToDouble(s5) : 0,
+                StartPrice = Regex.IsMatch(s6, floatRegex) ? Convert.ToDouble(s6) : 3,
+                Peroid = Regex.IsMatch(s7, integerRegex) ? Convert.ToInt32(s7) : 1,
+                TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 99999999,
             };
 
 
@@ -658,17 +669,32 @@ namespace BCPrice_Catcher
 
         private void btnAllStart_Click(object sender, EventArgs e)
         {
-            foreach (var s in _strategies)
+//            foreach (var s in _strategies)
+//            {
+//                StartStrategy(s.Id);
+//            }
+
+            for (int i = 0; i < _strategies.Count; i++)
             {
-                StartStrategy(s.Id);
+                var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
+
+                if (button.Text == ButtonStartText)
+                {
+                    btnStartStopStrategy_Click(button, null);
+                }
             }
         }
 
         private void btnAllStop_Click(object sender, EventArgs e)
         {
-            foreach (var s in _strategies)
+            for (int i = 0; i < _strategies.Count; i++)
             {
-                StopStrategy(s.Id);
+                var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
+
+                if (button.Text == ButtonStopText)
+                {
+                    btnStartStopStrategy_Click(button, null);
+                }
             }
         }
 
@@ -704,6 +730,12 @@ namespace BCPrice_Catcher
                         t.Type,
                         Profit = t.Profit.ToString("0.000")
                     }).ToList();
+        }
+
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmConfig frm = new frmConfig();
+            frm.ShowDialog();
         }
     }
 }

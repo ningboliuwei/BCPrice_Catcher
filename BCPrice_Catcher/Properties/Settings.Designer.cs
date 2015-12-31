@@ -22,5 +22,53 @@ namespace BCPrice_Catcher.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BtccAccessKey {
+            get {
+                return ((string)(this["BtccAccessKey"]));
+            }
+            set {
+                this["BtccAccessKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BtccSecretKey {
+            get {
+                return ((string)(this["BtccSecretKey"]));
+            }
+            set {
+                this["BtccSecretKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HuobiAccessKey {
+            get {
+                return ((string)(this["HuobiAccessKey"]));
+            }
+            set {
+                this["HuobiAccessKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HuobiSecretKey {
+            get {
+                return ((string)(this["HuobiSecretKey"]));
+            }
+            set {
+                this["HuobiSecretKey"] = value;
+            }
+        }
     }
 }

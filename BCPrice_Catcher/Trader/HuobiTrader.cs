@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Model;
+using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
 
 namespace BCPrice_Catcher.Trader
@@ -15,8 +16,8 @@ namespace BCPrice_Catcher.Trader
     {
         private string _headerContent = "application/x-www-form-urlencoded";
         private string postUrl = "https://api.huobi.com/apiv3";
-        private const string AccessKey = "48a8ded8-963359c3-1aaa1237-51909";
-        private const string SecretKey = "57c362c4-2462acb0-23369fb2-469b8";
+        private static readonly string _accessKey = Settings.Default.BtccAccessKey;
+        private static readonly string _secretKey =Settings.Default.BtccSecretKey;
         private readonly WebClient _client = new WebClient();
         private const string Market = "cny";
         private const string TradePassword = "password";
@@ -32,8 +33,8 @@ namespace BCPrice_Catcher.Trader
 
             public HuobiParasTextBuilder(string method)
             {
-                Parameters.Add("access_key", AccessKey);
-                Parameters.Add("secret_key", SecretKey);
+                Parameters.Add("access_key", _accessKey);
+                Parameters.Add("secret_key", _secretKey);
                 Parameters.Add("created", Convertor.ConvertDateTimeToJsonTimeStamp(DateTime.Now).ToString());
                 Parameters.Add("method", method);
             }
@@ -112,6 +113,21 @@ namespace BCPrice_Catcher.Trader
             return DoMethod(parasText);
         }
 
+        public override string Sell(double price, double amount, CoinType coinType)
+        {
+            var builder = new HuobiParasTextBuilder("sell_market");
+
+            builder.Parameters.Add("market", Market);
+            builder.Parameters.Add("amount", amount.ToString());
+            builder.Parameters.Add("price", price.ToString());
+            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            builder.Parameters.Add("trade_password", TradePassword);
+
+            string parasText =
+                builder.GetParasText(new string[] {"amount", "coin_type", "sell"});
+            return DoMethod(parasText);
+        }
+
         /// <summary>
         /// 获取所有正在进行的委托
         /// </summary>
@@ -144,7 +160,17 @@ namespace BCPrice_Catcher.Trader
 
         public override string Buy(double price, double amount, CoinType coinType)
         {
-            throw new NotImplementedException();
+            var builder = new HuobiParasTextBuilder("buy");
+
+            builder.Parameters.Add("market", Market);
+            builder.Parameters.Add("amount", amount.ToString());
+            builder.Parameters.Add("price", price.ToString());
+            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            builder.Parameters.Add("trade_password", TradePassword);
+
+            string parasText =
+                builder.GetParasText(new string[] {"amount", "coin_type", "price"});
+            return DoMethod(parasText);
         }
 
         /// <summary>

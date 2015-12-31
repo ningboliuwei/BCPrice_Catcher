@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Model;
+using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
 using Quobject.SocketIoClientDotNet.Client;
@@ -20,8 +21,8 @@ namespace BCPrice_Catcher
         private readonly Socket _socket = IO.Socket(Url);
         private string _dataText = "";
 
-        private const string BtcSocketAccessKey = "000c2d29-2e8a-4d17-b493-dc13a86543d1";
-        private const string BtcSocketSecretKey = "62464917-3acf-4fa1-bc02-611e0c833c68";
+        private readonly string BtcSocketAccessKey = Settings.Default.BtccAccessKey;
+        private readonly string BtcSocketSecretKey = Settings.Default.BtccSecretKey;
 
 
         public string Usage { get; set; }
@@ -97,7 +98,7 @@ namespace BCPrice_Catcher
             return null;
         }
 
-        public override List<TradeInfo> GetTrades()
+        public override List<FetchedTradeInfo> GetTrades()
         {
             throw new NotImplementedException();
         }

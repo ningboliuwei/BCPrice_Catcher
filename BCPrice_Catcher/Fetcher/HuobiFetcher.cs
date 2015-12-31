@@ -90,7 +90,7 @@ namespace BCPrice_Catcher
             }
         }
 
-        public override List<TradeInfo> GetTrades()
+        public override List<FetchedTradeInfo> GetTrades()
         {
             using (WebClient client = new WebClient())
             {
@@ -100,7 +100,7 @@ namespace BCPrice_Catcher
                     JObject o = JObject.Parse(dataText);
 
                     return (from c in o["trades"].Children()
-                        select new TradeInfo()
+                        select new FetchedTradeInfo()
                         {
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
