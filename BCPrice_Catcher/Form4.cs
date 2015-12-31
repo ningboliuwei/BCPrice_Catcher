@@ -604,6 +604,9 @@ namespace BCPrice_Catcher
             (tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThresholdLastUpdated}{strategy.Id}"] as Label)
                 .Text =
                 strategy.TradeThresholdLastUpdated.ToString("HH:mm:ss");
+            (tableLayoutPanelStrategies.Controls[$"{ControlName.lblTotalTradeCount}{strategy.Id}"] as Label)
+                .Text =
+                strategy.TradeCount.ToString();
         }
 
         private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)
