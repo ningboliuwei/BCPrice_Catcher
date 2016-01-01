@@ -94,7 +94,7 @@
             this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnAllStart.Location = new System.Drawing.Point(334, 2);
-            this.btnAllStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAllStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnAllStart.Name = "btnAllStart";
             this.btnAllStart.Size = new System.Drawing.Size(160, 54);
             this.btnAllStart.TabIndex = 8;
@@ -107,7 +107,7 @@
             this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnAllStop.Location = new System.Drawing.Point(500, 2);
-            this.btnAllStop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAllStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnAllStop.Name = "btnAllStop";
             this.btnAllStop.Size = new System.Drawing.Size(160, 54);
             this.btnAllStop.TabIndex = 8;
@@ -145,7 +145,7 @@
             // 
             this.nudStartPrice.DecimalPlaces = 3;
             this.nudStartPrice.Location = new System.Drawing.Point(81, 2);
-            this.nudStartPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudStartPrice.Margin = new System.Windows.Forms.Padding(2);
             this.nudStartPrice.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -181,14 +181,14 @@
             0,
             262144});
             this.nudTradeAmount.Location = new System.Drawing.Point(327, 2);
-            this.nudTradeAmount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudTradeAmount.Margin = new System.Windows.Forms.Padding(2);
             this.nudTradeAmount.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.nudTradeAmount.Name = "nudTradeAmount";
-            this.nudTradeAmount.Size = new System.Drawing.Size(150, 35);
+            this.nudTradeAmount.Size = new System.Drawing.Size(120, 35);
             this.nudTradeAmount.TabIndex = 6;
             this.nudTradeAmount.Value = new decimal(new int[] {
             10,
@@ -341,7 +341,7 @@
             this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelStrategies.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(2, 596);
-            this.tableLayoutPanelStrategies.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanelStrategies.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
             this.tableLayoutPanelStrategies.RowCount = 17;
             this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -389,7 +389,7 @@
             this.gdvHuobiTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gdvHuobiTrades.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gdvHuobiTrades.Location = new System.Drawing.Point(830, 2);
-            this.gdvHuobiTrades.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gdvHuobiTrades.Margin = new System.Windows.Forms.Padding(2);
             this.gdvHuobiTrades.Name = "gdvHuobiTrades";
             this.gdvHuobiTrades.RowTemplate.Height = 30;
             this.gdvHuobiTrades.Size = new System.Drawing.Size(825, 390);
@@ -401,7 +401,7 @@
             this.gdvBtccTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gdvBtccTrades.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gdvBtccTrades.Location = new System.Drawing.Point(2, 2);
-            this.gdvBtccTrades.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gdvBtccTrades.Margin = new System.Windows.Forms.Padding(2);
             this.gdvBtccTrades.Name = "gdvBtccTrades";
             this.gdvBtccTrades.RowTemplate.Height = 30;
             this.gdvBtccTrades.Size = new System.Drawing.Size(824, 390);
@@ -458,7 +458,7 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form4";
             this.Text = "Form4";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

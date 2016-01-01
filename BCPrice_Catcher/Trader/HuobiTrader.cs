@@ -16,8 +16,8 @@ namespace BCPrice_Catcher.Trader
     {
         private string _headerContent = "application/x-www-form-urlencoded";
         private string postUrl = "https://api.huobi.com/apiv3";
-        private static readonly string _accessKey = Settings.Default.BtccAccessKey;
-        private static readonly string _secretKey =Settings.Default.BtccSecretKey;
+        private static readonly string _accessKey = Settings.Default.HuobiAccessKey;
+        private static readonly string _secretKey =Settings.Default.HuobiSecretKey;
         private readonly WebClient _client = new WebClient();
         private const string Market = "cny";
         private const string TradePassword = "password";

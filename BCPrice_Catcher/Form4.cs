@@ -135,7 +135,7 @@ namespace BCPrice_Catcher
                     Name = $"{ControlName.lblStrategyID}{strategyId}",
                     Text = (rowPosition).ToString(),
                     Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    TextAlign = ContentAlignment.MiddleCenter,
                 }, columnPosition++, rowPosition);
 
             //交易阙值更新时间
@@ -145,7 +145,8 @@ namespace BCPrice_Catcher
                     Name = $"{ControlName.lblTradeThresholdLastUpdated}{strategyId}",
                     Text = (rowPosition).ToString(),
                     Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
                 }, columnPosition++, rowPosition);
 
 
@@ -156,7 +157,8 @@ namespace BCPrice_Catcher
                     Name = $"{ControlName.lblTradeThreshold}{strategyId}",
                     Text = (rowPosition + 1).ToString(),
                     Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
                 }, columnPosition++,
                 rowPosition);
             //启动阙值增量
@@ -194,7 +196,8 @@ namespace BCPrice_Catcher
                     Name = $"{ControlName.lblRegressionThreshold}{strategyId}",
                     Text = "0",
                     Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
                 }, columnPosition++,
                 rowPosition);
 
@@ -288,7 +291,8 @@ namespace BCPrice_Catcher
                     Name = $"{ControlName.lblTotalTradeCount}{strategyId}",
                     Text = (rowPosition).ToString(),
                     Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
                 }, columnPosition++, rowPosition);
 
 
@@ -397,6 +401,14 @@ namespace BCPrice_Catcher
             tableLayoutPanelStrategies.Controls["btnAddStrategy"].Click += CheckControlStatus;
             tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Click += btnRemoveStrategy_Click;
             tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Click += CheckControlStatus;
+
+            //set gridview font size
+            gdvBtccTrades.ColumnHeadersDefaultCellStyle.Font = new Font(gdvBtccTrades.DefaultCellStyle.Font.FontFamily,
+                9);
+            gdvBtccTrades.DefaultCellStyle.Font = new Font(gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
+            gdvHuobiTrades.ColumnHeadersDefaultCellStyle.Font = new Font(
+                gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
+            gdvHuobiTrades.DefaultCellStyle.Font = new Font(gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
         }
 
         private void Form4_Activated(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,12 +14,6 @@ namespace BCPrice_Catcher.Util
     {
         public static DateTime ConvertJsonDateTimeToChinaDateTime(string dateString)
         {
-//            string utcTimeString =
-//                new DateTime(1970, 1, 1).AddMilliseconds(Convert.ToInt64(dateString) * 1000)
-//                    .ToString("yyyy-MM-dd HH:mm:ss");
-//            DateTime chinaTime = DateTime.ParseExact(utcTimeString, "yyyy-MM-dd HH:mm:ss", new CultureInfo("zh-CN"),
-//                DateTimeStyles.AssumeUniversal);
-//            return chinaTime;
             return
                 TimeZone.CurrentTimeZone.ToLocalTime(
                     new DateTime(1970, 1, 1).AddMilliseconds(Convert.ToInt64(dateString) * 1000));
@@ -28,6 +23,12 @@ namespace BCPrice_Catcher.Util
         {
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             return Convert.ToInt64((time - startTime).TotalSeconds);
+        }
+
+        public static long ConvertDateTimeToBtccTonce(DateTime time)
+        {
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            return Convert.ToInt64((time - startTime).TotalMilliseconds * 1000);
         }
 
         public static Dictionary<string, string> ConvertTickerInfoToDictionary(TickerInfo tickerInfo)
@@ -75,6 +76,20 @@ namespace BCPrice_Catcher.Util
                 BitConverter.ToString(new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(plainText)))
                     .ToLower()
                     .Replace("-", "");
+        }
+
+        public static string ConvertPlainTextToHMACSHA1Value(string secretKey, string input)
+        {
+            HMACSHA1 hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(secretKey));
+            MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(input));
+            byte[] hashData = hmacsha1.ComputeHash(stream);
+            // Format as hexadecimal string.
+            StringBuilder hashBuilder = new StringBuilder();
+            foreach (byte data in hashData)
+            {
+                hashBuilder.Append(data.ToString("x2"));
+            }
+            return hashBuilder.ToString();
         }
     }
 }
