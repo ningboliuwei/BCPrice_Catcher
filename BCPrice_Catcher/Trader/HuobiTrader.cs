@@ -72,14 +72,6 @@ namespace BCPrice_Catcher.Trader
         }
 
         /// <summary>
-        /// 火币网交易辅助类
-        /// </summary>
-        public HuobiTrader()
-        {
-            _client.Headers.Add("Content-Type", _headerContent);
-        }
-
-        /// <summary>
         /// 获取个人资产信息
         /// </summary>
         /// <returns></returns>
@@ -180,6 +172,8 @@ namespace BCPrice_Catcher.Trader
         /// <returns></returns>
         private string DoMethod(string parasText)
         {
+            _client.Headers.Add("Content-Type", _headerContent);
+
             return Encoding.UTF8.GetString(_client.UploadData(postUrl, Encoding.UTF8.GetBytes(parasText)));
         }
     }
