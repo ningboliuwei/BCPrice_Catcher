@@ -12,6 +12,13 @@ namespace BCPrice_Catcher.Trader
 {
     class BtccTrader : Trader
     {
+        enum BtccCoinType
+        {
+            LTCBTC,
+            BTCCNY,
+            LTCCNY
+        }
+
         private string _headerContent = "application/json-rpc";
         private string postUrl = "https://api.btcc.com/api_trade_v1.php";
         private static readonly string _accessKey = Settings.Default.BtccAccessKey;
@@ -51,27 +58,30 @@ namespace BCPrice_Catcher.Trader
 
                 foreach (var v in paraValues)
                 {
-                    string s = v.Value;
+//                    string s = v.Value;
 
-                    if (s.Contains("\\"))
-                    {
-                        s = s.Replace("\\", "");
-                    }
+//                    if (s.Contains("\\"))
+//                    {
+//                        s = s.Replace("\\", "");
+//                    }
+//
+//                    //remove "" in "btccny"
+//                    if (s.Contains("\""))
+//                    {
+//                        s = s.Replace("\"", "");
+//                    }
 
-                    if (s.Contains("\""))
-                    {
-                        s = s.Replace("\"", "");
-                    }
-
-                    builder.Append(s).Append(",");
+                    builder.Append(v.Value).Append(",");
                 }
+
+                builder.Replace("\"", "");
 
                 //remove the redundant ","
                 if (builder.ToString().EndsWith(","))
                 {
                     builder.Remove(builder.Length - 1, 1).ToString();
                 }
-                //replace "null" with null
+                //replace "null" with nothing
                 builder.Replace("null", "");
 
 
@@ -88,10 +98,10 @@ namespace BCPrice_Catcher.Trader
 
                 foreach (var v in paraValues)
                 {
-                    builder.Append("\"")
-                        .Append(v.Value.Contains("\"") ? v.Value.Replace("\"", "") : v.Value)
-                        .Append("\",");
-//                    builder.Append(v.Value).Append(",");
+//                    builder.Append("\"")
+//                        .Append(v.Value.Contains("\"") ? v.Value.Replace("\"", "") : v.Value)
+//                        .Append("\",");
+                    builder.Append(v.Value).Append(",");
                 }
 
                 //remove the redundant ","
@@ -172,8 +182,8 @@ namespace BCPrice_Catcher.Trader
             Builder = new BtccParasTextBuilder("sellOrder2");
             //price must be added earlier
             Builder.Parameters.Add("price", "null");
-            Builder.Parameters.Add("amount", $"\"{amount.ToString()}\"");
-            Builder.Parameters.Add("coin_type", "\"BTCCNY\"");
+            Builder.Parameters.Add("amount", $"{amount.ToString()}");
+            Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
             return DoMethod();
         }
 
@@ -183,7 +193,7 @@ namespace BCPrice_Catcher.Trader
             //price must be added earlier
             Builder.Parameters.Add("price", $"{price.ToString()}");
             Builder.Parameters.Add("amount", $"{amount.ToString()}");
-            //            Builder.Parameters.Add("coin_type","\"BTCCNY\"");
+            Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
             return DoMethod();
         }
 
@@ -194,15 +204,21 @@ namespace BCPrice_Catcher.Trader
 
         public override string BuyMarket(double amount, CoinType coinType)
         {
-            throw new NotImplementedException();
+            Builder = new BtccParasTextBuilder("buyOrder2");
+            //price must be added earlier
+            Builder.Parameters.Add("price", "null");
+            Builder.Parameters.Add("amount", $"{amount.ToString()}");
+            Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
+            return DoMethod();
         }
 
         public override string Buy(double price, double amount, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("buyOrder2");
             //price must be added earlier
-            Builder.Parameters.Add("price", $"\\\"{price.ToString()}\\\"");
-            Builder.Parameters.Add("amount", $"\\\"{amount.ToString()}\\\"");
+            Builder.Parameters.Add("price", $"{price.ToString()}");
+            Builder.Parameters.Add("amount", $"{amount.ToString()}");
+            Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
 
             return DoMethod();
         }

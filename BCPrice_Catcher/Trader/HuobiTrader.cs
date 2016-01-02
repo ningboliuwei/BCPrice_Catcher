@@ -17,10 +17,11 @@ namespace BCPrice_Catcher.Trader
         private string _headerContent = "application/x-www-form-urlencoded";
         private string postUrl = "https://api.huobi.com/apiv3";
         private static readonly string _accessKey = Settings.Default.HuobiAccessKey;
-        private static readonly string _secretKey =Settings.Default.HuobiSecretKey;
+        private static readonly string _secretKey = Settings.Default.HuobiSecretKey;
         private readonly WebClient _client = new WebClient();
         private const string Market = "cny";
         private const string TradePassword = "password";
+        public HuobiParasTextBuilder Builder;
 
         /// <summary>
         /// 构建火币网交易 API 请求参数的辅助类
@@ -77,11 +78,11 @@ namespace BCPrice_Catcher.Trader
         /// <returns></returns>
         public override string GetAccountInfo()
         {
-            var builder = new HuobiParasTextBuilder("get_account_info");
+            Builder = new HuobiParasTextBuilder("get_account_info");
 
-            builder.Parameters.Add("market", Market);
+            Builder.Parameters.Add("market", Market);
 
-            string parasText = builder.GetParasText(new string[] {});
+            string parasText = Builder.GetParasText(new string[] {});
             return DoMethod(parasText);
         }
 
@@ -93,30 +94,30 @@ namespace BCPrice_Catcher.Trader
         /// <returns></returns>
         public override string SellMarket(double amount, CoinType coinType)
         {
-            var builder = new HuobiParasTextBuilder("sell_market");
+            Builder = new HuobiParasTextBuilder("sell_market");
 
-            builder.Parameters.Add("market", Market);
-            builder.Parameters.Add("amount", amount.ToString());
-            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
-            builder.Parameters.Add("trade_password", TradePassword);
+            Builder.Parameters.Add("market", Market);
+            Builder.Parameters.Add("amount", amount.ToString());
+            Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("trade_password", TradePassword);
 
             string parasText =
-                builder.GetParasText(new string[] {"amount", "coin_type"});
+                Builder.GetParasText(new string[] {"amount", "coin_type"});
             return DoMethod(parasText);
         }
 
         public override string Sell(double price, double amount, CoinType coinType)
         {
-            var builder = new HuobiParasTextBuilder("sell_market");
+            Builder = new HuobiParasTextBuilder("sell_market");
 
-            builder.Parameters.Add("market", Market);
-            builder.Parameters.Add("amount", amount.ToString());
-            builder.Parameters.Add("price", price.ToString());
-            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
-            builder.Parameters.Add("trade_password", TradePassword);
+            Builder.Parameters.Add("market", Market);
+            Builder.Parameters.Add("amount", amount.ToString());
+            Builder.Parameters.Add("price", price.ToString());
+            Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("trade_password", TradePassword);
 
             string parasText =
-                builder.GetParasText(new string[] {"amount", "coin_type", "sell"});
+                Builder.GetParasText(new string[] {"amount", "coin_type", "sell"});
             return DoMethod(parasText);
         }
 
@@ -127,41 +128,41 @@ namespace BCPrice_Catcher.Trader
         /// <returns></returns>
         public override string GetOrders(CoinType coinType)
         {
-            var builder = new HuobiParasTextBuilder("get_orders");
+            Builder = new HuobiParasTextBuilder("get_orders");
 
-            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
 
             string parasText =
-                builder.GetParasText(new[] {"coin_type"});
+                Builder.GetParasText(new[] {"coin_type"});
             return DoMethod(parasText);
         }
 
         public override string BuyMarket(double amount, CoinType coinType)
         {
-            var builder = new HuobiParasTextBuilder("buy_market");
+            Builder = new HuobiParasTextBuilder("buy_market");
 
-            builder.Parameters.Add("market", Market);
-            builder.Parameters.Add("amount", amount.ToString());
-            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
-            builder.Parameters.Add("trade_password", TradePassword);
+            Builder.Parameters.Add("market", Market);
+            Builder.Parameters.Add("amount", amount.ToString());
+            Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("trade_password", TradePassword);
 
             string parasText =
-                builder.GetParasText(new string[] {"amount", "coin_type"});
+                Builder.GetParasText(new string[] {"amount", "coin_type"});
             return DoMethod(parasText);
         }
 
         public override string Buy(double price, double amount, CoinType coinType)
         {
-            var builder = new HuobiParasTextBuilder("buy");
+            Builder = new HuobiParasTextBuilder("buy");
 
-            builder.Parameters.Add("market", Market);
-            builder.Parameters.Add("amount", amount.ToString());
-            builder.Parameters.Add("price", price.ToString());
-            builder.Parameters.Add("coin_type", ((int) coinType).ToString());
-            builder.Parameters.Add("trade_password", TradePassword);
+            Builder.Parameters.Add("market", Market);
+            Builder.Parameters.Add("amount", amount.ToString());
+            Builder.Parameters.Add("price", price.ToString());
+            Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("trade_password", TradePassword);
 
             string parasText =
-                builder.GetParasText(new string[] {"amount", "coin_type", "price"});
+                Builder.GetParasText(new string[] {"amount", "coin_type", "price"});
             return DoMethod(parasText);
         }
 
