@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\Account.cs" />
     <Compile Include="Class\RealAccount.cs" />
     <Compile Include="Class\SimulateAccount.cs" />
     <Compile Include="Class\Strategy.cs" />
@@ -108,8 +109,7 @@
     </Compile>
     <Compile Include="Model\AccountInfo.cs" />
     <Compile Include="Model\OrderInfo.cs" />
-    <Compile Include="Model\RealTradeInfo.cs" />
-    <Compile Include="Model\SimulateTradeInfo.cs" />
+    <Compile Include="Model\TradeInfo.cs" />
     <Compile Include="Model\TradeDetail.cs" />
     <Compile Include="Collection\TimerList.cs" />
     <Compile Include="Fetcher\HuobiFetcher.cs" />

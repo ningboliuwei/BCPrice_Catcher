@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BCPrice_Catcher.Model
 {
-    class AccountInfo
+    public class AccountInfo
     {
         public double Total { get; set; }
         public double NetAsset { get; set; }

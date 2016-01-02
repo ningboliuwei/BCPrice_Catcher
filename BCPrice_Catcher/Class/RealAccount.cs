@@ -1,30 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher.Class
 {
-    class RealAccount
+    public class RealAccount : Account
     {
-        public double Balance { get; set; }
-        public double CoinAmount { get; set; }
-
-        public List<RealTradeInfo> Trades { get; set; } = new List<RealTradeInfo>();
-
-        public bool Sell(int strategyId, double price, double amount)
+        public override bool Sell(int strategyId, double price, double amount)
         {
             lock (this)
             {
                 if (CoinAmount >= amount)
                 {
-                    double previousBalance = Balance;
+                    var previousBalance = Balance;
                     CoinAmount -= amount;
                     Balance += price * amount;
 
-                    Trades.Add(new RealTradeInfo()
+                    TradeRecords.Add(new TradeInfo
                     {
                         Type = "Buy",
                         Price = price,
@@ -41,16 +32,16 @@ namespace BCPrice_Catcher.Class
             }
         }
 
-        public bool Buy(int strategyId, double price, double amount)
+        public override bool Buy(int strategyId, double price, double amount)
         {
             lock (this)
             {
                 if (Balance >= price * amount)
                 {
-                    double previousBalance = Balance;
+                    var previousBalance = Balance;
                     CoinAmount += amount;
                     Balance -= price * amount;
-                    Trades.Add(new RealTradeInfo
+                    TradeRecords.Add(new TradeInfo
                     {
                         Type = "Sell",
                         Price = price,

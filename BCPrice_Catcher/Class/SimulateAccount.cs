@@ -7,14 +7,9 @@ using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher.Class
 {
-    public class SimulateAccount
+    public class SimulateAccount : Account
     {
-        public double Balance { get; set; }
-        public double CoinAmount { get; set; }
-
-        public List<SimulateTradeInfo> Trades { get; set; } = new List<SimulateTradeInfo>();
-
-        public bool Sell(int strategyId, double price, double amount)
+        public override bool Sell(int strategyId, double price, double amount)
         {
             lock (this)
             {
@@ -24,7 +19,7 @@ namespace BCPrice_Catcher.Class
                     CoinAmount -= amount;
                     Balance += price * amount;
 
-                    Trades.Add(new SimulateTradeInfo
+                    TradeRecords.Add(new TradeInfo
                     {
                         Type = "Buy",
                         Price = price,
@@ -40,8 +35,7 @@ namespace BCPrice_Catcher.Class
                 return false;
             }
         }
-
-        public bool Buy(int strategyId, double price, double amount)
+        public override bool Buy(int strategyId, double price, double amount)
         {
             lock (this)
             {
@@ -50,7 +44,7 @@ namespace BCPrice_Catcher.Class
                     double previousBalance = Balance;
                     CoinAmount += amount;
                     Balance -= price * amount;
-                    Trades.Add(new SimulateTradeInfo
+                    TradeRecords.Add(new TradeInfo
                     {
                         Type = "Sell",
                         Price = price,

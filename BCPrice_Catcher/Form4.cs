@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Class;
-using BCPrice_Catcher.Model;
-using BCPrice_Catcher.Util;
+using BCPrice_Catcher.Trader;
 
 namespace BCPrice_Catcher
 {
@@ -23,64 +19,36 @@ namespace BCPrice_Catcher
         private const string ButtonStartText = "开始";
         private const string ButtonStopText = "停止";
 
-        private Dictionary<string, SimulateAccount> _accounts = new Dictionary<string, SimulateAccount>()
-        {
-            {
-                "btcc",
-                new SimulateAccount
-                {
-                    Balance = Math.Round(TotalBalance * InitialPecentage),
-                    CoinAmount = Math.Round(TotalCoinAmount * (1 - InitialPecentage))
-                }
-            },
-            {
-                "huobi",
-                new SimulateAccount
-                {
-                    Balance = Math.Round(TotalBalance * (1 - InitialPecentage)),
-                    CoinAmount = Math.Round(TotalCoinAmount * (InitialPecentage))
-                }
-            }
-        };
+        private const double TotalBalance = 2000000;
+        private const double TotalCoinAmount = 200;
 
-        private List<Strategy> _strategies = new List<Strategy>();
-        private TimerList _strategyTimerList = new TimerList();
-        //private List<int> _strategyCounters = new List<int>();
+        private bool _inRealMode = false;
 
-        private double _btccPrice;
-        private double _huobiPrice;
-        private double _baseDifferPrice;
-
-        const double TotalBalance = 2000000;
-        const double TotalCoinAmount = 200;
-
-        private static string[] Titles =
+        private static readonly string[] Titles =
         {
             "策略ID", "交易阙值\n更新时间", "交易阙值", "交易阙值\n增量", "交易阙值\n系数", "回归阙值", "回归阙值\n增量", "回归阙值\n系数", "交易延时\n阙值", "交易次数\n阙值",
             "总交易次数\n阙值",
             "周期", "交易数量"
         };
 
+        private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
+        {
+            {"btcc", new SimulateAccount()},
+            {"huobi", new SimulateAccount()}
+        };
+
+
+        private readonly List<Strategy> _strategies = new List<Strategy>();
+        private readonly TimerList _strategyTimerList = new TimerList();
+
         //额外有两列放按钮
         private readonly int StrategyControlColumnCount = Titles.Length + 2;
 
-        private enum ControlName
-        {
-            lblStrategyID = 0,
-            lblTradeThresholdLastUpdated,
-            lblTradeThreshold,
-            nudTradeThresholdIncrement,
-            nudTradeThresholdCoefficient,
-            lblRegressionThreshold,
-            nudRegressionThresholdIncrement,
-            nudRegressionThresholdCoefficient,
-            nudTradeLagThreshold,
-            nudTradeCountThreshold,
-            nudTotalTradeCountLimit,
-            nudPeriod,
-            lblTotalTradeCount,
-            btnStartStopStrategy
-        }
+        private double _baseDifferPrice;
+        //private List<int> _strategyCounters = new List<int>();
+
+        private double _btccPrice;
+        private double _huobiPrice;
 
 
         public Form4()
@@ -90,7 +58,7 @@ namespace BCPrice_Catcher
 
         private void GenerateTitleControls()
         {
-            for (int i = 0; i < Titles.Length; i++)
+            for (var i = 0; i < Titles.Length; i++)
             {
                 tableLayoutPanelStrategies.Controls.Add(
                     new Label
@@ -98,12 +66,12 @@ namespace BCPrice_Catcher
                         Text = Titles[i],
                         TextAlign = ContentAlignment.TopCenter,
                         AutoSize = false,
-                        Dock = DockStyle.Fill,
+                        Dock = DockStyle.Fill
                     }, i, 0);
             }
 
             tableLayoutPanelStrategies.Controls.Add(
-                new Button()
+                new Button
                 {
                     Name = "btnAddStrategy",
                     Text = "增加策略",
@@ -113,7 +81,7 @@ namespace BCPrice_Catcher
                 }, Titles.Length, 0);
 
             tableLayoutPanelStrategies.Controls.Add(
-                new Button()
+                new Button
                 {
                     Name = "btnRemoveStrategy",
                     Text = "减少策略",
@@ -125,17 +93,17 @@ namespace BCPrice_Catcher
 
         private void GenerateStrategyControls(int strategyId)
         {
-            int rowPosition = strategyId + 1;
-            int columnPosition = 0;
+            var rowPosition = strategyId + 1;
+            var columnPosition = 0;
             //策略号
 
             tableLayoutPanelStrategies.Controls.Add(
                 new Label
                 {
                     Name = $"{ControlName.lblStrategyID}{strategyId}",
-                    Text = (rowPosition).ToString(),
+                    Text = rowPosition.ToString(),
                     Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter,
+                    TextAlign = ContentAlignment.MiddleCenter
                 }, columnPosition++, rowPosition);
 
             //交易阙值更新时间
@@ -143,7 +111,7 @@ namespace BCPrice_Catcher
                 new Label
                 {
                     Name = $"{ControlName.lblTradeThresholdLastUpdated}{strategyId}",
-                    Text = (rowPosition).ToString(),
+                    Text = rowPosition.ToString(),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
@@ -191,7 +159,7 @@ namespace BCPrice_Catcher
 
             //回归阙值
             tableLayoutPanelStrategies.Controls.Add(
-                new Label()
+                new Label
                 {
                     Name = $"{ControlName.lblRegressionThreshold}{strategyId}",
                     Text = "0",
@@ -289,7 +257,7 @@ namespace BCPrice_Catcher
                 new Label
                 {
                     Name = $"{ControlName.lblTotalTradeCount}{strategyId}",
-                    Text = (rowPosition).ToString(),
+                    Text = rowPosition.ToString(),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
@@ -297,13 +265,13 @@ namespace BCPrice_Catcher
 
 
             //开始按钮
-            Button btnStart = new Button
+            var btnStart = new Button
             {
                 Name = $"{ControlName.btnStartStopStrategy}{strategyId}",
                 Text = "开始",
                 BackColor = Color.LightGreen,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.Fill
             };
             btnStart.Tag = strategyId;
             btnStart.Click += btnStartStopStrategy_Click;
@@ -322,9 +290,9 @@ namespace BCPrice_Catcher
 
         private void btnStartStopStrategy_Click(object sender, EventArgs e)
         {
-            int strategyId = Convert.ToInt32((sender as Button).Tag);
+            var strategyId = Convert.ToInt32((sender as Button).Tag);
 
-            Button button = sender as Button;
+            var button = sender as Button;
 
             if (button.Text == ButtonStartText)
             {
@@ -348,11 +316,11 @@ namespace BCPrice_Catcher
         //add a new strategy
         private void AddStrategy()
         {
-            int strategyId = _strategies.Count;
+            var strategyId = _strategies.Count;
             GenerateStrategyControls(strategyId);
 
 
-            Strategy strategy = new Strategy()
+            var strategy = new Strategy
             {
                 Id = strategyId,
                 InputParameters = GetStrategyParameters(strategyId),
@@ -361,7 +329,7 @@ namespace BCPrice_Catcher
             };
             _strategies.Add(strategy);
 
-            int tradeAmount = Convert.ToInt32(nudTradeAmount.Value);
+            var tradeAmount = Convert.ToInt32(nudTradeAmount.Value);
             //need await here?
             //need task here?
             _strategyTimerList.Add($"strategy_timer{strategy.Id}", Timeout.Infinite, async o =>
@@ -442,8 +410,8 @@ namespace BCPrice_Catcher
 
         private void RemoveStrategyControls()
         {
-            int controlCount = tableLayoutPanelStrategies.Controls.Count;
-            for (int i = controlCount - 1;
+            var controlCount = tableLayoutPanelStrategies.Controls.Count;
+            for (var i = controlCount - 1;
                 i >= controlCount - StrategyControlColumnCount;
                 i--)
             {
@@ -493,7 +461,7 @@ namespace BCPrice_Catcher
             _accounts["btcc"].CoinAmount = Math.Round(TotalCoinAmount * (1 - pecentage));
 
             _accounts["huobi"].Balance = Math.Round(TotalBalance * (1 - pecentage));
-            _accounts["huobi"].CoinAmount = Math.Round(TotalCoinAmount * (pecentage));
+            _accounts["huobi"].CoinAmount = Math.Round(TotalCoinAmount * pecentage);
         }
 
 
@@ -519,7 +487,7 @@ namespace BCPrice_Catcher
             if (
                 Tag != null)
             {
-                Dictionary<string, double> prices = Tag as Dictionary<string, double>;
+                var prices = Tag as Dictionary<string, double>;
 
                 if (
                     prices.Count
@@ -546,7 +514,7 @@ namespace BCPrice_Catcher
             ShowAccounts();
 
             for (
-                int i = 0;
+                var i = 0;
                 i < _strategies.Count;
                 i
                     ++)
@@ -564,11 +532,9 @@ namespace BCPrice_Catcher
             _baseDifferPrice
                 =
                 Math.Abs
-                    ((
-                        _btccPrice
-                        -
-                        _huobiPrice
-                        ));
+                    (_btccPrice
+                     -
+                     _huobiPrice);
             lblBtccPrice.Text
                 = $"BTCC{Environment.NewLine}{_btccPrice.ToString("0.000")}";
             lblHuobiPrice.Text
@@ -626,30 +592,30 @@ namespace BCPrice_Catcher
             const string floatRegex = @"^(-?\d+)(\.\d+)?$";
             const string integerRegex = @"^(\+|-)?\d+$";
 
-            string s1 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
+            var s1 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
                 NumericUpDown).Text;
 
 
-            string s2 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdCoefficient}{strategyId}"]
+            var s2 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdCoefficient}{strategyId}"]
                 as
                 NumericUpDown).Text;
 
-            string s3 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeLagThreshold}{strategyId}"] as
+            var s3 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeLagThreshold}{strategyId}"] as
                 NumericUpDown).Text;
-            string s4 =
+            var s4 =
                 (tableLayoutPanelStrategies.Controls[
                     $"{ControlName.nudRegressionThresholdIncrement}{strategyId}"]
                     as NumericUpDown).Text;
-            string s5 =
+            var s5 =
                 (tableLayoutPanelStrategies.Controls[
                     $"{ControlName.nudRegressionThresholdCoefficient}{strategyId}"]
                     as NumericUpDown).Text;
 
-            string s6 = nudStartPrice.Text;
-            string s7 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
+            var s6 = nudStartPrice.Text;
+            var s7 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
                 as NumericUpDown).Text;
 
-            string s8 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTotalTradeCountLimit}{strategyId}"]
+            var s8 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTotalTradeCountLimit}{strategyId}"]
                 as NumericUpDown).Text;
 
 
@@ -662,7 +628,7 @@ namespace BCPrice_Catcher
                 RegressionThresholdCoefficient = Regex.IsMatch(s5, floatRegex) ? Convert.ToDouble(s5) : 0,
                 StartPrice = Regex.IsMatch(s6, floatRegex) ? Convert.ToDouble(s6) : 3,
                 Peroid = Regex.IsMatch(s7, integerRegex) ? Convert.ToInt32(s7) : 1,
-                TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 99999999,
+                TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 99999999
             };
 
 
@@ -689,7 +655,7 @@ namespace BCPrice_Catcher
 //                StartStrategy(s.Id);
 //            }
 
-            for (int i = 0; i < _strategies.Count; i++)
+            for (var i = 0; i < _strategies.Count; i++)
             {
                 var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
 
@@ -702,7 +668,7 @@ namespace BCPrice_Catcher
 
         private void btnAllStop_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < _strategies.Count; i++)
+            for (var i = 0; i < _strategies.Count; i++)
             {
                 var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
 
@@ -715,9 +681,9 @@ namespace BCPrice_Catcher
 
         private void ShowTrades()
         {
-            long index = _accounts["btcc"].Trades.Count;
+            long index = _accounts["btcc"].TradeRecords.Count;
             gdvBtccTrades.DataSource =
-                _accounts["btcc"].Trades.OrderByDescending(t => t.Time)
+                _accounts["btcc"].TradeRecords.OrderByDescending(t => t.Time)
                     .Select(
                         t =>
                             new
@@ -732,8 +698,8 @@ namespace BCPrice_Catcher
                             })
                     .ToList();
 
-            index = _accounts["huobi"].Trades.Count;
-            gdvHuobiTrades.DataSource = _accounts["huobi"].Trades.OrderByDescending(t => t.Time).Select(
+            index = _accounts["huobi"].TradeRecords.Count;
+            gdvHuobiTrades.DataSource = _accounts["huobi"].TradeRecords.OrderByDescending(t => t.Time).Select(
                 t =>
                     new
                     {
@@ -749,8 +715,86 @@ namespace BCPrice_Catcher
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmConfig frm = new frmConfig();
+            var frm = new frmConfig();
             frm.ShowDialog();
+        }
+
+        private void btnSwitchMode_Click(object sender, EventArgs e)
+        {
+            if (!_inRealMode)//change to real mode
+            {
+                _inRealMode = true;
+                btnSwitchMode.Text = "停止真实模式(&R)";
+                btnSwitchMode.BackColor = Color.Crimson;
+                ChangeToRealMode();
+            }
+            else//change to simulate mode
+            {
+                _inRealMode = false;
+                btnSwitchMode.BackColor = Color.LimeGreen;
+                btnSwitchMode.Text = "启动真实模式(&R)";
+                ChangeToSimulateMode();
+            }
+        }
+
+        private void ChangeToRealMode()
+        {
+            UseRealAccount();
+        }
+
+        private void UseRealAccount()
+        {
+            var btccAccount = new RealAccount {Trader = new BtccTrader()};
+            var accountInfo = btccAccount.Trader.GetAccountInfo();
+            btccAccount.Balance = accountInfo.AvailableCny;
+            btccAccount.CoinAmount = accountInfo.AvailableBtc;
+            _accounts["btcc"] = btccAccount;
+
+            var huobiAccount = new RealAccount {Trader = new HuobiTrader()};
+            accountInfo = huobiAccount.Trader.GetAccountInfo();
+            huobiAccount.Balance = accountInfo.AvailableCny;
+            huobiAccount.CoinAmount = accountInfo.AvailableBtc;
+            _accounts["huobi"] = huobiAccount;
+        }
+
+
+        private void ChangeToSimulateMode()
+        {
+            UseSimulateAccount();
+        }
+
+        private void UseSimulateAccount()
+        {
+            _accounts["btcc"] = new SimulateAccount
+            {
+                Balance = Math.Round(TotalBalance * InitialPecentage),
+                CoinAmount = Math.Round(TotalCoinAmount * (1 - InitialPecentage))
+            };
+
+            _accounts["huobi"] = new SimulateAccount
+            {
+                Balance = Math.Round(TotalBalance * (1 - InitialPecentage)),
+                CoinAmount = Math.Round(TotalCoinAmount * InitialPecentage)
+            };
+        }
+
+        private enum ControlName
+        {
+            lblStrategyID = 0,
+            lblTradeThresholdLastUpdated,
+            lblTradeThreshold,
+            nudTradeThresholdIncrement,
+            nudTradeThresholdCoefficient,
+            lblRegressionThreshold,
+            nudRegressionThresholdIncrement,
+            nudRegressionThresholdCoefficient,
+            nudTradeLagThreshold,
+            nudTradeCountThreshold,
+            nudTotalTradeCountLimit,
+            nudPeriod,
+            lblTotalTradeCount,
+            btnStartStopStrategy
         }
     }
 }
+

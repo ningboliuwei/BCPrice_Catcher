@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
+using Newtonsoft.Json.Linq;
 
 namespace BCPrice_Catcher.Trader
 {
@@ -22,6 +23,7 @@ namespace BCPrice_Catcher.Trader
         private const string Market = "cny";
         private const string TradePassword = "password";
         public HuobiParasTextBuilder Builder;
+        private const string ErrorMessageHead = "\"code\"";
 
         /// <summary>
         /// 构建火币网交易 API 请求参数的辅助类
@@ -76,14 +78,32 @@ namespace BCPrice_Catcher.Trader
         /// 获取个人资产信息
         /// </summary>
         /// <returns></returns>
-        public override string GetAccountInfo()
+        public override AccountInfo GetAccountInfo()
         {
             Builder = new HuobiParasTextBuilder("get_account_info");
-
             Builder.Parameters.Add("market", Market);
 
             string parasText = Builder.GetParasText(new string[] {});
-            return DoMethod(parasText);
+            string result = DoMethod(parasText);
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    JObject o = JObject.Parse(result);
+
+                    return new AccountInfo()
+                    {
+                        AvailableBtc = Convert.ToDouble(o["available_btc_display"]),
+                        AvailableCny = Convert.ToDouble(o["available_cny_display"])
+                    };
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -167,6 +187,11 @@ namespace BCPrice_Catcher.Trader
         }
 
         public override string GetTransactions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetOrders()
         {
             throw new NotImplementedException();
         }

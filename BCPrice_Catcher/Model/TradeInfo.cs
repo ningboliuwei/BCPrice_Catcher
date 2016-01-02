@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BCPrice_Catcher.Model
 {
-    class RealTradeInfo
+    public class TradeInfo
     {
         public int StrategyId { get; set; }
         public string Type { get; set; }

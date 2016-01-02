@@ -38,6 +38,7 @@
             this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.nudTradeAmount = new System.Windows.Forms.NumericUpDown();
+            this.btnSwitchMode = new System.Windows.Forms.Button();
             this.lblBtccPrice = new System.Windows.Forms.Label();
             this.lblHuobiAccount = new System.Windows.Forms.Label();
             this.lblHuobiPrice = new System.Windows.Forms.Label();
@@ -86,7 +87,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(664, 60);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(664, 50);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // btnAllStart
@@ -96,7 +97,7 @@
             this.btnAllStart.Location = new System.Drawing.Point(334, 2);
             this.btnAllStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnAllStart.Name = "btnAllStart";
-            this.btnAllStart.Size = new System.Drawing.Size(160, 54);
+            this.btnAllStart.Size = new System.Drawing.Size(160, 46);
             this.btnAllStart.TabIndex = 8;
             this.btnAllStart.Text = "全部开始(&S)";
             this.btnAllStart.UseVisualStyleBackColor = false;
@@ -109,7 +110,7 @@
             this.btnAllStop.Location = new System.Drawing.Point(500, 2);
             this.btnAllStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnAllStop.Name = "btnAllStop";
-            this.btnAllStop.Size = new System.Drawing.Size(160, 54);
+            this.btnAllStop.Size = new System.Drawing.Size(160, 46);
             this.btnAllStop.TabIndex = 8;
             this.btnAllStop.Text = "全部停止(&T)";
             this.btnAllStop.UseVisualStyleBackColor = false;
@@ -122,11 +123,12 @@
             this.flowLayoutPanel1.Controls.Add(this.nudStartPrice);
             this.flowLayoutPanel1.Controls.Add(this.label1);
             this.flowLayoutPanel1.Controls.Add(this.nudTradeAmount);
+            this.flowLayoutPanel1.Controls.Add(this.btnSwitchMode);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 140);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(662, 60);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(662, 50);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
             // label2
@@ -191,10 +193,23 @@
             this.nudTradeAmount.Size = new System.Drawing.Size(120, 35);
             this.nudTradeAmount.TabIndex = 6;
             this.nudTradeAmount.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
-            0});
+            196608});
+            // 
+            // btnSwitchMode
+            // 
+            this.btnSwitchMode.BackColor = System.Drawing.Color.LimeGreen;
+            this.btnSwitchMode.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnSwitchMode.Location = new System.Drawing.Point(451, 2);
+            this.btnSwitchMode.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSwitchMode.Name = "btnSwitchMode";
+            this.btnSwitchMode.Size = new System.Drawing.Size(180, 35);
+            this.btnSwitchMode.TabIndex = 8;
+            this.btnSwitchMode.Text = "启动真实模式(&R)";
+            this.btnSwitchMode.UseVisualStyleBackColor = false;
+            this.btnSwitchMode.Click += new System.EventHandler(this.btnSwitchMode_Click);
             // 
             // lblBtccPrice
             // 
@@ -264,7 +279,7 @@
             this.trackBar1.Margin = new System.Windows.Forms.Padding(0);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(331, 60);
+            this.trackBar1.Size = new System.Drawing.Size(331, 50);
             this.trackBar1.TabIndex = 6;
             this.trackBar1.TickFrequency = 5;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -311,10 +326,9 @@
             this.tableLayoutPanelMain.RowCount = 5;
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelMain.Size = new System.Drawing.Size(1657, 671);
             this.tableLayoutPanelMain.TabIndex = 0;
             // 
@@ -340,7 +354,7 @@
             this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelStrategies.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(2, 596);
+            this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(2, 586);
             this.tableLayoutPanelStrategies.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
             this.tableLayoutPanelStrategies.RowCount = 17;
@@ -375,7 +389,7 @@
             this.tableLayoutPanelTrades.Controls.Add(this.gdvHuobiTrades, 0, 0);
             this.tableLayoutPanelTrades.Controls.Add(this.gdvBtccTrades, 0, 0);
             this.tableLayoutPanelTrades.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelTrades.Location = new System.Drawing.Point(0, 200);
+            this.tableLayoutPanelTrades.Location = new System.Drawing.Point(0, 190);
             this.tableLayoutPanelTrades.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelTrades.Name = "tableLayoutPanelTrades";
             this.tableLayoutPanelTrades.RowCount = 1;
@@ -512,5 +526,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 功能FToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
+        private System.Windows.Forms.Button btnSwitchMode;
     }
 }

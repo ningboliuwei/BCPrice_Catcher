@@ -5,8 +5,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
+using Newtonsoft.Json.Linq;
 
 namespace BCPrice_Catcher.Trader
 {
@@ -25,6 +27,7 @@ namespace BCPrice_Catcher.Trader
         private static readonly string _secretKey = Settings.Default.BtccSecretKey;
         private readonly WebClient _client = new WebClient();
         public BtccParasTextBuilder Builder;
+        private const string ErrorMessageHead = "\"error\"";
         //for btcc trader
 
         //        private const string Market = "cny";
@@ -171,10 +174,29 @@ namespace BCPrice_Catcher.Trader
             }
         }
 
-        public override string GetAccountInfo()
+        public override AccountInfo GetAccountInfo()
         {
             Builder = new BtccParasTextBuilder("getAccountInfo");
-            return DoMethod();
+            string result = DoMethod();
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    JObject o = JObject.Parse(result);
+
+                    return new AccountInfo()
+                    {
+                        AvailableBtc = Convert.ToDouble(o["result"]["balance"]["btc"]["amount"]),
+                        AvailableCny = Convert.ToDouble(o["result"]["balance"]["cny"]["amount"])
+                    };
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return null;
         }
 
         public override string SellMarket(double amount, CoinType coinType)
@@ -231,13 +253,27 @@ namespace BCPrice_Catcher.Trader
             _client.Headers.Add("Json-Rpc-Tonce", Builder.Parameters["tonce"]);
 
             string postData = Builder.GetParasTextForPost();
-            return Encoding.UTF8.GetString(_client.UploadData(postUrl, "POST", Encoding.Default.GetBytes(postData)));
+
+            try
+            {
+                return Encoding.UTF8.GetString(_client.UploadData(postUrl, "POST", Encoding.Default.GetBytes(postData)));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public override string GetTransactions()
         {
             Builder = new BtccParasTextBuilder("getTransactions");
 
+            return DoMethod();
+        }
+
+        public override string GetOrders()
+        {
+            Builder = new BtccParasTextBuilder("getOrders");
             return DoMethod();
         }
     }
