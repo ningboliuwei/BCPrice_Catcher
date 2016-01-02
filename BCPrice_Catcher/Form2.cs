@@ -20,15 +20,17 @@ namespace BCPrice_Catcher
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(new HuobiTrader().GetAccountInfo());
-            MessageBox.Show(new HuobiTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
-            MessageBox.Show(new HuobiTrader().BuyMarket(10, Trader.Trader.CoinType.Btc));
-            MessageBox.Show(new HuobiTrader().Buy(2000,0.1, Trader.Trader.CoinType.Btc));
-            MessageBox.Show(new HuobiTrader().Sell(2000, 0.1, Trader.Trader.CoinType.Btc));
-            MessageBox.Show(new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc));
+            //            MessageBox.Show(new HuobiTrader().GetAccountInfo());
+            //            MessageBox.Show(new HuobiTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
+            //            MessageBox.Show(new HuobiTrader().BuyMarket(10, Trader.Trader.CoinType.Btc));
+            //            MessageBox.Show(new HuobiTrader().Buy(2000,0.1, Trader.Trader.CoinType.Btc));
+            //            MessageBox.Show(new HuobiTrader().Sell(2000, 0.1, Trader.Trader.CoinType.Btc));
+            //            MessageBox.Show(new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc));
             MessageBox.Show(new BtccTrader().GetAccountInfo());
-            MessageBox.Show(new BtccTrader().Sell(2000, 10, Trader.Trader.CoinType.Btc));
-            MessageBox.Show(new BtccTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
+            MessageBox.Show(new BtccTrader().Sell(4000.00, 0.005, Trader.Trader.CoinType.Btc));
+            MessageBox.Show(new BtccTrader().GetTransactions());
+//            MessageBox.Show(new BtccTrader().Sell(500, 1, Trader.Trader.CoinType.Btc));
+            //            MessageBox.Show(new BtccTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
         }
     }
 }

@@ -165,6 +165,11 @@ namespace BCPrice_Catcher.Trader
             return DoMethod(parasText);
         }
 
+        public override string GetTransactions()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 从火币网交易 API 得到结果
         /// </summary>

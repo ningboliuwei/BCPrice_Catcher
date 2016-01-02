@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
 
@@ -18,7 +19,7 @@ namespace BCPrice_Catcher.Trader
         private readonly WebClient _client = new WebClient();
         public BtccParasTextBuilder Builder;
         //for btcc trader
-        private static string _tonce = Convertor.ConvertDateTimeToBtccTonce(DateTime.Now).ToString();
+
         //        private const string Market = "cny";
         //        private const string TradePassword = "password";
 
@@ -33,7 +34,7 @@ namespace BCPrice_Catcher.Trader
 
             public BtccParasTextBuilder(string method)
             {
-                Parameters.Add("tonce", _tonce);
+                Parameters.Add("tonce", Convertor.ConvertDateTimeToBtccTonce(DateTime.Now).ToString());
                 Parameters.Add("accesskey", _accessKey);
                 Parameters.Add("requestmethod", "post");
                 Parameters.Add("id", "1");
@@ -50,7 +51,19 @@ namespace BCPrice_Catcher.Trader
 
                 foreach (var v in paraValues)
                 {
-                    builder.Append(v.Value).Append(",");
+                    string s = v.Value;
+
+                    if (s.Contains("\\"))
+                    {
+                        s = s.Replace("\\", "");
+                    }
+
+                    if (s.Contains("\""))
+                    {
+                        s = s.Replace("\"", "");
+                    }
+
+                    builder.Append(s).Append(",");
                 }
 
                 //remove the redundant ","
@@ -60,6 +73,7 @@ namespace BCPrice_Catcher.Trader
                 }
                 //replace "null" with null
                 builder.Replace("null", "");
+
 
                 return builder.ToString();
             }
@@ -74,7 +88,10 @@ namespace BCPrice_Catcher.Trader
 
                 foreach (var v in paraValues)
                 {
-                    builder.Append(v.Value).Append(",");
+                    builder.Append("\"")
+                        .Append(v.Value.Contains("\"") ? v.Value.Replace("\"", "") : v.Value)
+                        .Append("\",");
+//                    builder.Append(v.Value).Append(",");
                 }
 
                 //remove the redundant ","
@@ -92,9 +109,8 @@ namespace BCPrice_Catcher.Trader
             {
                 string paraValuesText = GetParaValuesTextForPost();
 
-                string result = "{\"method\": \"" + Parameters["method"] + "\", \"params\": [" + paraValuesText +
-                                "], \"id\":" + Parameters["id"] +
-                                " }";
+                string result = "{\"method\":\"" + Parameters["method"] + "\",\"params\":[" + paraValuesText +
+                                "],\"id\":" + Parameters["id"] + "}";
                 return result;
             }
 
@@ -121,7 +137,7 @@ namespace BCPrice_Catcher.Trader
                     builder.Remove(builder.Length - 1, 1).ToString();
                 }
 
-                builder.Replace("\"", "");
+//                builder.Replace("\"", "");
 //
 //                var paraValues = (from p in Parameters
 //                    where !paraNamesForSign.Contains(p.Key)
@@ -148,8 +164,7 @@ namespace BCPrice_Catcher.Trader
         public override string GetAccountInfo()
         {
             Builder = new BtccParasTextBuilder("getAccountInfo");
-            string postData = Builder.GetParasTextForPost();
-            return DoMethod(postData);
+            return DoMethod();
         }
 
         public override string SellMarket(double amount, CoinType coinType)
@@ -157,21 +172,19 @@ namespace BCPrice_Catcher.Trader
             Builder = new BtccParasTextBuilder("sellOrder2");
             //price must be added earlier
             Builder.Parameters.Add("price", "null");
-            Builder.Parameters.Add("amount", amount.ToString());
+            Builder.Parameters.Add("amount", $"\"{amount.ToString()}\"");
             Builder.Parameters.Add("coin_type", "\"BTCCNY\"");
-            string postData = Builder.GetParasTextForPost();
-            return DoMethod(postData);
+            return DoMethod();
         }
 
         public override string Sell(double price, double amount, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("sellOrder2");
             //price must be added earlier
-            Builder.Parameters.Add("price", price.ToString("0.00"));
-            Builder.Parameters.Add("amount", amount.ToString("0.00"));
-            Builder.Parameters.Add("coin_type","\"BTCCNY\"");
-            string postData = Builder.GetParasTextForPost();
-            return DoMethod(postData);
+            Builder.Parameters.Add("price", $"{price.ToString()}");
+            Builder.Parameters.Add("amount", $"{amount.ToString()}");
+            //            Builder.Parameters.Add("coin_type","\"BTCCNY\"");
+            return DoMethod();
         }
 
         public override string GetOrders(CoinType coinType)
@@ -186,17 +199,30 @@ namespace BCPrice_Catcher.Trader
 
         public override string Buy(double price, double amount, CoinType coinType)
         {
-            throw new NotImplementedException();
+            Builder = new BtccParasTextBuilder("buyOrder2");
+            //price must be added earlier
+            Builder.Parameters.Add("price", $"\\\"{price.ToString()}\\\"");
+            Builder.Parameters.Add("amount", $"\\\"{amount.ToString()}\\\"");
+
+            return DoMethod();
         }
 
-        private string DoMethod(string parasText)
+        private string DoMethod()
         {
             string s = Builder.GetSign();
             _client.Headers.Add("Content-Type", _headerContent);
-            _client.Headers.Add("Json-Rpc-Tonce", _tonce);
             _client.Headers.Add("Authorization", $"Basic {s}");
+            _client.Headers.Add("Json-Rpc-Tonce", Builder.Parameters["tonce"]);
 
-            return Encoding.UTF8.GetString(_client.UploadData(postUrl, "POST", Encoding.UTF8.GetBytes(parasText)));
+            string postData = Builder.GetParasTextForPost();
+            return Encoding.UTF8.GetString(_client.UploadData(postUrl, "POST", Encoding.Default.GetBytes(postData)));
+        }
+
+        public override string GetTransactions()
+        {
+            Builder = new BtccParasTextBuilder("getTransactions");
+
+            return DoMethod();
         }
     }
 }

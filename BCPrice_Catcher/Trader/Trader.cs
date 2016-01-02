@@ -22,5 +22,6 @@ namespace BCPrice_Catcher.Trader
         public abstract string GetOrders(CoinType coinType);
         public abstract string BuyMarket(double amount, CoinType coinType);
         public abstract string Buy(double price, double amount, CoinType coinType);
+        public abstract string GetTransactions();
     }
 }
