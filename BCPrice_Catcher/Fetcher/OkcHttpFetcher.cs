@@ -1,43 +1,41 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
-using Quobject.SocketIoClientDotNet.Client;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
-    class OkcHttpFetcher : Fetcher
+    internal class OkcHttpFetcher : Fetcher
     {
         private const string _tickerBtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=btc_cny";
         private const string _tickerLtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=ltc_cny";
 
-        private readonly string _tradesBtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=btc_cny";
-        private readonly string _tradesLtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=ltc_cny";
-
         private readonly string _ordersBtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=btc_cny";
         private readonly string _ordersLtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=ltc_cny";
+
+        private readonly string _tradesBtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=btc_cny";
+        private readonly string _tradesLtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=ltc_cny";
 
         public static int TradesCount { get; set; } = 100;
         public static int OrdersCount { get; set; } = 100;
 
         public override TickerInfo GetTicker()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tickerBtcCnyUrl);
-                    JObject o = JObject.Parse(dataText);
+                    var dataText = client.DownloadString(_tickerBtcCnyUrl);
+                    var o = JObject.Parse(dataText);
 
-                    return new TickerInfo()
+                    return new TickerInfo
                     {
                         Open = -1,
                         Vol = Convert.ToDouble(o["ticker"]["vol"]),
@@ -81,15 +79,15 @@ namespace BCPrice_Catcher
 
         public override List<FetchedTradeInfo> GetTrades()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tradesBtcCnyUrl);
-                    JObject o = JObject.Parse("{trades:" + dataText + "}");
+                    var dataText = client.DownloadString(_tradesBtcCnyUrl);
+                    var o = JObject.Parse("{trades:" + dataText + "}");
 
                     return (from c in o["trades"].Children()
-                        select new FetchedTradeInfo()
+                        select new FetchedTradeInfo
                         {
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
@@ -108,21 +106,21 @@ namespace BCPrice_Catcher
 
         public override List<FetchedOrderInfo> GetOrders()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_ordersBtcCnyUrl);
-                    JObject o = JObject.Parse(dataText);
+                    var dataText = client.DownloadString(_ordersBtcCnyUrl);
+                    var o = JObject.Parse(dataText);
 
                     return (from c in o["asks"].Children().Take(5)
-                        select new FetchedOrderInfo()
+                        select new FetchedOrderInfo
                         {
                             Amount = Convert.ToDouble(c[1]),
                             Price = Convert.ToDouble(c[0]),
                             Type = "sell"
                         }).Union(from c in o["bids"].Children().Take(5)
-                            select new FetchedOrderInfo()
+                            select new FetchedOrderInfo
                             {
                                 Amount = Convert.ToDouble(c[1]),
                                 Price = Convert.ToDouble(c[0]),

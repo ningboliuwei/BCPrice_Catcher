@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher.Class
 {

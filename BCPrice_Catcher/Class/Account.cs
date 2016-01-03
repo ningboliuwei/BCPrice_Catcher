@@ -1,9 +1,9 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher.Class
 {
@@ -13,7 +13,6 @@ namespace BCPrice_Catcher.Class
         public double CoinAmount { get; set; }
         public List<TradeInfo> TradeRecords { get; set; } = new List<TradeInfo>();
         public Trader.Trader Trader { get; set; }
-
 
 
         public abstract bool Buy(int strategyId, double price, double amount);

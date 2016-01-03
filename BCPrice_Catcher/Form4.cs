@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Class;
 using BCPrice_Catcher.Trader;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
@@ -21,8 +25,6 @@ namespace BCPrice_Catcher
 
         private const double TotalBalance = 2000000;
         private const double TotalCoinAmount = 200;
-
-        private bool _inRealMode = false;
 
         private static readonly string[] Titles =
         {
@@ -49,6 +51,8 @@ namespace BCPrice_Catcher
 
         private double _btccPrice;
         private double _huobiPrice;
+
+        private bool _inRealMode;
 
 
         public Form4()
@@ -721,14 +725,14 @@ namespace BCPrice_Catcher
 
         private void btnSwitchMode_Click(object sender, EventArgs e)
         {
-            if (!_inRealMode)//change to real mode
+            if (!_inRealMode) //change to real mode
             {
                 _inRealMode = true;
                 btnSwitchMode.Text = "停止真实模式(&R)";
                 btnSwitchMode.BackColor = Color.Crimson;
                 ChangeToRealMode();
             }
-            else//change to simulate mode
+            else //change to simulate mode
             {
                 _inRealMode = false;
                 btnSwitchMode.BackColor = Color.LimeGreen;
@@ -797,4 +801,3 @@ namespace BCPrice_Catcher
         }
     }
 }
-

@@ -1,13 +1,13 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
-    class InfoSet
+    internal class InfoSet
     {
         public TickerInfo Ticker { get; set; }
         public List<FetchedTradeInfo> Trades { get; set; }

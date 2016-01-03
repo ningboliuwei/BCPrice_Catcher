@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
+
+using System;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher.Class
 {
@@ -15,7 +15,7 @@ namespace BCPrice_Catcher.Class
             {
                 if (CoinAmount >= amount)
                 {
-                    double previousBalance = Balance;
+                    var previousBalance = Balance;
                     CoinAmount -= amount;
                     Balance += price * amount;
 
@@ -35,13 +35,14 @@ namespace BCPrice_Catcher.Class
                 return false;
             }
         }
+
         public override bool Buy(int strategyId, double price, double amount)
         {
             lock (this)
             {
                 if (Balance >= price * amount)
                 {
-                    double previousBalance = Balance;
+                    var previousBalance = Balance;
                     CoinAmount += amount;
                     Balance -= price * amount;
                     TradeRecords.Add(new TradeInfo

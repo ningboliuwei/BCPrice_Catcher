@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher.Trader
 {

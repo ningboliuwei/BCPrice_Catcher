@@ -1,20 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
-using Quobject.SocketIoClientDotNet.Client;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
-    class HuobiFetcher : Fetcher
+    internal class HuobiFetcher : Fetcher
     {
         private const string _tickerBtcCnyUrl = "http://api.huobi.com/staticmarket/ticker_btc_json.js";
         private const string _tickerLtcCnyUrl = "http://api.huobi.com/staticmarket/ticker_ltc_json.js";
@@ -32,14 +30,14 @@ namespace BCPrice_Catcher
 
         public override TickerInfo GetTicker()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tickerBtcCnyUrl);
-                    JObject o = JObject.Parse(dataText);
+                    var dataText = client.DownloadString(_tickerBtcCnyUrl);
+                    var o = JObject.Parse(dataText);
 
-                    return new TickerInfo()
+                    return new TickerInfo
                     {
                         Open = Convert.ToDouble(o["ticker"]["open"]),
                         Vol = Convert.ToDouble(o["ticker"]["vol"]),
@@ -61,16 +59,16 @@ namespace BCPrice_Catcher
 
         public override TradeDetail GetTradeDetail()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tradeBtcCnyUrl);
+                    var dataText = client.DownloadString(_tradeBtcCnyUrl);
 
 
-                    JObject o = JObject.Parse(dataText);
+                    var o = JObject.Parse(dataText);
 
-                    return new TradeDetail()
+                    return new TradeDetail
                     {
                         Amount = Convert.ToDouble(o["amount"]),
                         Level = Convert.ToDouble(o["level"]),
@@ -79,7 +77,7 @@ namespace BCPrice_Catcher
                         New = Convert.ToDouble(o["p_new"]),
                         Open = Convert.ToDouble(o["p_open"]),
                         Last = Convert.ToDouble(o["p_last"]),
-                        Total = Convert.ToDouble(o["total"]),
+                        Total = Convert.ToDouble(o["total"])
                     };
                 }
                 catch
@@ -92,15 +90,15 @@ namespace BCPrice_Catcher
 
         public override List<FetchedTradeInfo> GetTrades()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tradeBtcCnyUrl);
-                    JObject o = JObject.Parse(dataText);
+                    var dataText = client.DownloadString(_tradeBtcCnyUrl);
+                    var o = JObject.Parse(dataText);
 
                     return (from c in o["trades"].Children()
-                        select new FetchedTradeInfo()
+                        select new FetchedTradeInfo
                         {
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
@@ -118,21 +116,21 @@ namespace BCPrice_Catcher
 
         public override List<FetchedOrderInfo> GetOrders()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tradeBtcCnyUrl);
-                    JObject o = JObject.Parse(dataText);
+                    var dataText = client.DownloadString(_tradeBtcCnyUrl);
+                    var o = JObject.Parse(dataText);
 
                     return (from c in o["sells"].Children().Take(5)
-                        select new FetchedOrderInfo()
+                        select new FetchedOrderInfo
                         {
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
                             Type = "sell"
                         }).Union(from c in o["buys"].Children().Take(5)
-                            select new FetchedOrderInfo()
+                            select new FetchedOrderInfo
                             {
                                 Amount = Convert.ToDouble(c["amount"]),
                                 Price = Convert.ToDouble(c["price"]),

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,21 +8,23 @@ using System.Windows.Forms;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
 
+#endregion
+
 namespace BCPrice_Catcher
 {
     public partial class Form1 : Form
     {
         private const int FetchInterval = 500;
-        private readonly Dictionary<string, Fetcher> _fetchers = new Dictionary<string, Fetcher>();
-        private readonly Dictionary<string, InfoSet> _infoSets = new Dictionary<string, InfoSet>();
-        private readonly TimerList _timerList = new TimerList();
 
         private const string BtccHttpPrefix = "btc_http";
         private const string BtcSocketPrefix = "btc_socket";
         private const string HuobiPrefix = "huobi";
         private const string OkcHttpPrefix = "okc_http";
+        private readonly Dictionary<string, Fetcher> _fetchers = new Dictionary<string, Fetcher>();
+        private readonly Dictionary<string, InfoSet> _infoSets = new Dictionary<string, InfoSet>();
+        private readonly TimerList _timerList = new TimerList();
 
-        private Form4 _form4 = new Form4();
+        private readonly Form4 _form4 = new Form4();
 
 
         public Form1()

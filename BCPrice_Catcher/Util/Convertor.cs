@@ -1,16 +1,17 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher.Util
 {
-    class Convertor
+    internal class Convertor
     {
         public static DateTime ConvertJsonDateTimeToLocalDateTime(string dateString)
         {
@@ -21,13 +22,13 @@ namespace BCPrice_Catcher.Util
 
         public static long ConvertDateTimeToJsonTimeStamp(DateTime time)
         {
-            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             return Convert.ToInt64((time - startTime).TotalSeconds);
         }
 
         public static long ConvertDateTimeToBtccTonce(DateTime time)
         {
-            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             return Convert.ToInt64((time - startTime).TotalMilliseconds * 1000);
         }
 
@@ -35,7 +36,7 @@ namespace BCPrice_Catcher.Util
         {
             if (tickerInfo != null)
             {
-                return new Dictionary<string, string>()
+                return new Dictionary<string, string>
                 {
                     {"Open", tickerInfo.Open.ToString()},
                     {"Vol", tickerInfo.Vol.ToString()},
@@ -54,7 +55,7 @@ namespace BCPrice_Catcher.Util
         {
             if (tradeDetail != null)
             {
-                return new Dictionary<string, string>()
+                return new Dictionary<string, string>
                 {
                     {"Amount", tradeDetail.Amount.ToString()},
                     {"Level", tradeDetail.Level.ToString()},
@@ -80,12 +81,12 @@ namespace BCPrice_Catcher.Util
 
         public static string ConvertPlainTextToHMACSHA1Value(string secretKey, string input)
         {
-            HMACSHA1 hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(secretKey));
-            MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(input));
-            byte[] hashData = hmacsha1.ComputeHash(stream);
+            var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(secretKey));
+            var stream = new MemoryStream(Encoding.ASCII.GetBytes(input));
+            var hashData = hmacsha1.ComputeHash(stream);
             // Format as hexadecimal string.
-            StringBuilder hashBuilder = new StringBuilder();
-            foreach (byte data in hashData)
+            var hashBuilder = new StringBuilder();
+            foreach (var data in hashData)
             {
                 hashBuilder.Append(data.ToString("x2"));
             }

@@ -1,27 +1,25 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
-using Quobject.SocketIoClientDotNet.Client;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
-    class BtccHttpFetcher : Fetcher
+    internal class BtccHttpFetcher : Fetcher
     {
         private const string _tickerBtcCnyUrl = "https://data.btcchina.com/data/ticker?market=btccny";
         private const string _tickerLtcCnyUrl = "https://data.btcchina.com/data/ticker?market=ltccny";
 
-        private readonly string _tradesUrl = $"https://data.btcchina.com/data/historydata?limit={TradesCount}";
-
         private readonly string _ordersUrl = $"https://data.btcchina.com/data/orderbook?limit={OrdersCount}";
+
+        private readonly string _tradesUrl = $"https://data.btcchina.com/data/historydata?limit={TradesCount}";
 
 
         public static int TradesCount { get; set; } = 100;
@@ -29,14 +27,14 @@ namespace BCPrice_Catcher
 
         public override TickerInfo GetTicker()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 try
                 {
-                    string dataText = client.DownloadString(_tickerBtcCnyUrl);
-                    JObject o = JObject.Parse(dataText);
+                    var dataText = client.DownloadString(_tickerBtcCnyUrl);
+                    var o = JObject.Parse(dataText);
 
-                    return new TickerInfo()
+                    return new TickerInfo
                     {
                         Open = Convert.ToDouble(o["ticker"]["open"]),
                         Vol = Convert.ToDouble(o["ticker"]["vol"]),
@@ -80,16 +78,16 @@ namespace BCPrice_Catcher
 
         public override List<FetchedTradeInfo> GetTrades()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
-                string dataText = client.DownloadString(_tradesUrl);
+                var dataText = client.DownloadString(_tradesUrl);
                 //to become an object for parsing
                 try
                 {
-                    JObject o = JObject.Parse("{trades:" + dataText + "}");
+                    var o = JObject.Parse("{trades:" + dataText + "}");
 
                     return (from c in o["trades"].Children()
-                        select new FetchedTradeInfo()
+                        select new FetchedTradeInfo
                         {
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
@@ -108,21 +106,21 @@ namespace BCPrice_Catcher
 
         public override List<FetchedOrderInfo> GetOrders()
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
-                string dataText = client.DownloadString(_ordersUrl);
+                var dataText = client.DownloadString(_ordersUrl);
                 try
                 {
-                    JObject o = JObject.Parse(dataText);
+                    var o = JObject.Parse(dataText);
 
                     return (from c in o["asks"].Children().Take(5)
-                        select new FetchedOrderInfo()
+                        select new FetchedOrderInfo
                         {
                             Amount = Convert.ToDouble(c[1]),
                             Price = Convert.ToDouble(c[0]),
                             Type = "sell"
                         }).Union(from c in o["bids"].Children().Take(5)
-                            select new FetchedOrderInfo()
+                            select new FetchedOrderInfo
                             {
                                 Amount = Convert.ToDouble(c[1]),
                                 Price = Convert.ToDouble(c[0]),

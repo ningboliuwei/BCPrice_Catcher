@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace BCPrice_Catcher.Model
 {
-    class TradeDetail
+    internal class TradeDetail
     {
         //成交量
         public double Amount { get; set; }

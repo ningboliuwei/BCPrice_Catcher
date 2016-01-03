@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,6 +9,8 @@ using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace BCPrice_Catcher.Trader
 {
@@ -105,6 +109,7 @@ namespace BCPrice_Catcher.Trader
                         Id = Convert.ToInt32(o["result"]["order"]["id"]),
                         Type = o["result"]["order"]["type"].ToString() == "bid" ? OrderType.Bid : OrderType.Ask,
                         Price = Convert.ToDouble(o["result"]["order"]["price"]),
+                        AmountProcessed = Convert.ToDouble(o["result"]["order"]["amount"]),
                         AmountOriginal = Convert.ToDouble(o["result"]["order"]["amount_original"]),
                         Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["result"]["order"]["date"].ToString()),
                         Status =

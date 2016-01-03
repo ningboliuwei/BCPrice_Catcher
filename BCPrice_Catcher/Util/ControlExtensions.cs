@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region
+
+using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
+#endregion
 
 namespace BCPrice_Catcher.Util
 {
@@ -13,11 +13,11 @@ namespace BCPrice_Catcher.Util
         public static T Clone<T>(this T controlToClone)
             where T : Control
         {
-            PropertyInfo[] controlProperties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var controlProperties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            T instance = Activator.CreateInstance<T>();
+            var instance = Activator.CreateInstance<T>();
 
-            foreach (PropertyInfo propInfo in controlProperties)
+            foreach (var propInfo in controlProperties)
             {
                 if (propInfo.CanWrite)
                 {

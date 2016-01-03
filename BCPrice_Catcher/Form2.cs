@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿#region
+
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Trader;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
@@ -46,7 +44,7 @@ namespace BCPrice_Catcher
         {
             //            txtAccountInfo.Text = new BtccTrader().GetAccountInfo().AvailableBtc + "," + new BtccTrader().GetAccountInfo().AvailableCny.ToString() +"\n" + new BtccTrader().GetAccountInfo().AvailableBtc + "," + new HuobiTrader().GetAccountInfo().AvailableCny.ToString();
             txtAccountInfo.Text = new HuobiTrader().GetAccountInfo().AvailableBtc + "," +
-                                  new HuobiTrader().GetAccountInfo().AvailableCny.ToString();
+                                  new HuobiTrader().GetAccountInfo().AvailableCny;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -98,12 +96,12 @@ namespace BCPrice_Catcher
         private void button9_Click(object sender, EventArgs e)
         {
             txtResult.Text = new HuobiTrader().SellMarket(Convert.ToDouble(txtAmount.Text),
-               Trader.Trader.CoinType.Btc);
+                Trader.Trader.CoinType.Btc);
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-            int index = 0;
+            var index = 0;
             dataGridView1.DataSource = new HuobiTrader().GetOrders(Trader.Trader.CoinType.Btc).
                 OrderByDescending(t => t.Time).Select(t =>
                     new
@@ -112,10 +110,10 @@ namespace BCPrice_Catcher
                         t.Id,
                         t.Type,
                         Price = t.Price.ToString("0.000"),
-                        t.AmountOriginal,
+                        AmountOriginal = t.AmountOriginal.ToString("0.000"),
+                        AmountProcessed = t.AmountProcessed.ToString("0.000"),
                         Time = t.Time.ToString("HH:mm:ss"),
                         t.Status
-                         
                     }).ToList();
         }
     }

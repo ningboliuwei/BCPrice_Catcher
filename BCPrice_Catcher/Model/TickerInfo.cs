@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace BCPrice_Catcher.Model
 {
-    class TickerInfo
+    internal class TickerInfo
     {
         public double Open { get; set; }
         public double Vol { get; set; }

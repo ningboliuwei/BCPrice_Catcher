@@ -1,29 +1,25 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Class;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
     public partial class Form3 : Form
     {
+        private readonly SimulateAccount btccAccount = new SimulateAccount {Balance = 1000000, CoinAmount = 50};
         private double btccPrice;
+        private readonly SimulateAccount huobiAccount = new SimulateAccount {Balance = 1000000, CoinAmount = 50};
         private double huobiPrice;
 
-
-        SimulateAccount btccAccount = new SimulateAccount() {Balance = 1000000, CoinAmount = 50};
-        SimulateAccount huobiAccount = new SimulateAccount() {Balance = 1000000, CoinAmount = 50};
-
         private double lowerLimit;
-        private double upperLimit;
-        private double tradeAmount;
         private double totalAmountLimit;
+        private double tradeAmount;
+        private double upperLimit;
 
         public Form3()
         {
@@ -33,7 +29,7 @@ namespace BCPrice_Catcher
 
         public void AutoTrade()
         {
-            double differ = Math.Abs(btccPrice - huobiPrice);
+            var differ = Math.Abs(btccPrice - huobiPrice);
 
             if (differ >= upperLimit)
             {
@@ -121,7 +117,7 @@ namespace BCPrice_Catcher
 
         private void ShowTotalAssets()
         {
-            textBox6.Text = textBox6.Text.Insert(0, (huobiAccount.Balance + btccAccount.Balance).ToString() +
+            textBox6.Text = textBox6.Text.Insert(0, huobiAccount.Balance + btccAccount.Balance +
                                                     Environment.NewLine);
         }
 
@@ -130,7 +126,7 @@ namespace BCPrice_Catcher
         {
             if (Tag != null)
             {
-                Dictionary<string, double> prices = Tag as Dictionary<string, double>;
+                var prices = Tag as Dictionary<string, double>;
 
                 if (prices.Count == 2)
                 {

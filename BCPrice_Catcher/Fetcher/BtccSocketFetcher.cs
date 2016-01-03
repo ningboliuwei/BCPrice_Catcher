@@ -1,35 +1,28 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
 using Quobject.SocketIoClientDotNet.Client;
 
+#endregion
+
 namespace BCPrice_Catcher
 {
-    class BtccSocketFetcher : Fetcher
+    internal class BtccSocketFetcher : Fetcher
     {
         private const string Url = "https://websocket.btcc.com/";
         private readonly Socket _socket = IO.Socket(Url);
-        private string _dataText = "";
 
         private readonly string BtcSocketAccessKey = Settings.Default.BtccAccessKey;
         private readonly string BtcSocketSecretKey = Settings.Default.BtccSecretKey;
+        private string _dataText = "";
 
 
         public string Usage { get; set; }
-
-        public BtccSocketFetcher()
-        {
-        }
 
 
         public void Subscribe()
@@ -50,9 +43,9 @@ namespace BCPrice_Catcher
             {
                 try
                 {
-                    JObject o = JObject.Parse(_dataText);
+                    var o = JObject.Parse(_dataText);
 
-                    return new TickerInfo()
+                    return new TickerInfo
                     {
                         Open = Convert.ToDouble(o["ticker"]["open"]),
                         Vol = Convert.ToDouble(o["ticker"]["vol"]),
@@ -81,9 +74,9 @@ namespace BCPrice_Catcher
             {
                 try
                 {
-                    JObject o = JObject.Parse(_dataText);
+                    var o = JObject.Parse(_dataText);
 
-                    return new TradeDetail()
+                    return new TradeDetail
                     {
                         Amount = Convert.ToDouble(o["amount"]),
                         New = Convert.ToDouble(o["price"]),

@@ -1,13 +1,13 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
+
+#endregion
 
 namespace BCPrice_Catcher
 {
-    abstract class Fetcher
+    internal abstract class Fetcher
     {
         public abstract TickerInfo GetTicker();
         public abstract TradeDetail GetTradeDetail();
