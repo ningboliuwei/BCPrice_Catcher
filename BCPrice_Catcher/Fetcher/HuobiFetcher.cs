@@ -48,7 +48,7 @@ namespace BCPrice_Catcher
                         Sell = Convert.ToDouble(o["ticker"]["sell"]),
                         High = Convert.ToDouble(o["ticker"]["high"]),
                         Low = Convert.ToDouble(o["ticker"]["low"]),
-                        Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["time"].ToString())
+                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["time"].ToString())
                     };
                 }
                 catch
@@ -116,7 +116,7 @@ namespace BCPrice_Catcher
             }
         }
 
-        public override List<OrderInfo> GetOrders()
+        public override List<FetchedOrderInfo> GetOrders()
         {
             using (WebClient client = new WebClient())
             {
@@ -126,13 +126,13 @@ namespace BCPrice_Catcher
                     JObject o = JObject.Parse(dataText);
 
                     return (from c in o["sells"].Children().Take(5)
-                        select new OrderInfo()
+                        select new FetchedOrderInfo()
                         {
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
                             Type = "sell"
                         }).Union(from c in o["buys"].Children().Take(5)
-                            select new OrderInfo()
+                            select new FetchedOrderInfo()
                             {
                                 Amount = Convert.ToDouble(c["amount"]),
                                 Price = Convert.ToDouble(c["price"]),

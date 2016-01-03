@@ -128,7 +128,7 @@ namespace BCPrice_Catcher.Trader
 
         public override string Sell(double price, double amount, CoinType coinType)
         {
-            Builder = new HuobiParasTextBuilder("sell_market");
+            Builder = new HuobiParasTextBuilder("sell");
 
             Builder.Parameters.Add("market", Market);
             Builder.Parameters.Add("amount", amount.ToString());
@@ -137,7 +137,7 @@ namespace BCPrice_Catcher.Trader
             Builder.Parameters.Add("trade_password", TradePassword);
 
             string parasText =
-                Builder.GetParasText(new string[] {"amount", "coin_type", "sell"});
+                Builder.GetParasText(new string[] {"amount", "coin_type", "price"});
             return DoMethod(parasText);
         }
 
@@ -146,15 +146,43 @@ namespace BCPrice_Catcher.Trader
         /// </summary>
         /// <param name="coinType"></param>
         /// <returns></returns>
-        public override string GetOrders(CoinType coinType)
+        public override List<PlacedOrderInfo> GetOrders(CoinType coinType)
         {
             Builder = new HuobiParasTextBuilder("get_orders");
 
             Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("market", Market);
+
 
             string parasText =
                 Builder.GetParasText(new[] {"coin_type"});
-            return DoMethod(parasText);
+            
+            string result = DoMethod(parasText);
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    JObject o = JObject.Parse("{orders:" + result + "}");
+
+                    return (from c in o["orders"].Children()
+                            select new PlacedOrderInfo
+                            {
+                                Id = Convert.ToInt32(c["id"]),
+                                Type = c["type"].ToString() == "1" ? OrderType.Bid : OrderType.Ask,
+                                Price = Convert.ToDouble(c["order_price"]),
+                                AmountOriginal = Convert.ToDouble(c["order_amount"]),
+                                Time = Convertor.ConvertJsonDateTimeToLocalDateTime(c["order_time"].ToString())
+                                //Status is unknown   
+                            }).ToList();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                    // ignored
+                }
+            }
+            return null;
         }
 
         public override string BuyMarket(double amount, CoinType coinType)
@@ -191,7 +219,7 @@ namespace BCPrice_Catcher.Trader
             throw new NotImplementedException();
         }
 
-        public override string GetOrders()
+        public override PlacedOrderInfo GetOrder(int orderId )
         {
             throw new NotImplementedException();
         }

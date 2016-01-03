@@ -12,7 +12,7 @@ namespace BCPrice_Catcher.Util
 {
     class Convertor
     {
-        public static DateTime ConvertJsonDateTimeToChinaDateTime(string dateString)
+        public static DateTime ConvertJsonDateTimeToLocalDateTime(string dateString)
         {
             return
                 TimeZone.CurrentTimeZone.ToLocalTime(

@@ -12,6 +12,6 @@ namespace BCPrice_Catcher
         public abstract TickerInfo GetTicker();
         public abstract TradeDetail GetTradeDetail();
         public abstract List<FetchedTradeInfo> GetTrades();
-        public abstract List<OrderInfo> GetOrders();
+        public abstract List<FetchedOrderInfo> GetOrders();
     }
 }

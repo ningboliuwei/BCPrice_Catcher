@@ -45,7 +45,7 @@ namespace BCPrice_Catcher
                         Sell = Convert.ToDouble(o["ticker"]["sell"]),
                         High = Convert.ToDouble(o["ticker"]["high"]),
                         Low = Convert.ToDouble(o["ticker"]["low"]),
-                        Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["ticker"]["date"].ToString())
                     };
                 }
                 catch
@@ -94,7 +94,7 @@ namespace BCPrice_Catcher
                             Amount = Convert.ToDouble(c["amount"]),
                             Price = Convert.ToDouble(c["price"]),
                             Time =
-                                Convertor.ConvertJsonDateTimeToChinaDateTime(c["date"].ToString()).ToString("HH:mm:ss"),
+                                Convertor.ConvertJsonDateTimeToLocalDateTime(c["date"].ToString()).ToString("HH:mm:ss"),
                             Type = c["type"].ToString()
                         }).Take(TradesCount).ToList();
                 }
@@ -106,7 +106,7 @@ namespace BCPrice_Catcher
             }
         }
 
-        public override List<OrderInfo> GetOrders()
+        public override List<FetchedOrderInfo> GetOrders()
         {
             using (WebClient client = new WebClient())
             {
@@ -116,13 +116,13 @@ namespace BCPrice_Catcher
                     JObject o = JObject.Parse(dataText);
 
                     return (from c in o["asks"].Children().Take(5)
-                        select new OrderInfo()
+                        select new FetchedOrderInfo()
                         {
                             Amount = Convert.ToDouble(c[1]),
                             Price = Convert.ToDouble(c[0]),
                             Type = "sell"
                         }).Union(from c in o["bids"].Children().Take(5)
-                            select new OrderInfo()
+                            select new FetchedOrderInfo()
                             {
                                 Amount = Convert.ToDouble(c[1]),
                                 Price = Convert.ToDouble(c[0]),

@@ -60,7 +60,7 @@ namespace BCPrice_Catcher
                         Sell = Convert.ToDouble(o["ticker"]["sell"]),
                         High = Convert.ToDouble(o["ticker"]["high"]),
                         Low = Convert.ToDouble(o["ticker"]["low"]),
-                        Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["ticker"]["date"].ToString())
+                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["ticker"]["date"].ToString())
                     };
                 }
                 catch
@@ -87,7 +87,7 @@ namespace BCPrice_Catcher
                     {
                         Amount = Convert.ToDouble(o["amount"]),
                         New = Convert.ToDouble(o["price"]),
-                        Time = Convertor.ConvertJsonDateTimeToChinaDateTime(o["date"].ToString())
+                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["date"].ToString())
                     };
                 }
                 catch
@@ -103,7 +103,7 @@ namespace BCPrice_Catcher
             throw new NotImplementedException();
         }
 
-        public override List<OrderInfo> GetOrders()
+        public override List<FetchedOrderInfo> GetOrders()
         {
             throw new NotImplementedException();
         }
