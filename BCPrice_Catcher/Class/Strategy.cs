@@ -43,7 +43,7 @@ namespace BCPrice_Catcher.Class
         }
 
         public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
-            int tradeAmount)
+            double tradeAmount)
         {
             var differPrice = InputParameters.DifferPrice;
 
@@ -128,6 +128,7 @@ namespace BCPrice_Catcher.Class
             public int TotalTradeCountLimit { get; set; }
             public double StartPrice { get; set; }
             public int Peroid { get; set; }
+            public double TradeAmount { get; set; }
         }
     }
 }

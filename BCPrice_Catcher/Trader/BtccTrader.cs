@@ -50,37 +50,82 @@ namespace BCPrice_Catcher.Trader
             return null;
         }
 
-        public override string SellMarket(double amount, CoinType coinType)
+        public override int SellMarket(double amount, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("sellOrder2");
             //price must be added earlier
             Builder.Parameters.Add("price", "null");
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-            return DoMethod();
+            string result = DoMethod();
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["result"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
-        public override string Sell(double price, double amount, CoinType coinType)
+        public override int Sell(double price, double amount, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("sellOrder2");
             //price must be added earlier
             Builder.Parameters.Add("price", $"{price}");
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-            return DoMethod();
+            string result = DoMethod();
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["result"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
-        public override string BuyMarket(double amount, CoinType coinType)
+        public override int BuyMarket(double amount, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("buyOrder2");
             //price must be added earlier
             Builder.Parameters.Add("price", "null");
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-            return DoMethod();
+            string result = DoMethod();
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["result"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
-        public override string Buy(double price, double amount, CoinType coinType)
+        public override int Buy(double price, double amount, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("buyOrder2");
             //price must be added earlier
@@ -88,7 +133,22 @@ namespace BCPrice_Catcher.Trader
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
 
-            return DoMethod();
+            string result = DoMethod();
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["result"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
         public override PlacedOrderInfo GetOrder(int orderId)

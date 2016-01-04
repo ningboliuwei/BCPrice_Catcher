@@ -23,8 +23,8 @@ namespace BCPrice_Catcher.Trader
         private static readonly string _secretKey = Settings.Default.HuobiSecretKey;
         private readonly WebClient _client = new WebClient();
         private readonly string _headerContent = "application/x-www-form-urlencoded";
-        public HuobiParasTextBuilder Builder;
         private readonly string postUrl = "https://api.huobi.com/apiv3";
+        public HuobiParasTextBuilder Builder;
 
         /// <summary>
         ///     获取个人资产信息
@@ -64,7 +64,7 @@ namespace BCPrice_Catcher.Trader
         /// <param name="amount"></param>
         /// <param name="coinType"></param>
         /// <returns></returns>
-        public override string SellMarket(double amount, CoinType coinType)
+        public override int SellMarket(double amount, CoinType coinType)
         {
             Builder = new HuobiParasTextBuilder("sell_market");
 
@@ -75,10 +75,24 @@ namespace BCPrice_Catcher.Trader
 
             var parasText =
                 Builder.GetParasText(new[] {"amount", "coin_type"});
-            return DoMethod(parasText);
+            var result = DoMethod(parasText);
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["id"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
-        public override string Sell(double price, double amount, CoinType coinType)
+        public override int Sell(double price, double amount, CoinType coinType)
         {
             Builder = new HuobiParasTextBuilder("sell");
 
@@ -90,7 +104,21 @@ namespace BCPrice_Catcher.Trader
 
             var parasText =
                 Builder.GetParasText(new[] {"amount", "coin_type", "price"});
-            return DoMethod(parasText);
+            var result = DoMethod(parasText);
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["id"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
         /// <summary>
@@ -142,7 +170,7 @@ namespace BCPrice_Catcher.Trader
             return null;
         }
 
-        public override string BuyMarket(double amount, CoinType coinType)
+        public override int BuyMarket(double amount, CoinType coinType)
         {
             Builder = new HuobiParasTextBuilder("buy_market");
 
@@ -153,10 +181,24 @@ namespace BCPrice_Catcher.Trader
 
             var parasText =
                 Builder.GetParasText(new[] {"amount", "coin_type"});
-            return DoMethod(parasText);
+            var result = DoMethod(parasText);
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["id"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
-        public override string Buy(double price, double amount, CoinType coinType)
+        public override int Buy(double price, double amount, CoinType coinType)
         {
             Builder = new HuobiParasTextBuilder("buy");
 
@@ -168,7 +210,21 @@ namespace BCPrice_Catcher.Trader
 
             var parasText =
                 Builder.GetParasText(new[] {"amount", "coin_type", "price"});
-            return DoMethod(parasText);
+            var result = DoMethod(parasText);
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse(result);
+
+                    return Convert.ToInt32(o["id"]);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            return -1;
         }
 
         public override string GetTransactions()

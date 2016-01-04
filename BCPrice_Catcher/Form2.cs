@@ -37,30 +37,30 @@ namespace BCPrice_Catcher
 //            txtResult.Text = new BtccTrader().Buy(Convert.ToDouble(txtPrice.Text), Convert.ToDouble(txtAmount.Text),
 //                Trader.Trader.CoinType.Btc);
 
-//            dataGridView1.DataSource = new BtccTrader().GetOrders();
+            dataGridView1.DataSource = new BtccTrader().GetOrders(Trader.Trader.CoinType.Btc);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             //            txtAccountInfo.Text = new BtccTrader().GetAccountInfo().AvailableBtc + "," + new BtccTrader().GetAccountInfo().AvailableCny.ToString() +"\n" + new BtccTrader().GetAccountInfo().AvailableBtc + "," + new HuobiTrader().GetAccountInfo().AvailableCny.ToString();
-            txtAccountInfo.Text = new HuobiTrader().GetAccountInfo().AvailableBtc + "," +
-                                  new HuobiTrader().GetAccountInfo().AvailableCny;
+//            txtAccountInfo.Text = new HuobiTrader().GetAccountInfo().AvailableBtc + "," +
+//                                  new HuobiTrader().GetAccountInfo().AvailableCny;
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            txtResult.Text = new BtccTrader().BuyMarket(Convert.ToDouble(txtAmount.Text), Trader.Trader.CoinType.Btc);
+            txtResult.Text = new BtccTrader().BuyMarket(Convert.ToDouble(txtAmount.Text), Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             txtResult.Text = new BtccTrader().Sell(Convert.ToDouble(txtPrice.Text), Convert.ToDouble(txtAmount.Text),
-                Trader.Trader.CoinType.Btc);
+                Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            txtResult.Text = new BtccTrader().SellMarket(Convert.ToDouble(txtAmount.Text), Trader.Trader.CoinType.Btc);
+            txtResult.Text = new BtccTrader().SellMarket(Convert.ToDouble(txtAmount.Text), Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -78,25 +78,25 @@ namespace BCPrice_Catcher
         private void button4_Click(object sender, EventArgs e)
         {
             txtResult.Text = new HuobiTrader().Buy(Convert.ToDouble(txtPrice.Text), Convert.ToDouble(txtAmount.Text),
-                Trader.Trader.CoinType.Btc);
+                Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             txtResult.Text = new HuobiTrader().BuyMarket(Convert.ToDouble(txtAmount.Text),
-                Trader.Trader.CoinType.Btc);
+                Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             txtResult.Text = new HuobiTrader().Sell(Convert.ToDouble(txtPrice.Text), Convert.ToDouble(txtAmount.Text),
-                Trader.Trader.CoinType.Btc);
+                Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
             txtResult.Text = new HuobiTrader().SellMarket(Convert.ToDouble(txtAmount.Text),
-                Trader.Trader.CoinType.Btc);
+                Trader.Trader.CoinType.Btc).ToString();
         }
 
         private void button11_Click(object sender, EventArgs e)
