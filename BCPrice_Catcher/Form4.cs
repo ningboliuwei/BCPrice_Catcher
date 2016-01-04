@@ -30,12 +30,13 @@ namespace BCPrice_Catcher
         private const string HuobiPrefix = "huobi";
 
         private const int InitialStrategyCount = 3;
+        private int _strategyControlsCount = 0;
 
         private static readonly string[] Titles =
         {
             "策略ID", "交易阙值\n更新时间", "交易阙值", "交易阙值\n增量", "交易阙值\n系数", "回归阙值", "回归阙值\n增量", "回归阙值\n系数", "交易延时\n阙值", "交易次数\n阙值",
             "总交易次数\n阙值",
-            "周期","每次交易个数", "交易数量"
+            "周期", "每次交易个数", "交易数量"
         };
 
         private Dictionary<string, Account> _accounts = new Dictionary<string, Account>
@@ -105,6 +106,7 @@ namespace BCPrice_Catcher
 
         private void GenerateStrategyControls(int strategyId)
         {
+            _strategyControlsCount++;
             var rowPosition = strategyId + 1;
             var columnPosition = 0;
             //策略号
@@ -242,7 +244,7 @@ namespace BCPrice_Catcher
                 {
                     Name = $"{ControlName.nudTotalTradeCountLimit}{strategyId}",
                     Maximum = int.MaxValue,
-                    Value = 99999999,
+                    Value = 9999999,
                     Minimum = 1,
                     DecimalPlaces = 0,
                     Increment = 1,
@@ -272,7 +274,7 @@ namespace BCPrice_Catcher
                     Value = 0.001M,
                     Maximum = int.MaxValue,
                     Minimum = 0,
-                    DecimalPlaces = 0,
+                    DecimalPlaces = 4,
                     Increment = 0.001M,
                     Dock = DockStyle.Fill,
                     Width = 40
@@ -313,7 +315,9 @@ namespace BCPrice_Catcher
         private void StopStrategy(int strategyId)
         {
             //_strategies.Remove()
-            _strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
+            //_strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
+            _strategies.RemoveAt(strategyId);
+            _strategyTimerList.Timers.Remove(strategyId.ToString());
         }
 
         private void btnStartStopStrategy_Click(object sender, EventArgs e)
@@ -663,8 +667,7 @@ namespace BCPrice_Catcher
                 as NumericUpDown).Text;
 
             var s9 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeAmount}{strategyId}"] as
-             NumericUpDown).Text;
-
+                NumericUpDown).Text;
 
 
             var parameters = new Strategy.StrategyInputParameters
@@ -676,7 +679,7 @@ namespace BCPrice_Catcher
                 RegressionThresholdCoefficient = Regex.IsMatch(s5, floatRegex) ? Convert.ToDouble(s5) : 0,
                 StartPrice = Regex.IsMatch(s6, floatRegex) ? Convert.ToDouble(s6) : 3,
                 Peroid = Regex.IsMatch(s7, integerRegex) ? Convert.ToInt32(s7) : 1,
-                TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 99999999,
+                TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 9999999,
                 TradeAmount = Regex.IsMatch(s9, floatRegex) ? Convert.ToDouble(s9) : 0.001,
             };
 
@@ -704,7 +707,8 @@ namespace BCPrice_Catcher
             //                StartStrategy(s.Id);
             //            }
 
-            for (var i = 0; i < _strategies.Count; i++)
+
+            for (var i = 0; i < _strategyControlsCount; i++)
             {
                 var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
 
@@ -717,7 +721,8 @@ namespace BCPrice_Catcher
 
         private void btnAllStop_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < _strategies.Count; i++)
+            int strategyCount = _strategies.Count;
+            for (var i = strategyCount - 1; i >= 0; i--)
             {
                 var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
 
