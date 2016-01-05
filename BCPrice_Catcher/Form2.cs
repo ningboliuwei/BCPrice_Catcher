@@ -72,7 +72,7 @@ namespace BCPrice_Catcher
 
         private void button10_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(new BtccTrader().GetOrder(Convert.ToInt32(txtOrderId.Text)).Status.ToString());
+//            MessageBox.Show(new BtccTrader().GetOrder(Convert.ToInt32(txtOrderId.Text), Trader.Trader.CoinType.Btc);
         }
 
         private void button4_Click(object sender, EventArgs e)

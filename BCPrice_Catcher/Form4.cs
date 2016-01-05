@@ -23,8 +23,8 @@ namespace BCPrice_Catcher
         private const string ButtonStartText = "开始";
         private const string ButtonStopText = "停止";
 
-        private const double TotalBalance = 2000000;
-        private const double TotalCoinAmount = 200;
+        private double _initialTotalBalance;
+        private double _initialTotalCoinAmount;
 
         private const string BtccPrefix = "btcc";
         private const string HuobiPrefix = "huobi";
@@ -368,7 +368,7 @@ namespace BCPrice_Catcher
 //            double tradeAmount = Convert.ToDouble(nudTradeAmount.Value);
             //need await here?
             //need task here?
-            _strategyTimerList.Add(strategyId.ToString(), strategy.InputParameters.Peroid * 1000, async o =>
+            _strategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
             {
                 await Task.Run(() =>
                 {
@@ -391,6 +391,7 @@ namespace BCPrice_Catcher
         private void Form4_Load(object sender, EventArgs e)
         {
             InitializeControls();
+            ChangeToSimulateMode();
         }
 
         private void InitializeControls()
@@ -505,12 +506,14 @@ namespace BCPrice_Catcher
         private void AdjustAccounts(double pecentage)
         {
             //_accounts.Clear();
+            double totalBalance = _accounts[BtccPrefix].Balance + _accounts[HuobiPrefix].Balance;
+            double totalCoinAmount = _accounts[BtccPrefix].CoinAmount + _accounts[HuobiPrefix].CoinAmount;
 
-            _accounts[BtccPrefix].Balance = Math.Round(TotalBalance * pecentage);
-            _accounts[BtccPrefix].CoinAmount = Math.Round(TotalCoinAmount * (1 - pecentage));
+            _accounts[BtccPrefix].Balance = Math.Round(totalBalance * pecentage);
+            _accounts[BtccPrefix].CoinAmount = Math.Round(totalCoinAmount * (1 - pecentage));
 
-            _accounts[HuobiPrefix].Balance = Math.Round(TotalBalance * (1 - pecentage));
-            _accounts[HuobiPrefix].CoinAmount = Math.Round(TotalCoinAmount * pecentage);
+            _accounts[HuobiPrefix].Balance = Math.Round(totalBalance * (1 - pecentage));
+            _accounts[HuobiPrefix].CoinAmount = Math.Round(totalCoinAmount * pecentage);
         }
 
 
@@ -592,7 +595,7 @@ namespace BCPrice_Catcher
                 = $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
             lblTotalProfits.Text
                 =
-                $"总利润{Environment.NewLine}{(_accounts["btcc"].Balance + _accounts["huobi"].Balance - TotalBalance).ToString("0.000")}";
+                $"总利润{Environment.NewLine}{(_accounts[BtccPrefix].Balance + _accounts[HuobiPrefix].Balance - _initialTotalBalance).ToString("0.000")}";
 
             if (
                 _prices[BtccPrefix]
@@ -806,13 +809,16 @@ namespace BCPrice_Catcher
             var accountInfo = btccAccount.Trader.GetAccountInfo();
             btccAccount.Balance = accountInfo.AvailableCny;
             btccAccount.CoinAmount = accountInfo.AvailableBtc;
-            _accounts["btcc"] = btccAccount;
+            _accounts[BtccPrefix] = btccAccount;
 
             var huobiAccount = new RealAccount {Trader = new HuobiTrader()};
             accountInfo = huobiAccount.Trader.GetAccountInfo();
             huobiAccount.Balance = accountInfo.AvailableCny;
             huobiAccount.CoinAmount = accountInfo.AvailableBtc;
-            _accounts["huobi"] = huobiAccount;
+            _accounts[HuobiPrefix] = huobiAccount;
+
+            _initialTotalBalance = btccAccount.Balance + huobiAccount.Balance;
+            _initialTotalCoinAmount = btccAccount.CoinAmount + huobiAccount.CoinAmount;
         }
 
 
@@ -823,16 +829,18 @@ namespace BCPrice_Catcher
 
         private void UseSimulateAccount()
         {
+            _initialTotalBalance = 2000000;
+            _initialTotalCoinAmount = 200;
             _accounts["btcc"] = new SimulateAccount
             {
-                Balance = Math.Round(TotalBalance * InitialPecentage),
-                CoinAmount = Math.Round(TotalCoinAmount * (1 - InitialPecentage))
+                Balance = Math.Round(_initialTotalBalance * InitialPecentage),
+                CoinAmount = Math.Round(_initialTotalCoinAmount * (1 - InitialPecentage))
             };
 
             _accounts["huobi"] = new SimulateAccount
             {
-                Balance = Math.Round(TotalBalance * (1 - InitialPecentage)),
-                CoinAmount = Math.Round(TotalCoinAmount * InitialPecentage)
+                Balance = Math.Round(_initialTotalBalance * (1 - InitialPecentage)),
+                CoinAmount = Math.Round(_initialTotalCoinAmount * InitialPecentage)
             };
         }
 

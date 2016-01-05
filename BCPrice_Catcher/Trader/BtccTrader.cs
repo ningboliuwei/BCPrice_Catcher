@@ -57,7 +57,7 @@ namespace BCPrice_Catcher.Trader
             Builder.Parameters.Add("price", "null");
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-            string result = DoMethod();
+            var result = DoMethod();
 
             if (!result.Contains(ErrorMessageHead))
             {
@@ -82,7 +82,7 @@ namespace BCPrice_Catcher.Trader
             Builder.Parameters.Add("price", $"{price}");
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-            string result = DoMethod();
+            var result = DoMethod();
 
             if (!result.Contains(ErrorMessageHead))
             {
@@ -107,7 +107,7 @@ namespace BCPrice_Catcher.Trader
             Builder.Parameters.Add("price", "null");
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-            string result = DoMethod();
+            var result = DoMethod();
 
             if (!result.Contains(ErrorMessageHead))
             {
@@ -133,7 +133,7 @@ namespace BCPrice_Catcher.Trader
             Builder.Parameters.Add("amount", $"{amount}");
             Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
 
-            string result = DoMethod();
+            var result = DoMethod();
 
             if (!result.Contains(ErrorMessageHead))
             {
@@ -151,7 +151,7 @@ namespace BCPrice_Catcher.Trader
             return -1;
         }
 
-        public override PlacedOrderInfo GetOrder(int orderId)
+        public override PlacedOrderInfo GetOrder(int orderId, CoinType coinType)
         {
             Builder = new BtccParasTextBuilder("getOrder");
             Builder.Parameters.Add("order_id", $"{orderId}");
@@ -250,11 +250,6 @@ namespace BCPrice_Catcher.Trader
             BTCCNY,
             LTCCNY
         }
-
-        //for btcc trader
-
-        //        private const string Market = "cny";
-        //        private const string TradePassword = "password";
 
         public class BtccParasTextBuilder
         {

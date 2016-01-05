@@ -232,43 +232,48 @@ namespace BCPrice_Catcher.Trader
             throw new NotImplementedException();
         }
 
-        public override PlacedOrderInfo GetOrder(int orderId)
+        public override PlacedOrderInfo GetOrder(int orderId, CoinType coinType)
         {
+            Builder = new HuobiParasTextBuilder("order_info");
+
+            Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+            Builder.Parameters.Add("market", Market);
+
+
+            var parasText =
+                Builder.GetParasText(new[] { "coin_type" });
+
+            var result = DoMethod(parasText);
+
+            if (!result.Contains(ErrorMessageHead))
+            {
+                try
+                {
+                    var o = JObject.Parse("{order:" + result + "}");
+
+                    return new PlacedOrderInfo
+                    {
+                        Id = Convert.ToInt32(o["id"]),
+                        //1 Buy, 2 Sell, 3 BuyMarket, 4 SellMarket
+                        Type = (o["type"].ToString() == "1" || o["type"].ToString() == "3") ? OrderType.Bid : OrderType.Ask,
+                        Price = Convert.ToDouble(o["order_price"]),
+                        AmountProcessed = Convert.ToDouble(o[" processed_amount"]),
+                        AmountOriginal = Convert.ToDouble(o["order_amount"]),
+                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["order_time"].ToString()),
+                        Status =
+                            Convert.ToDouble(o["processed_amount"]) == Convert.ToDouble(o["order_amount"])
+                                ? OrderStatus.Closed
+                                : OrderStatus.Open
+                        //Status is unknown   
+                    };
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                    // ignored
+                }
+            }
             return null;
-//            Builder = new HuobiParasTextBuilder("get_orders");
-//
-////            Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
-//            Builder.Parameters.Add("market", Market);
-//
-//
-//            var parasText =
-//                Builder.GetParasText(new[] { "coin_type" });
-//
-//            var result = DoMethod(parasText);
-//
-//            if (!result.Contains(ErrorMessageHead))
-//            {
-//                try
-//                {
-//                    var o = JObject.Parse(result);
-//
-//                    return new PlacedOrderInfo
-//                    {
-//                        Id = Convert.ToInt32(o["result"]["order"]["id"]),
-//                        Type = o["result"]["order"]["type"].ToString() == "bid" ? OrderType.Bid : OrderType.Ask,
-//                        Price = Convert.ToDouble(o["result"]["order"]["price"]),
-//                        AmountOriginal = Convert.ToDouble(o["result"]["order"]["amount_original"]),
-//                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["result"]["order"]["date"].ToString()),
-//                        Status =
-//                            (OrderStatus)
-//                                Enum.Parse(typeof(OrderStatus), o["result"]["order"]["status"].ToString(), true)
-//                    };
-//                }
-//                catch
-//                {
-//                    // ignored
-//                }
-//            }
         }
 
         /// <summary>
