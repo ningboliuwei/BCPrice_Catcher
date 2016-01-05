@@ -313,6 +313,7 @@ namespace BCPrice_Catcher
             //_strategies.Remove()
             //_strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
             _strategies.RemoveAt(strategyId);
+            var timer = _strategyTimerList.Timers[strategyId.ToString()];
             _strategyTimerList.Timers.Remove(strategyId.ToString());
 			var timer = _strategyTimerList.Timers[strategyId.ToString()];
 			_strategyTimerList.Timers.Remove(strategyId.ToString());
@@ -343,7 +344,7 @@ namespace BCPrice_Catcher
 		private void StartStrategy(int strategyId)
 		{
             AddStrategy(strategyId);
-            _strategyTimerList.Timers[strategyId.ToString()].Change(0, 1000);
+//            _strategyTimerList.Timers[strategyId.ToString()].Change(0, 1000);
 		}
 
 		//add a new strategy
@@ -361,12 +362,12 @@ namespace BCPrice_Catcher
 //            double tradeAmount = Convert.ToDouble(nudTradeAmount.Value);
 			//need await here?
 			//need task here?
-            _strategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
+            _strategyTimerList.Add(strategyId.ToString(), strategy.InputParameters.Peroid * 1000, async o =>
 			{
 				await Task.Run(() =>
 				{
-					strategy.Update(GetStrategyParameters(strategyId));
-					strategy.TryTrade(_accounts, new Dictionary<string, double>
+                    strategy.Update(GetStrategyParameters(strategy.Id));
+                    strategy.TryTrade(_accounts, new Dictionary<string, double>
 					{
                         {BtccPrefix, _prices[BtccPrefix]},
                         {HuobiPrefix, _prices[HuobiPrefix]}
