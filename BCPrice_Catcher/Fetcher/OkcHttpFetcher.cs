@@ -15,13 +15,13 @@ namespace BCPrice_Catcher
     internal class OkcHttpFetcher : Fetcher
     {
         private const string _tickerBtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=btc_cny";
-        private const string _tickerLtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=ltc_cny";
+//        private const string _tickerLtcCnyUrl = "https://www.okcoin.cn/api/v1/ticker.do?symbol=ltc_cny";
 
         private readonly string _ordersBtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=btc_cny";
-        private readonly string _ordersLtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=ltc_cny";
+//        private readonly string _ordersLtcCnyUrl = "https://www.okcoin.cn/api/v1/depth.do?symbol=ltc_cny";
 
         private readonly string _tradesBtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=btc_cny";
-        private readonly string _tradesLtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=ltc_cny";
+//        private readonly string _tradesLtcCnyUrl = "https://www.okcoin.cn/api/v1/trades.do?symbol=ltc_cny";
 
         public static int TradesCount { get; set; } = 100;
         public static int OrdersCount { get; set; } = 100;
