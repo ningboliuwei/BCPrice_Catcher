@@ -21,7 +21,7 @@ namespace BCPrice_Catcher.Trader
         private const string ErrorMessageHead = "\"code\"";
         private static readonly string _accessKey = Settings.Default.HuobiAccessKey;
         private static readonly string _secretKey = Settings.Default.HuobiSecretKey;
-        private readonly WebClient _client = new WebClient();
+        private WebClient _client;
         private readonly string _headerContent = "application/x-www-form-urlencoded";
         private readonly string postUrl = "https://api.huobi.com/apiv3";
         public HuobiParasTextBuilder Builder;
@@ -203,6 +203,7 @@ namespace BCPrice_Catcher.Trader
             Builder = new HuobiParasTextBuilder("buy");
 
             Builder.Parameters.Add("market", Market);
+			//huobi uses total price (price * amount) for paramater "amount"
             Builder.Parameters.Add("amount", amount.ToString());
             Builder.Parameters.Add("price", price.ToString());
             Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
@@ -283,6 +284,7 @@ namespace BCPrice_Catcher.Trader
         /// <returns></returns>
         private string DoMethod(string parasText)
         {
+	        _client = new WebClient();
             _client.Headers.Add("Content-Type", _headerContent);
 
             return Encoding.UTF8.GetString(_client.UploadData(postUrl, Encoding.UTF8.GetBytes(parasText)));

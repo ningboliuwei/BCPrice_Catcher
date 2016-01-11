@@ -519,6 +519,11 @@ namespace BCPrice_Catcher
 
         private void ShowAccounts()
         {
+	        if (_inRealMode)
+	        {
+		        UpdateRealAccount();
+	        }
+
             lblBtccAccount.Text
                 =
                 $"BTCC({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts["btcc"].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts["btcc"].CoinAmount.ToString("0.000")}";
@@ -740,9 +745,9 @@ namespace BCPrice_Catcher
 
         private void ShowTrades()
         {
-            long index = _accounts["btcc"].TradeRecords.Count;
+            long index = _accounts["btcc"].AccountTradeRecords.Count;
             gdvBtccTrades.DataSource =
-                _accounts["btcc"].TradeRecords.OrderByDescending(t => t.Time)
+                _accounts["btcc"].AccountTradeRecords.OrderByDescending(t => t.Time)
                     .Select(
                         t =>
                             new
@@ -753,12 +758,12 @@ namespace BCPrice_Catcher
                                 t.Amount,
                                 Time = t.Time.ToString("HH:mm:ss"),
                                 t.Type,
-                                Profit = t.Profit.ToString("0.000")
+//                                Profit = t.Profit.ToString("0.000")
                             })
                     .ToList();
 
-            index = _accounts["huobi"].TradeRecords.Count;
-            gdvHuobiTrades.DataSource = _accounts["huobi"].TradeRecords.OrderByDescending(t => t.Time).Select(
+            index = _accounts["huobi"].AccountTradeRecords.Count;
+            gdvHuobiTrades.DataSource = _accounts["huobi"].AccountTradeRecords.OrderByDescending(t => t.Time).Select(
                 t =>
                     new
                     {
@@ -768,7 +773,7 @@ namespace BCPrice_Catcher
                         t.Amount,
                         Time = t.Time.ToString("HH:mm:ss"),
                         t.Type,
-                        Profit = t.Profit.ToString("0.000")
+//                        Profit = t.Profit.ToString("0.000")
                     }).ToList();
         }
 
@@ -820,6 +825,23 @@ namespace BCPrice_Catcher
             _initialTotalBalance = btccAccount.Balance + huobiAccount.Balance;
             _initialTotalCoinAmount = btccAccount.CoinAmount + huobiAccount.CoinAmount;
         }
+
+	    private void UpdateRealAccount()
+	    {
+		    var btccAccount = _accounts[BtccPrefix];
+//		    btccAccount.Trader = new BtccTrader();
+			var accountInfo = btccAccount.Trader.GetAccountInfo();
+			btccAccount.Balance = accountInfo.AvailableCny;
+			btccAccount.CoinAmount = accountInfo.AvailableBtc;
+			_accounts[BtccPrefix] = btccAccount;
+
+		    var huobiAccount = _accounts[HuobiPrefix];
+//			huobiAccount.Trader = new HuobiTrader();
+			accountInfo = huobiAccount.Trader.GetAccountInfo();
+			huobiAccount.Balance = accountInfo.AvailableCny;
+			huobiAccount.CoinAmount = accountInfo.AvailableBtc;
+			_accounts[HuobiPrefix] = huobiAccount;
+		}
 
 
         private void ChangeToSimulateMode()

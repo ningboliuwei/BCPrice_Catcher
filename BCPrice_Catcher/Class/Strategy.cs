@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using BCPrice_Catcher.Trader;
 
 #endregion
 
@@ -50,6 +51,8 @@ namespace BCPrice_Catcher.Class
             var btccAccount = accounts["btcc"];
             var huobiAccount = accounts["huobi"];
 
+//	        btccAccount.Trader = new BtccTrader();
+//	        huobiAccount.Trader = new HuobiTrader();
 
             var btccPrice = prices["btcc"];
             var huobiPrice = prices["huobi"];

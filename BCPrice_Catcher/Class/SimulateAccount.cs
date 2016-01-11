@@ -19,14 +19,14 @@ namespace BCPrice_Catcher.Class
                     CoinAmount -= amount;
                     Balance += price * amount;
 
-                    TradeRecords.Add(new TradeInfo
+                    AccountTradeRecords.Add(new AccountTradeInfo
                     {
                         Type = "Buy",
                         Price = price,
                         StrategyId = strategyId + 1,
                         Amount = amount,
                         Time = DateTime.Now,
-                        Profit = Balance - previousBalance
+//                        Profit = Balance - previousBalance
                     });
                     //if sell success
                     return true;
@@ -45,14 +45,14 @@ namespace BCPrice_Catcher.Class
                     var previousBalance = Balance;
                     CoinAmount += amount;
                     Balance -= price * amount;
-                    TradeRecords.Add(new TradeInfo
+                    AccountTradeRecords.Add(new AccountTradeInfo
                     {
                         Type = "Sell",
                         Price = price,
                         StrategyId = strategyId + 1,
                         Amount = amount,
                         Time = DateTime.Now,
-                        Profit = Balance - previousBalance
+//                        Profit = Balance - previousBalance
                     });
 
                     return true;

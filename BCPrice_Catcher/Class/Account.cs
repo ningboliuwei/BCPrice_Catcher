@@ -11,8 +11,9 @@ namespace BCPrice_Catcher.Class
     {
         public double Balance { get; set; }
         public double CoinAmount { get; set; }
-        public List<TradeInfo> TradeRecords { get; set; } = new List<TradeInfo>();
+        public List<AccountTradeInfo> AccountTradeRecords { get; set; } = new List<AccountTradeInfo>();
         public Trader.Trader Trader { get; set; }
+	    public readonly Trader.Trader.CoinType AccountCoinType = BCPrice_Catcher.Trader.Trader.CoinType.Btc;
 
 
         public abstract bool Buy(int strategyId, double price, double amount);

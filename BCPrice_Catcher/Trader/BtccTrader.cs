@@ -19,7 +19,7 @@ namespace BCPrice_Catcher.Trader
         private const string ErrorMessageHead = "\"error\"";
         private static readonly string _accessKey = Settings.Default.BtccAccessKey;
         private static readonly string _secretKey = Settings.Default.BtccSecretKey;
-        private readonly WebClient _client = new WebClient();
+        private WebClient _client;
 
         private readonly string _headerContent = "application/json-rpc";
         private readonly string postUrl = "https://api.btcc.com/api_trade_v1.php";
@@ -187,7 +187,10 @@ namespace BCPrice_Catcher.Trader
 
         private string DoMethod()
         {
-            var s = Builder.GetSign();
+			//get latest tonce first
+	        Builder.Parameters["tonce"] = Convertor.ConvertDateTimeToBtccTonce(DateTime.Now).ToString();
+			var s = Builder.GetSign();
+			_client = new WebClient();
             _client.Headers.Add("Content-Type", _headerContent);
             _client.Headers.Add("Authorization", $"Basic {s}");
             _client.Headers.Add("Json-Rpc-Tonce", Builder.Parameters["tonce"]);
