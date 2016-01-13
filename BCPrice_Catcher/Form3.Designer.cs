@@ -36,13 +36,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblBtccPrice = new System.Windows.Forms.Label();
+            this.lblHuobiPrice = new System.Windows.Forms.Label();
+            this.lblBtccAccountInfo = new System.Windows.Forms.Label();
+            this.lblHuobiAccountInfo = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtTotalAssets = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -107,43 +107,43 @@
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(152, 83);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(123, 36);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "label3";
+            this.lblBtccPrice.AutoSize = true;
+            this.lblBtccPrice.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblBtccPrice.Location = new System.Drawing.Point(152, 83);
+            this.lblBtccPrice.Name = "lblBtccPrice";
+            this.lblBtccPrice.Size = new System.Drawing.Size(123, 36);
+            this.lblBtccPrice.TabIndex = 4;
+            this.lblBtccPrice.Text = "label3";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(1013, 83);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(123, 36);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "label3";
+            this.lblHuobiPrice.AutoSize = true;
+            this.lblHuobiPrice.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblHuobiPrice.Location = new System.Drawing.Point(1013, 83);
+            this.lblHuobiPrice.Name = "lblHuobiPrice";
+            this.lblHuobiPrice.Size = new System.Drawing.Size(123, 36);
+            this.lblHuobiPrice.TabIndex = 4;
+            this.lblHuobiPrice.Text = "label3";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(107, 689);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(123, 36);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "label3";
+            this.lblBtccAccountInfo.AutoSize = true;
+            this.lblBtccAccountInfo.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblBtccAccountInfo.Location = new System.Drawing.Point(107, 689);
+            this.lblBtccAccountInfo.Name = "lblBtccAccountInfo";
+            this.lblBtccAccountInfo.Size = new System.Drawing.Size(123, 36);
+            this.lblBtccAccountInfo.TabIndex = 4;
+            this.lblBtccAccountInfo.Text = "label3";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(998, 698);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(123, 36);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "label3";
+            this.lblHuobiAccountInfo.AutoSize = true;
+            this.lblHuobiAccountInfo.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblHuobiAccountInfo.Location = new System.Drawing.Point(998, 698);
+            this.lblHuobiAccountInfo.Name = "lblHuobiAccountInfo";
+            this.lblHuobiAccountInfo.Size = new System.Drawing.Size(123, 36);
+            this.lblHuobiAccountInfo.TabIndex = 4;
+            this.lblHuobiAccountInfo.Text = "label3";
             // 
             // label7
             // 
@@ -164,12 +164,12 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(377, 603);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox6.Size = new System.Drawing.Size(483, 192);
-            this.textBox6.TabIndex = 0;
+            this.txtTotalAssets.Location = new System.Drawing.Point(377, 603);
+            this.txtTotalAssets.Multiline = true;
+            this.txtTotalAssets.Name = "txtTotalAssets";
+            this.txtTotalAssets.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtTotalAssets.Size = new System.Drawing.Size(483, 192);
+            this.txtTotalAssets.TabIndex = 0;
             // 
             // label8
             // 
@@ -186,11 +186,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1376, 941);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblHuobiAccountInfo);
+            this.Controls.Add(this.lblHuobiPrice);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblBtccAccountInfo);
+            this.Controls.Add(this.lblBtccPrice);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -198,7 +198,7 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.txtTotalAssets);
             this.Controls.Add(this.textBox1);
             this.Name = "Form3";
             this.Text = "Form3";
@@ -217,13 +217,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblBtccPrice;
+        private System.Windows.Forms.Label lblHuobiPrice;
+        private System.Windows.Forms.Label lblBtccAccountInfo;
+        private System.Windows.Forms.Label lblHuobiAccountInfo;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txtTotalAssets;
         private System.Windows.Forms.Label label8;
     }
 }

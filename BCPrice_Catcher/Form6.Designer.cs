@@ -1,6 +1,6 @@
 ﻿namespace BCPrice_Catcher
 {
-    partial class Form4
+    partial class Form6
     {
         /// <summary>
         /// Required designer variable.

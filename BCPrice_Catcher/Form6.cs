@@ -15,7 +15,7 @@ using BCPrice_Catcher.Trader;
 
 namespace BCPrice_Catcher
 {
-	public partial class Form4 : Form
+	public partial class Form6 : Form
 	{
 		private const int StrategyMaxQuantity = 9;
 		private const int StrategyMinQuantity = 1;
@@ -65,7 +65,7 @@ namespace BCPrice_Catcher
 		private bool _inRealMode;
 
 
-		public Form4()
+		public Form6()
 		{
 			InitializeComponent();
 		}

@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using System.Threading;
 using BCPrice_Catcher.Model;
 
 #endregion
@@ -10,7 +9,7 @@ namespace BCPrice_Catcher.Class
 {
 	public class RealAccount : Account
 	{
-	public override bool Sell(int strategyId, double price, double amount)
+		public override bool Sell(int strategyId, double price, double amount)
 		{
 			lock (this)
 			{
@@ -18,17 +17,17 @@ namespace BCPrice_Catcher.Class
 				{
 					var previousBalance = Balance;
 
-					int orderId = Trader.Sell(price, amount, AccountCoinType);
+					var orderId = Trader.Sell(price, amount, AccountCoinType);
 
-					PlacedOrderInfo placedOrderInfo =  Trader.GetOrder(orderId, AccountCoinType);
-					
+					var placedOrderInfo = Trader.GetOrder(orderId, AccountCoinType);
+
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
 						Type = "Buy",
 						Price = price,
 						StrategyId = strategyId + 1,
 						Amount = amount,
-						Time = DateTime.Now,
+						Time = DateTime.Now
 //						Profit = Balance - previousBalance
 					});
 					//if sell success
@@ -56,7 +55,7 @@ namespace BCPrice_Catcher.Class
 						Price = price,
 						StrategyId = strategyId + 1,
 						Amount = amount,
-						Time = DateTime.Now,
+						Time = DateTime.Now
 //						Profit = Balance - previousBalance
 					});
 
