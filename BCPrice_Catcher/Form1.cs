@@ -22,7 +22,7 @@ namespace BCPrice_Catcher
 		private const string OkcHttpPrefix = "okc_http";
 		private readonly Dictionary<string, Fetcher> _fetchers = new Dictionary<string, Fetcher>();
 
-		private readonly Form4 _form4 = new Form4();
+		private readonly Form6 _form6 = new Form6();
 		private readonly Dictionary<string, InfoSet> _infoSets = new Dictionary<string, InfoSet>();
 		private readonly TimerList _timerList = new TimerList();
 
@@ -263,13 +263,13 @@ namespace BCPrice_Catcher
 			}
 			//change to send to form4
 			//_form3.Tag = prices;
-			_form4.Tag = prices;
+			_form6.Tag = prices;
 		}
 
 		private void Form1_Shown(object sender, EventArgs e)
 		{
-			_form4.Show();
-			_form4.Activate();
+			_form6.Show();
+			_form6.Activate();
 		}
 	}
 }
