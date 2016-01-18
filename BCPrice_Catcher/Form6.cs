@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Class;
+using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Trader;
 
 #endregion
@@ -26,7 +27,7 @@ namespace BCPrice_Catcher
 		private const string OutSitePrefix = "btcc";
 		private const string InSitePrefix = "huobi";
 
-		private const int InitialRowCount = 6;
+		private const int InitialRowCount = 5;
 
 		private static readonly string[] Titles =
 		{
@@ -48,6 +49,12 @@ namespace BCPrice_Catcher
 		{
 			{OutSitePrefix, 0},
 			{InSitePrefix, 0}
+		};
+
+		private readonly Dictionary<string, List<BookOrderInfo>> _bookOrders = new Dictionary<string, List<BookOrderInfo>>
+		{
+			{OutSitePrefix, null},
+			{InSitePrefix, null}
 		};
 
 		private readonly int _strategyControlColumnCount = Titles.Length;
@@ -90,12 +97,13 @@ namespace BCPrice_Catcher
 		{
 //			var strategyControlId = _strategyControlsCount;
 
-			for (int rowPosition = 1; rowPosition <= InitialRowCount; rowPosition++)
+			for (int i = 0; i < InitialRowCount; i++)
 			{
+				int rowPosition = i + 1;
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"买 {rowPosition}",
+						Text = $"买 {i}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -107,8 +115,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutBuyPrice}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblOutBuyPrice}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -119,8 +127,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutBuyAmount}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblOutBuyAmount}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -130,7 +138,7 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"卖 {rowPosition}",
+						Text = $"卖 {i}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -142,8 +150,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutSellPrice}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblOutSellPrice}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -154,8 +162,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutSellAmount}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblOutSellAmount}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -166,7 +174,7 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"卖 {rowPosition}",
+						Text = $"卖 {i}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -178,8 +186,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblInSellPrice}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblInSellPrice}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -190,8 +198,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblInSellAmount}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblInSellAmount}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -201,7 +209,7 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"买 {rowPosition}",
+						Text = $"买 {i}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -212,8 +220,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblInBuyPrice}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblInBuyPrice}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -224,8 +232,8 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblInBuyAmount}{rowPosition}",
-						Text = rowPosition.ToString(),
+						Name = $"{ControlName.lblInBuyAmount}{i}",
+						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
@@ -459,7 +467,7 @@ namespace BCPrice_Catcher
 			ShowAccounts();
 		}
 
-		private void GetPrices()
+		private void GetInfos()
 		{
 			if (Tag != null)
 			{
@@ -469,6 +477,9 @@ namespace BCPrice_Catcher
 				{
 					_prices[OutSitePrefix] = Convert.ToDouble(infos?["btcc_price"]);
 					_prices[InSitePrefix] = Convert.ToDouble(infos?["huobi_price"]);
+
+					_bookOrders[OutSitePrefix] = infos["btcc_bookorders"] as List<BookOrderInfo>;
+					_bookOrders[InSitePrefix] = infos["huobi_bookorders"] as List<BookOrderInfo>;
 					//					_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
 				}
 			}
@@ -476,8 +487,9 @@ namespace BCPrice_Catcher
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			GetPrices();
+			GetInfos();
 			ShowPrices();
+			ShowBookOrders();
 
 			//            foreach (var s in _strategies)
 			//            {
@@ -532,6 +544,17 @@ namespace BCPrice_Catcher
 					=
 					lblDifferPrice.Text
 					+ @" >>";
+			}
+		}
+
+		private void ShowBookOrders()
+		{
+			for (int i = 0 ; i < InitialRowCount; i++)
+			{
+				(tableLayoutPanelStrategies.Controls[$"{ControlName.lblOutBuyPrice}{i}"] as Label).Text =
+					_bookOrders[OutSitePrefix][i].Price.ToString();
+				(tableLayoutPanelStrategies.Controls[$"{ControlName.lblOutBuyAmount}{i}"] as Label).Text =
+	_bookOrders[OutSitePrefix][ i].Amount.ToString();
 			}
 		}
 

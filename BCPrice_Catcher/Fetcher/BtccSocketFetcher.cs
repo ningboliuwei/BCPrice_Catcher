@@ -96,7 +96,7 @@ namespace BCPrice_Catcher
 			throw new NotImplementedException();
 		}
 
-		public override List<FetchedOrderInfo> GetBookOrders()
+		public override List<BookOrderInfo> GetBookOrders()
 		{
 			throw new NotImplementedException();
 		}

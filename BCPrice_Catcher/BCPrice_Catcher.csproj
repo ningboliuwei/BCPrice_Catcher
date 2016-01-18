@@ -114,7 +114,7 @@
       <DependentUpon>frmConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\AccountInfo.cs" />
-    <Compile Include="Model\FetchedOrderInfo.cs" />
+    <Compile Include="Model\BookOrderInfo.cs" />
     <Compile Include="Model\AccountTradeInfo.cs" />
     <Compile Include="Model\TradeDetail.cs" />
     <Compile Include="Collection\TimerList.cs" />

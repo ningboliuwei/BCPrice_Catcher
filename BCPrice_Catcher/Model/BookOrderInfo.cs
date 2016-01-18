@@ -1,6 +1,6 @@
 ﻿namespace BCPrice_Catcher.Model
 {
-	internal class FetchedOrderInfo
+	internal class BookOrderInfo
 	{
 		public string Type { get; set; }
 		public double Price { get; set; }
