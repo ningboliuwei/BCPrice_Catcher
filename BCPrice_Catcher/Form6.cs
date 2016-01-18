@@ -30,7 +30,7 @@ namespace BCPrice_Catcher
 
 		private static readonly string[] Titles =
 		{
-			"买价", "量", "卖价", "量", "卖价", "量", "买价", "量"
+			"", "买价", "量", "", "卖价", "量", "", "", "卖价", "量", "", "买价", "量"
 		};
 
 //		private static readonly List<Strategy> _strategies = new List<Strategy>();
@@ -67,6 +67,7 @@ namespace BCPrice_Catcher
 
 		private void GenerateTitleControls()
 		{
+			int spaceColumnIndex = 6;
 			for (var i = 0; i < Titles.Length; i++)
 			{
 				tableLayoutPanelStrategies.Controls.Add(
@@ -75,18 +76,32 @@ namespace BCPrice_Catcher
 						Text = Titles[i],
 						TextAlign = ContentAlignment.TopCenter,
 						AutoSize = false,
-						Dock = DockStyle.Fill
+						Dock = DockStyle.Fill,
+						BackColor =
+							i < spaceColumnIndex
+								? lblBtccAccount.BackColor
+								: i == spaceColumnIndex ? lblTotalProfits.BackColor : lblHuobiAccount.BackColor
 					}, i, 0);
 			}
 		}
 
-		private void GenerateStrategyControls()
+		private void GenerateOrderBookControls()
 		{
 //			var strategyControlId = _strategyControlsCount;
 
-			for (int rowPosition = 0; rowPosition < InitialRowCount; rowPosition++)
+			for (int rowPosition = 1; rowPosition <= InitialRowCount; rowPosition++)
 			{
-				var columnPosition = 0;
+				tableLayoutPanelStrategies.Controls.Add(
+					new Label
+					{
+						Text = $"买{rowPosition}",
+						Dock = DockStyle.Fill,
+						TextAlign = ContentAlignment.MiddleCenter,
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightCoral
+					}, 0, rowPosition);
+
+
 				//左侧买价
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
@@ -95,8 +110,9 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightCoral
+					}, 1, rowPosition);
 
 				//左侧买量
 				tableLayoutPanelStrategies.Controls.Add(
@@ -106,8 +122,20 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightCoral
+					}, 2, rowPosition);
+
+				tableLayoutPanelStrategies.Controls.Add(
+					new Label
+					{
+						Text = $"卖{rowPosition}",
+						Dock = DockStyle.Fill,
+						TextAlign = ContentAlignment.MiddleCenter,
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightGreen
+					}, 3, rowPosition);
+
 
 				//左侧卖价
 				tableLayoutPanelStrategies.Controls.Add(
@@ -117,8 +145,9 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightGreen
+					}, 4, rowPosition);
 
 				//左侧卖量
 				tableLayoutPanelStrategies.Controls.Add(
@@ -128,8 +157,21 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightGreen
+					}, 5, rowPosition);
+
+
+				tableLayoutPanelStrategies.Controls.Add(
+					new Label
+					{
+						Text = $"卖{rowPosition}",
+						Dock = DockStyle.Fill,
+						TextAlign = ContentAlignment.MiddleCenter,
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightGreen
+					}, 7, rowPosition);
+
 
 				//右侧卖价
 				tableLayoutPanelStrategies.Controls.Add(
@@ -139,8 +181,9 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightGreen
+					}, 8, rowPosition);
 
 				//右侧卖量
 				tableLayoutPanelStrategies.Controls.Add(
@@ -150,8 +193,19 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightGreen
+					}, 9, rowPosition);
+
+				tableLayoutPanelStrategies.Controls.Add(
+					new Label
+					{
+						Text = $"买{rowPosition}",
+						Dock = DockStyle.Fill,
+						TextAlign = ContentAlignment.MiddleCenter,
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightCoral
+					}, 10, rowPosition);
 
 				//右侧买价
 				tableLayoutPanelStrategies.Controls.Add(
@@ -161,8 +215,9 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightCoral
+					}, 11, rowPosition);
 
 				//右侧买量
 				tableLayoutPanelStrategies.Controls.Add(
@@ -172,9 +227,9 @@ namespace BCPrice_Catcher
 						Text = rowPosition.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold)
-					}, columnPosition++, rowPosition);
-				columnPosition = 0;
+						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
+						BackColor = Color.LightCoral
+					}, 12, rowPosition);
 			}
 		}
 
@@ -294,7 +349,7 @@ namespace BCPrice_Catcher
 
 //			for (var i = 0; i < InitialRowCount; i++)
 //			{
-//			GenerateStrategyControls();
+			GenerateOrderBookControls();
 //				AddStrategy();
 //			}
 		}
@@ -589,6 +644,7 @@ namespace BCPrice_Catcher
 //				}
 //			}
 		}
+
 //
 		private void btnAllStop_Click(object sender, EventArgs e)
 		{
