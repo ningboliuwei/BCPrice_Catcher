@@ -22,9 +22,6 @@ namespace BCPrice_Catcher
 		private readonly string _tradesUrl = $"https://data.btcchina.com/data/historydata?limit={TradesCount}";
 
 
-		public static int TradesCount { get; set; } = 100;
-		public static int OrdersCount { get; set; } = 100;
-
 		public override TickerInfo GetTicker()
 		{
 			using (var client = new WebClient())
@@ -104,7 +101,7 @@ namespace BCPrice_Catcher
 			}
 		}
 
-		public override List<FetchedOrderInfo> GetOrders()
+		public override List<FetchedOrderInfo> GetBookOrders()
 		{
 			using (var client = new WebClient())
 			{
@@ -113,13 +110,13 @@ namespace BCPrice_Catcher
 				{
 					var o = JObject.Parse(dataText);
 
-					return (from c in o["asks"].Children().Take(5)
+					return (from c in o["asks"].Children().Take(BookOrdersCount)
 						select new FetchedOrderInfo
 						{
 							Amount = Convert.ToDouble(c[1]),
 							Price = Convert.ToDouble(c[0]),
 							Type = "sell"
-						}).Union(from c in o["bids"].Children().Take(5)
+						}).Union(from c in o["bids"].Children().Take(BookOrdersCount)
 							select new FetchedOrderInfo
 							{
 								Amount = Convert.ToDouble(c[1]),

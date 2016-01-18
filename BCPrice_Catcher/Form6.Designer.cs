@@ -73,22 +73,22 @@
 			this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnAllStop, 2, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(993, 140);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(612, 140);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(664, 50);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(409, 50);
 			this.tableLayoutPanel1.TabIndex = 11;
 			// 
 			// btnAllStart
 			// 
 			this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
 			this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStart.Location = new System.Drawing.Point(334, 2);
+			this.btnAllStart.Location = new System.Drawing.Point(206, 2);
 			this.btnAllStart.Margin = new System.Windows.Forms.Padding(2);
 			this.btnAllStart.Name = "btnAllStart";
-			this.btnAllStart.Size = new System.Drawing.Size(160, 46);
+			this.btnAllStart.Size = new System.Drawing.Size(98, 46);
 			this.btnAllStart.TabIndex = 8;
 			this.btnAllStart.Text = "全部开始(&S)";
 			this.btnAllStart.UseVisualStyleBackColor = false;
@@ -98,10 +98,10 @@
 			// 
 			this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
 			this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStop.Location = new System.Drawing.Point(500, 2);
+			this.btnAllStop.Location = new System.Drawing.Point(308, 2);
 			this.btnAllStop.Margin = new System.Windows.Forms.Padding(2);
 			this.btnAllStop.Name = "btnAllStop";
-			this.btnAllStop.Size = new System.Drawing.Size(160, 46);
+			this.btnAllStop.Size = new System.Drawing.Size(99, 46);
 			this.btnAllStop.TabIndex = 8;
 			this.btnAllStop.Text = "全部停止(&T)";
 			this.btnAllStop.UseVisualStyleBackColor = false;
@@ -117,7 +117,7 @@
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 140);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(662, 50);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(408, 50);
 			this.flowLayoutPanel1.TabIndex = 7;
 			// 
 			// label2
@@ -174,7 +174,7 @@
 			this.lblBtccPrice.Location = new System.Drawing.Point(0, 0);
 			this.lblBtccPrice.Margin = new System.Windows.Forms.Padding(0);
 			this.lblBtccPrice.Name = "lblBtccPrice";
-			this.lblBtccPrice.Size = new System.Drawing.Size(662, 60);
+			this.lblBtccPrice.Size = new System.Drawing.Size(408, 60);
 			this.lblBtccPrice.TabIndex = 5;
 			this.lblBtccPrice.Text = "Btcc价格\r\n";
 			this.lblBtccPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -186,10 +186,10 @@
 			this.lblHuobiAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
 			this.lblHuobiAccount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblHuobiAccount.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblHuobiAccount.Location = new System.Drawing.Point(993, 60);
+			this.lblHuobiAccount.Location = new System.Drawing.Point(612, 60);
 			this.lblHuobiAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.lblHuobiAccount.Name = "lblHuobiAccount";
-			this.lblHuobiAccount.Size = new System.Drawing.Size(664, 80);
+			this.lblHuobiAccount.Size = new System.Drawing.Size(409, 80);
 			this.lblHuobiAccount.TabIndex = 5;
 			this.lblHuobiAccount.Text = "Huobi比例";
 			this.lblHuobiAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -201,10 +201,10 @@
 			this.lblHuobiPrice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
 			this.lblHuobiPrice.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblHuobiPrice.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblHuobiPrice.Location = new System.Drawing.Point(993, 0);
+			this.lblHuobiPrice.Location = new System.Drawing.Point(612, 0);
 			this.lblHuobiPrice.Margin = new System.Windows.Forms.Padding(0);
 			this.lblHuobiPrice.Name = "lblHuobiPrice";
-			this.lblHuobiPrice.Size = new System.Drawing.Size(664, 60);
+			this.lblHuobiPrice.Size = new System.Drawing.Size(409, 60);
 			this.lblHuobiPrice.TabIndex = 5;
 			this.lblHuobiPrice.Text = "Huobi价格";
 			this.lblHuobiPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -216,10 +216,10 @@
 			this.lblDifferPrice.BackColor = System.Drawing.Color.PaleTurquoise;
 			this.lblDifferPrice.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblDifferPrice.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblDifferPrice.Location = new System.Drawing.Point(662, 0);
+			this.lblDifferPrice.Location = new System.Drawing.Point(408, 0);
 			this.lblDifferPrice.Margin = new System.Windows.Forms.Padding(0);
 			this.lblDifferPrice.Name = "lblDifferPrice";
-			this.lblDifferPrice.Size = new System.Drawing.Size(331, 60);
+			this.lblDifferPrice.Size = new System.Drawing.Size(204, 60);
 			this.lblDifferPrice.TabIndex = 5;
 			this.lblDifferPrice.Text = "差价";
 			this.lblDifferPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -228,11 +228,11 @@
 			// 
 			this.tckPecentage.BackColor = System.Drawing.SystemColors.Control;
 			this.tckPecentage.LargeChange = 10;
-			this.tckPecentage.Location = new System.Drawing.Point(662, 140);
+			this.tckPecentage.Location = new System.Drawing.Point(408, 140);
 			this.tckPecentage.Margin = new System.Windows.Forms.Padding(0);
 			this.tckPecentage.Maximum = 100;
 			this.tckPecentage.Name = "tckPecentage";
-			this.tckPecentage.Size = new System.Drawing.Size(331, 45);
+			this.tckPecentage.Size = new System.Drawing.Size(204, 45);
 			this.tckPecentage.TabIndex = 6;
 			this.tckPecentage.TickFrequency = 5;
 			this.tckPecentage.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -249,7 +249,7 @@
 			this.lblBtccAccount.Location = new System.Drawing.Point(0, 60);
 			this.lblBtccAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.lblBtccAccount.Name = "lblBtccAccount";
-			this.lblBtccAccount.Size = new System.Drawing.Size(662, 80);
+			this.lblBtccAccount.Size = new System.Drawing.Size(408, 80);
 			this.lblBtccAccount.TabIndex = 5;
 			this.lblBtccAccount.Text = "Btcc比例";
 			this.lblBtccAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -281,7 +281,7 @@
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1657, 678);
+			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1021, 637);
 			this.tableLayoutPanelMain.TabIndex = 0;
 			// 
 			// tableLayoutPanelStrategies
@@ -316,7 +316,7 @@
 			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1653, 484);
+			this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1017, 443);
 			this.tableLayoutPanelStrategies.TabIndex = 9;
 			// 
 			// lblTotalProfits
@@ -326,10 +326,10 @@
 			this.lblTotalProfits.BackColor = System.Drawing.Color.SkyBlue;
 			this.lblTotalProfits.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblTotalProfits.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblTotalProfits.Location = new System.Drawing.Point(662, 60);
+			this.lblTotalProfits.Location = new System.Drawing.Point(408, 60);
 			this.lblTotalProfits.Margin = new System.Windows.Forms.Padding(0);
 			this.lblTotalProfits.Name = "lblTotalProfits";
-			this.lblTotalProfits.Size = new System.Drawing.Size(331, 80);
+			this.lblTotalProfits.Size = new System.Drawing.Size(204, 80);
 			this.lblTotalProfits.TabIndex = 5;
 			this.lblTotalProfits.Text = "总利润";
 			this.lblTotalProfits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -341,7 +341,7 @@
             this.功能FToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1657, 25);
+			this.menuStrip1.Size = new System.Drawing.Size(1021, 25);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -364,7 +364,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1657, 703);
+			this.ClientSize = new System.Drawing.Size(1021, 662);
 			this.Controls.Add(this.tableLayoutPanelMain);
 			this.Controls.Add(this.menuStrip1);
 			this.DoubleBuffered = true;
@@ -373,7 +373,6 @@
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "Form6";
 			this.Text = "Form4";
-			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.Form6_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_FormClosed);

@@ -16,10 +16,11 @@ namespace BCPrice_Catcher
 	{
 		private const int FetchInterval = 500;
 
-		private const string BtccHttpPrefix = "btc_http";
-		private const string BtcSocketPrefix = "btc_socket";
+		private const string BtccHttpPrefix = "btcc_http";
+		private const string BtcSocketPrefix = "btcc_socket";
 		private const string HuobiPrefix = "huobi";
 		private const string OkcHttpPrefix = "okc_http";
+
 		private readonly Dictionary<string, Fetcher> _fetchers = new Dictionary<string, Fetcher>();
 
 		private readonly Form6 _form6 = new Form6();
@@ -44,7 +45,7 @@ namespace BCPrice_Catcher
 
 			_infoSets.Add(BtcSocketPrefix, new InfoSet());
 
-			_infoSets.Add("okc_http", new InfoSet());
+			_infoSets.Add(OkcHttpPrefix, new InfoSet());
 
 			InitializeFetchers();
 		}
@@ -102,8 +103,8 @@ namespace BCPrice_Catcher
 
 			_timerList.Add($"{BtccHttpPrefix}_orders", FetchInterval, async o =>
 			{
-				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_orders"].GetOrders());
-				_infoSets[BtccHttpPrefix].Orders = await task;
+				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_orders"].GetBookOrders());
+				_infoSets[BtccHttpPrefix].BookOrders = await task;
 			});
 
 			//---------------------------------------------------------------------------
@@ -139,8 +140,8 @@ namespace BCPrice_Catcher
 
 			_timerList.Add($"{HuobiPrefix}_orders", FetchInterval, async o =>
 			{
-				var task = Task.Run(() => _fetchers[$"{HuobiPrefix}_orders"].GetOrders());
-				_infoSets[HuobiPrefix].Orders = await task;
+				var task = Task.Run(() => _fetchers[$"{HuobiPrefix}_orders"].GetBookOrders());
+				_infoSets[HuobiPrefix].BookOrders = await task;
 			});
 
 			#endregion
@@ -182,8 +183,8 @@ namespace BCPrice_Catcher
 
 			_timerList.Add($"{OkcHttpPrefix}_orders", FetchInterval, async o =>
 			{
-				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_orders"].GetOrders());
-				_infoSets[OkcHttpPrefix].Orders = await task;
+				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_orders"].GetBookOrders());
+				_infoSets[OkcHttpPrefix].BookOrders = await task;
 			});
 
 			#endregion
@@ -233,37 +234,44 @@ namespace BCPrice_Catcher
 			dgvBtccTicker.DataSource =
 				Convertor.ConvertTickerInfoToDictionary(_infoSets[BtccHttpPrefix].Ticker).ToList();
 			dgvBtccTrades.DataSource = _infoSets[BtccHttpPrefix].Trades;
-			dgvBtccOrders.DataSource = _infoSets[BtccHttpPrefix].Orders;
+			dgvBtccOrders.DataSource = _infoSets[BtccHttpPrefix].BookOrders;
 
 
 			dgvHuobiTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[HuobiPrefix].Ticker).ToList();
 			dgvHuobiTrades.DataSource = _infoSets[HuobiPrefix].Trades;
-			dgvHuobiOrders.DataSource = _infoSets[HuobiPrefix].Orders;
+			dgvHuobiOrders.DataSource = _infoSets[HuobiPrefix].BookOrders;
 
 			dgvOkcTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[OkcHttpPrefix].Ticker).ToList();
 			dgvOkcTrades.DataSource = _infoSets[OkcHttpPrefix].Trades;
-			dgvOkcOrders.DataSource = _infoSets[OkcHttpPrefix].Orders;
+			dgvOkcOrders.DataSource = _infoSets[OkcHttpPrefix].BookOrders;
 
 
 			//			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
 			//			dgvHuobiTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["huobi"].Trade).ToList();
 
-			SendPrice();
+			SendPriceAndBookOrders();
 		}
 
 
-		private void SendPrice()
+		private void SendPriceAndBookOrders()
 		{
-			var prices = new Dictionary<string, double>();
-			;
-			if (_infoSets[BtccHttpPrefix].Ticker != null && _infoSets[HuobiPrefix].Ticker != null)
+			var infos = new Dictionary<string, object>();
+			if (_infoSets[BtccHttpPrefix].Ticker != null && _infoSets[HuobiPrefix].Ticker != null
+			    && _infoSets[BtccHttpPrefix].BookOrders != null && _infoSets[HuobiPrefix].BookOrders != null)
 			{
-				prices.Add("btcc", _infoSets[BtccHttpPrefix].Ticker.Last);
-				prices.Add("huobi", _infoSets[HuobiPrefix].Ticker.Last);
+//				prices.Add("btcc", _infoSets[BtccHttpPrefix].Ticker.Last);
+//				prices.Add("huobi", _infoSets[HuobiPrefix].Ticker.Last);
+			
+				infos.Add("btcc_price", _infoSets[BtccHttpPrefix].Ticker.Last);
+				infos.Add("huobi_price", _infoSets[HuobiPrefix].Ticker.Last);
+				infos.Add("btcc_bookorders", _infoSets[BtccHttpPrefix].BookOrders);
+				infos.Add("huobi_bookorders", _infoSets[HuobiPrefix].BookOrders);
 			}
-			//change to send to form4
-			//_form3.Tag = prices;
-			_form6.Tag = prices;
+
+
+//			//change to send to form4
+//			//_form3.Tag = prices;
+			_form6.Tag = infos;
 		}
 
 		private void Form1_Shown(object sender, EventArgs e)

@@ -44,15 +44,15 @@ namespace BCPrice_Catcher
 
 		//private List<int> _strategyCounters = new List<int>();
 
-//		private readonly Dictionary<string, double> _prices = new Dictionary<string, double>
-//		{
-//			{OutSitePrefix, 0},
-//			{InSitePrefix, 0}
-//		};
+		private readonly Dictionary<string, double> _prices = new Dictionary<string, double>
+		{
+			{OutSitePrefix, 0},
+			{InSitePrefix, 0}
+		};
 
 		private readonly int _strategyControlColumnCount = Titles.Length;
 
-//		private double _baseDifferPrice;
+		private double _baseDifferPrice;
 
 		private double _initialTotalBalance;
 		private double _initialTotalCoinAmount;
@@ -67,20 +67,21 @@ namespace BCPrice_Catcher
 
 		private void GenerateTitleControls()
 		{
-			int spaceColumnIndex = 6;
+			int middleColumnIndex = (Titles.Length - 1) / 2;
 			for (var i = 0; i < Titles.Length; i++)
 			{
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
 						Text = Titles[i],
-						TextAlign = ContentAlignment.TopCenter,
+						TextAlign = ContentAlignment.MiddleCenter,
 						AutoSize = false,
 						Dock = DockStyle.Fill,
+						Font = new Font(Font.FontFamily, Font.Size + 3, Font.Style | FontStyle.Bold),
 						BackColor =
-							i < spaceColumnIndex
+							i < middleColumnIndex
 								? lblBtccAccount.BackColor
-								: i == spaceColumnIndex ? lblTotalProfits.BackColor : lblHuobiAccount.BackColor
+								: i == middleColumnIndex ? lblTotalProfits.BackColor : lblHuobiAccount.BackColor
 					}, i, 0);
 			}
 		}
@@ -94,11 +95,11 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"买{rowPosition}",
+						Text = $"买 {rowPosition}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral
+						BackColor = lblBtccAccount.BackColor
 					}, 0, rowPosition);
 
 
@@ -129,11 +130,11 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"卖{rowPosition}",
+						Text = $"卖 {rowPosition}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen
+						BackColor = lblBtccAccount.BackColor
 					}, 3, rowPosition);
 
 
@@ -165,11 +166,11 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"卖{rowPosition}",
+						Text = $"卖 {rowPosition}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen
+						BackColor = lblHuobiAccount.BackColor
 					}, 7, rowPosition);
 
 
@@ -200,11 +201,11 @@ namespace BCPrice_Catcher
 				tableLayoutPanelStrategies.Controls.Add(
 					new Label
 					{
-						Text = $"买{rowPosition}",
+						Text = $"买 {rowPosition}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral
+						BackColor = lblHuobiAccount.BackColor
 					}, 10, rowPosition);
 
 				//右侧买价
@@ -460,20 +461,17 @@ namespace BCPrice_Catcher
 
 		private void GetPrices()
 		{
-//			if (
-//				Tag != null)
-//			{
-//				var prices = Tag as Dictionary<string, double>;
-//
-//				if (
-//					prices != null && prices.Count
-//					== 2)
-//				{
-//					_prices[OutSitePrefix] = prices[OutSitePrefix];
-//					_prices[InSitePrefix] = prices[InSitePrefix];
-//					_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
-//				}
-//			}
+			if (Tag != null)
+			{
+				var infos = Tag as Dictionary<string, object>;
+
+				if (infos.Count != 0)
+				{
+					_prices[OutSitePrefix] = Convert.ToDouble(infos?["btcc_price"]);
+					_prices[InSitePrefix] = Convert.ToDouble(infos?["huobi_price"]);
+					//					_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
+				}
+			}
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -503,38 +501,38 @@ namespace BCPrice_Catcher
 		//for btcc, huobi and differ price
 		private void ShowPrices()
 		{
-//			_baseDifferPrice
-//				=
-//				Math.Abs
-//					(_prices[OutSitePrefix]
-//					 -
-//					 _prices[InSitePrefix]);
-//			lblBtccPrice.Text
-//				= $"BTCC{Environment.NewLine}{_prices[OutSitePrefix].ToString("0.000")}";
-//			lblHuobiPrice.Text
-//				= $"HUOBI{Environment.NewLine}{_prices[InSitePrefix].ToString("0.000")}";
-//			lblDifferPrice.Text
-//				= $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
-//			lblTotalProfits.Text
-//				=
-//				$"总利润{Environment.NewLine}{(_accounts[OutSitePrefix].Balance + _accounts[InSitePrefix].Balance - _initialTotalBalance).ToString("0.000")}";
-//
-//			if (
-//				_prices[OutSitePrefix]
-//				>
-//				_prices[InSitePrefix]
-//				)
-//			{
-//				lblDifferPrice.Text = lblDifferPrice.Text.Insert(4, "<< ");
-//			}
-//			else if (
-//				_prices[OutSitePrefix] < _prices[InSitePrefix])
-//			{
-//				lblDifferPrice.Text
-//					=
-//					lblDifferPrice.Text
-//					+ @" >>";
-//			}
+			_baseDifferPrice
+				=
+				Math.Abs
+					(_prices[OutSitePrefix]
+					 -
+					 _prices[InSitePrefix]);
+			lblBtccPrice.Text
+				= $"BTCC{Environment.NewLine}{_prices[OutSitePrefix].ToString("0.000")}";
+			lblHuobiPrice.Text
+				= $"HUOBI{Environment.NewLine}{_prices[InSitePrefix].ToString("0.000")}";
+			lblDifferPrice.Text
+				= $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
+			lblTotalProfits.Text
+				=
+				$"总利润{Environment.NewLine}{(_accounts[OutSitePrefix].Balance + _accounts[InSitePrefix].Balance - _initialTotalBalance).ToString("0.000")}";
+
+			if (
+				_prices[OutSitePrefix]
+				>
+				_prices[InSitePrefix]
+				)
+			{
+				lblDifferPrice.Text = lblDifferPrice.Text.Insert(4, "<< ");
+			}
+			else if (
+				_prices[OutSitePrefix] < _prices[InSitePrefix])
+			{
+				lblDifferPrice.Text
+					=
+					lblDifferPrice.Text
+					+ @" >>";
+			}
 		}
 
 		private void Form4_FormClosed(object sender, FormClosedEventArgs e)
