@@ -19,7 +19,7 @@ namespace BCPrice_Catcher.Class
 
 					var orderId = Trader.Sell(price, amount, AccountCoinType);
 
-					var placedOrderInfo = Trader.GetOrder(orderId, AccountCoinType);
+					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{

@@ -151,12 +151,7 @@ namespace BCPrice_Catcher.Trader
 			return -1;
 		}
 
-		public override string GetAllTransactions()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override PlacedOrderInfo GetPlacedOrder(int orderId, CoinType coinType)
+		public override PlacedOrderInfo GetOrder(int orderId, CoinType coinType)
 		{
 			Builder = new BtccParasTextBuilder("getOrder");
 			Builder.Parameters.Add("order_id", $"{orderId}");
@@ -190,33 +185,14 @@ namespace BCPrice_Catcher.Trader
 			return null;
 		}
 
-		public override bool CancelPlacedOrder(int orderId, CoinType coinType)
+<<<<<<< SFYVersion
+=======
+		public override bool CancelOrder(int orderId, CoinType coinType)
 		{
-			Builder = new BtccParasTextBuilder("cancelOrder");
-			//price must be added earlier
-			Builder.Parameters.Add("order_id", $"{orderId}");
-
-			var result = DoMethod();
-
-			if (!result.Contains(ErrorMessageHead))
-			{
-				try
-				{
-					var o = JObject.Parse(result);
-
-					if (o["result"].ToString() == "true")
-					{
-						return true;
-					}
-				}
-				catch
-				{
-					// ignored
-				}
-			}
-			return false;
+			throw new NotImplementedException();
 		}
 
+>>>>>>> local
 		private string DoMethod()
 		{
 			//get latest tonce first
@@ -239,7 +215,14 @@ namespace BCPrice_Catcher.Trader
 			}
 		}
 
-		public override List<PlacedOrderInfo> GetAllPlacedOrders(CoinType coinType)
+		public override string GetTransactions()
+		{
+			Builder = new BtccParasTextBuilder("getTransactions");
+
+			return DoMethod();
+		}
+
+		public override List<PlacedOrderInfo> GetOrders(CoinType coinType)
 		{
 			Builder = new BtccParasTextBuilder("getOrders");
 			Builder.Parameters.Add("openonly", "true");

@@ -278,6 +278,10 @@ namespace BCPrice_Catcher
 		{
 			_form6.Show();
 			_form6.Activate();
+
+			Form2 form2 = new Form2();
+			form2.Show();
+			
 		}
 	}
 }

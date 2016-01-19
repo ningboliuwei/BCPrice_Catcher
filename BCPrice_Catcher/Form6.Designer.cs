@@ -32,7 +32,7 @@
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.btnAllStart = new System.Windows.Forms.Button();
-			this.btnAllStop = new System.Windows.Forms.Button();
+			this.btnCancelAllOrders = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
@@ -50,6 +50,7 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
@@ -66,13 +67,13 @@
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
+			this.tableLayoutPanel1.BackColor = System.Drawing.Color.Khaki;
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.btnAllStop, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.btnCancelAllOrders, 2, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(612, 140);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -95,22 +96,22 @@
 			this.btnAllStart.UseVisualStyleBackColor = false;
 			this.btnAllStart.Click += new System.EventHandler(this.btnAllStart_Click);
 			// 
-			// btnAllStop
+			// btnCancelAllOrders
 			// 
-			this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-			this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStop.Location = new System.Drawing.Point(308, 2);
-			this.btnAllStop.Margin = new System.Windows.Forms.Padding(2);
-			this.btnAllStop.Name = "btnAllStop";
-			this.btnAllStop.Size = new System.Drawing.Size(99, 46);
-			this.btnAllStop.TabIndex = 8;
-			this.btnAllStop.Text = "全部停止(&T)";
-			this.btnAllStop.UseVisualStyleBackColor = false;
-			this.btnAllStop.Click += new System.EventHandler(this.btnAllStop_Click);
+			this.btnCancelAllOrders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+			this.btnCancelAllOrders.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.btnCancelAllOrders.Location = new System.Drawing.Point(308, 2);
+			this.btnCancelAllOrders.Margin = new System.Windows.Forms.Padding(2);
+			this.btnCancelAllOrders.Name = "btnCancelAllOrders";
+			this.btnCancelAllOrders.Size = new System.Drawing.Size(99, 46);
+			this.btnCancelAllOrders.TabIndex = 8;
+			this.btnCancelAllOrders.Text = "全部撤单(&T)";
+			this.btnCancelAllOrders.UseVisualStyleBackColor = false;
+			this.btnCancelAllOrders.Click += new System.EventHandler(this.btnCancelAllOrders_Click);
 			// 
 			// flowLayoutPanel1
 			// 
-			this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
+			this.flowLayoutPanel1.BackColor = System.Drawing.Color.Khaki;
 			this.flowLayoutPanel1.Controls.Add(this.label2);
 			this.flowLayoutPanel1.Controls.Add(this.nudStartPrice);
 			this.flowLayoutPanel1.Controls.Add(this.btnSwitchMode);
@@ -227,13 +228,14 @@
 			// 
 			// tckPecentage
 			// 
-			this.tckPecentage.BackColor = System.Drawing.SystemColors.Control;
+			this.tckPecentage.BackColor = System.Drawing.Color.Khaki;
+			this.tckPecentage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tckPecentage.LargeChange = 10;
 			this.tckPecentage.Location = new System.Drawing.Point(408, 140);
 			this.tckPecentage.Margin = new System.Windows.Forms.Padding(0);
 			this.tckPecentage.Maximum = 100;
 			this.tckPecentage.Name = "tckPecentage";
-			this.tckPecentage.Size = new System.Drawing.Size(204, 45);
+			this.tckPecentage.Size = new System.Drawing.Size(204, 50);
 			this.tckPecentage.TabIndex = 6;
 			this.tckPecentage.TickFrequency = 5;
 			this.tckPecentage.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -272,6 +274,7 @@
 			this.tableLayoutPanelMain.Controls.Add(this.lblTotalProfits, 1, 1);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelOutSite, 0, 3);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelInSite, 2, 3);
+			this.tableLayoutPanelMain.Controls.Add(this.panel1, 1, 3);
 			this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 25);
@@ -311,7 +314,8 @@
 			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelOutSite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(3, 193);
+			this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(0, 190);
+			this.tableLayoutPanelOutSite.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelOutSite.Name = "tableLayoutPanelOutSite";
 			this.tableLayoutPanelOutSite.RowCount = 7;
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -321,7 +325,7 @@
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(402, 441);
+			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(408, 447);
 			this.tableLayoutPanelOutSite.TabIndex = 12;
 			// 
 			// tableLayoutPanelInSite
@@ -333,7 +337,9 @@
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(615, 193);
+			this.tableLayoutPanelInSite.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(612, 190);
+			this.tableLayoutPanelInSite.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelInSite.Name = "tableLayoutPanelInSite";
 			this.tableLayoutPanelInSite.RowCount = 7;
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -343,7 +349,7 @@
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(402, 441);
+			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(409, 447);
 			this.tableLayoutPanelInSite.TabIndex = 13;
 			// 
 			// menuStrip1
@@ -372,6 +378,16 @@
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
 			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.Control;
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel1.Location = new System.Drawing.Point(408, 190);
+			this.panel1.Margin = new System.Windows.Forms.Padding(0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(204, 447);
+			this.panel1.TabIndex = 14;
+			// 
 			// Form6
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -386,13 +402,13 @@
 			this.Name = "Form6";
 			this.Text = "Form4";
 			this.Activated += new System.EventHandler(this.Form6_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form6_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_FormClosed);
 			this.Load += new System.EventHandler(this.Form6_Load);
 			this.Shown += new System.EventHandler(this.Form6_Shown);
-			this.ResizeBegin += new System.EventHandler(this.Form4_ResizeBegin);
-			this.ResizeEnd += new System.EventHandler(this.Form4_ResizeEnd);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form4_Paint);
+			this.ResizeBegin += new System.EventHandler(this.Form6_ResizeBegin);
+			this.ResizeEnd += new System.EventHandler(this.Form6_ResizeEnd);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form6_Paint);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
@@ -414,7 +430,7 @@
         private System.Windows.Forms.Label lblHuobiPrice;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnAllStart;
-        private System.Windows.Forms.Button btnAllStop;
+        private System.Windows.Forms.Button btnCancelAllOrders;
         private System.Windows.Forms.Label lblHuobiAccount;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label label2;
@@ -429,5 +445,6 @@
         private System.Windows.Forms.Button btnSwitchMode;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOutSite;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInSite;
+		private System.Windows.Forms.Panel panel1;
 	}
 }

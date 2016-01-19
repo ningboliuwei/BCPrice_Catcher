@@ -27,6 +27,9 @@ namespace BCPrice_Catcher
 		private const string OutSitePrefix = "btcc";
 		private const string InSitePrefix = "huobi";
 
+		//买或卖的数量限制
+		private const int BookOrdersCount = 5;
+
 		private const int InitialRowCount = 5;
 
 		private static readonly string[] OutSiteTitles =
@@ -56,13 +59,19 @@ namespace BCPrice_Catcher
 			{InSitePrefix, 0}
 		};
 
-		private readonly Dictionary<string, List<BookOrderInfo>> _bookOrders = new Dictionary<string, List<BookOrderInfo>>
+		private readonly Dictionary<string, List<BookOrderInfo>> _sellBookOrders = new Dictionary<string, List<BookOrderInfo>>
 		{
 			{OutSitePrefix, null},
 			{InSitePrefix, null}
 		};
 
-//		private readonly int _strategyControlColumnCount = Titles.Length;
+		private readonly Dictionary<string, List<BookOrderInfo>> _buyBookOrders = new Dictionary<string, List<BookOrderInfo>>
+		{
+			{OutSitePrefix, null},
+			{InSitePrefix, null}
+		};
+
+		//		private readonly int _strategyControlColumnCount = Titles.Length;
 
 		private double _baseDifferPrice;
 
@@ -77,7 +86,8 @@ namespace BCPrice_Catcher
 			InitializeComponent();
 		}
 
-		private void GenerateOrderBookControls(TableLayoutPanel tableLayoutPanel, string[] titles, Color headerColor)
+		private void GenerateOrderBookControls(TableLayoutPanel tableLayoutPanel, string[] titles, Color rowHeaderColor,
+			Color columnHeaderColor)
 		{
 			for (var i = 0; i < titles.Length; i++)
 			{
@@ -89,7 +99,9 @@ namespace BCPrice_Catcher
 						AutoSize = false,
 						Dock = DockStyle.Fill,
 						Font = new Font(Font.FontFamily, Font.Size + 3, Font.Style | FontStyle.Bold),
-						BackColor = headerColor
+						BackColor = rowHeaderColor,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, i, 0);
 			}
 
@@ -106,7 +118,9 @@ namespace BCPrice_Catcher
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = lblBtccAccount.BackColor,
+						BackColor = columnHeaderColor,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, 0, rowPosition);
 
 
@@ -120,6 +134,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.LightCoral,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, 1, rowPosition);
 
 				//左侧买量
@@ -132,6 +148,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.LightCoral,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, 2, rowPosition);
 
 				tableLayoutPanel.Controls.Add(
@@ -141,7 +159,9 @@ namespace BCPrice_Catcher
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = lblBtccAccount.BackColor,
+						BackColor = columnHeaderColor,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, 3, rowPosition);
 
 
@@ -155,6 +175,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.LightGreen,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, 4, rowPosition);
 
 				//左侧卖量
@@ -167,6 +189,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.LightGreen,
+						Margin = new Padding(0),
+						Padding = new Padding(0)
 					}, 5, rowPosition);
 			}
 		}
@@ -273,6 +297,8 @@ namespace BCPrice_Catcher
 //			gdvHuobiTrades.ColumnHeadersDefaultCellStyle.Font = new Font(
 //				gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
 //			gdvHuobiTrades.DefaultCellStyle.Font = new Font(gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
+
+			btnCancelAllOrders.Enabled = false;
 		}
 
 		private void Form6_Activated(object sender, EventArgs e)
@@ -287,8 +313,8 @@ namespace BCPrice_Catcher
 
 //			for (var i = 0; i < InitialRowCount; i++)
 //			{
-			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblBtccAccount.BackColor);
-			GenerateOrderBookControls(tableLayoutPanelInSite, InSiteTitles, lblHuobiAccount.BackColor);
+			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblBtccPrice.BackColor, lblBtccAccount.BackColor);
+			GenerateOrderBookControls(tableLayoutPanelInSite, InSiteTitles, lblHuobiPrice.BackColor, lblHuobiAccount.BackColor);
 			//				AddStrategy();
 			//			}
 		}
@@ -350,15 +376,15 @@ namespace BCPrice_Catcher
 //			}
 		}
 
-		private void Form4_Paint(object sender, PaintEventArgs e)
+		private void Form6_Paint(object sender, PaintEventArgs e)
 		{
 		}
 
-		private void Form4_ResizeBegin(object sender, EventArgs e)
+		private void Form6_ResizeBegin(object sender, EventArgs e)
 		{
 		}
 
-		private void Form4_ResizeEnd(object sender, EventArgs e)
+		private void Form6_ResizeEnd(object sender, EventArgs e)
 		{
 		}
 
@@ -408,8 +434,14 @@ namespace BCPrice_Catcher
 					_prices[OutSitePrefix] = Convert.ToDouble(infos?["btcc_price"]);
 					_prices[InSitePrefix] = Convert.ToDouble(infos?["huobi_price"]);
 
-					_bookOrders[OutSitePrefix] = infos["btcc_bookorders"] as List<BookOrderInfo>;
-					_bookOrders[InSitePrefix] = infos["huobi_bookorders"] as List<BookOrderInfo>;
+					_sellBookOrders[OutSitePrefix] = (infos["btcc_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+					_sellBookOrders[InSitePrefix] = (infos["huobi_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+
+					_buyBookOrders[OutSitePrefix] =
+						(infos["btcc_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
+					_buyBookOrders[InSitePrefix] =
+						(infos["huobi_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
+
 					//					_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
 				}
 			}
@@ -419,8 +451,8 @@ namespace BCPrice_Catcher
 		{
 			GetInfos();
 			ShowPrices();
-			ShowBookOrders(tableLayoutPanelOutSite, _bookOrders[OutSitePrefix]);
-			ShowBookOrders(tableLayoutPanelInSite, _bookOrders[InSitePrefix]);
+			ShowBookOrders(tableLayoutPanelOutSite, _sellBookOrders[OutSitePrefix], _buyBookOrders[OutSitePrefix]);
+			ShowBookOrders(tableLayoutPanelInSite, _sellBookOrders[InSitePrefix], _buyBookOrders[InSitePrefix]);
 
 			//            foreach (var s in _strategies)
 			//            {
@@ -467,20 +499,21 @@ namespace BCPrice_Catcher
 			}
 		}
 
-		private void ShowBookOrders(TableLayoutPanel tableLayoutPanel, List<BookOrderInfo> bookOrders)
+		private void ShowBookOrders(TableLayoutPanel tableLayoutPanel, List<BookOrderInfo> sellBookOrders,
+			List<BookOrderInfo> buyBookOrders)
 		{
-			if (bookOrders!= null && bookOrders.Count != 0)
+			if (sellBookOrders != null && sellBookOrders.Count != 0)
 			{
 				for (int i = 0; i < InitialRowCount; i++)
 				{
-					(tableLayoutPanel.Controls[$"{ControlName.lblSellPrice}{i}"] as Label).Text =
-						bookOrders[i].Price.ToString("0.00");
-					(tableLayoutPanel.Controls[$"{ControlName.lblSellAmount}{i}"] as Label).Text =
-						bookOrders[i].Amount.ToString();
-					(tableLayoutPanel.Controls[$"{ControlName.lblBuyPrice}{i}"] as Label).Text =
-						bookOrders.Skip(InitialRowCount).ToList()[i].Price.ToString("0.00");
-					(tableLayoutPanel.Controls[$"{ControlName.lblBuyAmount}{i}"] as Label).Text =
-						bookOrders.Skip(InitialRowCount).ToList()[i].Amount.ToString();
+					((Label) tableLayoutPanel.Controls[$"{ControlName.lblSellPrice}{i}"]).Text =
+						sellBookOrders[i].Price.ToString("0.00");
+					((Label) tableLayoutPanel.Controls[$"{ControlName.lblSellAmount}{i}"]).Text =
+						sellBookOrders[i].Amount.ToString();
+					((Label) tableLayoutPanel.Controls[$"{ControlName.lblBuyPrice}{i}"]).Text =
+						buyBookOrders[i].Price.ToString("0.00");
+					((Label) tableLayoutPanel.Controls[$"{ControlName.lblBuyAmount}{i}"]).Text =
+						buyBookOrders[i].Amount.ToString();
 				}
 			}
 		}
@@ -594,7 +627,7 @@ namespace BCPrice_Catcher
 		}
 
 //
-		private void btnAllStop_Click(object sender, EventArgs e)
+		private void btnCancelAllOrders_Click(object sender, EventArgs e)
 		{
 //			var strategyCount = _strategies.Count;
 //			for (var i = strategyCount - 1; i >= 0; i--)
@@ -606,6 +639,33 @@ namespace BCPrice_Catcher
 //					btnStartStopStrategy_Click(button, null);
 //				}
 //			}
+
+			if (!CancelAllPlacedOrders())
+			{
+				MessageBox.Show("撤单未全部成功");
+			}
+		}
+
+		private bool CancelAllPlacedOrders()
+		{
+			bool allSucceed = true;
+
+			var outSitePlacedOrders = _accounts[OutSitePrefix].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
+			var inSitePlacedOrders = _accounts[InSitePrefix].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
+
+			foreach (var order in outSitePlacedOrders)
+			{
+				allSucceed= allSucceed && _accounts[OutSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
+				
+			}
+
+			foreach (var order in inSitePlacedOrders)
+			{
+				allSucceed = allSucceed && _accounts[InSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
+			
+			}
+
+			return allSucceed;
 		}
 
 		private void ShowTrades()
@@ -680,6 +740,7 @@ namespace BCPrice_Catcher
 				btnSwitchMode.Text = "停止真实模式(&R)";
 				btnSwitchMode.BackColor = Color.Crimson;
 				tckPecentage.Enabled = false;
+				btnCancelAllOrders.Enabled = true;
 				ChangeToRealMode();
 			}
 			else //change to simulate mode
@@ -688,8 +749,9 @@ namespace BCPrice_Catcher
 				btnSwitchMode.BackColor = Color.LimeGreen;
 				btnSwitchMode.Text = "启动真实模式(&R)";
 				tckPecentage.Enabled = true;
+				btnCancelAllOrders.Enabled = false;
 				ChangeToSimulateMode();
-				btnAllStop_Click(null, null);
+				btnCancelAllOrders_Click(null, null);
 			}
 		}
 
@@ -756,17 +818,17 @@ namespace BCPrice_Catcher
 			};
 		}
 
-		private void Form4_FormClosing(object sender, FormClosingEventArgs e)
+		private void Form6_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (MessageBox.Show(this, "确定退出程序吗?", "问题", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				MessageBoxDefaultButton.Button2) == DialogResult.No)
 			{
 				e.Cancel = true;
 			}
-			else
-			{
-				btnAllStop_Click(null, null);
-			}
+//			else
+//			{
+//				btnCancelAllOrders_Click(null, null);
+//			}
 		}
 
 		private enum ControlName

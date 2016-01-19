@@ -126,7 +126,7 @@ namespace BCPrice_Catcher.Trader
 		/// </summary>
 		/// <param name="coinType"></param>
 		/// <returns></returns>
-		public override List<PlacedOrderInfo> GetAllPlacedOrders(CoinType coinType)
+		public override List<PlacedOrderInfo> GetOrders(CoinType coinType)
 		{
 			Builder = new HuobiParasTextBuilder("get_orders");
 
@@ -228,12 +228,12 @@ namespace BCPrice_Catcher.Trader
 			return -1;
 		}
 
-		public override string GetAllTransactions()
+		public override string GetTransactions()
 		{
 			throw new NotImplementedException();
 		}
 
-		public override PlacedOrderInfo GetPlacedOrder(int orderId, CoinType coinType)
+		public override PlacedOrderInfo GetOrder(int orderId, CoinType coinType)
 		{
 			Builder = new HuobiParasTextBuilder("order_info");
 
@@ -277,7 +277,12 @@ namespace BCPrice_Catcher.Trader
 			return null;
 		}
 
-		public override bool CancelPlacedOrder(int orderId, CoinType coinType)
+		public override bool CancelOrder(int orderId, CoinType coinType)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override List<PlacedOrderInfo> GetOrders()
 		{
 			throw new NotImplementedException();
 		}
