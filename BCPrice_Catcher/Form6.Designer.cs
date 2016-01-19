@@ -44,8 +44,9 @@
 			this.tckPecentage = new System.Windows.Forms.TrackBar();
 			this.lblBtccAccount = new System.Windows.Forms.Label();
 			this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
-			this.tableLayoutPanelStrategies = new System.Windows.Forms.TableLayoutPanel();
 			this.lblTotalProfits = new System.Windows.Forms.Label();
+			this.tableLayoutPanelOutSite = new System.Windows.Forms.TableLayoutPanel();
+			this.tableLayoutPanelInSite = new System.Windows.Forms.TableLayoutPanel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -260,7 +261,6 @@
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelStrategies, 0, 3);
 			this.tableLayoutPanelMain.Controls.Add(this.lblHuobiPrice, 2, 0);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanel1, 2, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.lblHuobiAccount, 2, 1);
@@ -270,6 +270,8 @@
 			this.tableLayoutPanelMain.Controls.Add(this.flowLayoutPanel1, 0, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.tckPecentage, 1, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.lblTotalProfits, 1, 1);
+			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelOutSite, 0, 3);
+			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelInSite, 2, 3);
 			this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 25);
@@ -283,41 +285,6 @@
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1021, 637);
 			this.tableLayoutPanelMain.TabIndex = 0;
-			// 
-			// tableLayoutPanelStrategies
-			// 
-			this.tableLayoutPanelStrategies.BackColor = System.Drawing.SystemColors.Control;
-			this.tableLayoutPanelStrategies.ColumnCount = 13;
-			this.tableLayoutPanelMain.SetColumnSpan(this.tableLayoutPanelStrategies, 3);
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8F));
-			this.tableLayoutPanelStrategies.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanelStrategies.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tableLayoutPanelStrategies.Location = new System.Drawing.Point(2, 192);
-			this.tableLayoutPanelStrategies.Margin = new System.Windows.Forms.Padding(2);
-			this.tableLayoutPanelStrategies.Name = "tableLayoutPanelStrategies";
-			this.tableLayoutPanelStrategies.RowCount = 8;
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelStrategies.Size = new System.Drawing.Size(1017, 443);
-			this.tableLayoutPanelStrategies.TabIndex = 9;
 			// 
 			// lblTotalProfits
 			// 
@@ -333,6 +300,51 @@
 			this.lblTotalProfits.TabIndex = 5;
 			this.lblTotalProfits.Text = "总利润";
 			this.lblTotalProfits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// tableLayoutPanelOutSite
+			// 
+			this.tableLayoutPanelOutSite.ColumnCount = 6;
+			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelOutSite.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(3, 193);
+			this.tableLayoutPanelOutSite.Name = "tableLayoutPanelOutSite";
+			this.tableLayoutPanelOutSite.RowCount = 7;
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(402, 441);
+			this.tableLayoutPanelOutSite.TabIndex = 12;
+			// 
+			// tableLayoutPanelInSite
+			// 
+			this.tableLayoutPanelInSite.ColumnCount = 6;
+			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(615, 193);
+			this.tableLayoutPanelInSite.Name = "tableLayoutPanelInSite";
+			this.tableLayoutPanelInSite.RowCount = 7;
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(402, 441);
+			this.tableLayoutPanelInSite.TabIndex = 13;
 			// 
 			// menuStrip1
 			// 
@@ -410,11 +422,12 @@
         private System.Windows.Forms.Label lblBtccPrice;
         private System.Windows.Forms.Label lblBtccAccount;
         private System.Windows.Forms.Label lblDifferPrice;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelStrategies;
         private System.Windows.Forms.Label lblTotalProfits;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 功能FToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
         private System.Windows.Forms.Button btnSwitchMode;
-    }
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOutSite;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInSite;
+	}
 }

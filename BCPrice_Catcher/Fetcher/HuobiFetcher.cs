@@ -121,19 +121,19 @@ namespace BCPrice_Catcher
 					var dataText = client.DownloadString(_tradeBtcCnyUrl);
 					var o = JObject.Parse(dataText);
 
-					return (from c in o["sells"].Children().Take(5)
+					return (from c in o["top_sell"].Children()
 						select new BookOrderInfo
 						{
 							Amount = Convert.ToDouble(c["amount"]),
 							Price = Convert.ToDouble(c["price"]),
 							Type = "sell"
-						}).Union(from c in o["buys"].Children().Take(5)
+						}).Union(from c in o["top_buy"].Children()
 							select new BookOrderInfo
 							{
 								Amount = Convert.ToDouble(c["amount"]),
 								Price = Convert.ToDouble(c["price"]),
 								Type = "buy"
-							}).ToList();
+							}).OrderByDescending(b => b.Price).ToList();
 				}
 				catch
 				{

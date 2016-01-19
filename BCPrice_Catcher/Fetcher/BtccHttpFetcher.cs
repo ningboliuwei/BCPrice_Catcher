@@ -17,7 +17,7 @@ namespace BCPrice_Catcher
 		private const string _tickerBtcCnyUrl = "https://data.btcchina.com/data/ticker?market=btccny";
 		private const string _tickerLtcCnyUrl = "https://data.btcchina.com/data/ticker?market=ltccny";
 
-		private readonly string _ordersUrl = $"https://data.btcchina.com/data/orderbook?limit={OrdersCount}";
+		private readonly string _bookOrdersUrl = $"https://data.btcchina.com/data/orderbook?limit={BookOrdersCount}";
 
 		private readonly string _tradesUrl = $"https://data.btcchina.com/data/historydata?limit={TradesCount}";
 
@@ -105,7 +105,7 @@ namespace BCPrice_Catcher
 		{
 			using (var client = new WebClient())
 			{
-				var dataText = client.DownloadString(_ordersUrl);
+				var dataText = client.DownloadString(_bookOrdersUrl);
 				try
 				{
 					var o = JObject.Parse(dataText);

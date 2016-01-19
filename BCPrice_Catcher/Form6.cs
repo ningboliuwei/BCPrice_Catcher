@@ -29,9 +29,14 @@ namespace BCPrice_Catcher
 
 		private const int InitialRowCount = 5;
 
-		private static readonly string[] Titles =
+		private static readonly string[] OutSiteTitles =
 		{
-			"", "买价", "量", "", "卖价", "量", "", "", "卖价", "量", "", "买价", "量"
+			"", "卖价", "量", "", "买价", "量"
+		};
+
+		private static readonly string[] InSiteTitles =
+		{
+			"", "卖价", "量", "", "买价", "量"
 		};
 
 //		private static readonly List<Strategy> _strategies = new List<Strategy>();
@@ -57,7 +62,7 @@ namespace BCPrice_Catcher
 			{InSitePrefix, null}
 		};
 
-		private readonly int _strategyControlColumnCount = Titles.Length;
+//		private readonly int _strategyControlColumnCount = Titles.Length;
 
 		private double _baseDifferPrice;
 
@@ -72,173 +77,97 @@ namespace BCPrice_Catcher
 			InitializeComponent();
 		}
 
-		private void GenerateTitleControls()
+		private void GenerateOrderBookControls(TableLayoutPanel tableLayoutPanel, string[] titles, Color headerColor)
 		{
-			int middleColumnIndex = (Titles.Length - 1) / 2;
-			for (var i = 0; i < Titles.Length; i++)
+			for (var i = 0; i < titles.Length; i++)
 			{
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Text = Titles[i],
+						Text = titles[i],
 						TextAlign = ContentAlignment.MiddleCenter,
 						AutoSize = false,
 						Dock = DockStyle.Fill,
 						Font = new Font(Font.FontFamily, Font.Size + 3, Font.Style | FontStyle.Bold),
-						BackColor =
-							i < middleColumnIndex
-								? lblBtccAccount.BackColor
-								: i == middleColumnIndex ? lblTotalProfits.BackColor : lblHuobiAccount.BackColor
+						BackColor = headerColor
 					}, i, 0);
 			}
-		}
 
-		private void GenerateOrderBookControls()
-		{
-//			var strategyControlId = _strategyControlsCount;
+
+			//			var strategyControlId = _strategyControlsCount;
 
 			for (int i = 0; i < InitialRowCount; i++)
 			{
 				int rowPosition = i + 1;
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Text = $"买 {i}",
+						Text = $"卖 {InitialRowCount - i}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = lblBtccAccount.BackColor
+						BackColor = lblBtccAccount.BackColor,
 					}, 0, rowPosition);
 
 
 				//左侧买价
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutBuyPrice}{i}",
+						Name = $"{ControlName.lblSellPrice}{i}",
 						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral
+						BackColor = Color.LightCoral,
 					}, 1, rowPosition);
 
 				//左侧买量
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutBuyAmount}{i}",
+						Name = $"{ControlName.lblSellAmount}{i}",
 						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral
+						BackColor = Color.LightCoral,
 					}, 2, rowPosition);
 
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Text = $"卖 {i}",
+						Text = $"买 {rowPosition}",
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = lblBtccAccount.BackColor
+						BackColor = lblBtccAccount.BackColor,
 					}, 3, rowPosition);
 
 
 				//左侧卖价
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutSellPrice}{i}",
+						Name = $"{ControlName.lblBuyPrice}{i}",
 						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen
+						BackColor = Color.LightGreen,
 					}, 4, rowPosition);
 
 				//左侧卖量
-				tableLayoutPanelStrategies.Controls.Add(
+				tableLayoutPanel.Controls.Add(
 					new Label
 					{
-						Name = $"{ControlName.lblOutSellAmount}{i}",
+						Name = $"{ControlName.lblBuyAmount}{i}",
 						Text = i.ToString(),
 						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen
+						BackColor = Color.LightGreen,
 					}, 5, rowPosition);
-
-
-				tableLayoutPanelStrategies.Controls.Add(
-					new Label
-					{
-						Text = $"卖 {i}",
-						Dock = DockStyle.Fill,
-						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = lblHuobiAccount.BackColor
-					}, 7, rowPosition);
-
-
-				//右侧卖价
-				tableLayoutPanelStrategies.Controls.Add(
-					new Label
-					{
-						Name = $"{ControlName.lblInSellPrice}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
-						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen
-					}, 8, rowPosition);
-
-				//右侧卖量
-				tableLayoutPanelStrategies.Controls.Add(
-					new Label
-					{
-						Name = $"{ControlName.lblInSellAmount}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
-						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen
-					}, 9, rowPosition);
-
-				tableLayoutPanelStrategies.Controls.Add(
-					new Label
-					{
-						Text = $"买 {i}",
-						Dock = DockStyle.Fill,
-						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = lblHuobiAccount.BackColor
-					}, 10, rowPosition);
-
-				//右侧买价
-				tableLayoutPanelStrategies.Controls.Add(
-					new Label
-					{
-						Name = $"{ControlName.lblInBuyPrice}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
-						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral
-					}, 11, rowPosition);
-
-				//右侧买量
-				tableLayoutPanelStrategies.Controls.Add(
-					new Label
-					{
-						Name = $"{ControlName.lblInBuyAmount}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
-						TextAlign = ContentAlignment.MiddleCenter,
-						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral
-					}, 12, rowPosition);
 			}
 		}
 
@@ -327,10 +256,10 @@ namespace BCPrice_Catcher
 
 		private void InitializeControls()
 		{
-			tableLayoutPanelStrategies.Visible = false;
+//			tableLayoutPanelOutSite.Visible = false;
 			//            tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-			tableLayoutPanelStrategies.Visible = true;
-			GenerateTitleControls();
+//			tableLayoutPanelBookOrders.Visible = true;
+//			GenerateTitleControls();
 
 //			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Enabled = true;
 //			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Enabled = true;
@@ -358,9 +287,10 @@ namespace BCPrice_Catcher
 
 //			for (var i = 0; i < InitialRowCount; i++)
 //			{
-			GenerateOrderBookControls();
-//				AddStrategy();
-//			}
+			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblBtccAccount.BackColor);
+			GenerateOrderBookControls(tableLayoutPanelInSite, InSiteTitles, lblHuobiAccount.BackColor);
+			//				AddStrategy();
+			//			}
 		}
 
 		private void btnAddStrategy_Click(object sender, EventArgs e)
@@ -489,7 +419,8 @@ namespace BCPrice_Catcher
 		{
 			GetInfos();
 			ShowPrices();
-			ShowBookOrders();
+			ShowBookOrders(tableLayoutPanelOutSite, _bookOrders[OutSitePrefix]);
+			ShowBookOrders(tableLayoutPanelInSite, _bookOrders[InSitePrefix]);
 
 			//            foreach (var s in _strategies)
 			//            {
@@ -513,12 +444,7 @@ namespace BCPrice_Catcher
 		//for btcc, huobi and differ price
 		private void ShowPrices()
 		{
-			_baseDifferPrice
-				=
-				Math.Abs
-					(_prices[OutSitePrefix]
-					 -
-					 _prices[InSitePrefix]);
+			_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
 			lblBtccPrice.Text
 				= $"BTCC{Environment.NewLine}{_prices[OutSitePrefix].ToString("0.000")}";
 			lblHuobiPrice.Text
@@ -529,10 +455,7 @@ namespace BCPrice_Catcher
 				=
 				$"总利润{Environment.NewLine}{(_accounts[OutSitePrefix].Balance + _accounts[InSitePrefix].Balance - _initialTotalBalance).ToString("0.000")}";
 
-			if (
-				_prices[OutSitePrefix]
-				>
-				_prices[InSitePrefix]
+			if (_prices[OutSitePrefix] > _prices[InSitePrefix]
 				)
 			{
 				lblDifferPrice.Text = lblDifferPrice.Text.Insert(4, "<< ");
@@ -540,21 +463,25 @@ namespace BCPrice_Catcher
 			else if (
 				_prices[OutSitePrefix] < _prices[InSitePrefix])
 			{
-				lblDifferPrice.Text
-					=
-					lblDifferPrice.Text
-					+ @" >>";
+				lblDifferPrice.Text = lblDifferPrice.Text + @" >>";
 			}
 		}
 
-		private void ShowBookOrders()
+		private void ShowBookOrders(TableLayoutPanel tableLayoutPanel, List<BookOrderInfo> bookOrders)
 		{
-			for (int i = 0 ; i < InitialRowCount; i++)
+			if (bookOrders!= null && bookOrders.Count != 0)
 			{
-				(tableLayoutPanelStrategies.Controls[$"{ControlName.lblOutBuyPrice}{i}"] as Label).Text =
-					_bookOrders[OutSitePrefix][i].Price.ToString();
-				(tableLayoutPanelStrategies.Controls[$"{ControlName.lblOutBuyAmount}{i}"] as Label).Text =
-	_bookOrders[OutSitePrefix][ i].Amount.ToString();
+				for (int i = 0; i < InitialRowCount; i++)
+				{
+					(tableLayoutPanel.Controls[$"{ControlName.lblSellPrice}{i}"] as Label).Text =
+						bookOrders[i].Price.ToString("0.00");
+					(tableLayoutPanel.Controls[$"{ControlName.lblSellAmount}{i}"] as Label).Text =
+						bookOrders[i].Amount.ToString();
+					(tableLayoutPanel.Controls[$"{ControlName.lblBuyPrice}{i}"] as Label).Text =
+						bookOrders.Skip(InitialRowCount).ToList()[i].Price.ToString("0.00");
+					(tableLayoutPanel.Controls[$"{ControlName.lblBuyAmount}{i}"] as Label).Text =
+						bookOrders.Skip(InitialRowCount).ToList()[i].Amount.ToString();
+				}
 			}
 		}
 
@@ -844,14 +771,14 @@ namespace BCPrice_Catcher
 
 		private enum ControlName
 		{
-			lblOutBuyPrice,
-			lblOutBuyAmount,
-			lblOutSellPrice,
-			lblOutSellAmount,
-			lblInSellPrice,
-			lblInSellAmount,
-			lblInBuyPrice,
-			lblInBuyAmount
+			lblBuyPrice,
+			lblBuyAmount,
+			lblSellPrice,
+			lblSellAmount,
+//			lblInSellPrice,
+//			lblInSellAmount,
+//			lblInBuyPrice,
+//			lblInBuyAmount
 		}
 	}
 }
