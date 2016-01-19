@@ -277,6 +277,16 @@ namespace BCPrice_Catcher.Trader
 			return null;
 		}
 
+		public override bool CancelOrder(int orderId, CoinType coinType)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override List<PlacedOrderInfo> GetOrders()
+		{
+			throw new NotImplementedException();
+		}
+
 		/// <summary>
 		///     从火币网交易 API 得到结果
 		/// </summary>
