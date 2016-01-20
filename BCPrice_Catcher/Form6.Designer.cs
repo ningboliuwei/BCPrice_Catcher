@@ -47,10 +47,11 @@
 			this.lblTotalProfits = new System.Windows.Forms.Label();
 			this.tableLayoutPanelOutSite = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanelInSite = new System.Windows.Forms.TableLayoutPanel();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.lblM = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
@@ -74,6 +75,7 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnCancelAllOrders, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.lblM, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(612, 140);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -130,14 +132,18 @@
 			this.label2.Location = new System.Drawing.Point(2, 0);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(51, 39);
+			this.label2.Size = new System.Drawing.Size(79, 39);
 			this.label2.TabIndex = 5;
-			this.label2.Text = "启动价";
+			this.label2.Text = "最小交易量";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// nudStartPrice
 			// 
+			this.nudStartPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.nudStartPrice.DecimalPlaces = 3;
-			this.nudStartPrice.Location = new System.Drawing.Point(57, 2);
+			this.nudStartPrice.Location = new System.Drawing.Point(85, 2);
 			this.nudStartPrice.Margin = new System.Windows.Forms.Padding(2);
 			this.nudStartPrice.Maximum = new decimal(new int[] {
             100000,
@@ -148,7 +154,7 @@
 			this.nudStartPrice.Size = new System.Drawing.Size(100, 26);
 			this.nudStartPrice.TabIndex = 6;
 			this.nudStartPrice.Value = new decimal(new int[] {
-            3,
+            1,
             0,
             0,
             0});
@@ -157,7 +163,7 @@
 			// 
 			this.btnSwitchMode.BackColor = System.Drawing.Color.LimeGreen;
 			this.btnSwitchMode.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnSwitchMode.Location = new System.Drawing.Point(161, 2);
+			this.btnSwitchMode.Location = new System.Drawing.Point(189, 2);
 			this.btnSwitchMode.Margin = new System.Windows.Forms.Padding(2);
 			this.btnSwitchMode.Name = "btnSwitchMode";
 			this.btnSwitchMode.Size = new System.Drawing.Size(180, 35);
@@ -352,6 +358,16 @@
 			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(409, 447);
 			this.tableLayoutPanelInSite.TabIndex = 13;
 			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.Control;
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel1.Location = new System.Drawing.Point(408, 190);
+			this.panel1.Margin = new System.Windows.Forms.Padding(0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(204, 447);
+			this.panel1.TabIndex = 14;
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -378,15 +394,14 @@
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
 			// 
-			// panel1
+			// lblM
 			// 
-			this.panel1.BackColor = System.Drawing.SystemColors.Control;
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(408, 190);
-			this.panel1.Margin = new System.Windows.Forms.Padding(0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(204, 447);
-			this.panel1.TabIndex = 14;
+			this.lblM.AutoSize = true;
+			this.lblM.Location = new System.Drawing.Point(3, 0);
+			this.lblM.Name = "lblM";
+			this.lblM.Size = new System.Drawing.Size(50, 20);
+			this.lblM.TabIndex = 9;
+			this.lblM.Text = "label1";
 			// 
 			// Form6
 			// 
@@ -410,6 +425,7 @@
 			this.ResizeEnd += new System.EventHandler(this.Form6_ResizeEnd);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form6_Paint);
 			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).EndInit();
@@ -446,5 +462,6 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelOutSite;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInSite;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label lblM;
 	}
 }

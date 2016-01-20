@@ -74,6 +74,7 @@
     <Compile Include="Class\RealAccount.cs" />
     <Compile Include="Class\SimulateAccount.cs" />
     <Compile Include="Class\Strategy.cs" />
+    <Compile Include="Class\Strategy2.cs" />
     <Compile Include="Fetcher\OkcHttpFetcher.cs" />
     <Compile Include="Fetcher\BtccHttpFetcher.cs" />
     <Compile Include="Collection\InfoSet.cs" />

@@ -910,10 +910,6 @@ namespace BCPrice_Catcher
 			lblBuyAmount,
 			lblSellPrice,
 			lblSellAmount
-//			lblInSellPrice,
-//			lblInSellAmount,
-//			lblInBuyPrice,
-//			lblInBuyAmount
 		}
 	}
 }
