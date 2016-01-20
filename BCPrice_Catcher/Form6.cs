@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BCPrice_Catcher.Class;
 using BCPrice_Catcher.Model;
@@ -16,6 +14,7 @@ using BCPrice_Catcher.Trader;
 
 namespace BCPrice_Catcher
 {
+	[Guid("B4B1879D-17FD-44CF-8D31-6DD9C0115186")]
 	public partial class Form6 : Form
 	{
 //		private const int StrategyMaxQuantity = 9;
@@ -51,6 +50,12 @@ namespace BCPrice_Catcher
 			{InSitePrefix, new SimulateAccount()}
 		};
 
+		private readonly Dictionary<string, List<BookOrderInfo>> _buyBookOrders = new Dictionary<string, List<BookOrderInfo>>
+		{
+			{OutSitePrefix, null},
+			{InSitePrefix, null}
+		};
+
 		//private List<int> _strategyCounters = new List<int>();
 
 		private readonly Dictionary<string, double> _prices = new Dictionary<string, double>
@@ -60,12 +65,6 @@ namespace BCPrice_Catcher
 		};
 
 		private readonly Dictionary<string, List<BookOrderInfo>> _sellBookOrders = new Dictionary<string, List<BookOrderInfo>>
-		{
-			{OutSitePrefix, null},
-			{InSitePrefix, null}
-		};
-
-		private readonly Dictionary<string, List<BookOrderInfo>> _buyBookOrders = new Dictionary<string, List<BookOrderInfo>>
 		{
 			{OutSitePrefix, null},
 			{InSitePrefix, null}
@@ -91,6 +90,8 @@ namespace BCPrice_Catcher
 		{
 			for (var i = 0; i < titles.Length; i++)
 			{
+				#region 标题
+
 				tableLayoutPanel.Controls.Add(
 					new Label
 					{
@@ -103,95 +104,162 @@ namespace BCPrice_Catcher
 						Margin = new Padding(0),
 						Padding = new Padding(0)
 					}, i, 0);
+
+				#endregion
 			}
 
-
-			//			var strategyControlId = _strategyControlsCount;
-
-			for (int i = 0; i < InitialRowCount; i++)
+			for (var i = 0; i < InitialRowCount; i++)
 			{
-				int rowPosition = i + 1;
-				tableLayoutPanel.Controls.Add(
+				var rowPosition = i + 1;
+				var columnPosition = 0;
+
+				#region 卖N
+
+				var panelSellRowHeader = new Panel
+				{
+					BackColor = columnHeaderColor,
+					Margin = new Padding(0),
+					Padding = new Padding(0),
+					Dock = DockStyle.Fill
+				};
+
+				panelSellRowHeader.Controls.Add(
 					new Label
 					{
 						Text = $"卖 {InitialRowCount - i}",
-						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = columnHeaderColor,
-						Margin = new Padding(0),
-						Padding = new Padding(0)
-					}, 0, rowPosition);
+						BackColor = Color.Transparent,
+						Dock = DockStyle.Fill
+					});
 
+				tableLayoutPanel.Controls.Add(panelSellRowHeader, 0, rowPosition);
 
-				//左侧买价
-				tableLayoutPanel.Controls.Add(
+				#endregion
+
+				#region 卖价
+
+				var panelSellPrice = new Panel
+				{
+					Name = $"panelSellPrice" + i,
+					BackColor = Color.LightCoral,
+					Margin = new Padding(0),
+					Padding = new Padding(0),
+					Dock = DockStyle.Fill
+				};
+
+				panelSellPrice.Controls.Add(
 					new Label
 					{
 						Name = $"{ControlName.lblSellPrice}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral,
-						Margin = new Padding(0),
-						Padding = new Padding(0)
-					}, 1, rowPosition);
+						BackColor = Color.Transparent,
+						Dock = DockStyle.Fill
+					});
 
-				//左侧买量
-				tableLayoutPanel.Controls.Add(
+				tableLayoutPanel.Controls.Add(panelSellPrice, 1, rowPosition);
+
+				#endregion
+
+				#region 卖量
+
+				var panelSellAmount = new Panel
+				{
+					Name = $"panelSellAmount" + i,
+					BackColor = Color.LightCoral,
+					Margin = new Padding(0),
+					Padding = new Padding(0),
+					Dock = DockStyle.Fill
+				};
+
+				panelSellAmount.Controls.Add(
 					new Label
 					{
 						Name = $"{ControlName.lblSellAmount}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightCoral,
-						Margin = new Padding(0),
-						Padding = new Padding(0)
-					}, 2, rowPosition);
+						BackColor = Color.Transparent,
+						Dock = DockStyle.Fill
+					});
 
-				tableLayoutPanel.Controls.Add(
+				tableLayoutPanel.Controls.Add(panelSellAmount, 2, rowPosition);
+
+				#endregion
+
+				#region 买N
+
+				var panelBuyRowHeader = new Panel
+				{
+					Dock = DockStyle.Fill,
+					BackColor = columnHeaderColor,
+					Margin = new Padding(0),
+					Padding = new Padding(0)
+				};
+
+				panelBuyRowHeader.Controls.Add(
 					new Label
 					{
 						Text = $"买 {rowPosition}",
-						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = columnHeaderColor,
-						Margin = new Padding(0),
-						Padding = new Padding(0)
-					}, 3, rowPosition);
+						BackColor = Color.Transparent,
+						Dock = DockStyle.Fill
+					});
 
+				tableLayoutPanel.Controls.Add(panelBuyRowHeader, 3, rowPosition);
 
-				//左侧卖价
-				tableLayoutPanel.Controls.Add(
+				#endregion
+
+				#region 买价
+
+				var panelBuyPrice = new Panel
+				{
+					Name = $"panelBuyPrice" + i,
+					BackColor = Color.LightGreen,
+					Margin = new Padding(0),
+					Padding = new Padding(0),
+					Dock = DockStyle.Fill
+				};
+
+				panelBuyPrice.Controls.Add(
 					new Label
 					{
 						Name = $"{ControlName.lblBuyPrice}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen,
-						Margin = new Padding(0),
-						Padding = new Padding(0)
-					}, 4, rowPosition);
+						BackColor = Color.Transparent,
+						Dock = DockStyle.Fill
+					});
 
-				//左侧卖量
-				tableLayoutPanel.Controls.Add(
+				tableLayoutPanel.Controls.Add(panelBuyPrice, 4, rowPosition);
+
+				#endregion
+
+				#region 买量
+
+				var panelBuyAmount = new Panel
+				{
+					Name = $"panelBuyAmount" + i,
+					BackColor = Color.LightGreen,
+					Margin = new Padding(0),
+					Padding = new Padding(0),
+					Dock = DockStyle.Fill
+				};
+
+				panelBuyAmount.Controls.Add(
 					new Label
 					{
 						Name = $"{ControlName.lblBuyAmount}{i}",
-						Text = i.ToString(),
-						Dock = DockStyle.Fill,
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
-						BackColor = Color.LightGreen,
-						Margin = new Padding(0),
-						Padding = new Padding(0)
-					}, 5, rowPosition);
+						BackColor = Color.Transparent,
+						Dock = DockStyle.Fill
+					});
+
+				tableLayoutPanel.Controls.Add(panelBuyAmount, 5, rowPosition);
+
+				#endregion
 			}
 		}
 
@@ -504,15 +572,22 @@ namespace BCPrice_Catcher
 		{
 			if (sellBookOrders != null && sellBookOrders.Count != 0)
 			{
-				for (int i = 0; i < InitialRowCount; i++)
+				for (var i = 0; i < InitialRowCount; i++)
 				{
-					((Label) tableLayoutPanel.Controls[$"{ControlName.lblSellPrice}{i}"]).Text =
+					((Label) ((Panel) tableLayoutPanel.Controls["panelSellPrice" + i]).Controls[$"{ControlName.lblSellPrice}{i}"]).Text
+						=
 						sellBookOrders[i].Price.ToString("0.00");
-					((Label) tableLayoutPanel.Controls[$"{ControlName.lblSellAmount}{i}"]).Text =
+
+					((Label) ((Panel) tableLayoutPanel.Controls["panelSellAmount" + i]).Controls[$"{ControlName.lblSellAmount}{i}"])
+						.Text =
 						sellBookOrders[i].Amount.ToString();
-					((Label) tableLayoutPanel.Controls[$"{ControlName.lblBuyPrice}{i}"]).Text =
+
+					((Label) ((Panel) tableLayoutPanel.Controls["panelBuyPrice" + i]).Controls[$"{ControlName.lblBuyPrice}{i}"]).Text
+						=
 						buyBookOrders[i].Price.ToString("0.00");
-					((Label) tableLayoutPanel.Controls[$"{ControlName.lblBuyAmount}{i}"]).Text =
+
+					((Label) ((Panel) tableLayoutPanel.Controls["panelBuyAmount" + i]).Controls[$"{ControlName.lblBuyAmount}{i}"]).Text
+						=
 						buyBookOrders[i].Amount.ToString();
 				}
 			}
@@ -648,21 +723,19 @@ namespace BCPrice_Catcher
 
 		private bool CancelAllPlacedOrders()
 		{
-			bool allSucceed = true;
+			var allSucceed = true;
 
 			var outSitePlacedOrders = _accounts[OutSitePrefix].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
 			var inSitePlacedOrders = _accounts[InSitePrefix].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
 
 			foreach (var order in outSitePlacedOrders)
 			{
-				allSucceed= allSucceed && _accounts[OutSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
-				
+				allSucceed = allSucceed && _accounts[OutSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
 			}
 
 			foreach (var order in inSitePlacedOrders)
 			{
 				allSucceed = allSucceed && _accounts[InSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
-			
 			}
 
 			return allSucceed;
@@ -836,7 +909,7 @@ namespace BCPrice_Catcher
 			lblBuyPrice,
 			lblBuyAmount,
 			lblSellPrice,
-			lblSellAmount,
+			lblSellAmount
 //			lblInSellPrice,
 //			lblInSellAmount,
 //			lblInBuyPrice,
