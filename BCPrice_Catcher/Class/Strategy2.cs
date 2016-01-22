@@ -50,6 +50,12 @@ namespace BCPrice_Catcher.Class
 			m = values.Min();
 		}
 
+		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
+			double tradeAmount)
+		{
+			
+		}
+
 
 		public class StrategyInputParameters
 		{

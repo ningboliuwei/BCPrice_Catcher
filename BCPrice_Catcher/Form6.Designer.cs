@@ -33,10 +33,13 @@
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.btnAllStart = new System.Windows.Forms.Button();
 			this.btnCancelAllOrders = new System.Windows.Forms.Button();
+			this.lblM = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
 			this.btnSwitchMode = new System.Windows.Forms.Button();
+			this.label4 = new System.Windows.Forms.Label();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.lblBtccPrice = new System.Windows.Forms.Label();
 			this.lblHuobiAccount = new System.Windows.Forms.Label();
 			this.lblHuobiPrice = new System.Windows.Forms.Label();
@@ -48,15 +51,25 @@
 			this.tableLayoutPanelOutSite = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanelInSite = new System.Windows.Forms.TableLayoutPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.nudParaA = new System.Windows.Forms.NumericUpDown();
+			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+			this.label3 = new System.Windows.Forms.Label();
+			this.nudParaB = new System.Windows.Forms.NumericUpDown();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.lblM = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
 			this.tableLayoutPanelMain.SuspendLayout();
+			this.flowLayoutPanel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaA)).BeginInit();
+			this.flowLayoutPanel3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaB)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -82,7 +95,7 @@
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(409, 50);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(409, 70);
 			this.tableLayoutPanel1.TabIndex = 11;
 			// 
 			// btnAllStart
@@ -111,17 +124,28 @@
 			this.btnCancelAllOrders.UseVisualStyleBackColor = false;
 			this.btnCancelAllOrders.Click += new System.EventHandler(this.btnCancelAllOrders_Click);
 			// 
+			// lblM
+			// 
+			this.lblM.AutoSize = true;
+			this.lblM.Location = new System.Drawing.Point(3, 0);
+			this.lblM.Name = "lblM";
+			this.lblM.Size = new System.Drawing.Size(50, 20);
+			this.lblM.TabIndex = 9;
+			this.lblM.Text = "label1";
+			// 
 			// flowLayoutPanel1
 			// 
 			this.flowLayoutPanel1.BackColor = System.Drawing.Color.Khaki;
 			this.flowLayoutPanel1.Controls.Add(this.label2);
 			this.flowLayoutPanel1.Controls.Add(this.nudStartPrice);
 			this.flowLayoutPanel1.Controls.Add(this.btnSwitchMode);
+			this.flowLayoutPanel1.Controls.Add(this.label4);
+			this.flowLayoutPanel1.Controls.Add(this.numericUpDown1);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 140);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(408, 50);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(408, 70);
 			this.flowLayoutPanel1.TabIndex = 7;
 			// 
 			// label2
@@ -166,11 +190,46 @@
 			this.btnSwitchMode.Location = new System.Drawing.Point(189, 2);
 			this.btnSwitchMode.Margin = new System.Windows.Forms.Padding(2);
 			this.btnSwitchMode.Name = "btnSwitchMode";
-			this.btnSwitchMode.Size = new System.Drawing.Size(180, 35);
+			this.btnSwitchMode.Size = new System.Drawing.Size(200, 35);
 			this.btnSwitchMode.TabIndex = 8;
 			this.btnSwitchMode.Text = "启动真实模式(&R)";
 			this.btnSwitchMode.UseVisualStyleBackColor = false;
 			this.btnSwitchMode.Click += new System.EventHandler(this.btnSwitchMode_Click);
+			// 
+			// label4
+			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+			this.label4.AutoSize = true;
+			this.label4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label4.Location = new System.Drawing.Point(2, 39);
+			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(18, 20);
+			this.label4.TabIndex = 5;
+			this.label4.Text = "Z";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// numericUpDown1
+			// 
+			this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericUpDown1.DecimalPlaces = 3;
+			this.numericUpDown1.Location = new System.Drawing.Point(24, 41);
+			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(100, 26);
+			this.numericUpDown1.TabIndex = 6;
+			this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			// 
 			// lblBtccPrice
 			// 
@@ -241,7 +300,7 @@
 			this.tckPecentage.Margin = new System.Windows.Forms.Padding(0);
 			this.tckPecentage.Maximum = 100;
 			this.tckPecentage.Name = "tckPecentage";
-			this.tckPecentage.Size = new System.Drawing.Size(204, 50);
+			this.tckPecentage.Size = new System.Drawing.Size(204, 70);
 			this.tckPecentage.TabIndex = 6;
 			this.tckPecentage.TickFrequency = 5;
 			this.tckPecentage.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -278,20 +337,22 @@
 			this.tableLayoutPanelMain.Controls.Add(this.flowLayoutPanel1, 0, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.tckPecentage, 1, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.lblTotalProfits, 1, 1);
-			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelOutSite, 0, 3);
-			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelInSite, 2, 3);
-			this.tableLayoutPanelMain.Controls.Add(this.panel1, 1, 3);
+			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelOutSite, 0, 4);
+			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelInSite, 2, 4);
+			this.tableLayoutPanelMain.Controls.Add(this.panel1, 1, 4);
+			this.tableLayoutPanelMain.Controls.Add(this.flowLayoutPanel2, 0, 3);
+			this.tableLayoutPanelMain.Controls.Add(this.flowLayoutPanel3, 2, 3);
 			this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanelMain.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 25);
 			this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
-			this.tableLayoutPanelMain.RowCount = 4;
+			this.tableLayoutPanelMain.RowCount = 5;
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1021, 637);
 			this.tableLayoutPanelMain.TabIndex = 0;
 			// 
@@ -320,7 +381,7 @@
 			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelOutSite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(0, 190);
+			this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(0, 240);
 			this.tableLayoutPanelOutSite.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelOutSite.Name = "tableLayoutPanelOutSite";
 			this.tableLayoutPanelOutSite.RowCount = 7;
@@ -331,7 +392,7 @@
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(408, 447);
+			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(408, 397);
 			this.tableLayoutPanelOutSite.TabIndex = 12;
 			// 
 			// tableLayoutPanelInSite
@@ -344,7 +405,7 @@
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelInSite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(612, 190);
+			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(612, 240);
 			this.tableLayoutPanelInSite.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelInSite.Name = "tableLayoutPanelInSite";
 			this.tableLayoutPanelInSite.RowCount = 7;
@@ -355,18 +416,110 @@
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(409, 447);
+			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(409, 397);
 			this.tableLayoutPanelInSite.TabIndex = 13;
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.Control;
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(408, 190);
+			this.panel1.Location = new System.Drawing.Point(408, 240);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(204, 447);
+			this.panel1.Size = new System.Drawing.Size(204, 397);
 			this.panel1.TabIndex = 14;
+			// 
+			// flowLayoutPanel2
+			// 
+			this.flowLayoutPanel2.Controls.Add(this.label1);
+			this.flowLayoutPanel2.Controls.Add(this.nudParaA);
+			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 210);
+			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(408, 30);
+			this.flowLayoutPanel2.TabIndex = 15;
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label1.Location = new System.Drawing.Point(2, 0);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(17, 20);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "a";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// nudParaA
+			// 
+			this.nudParaA.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.nudParaA.DecimalPlaces = 3;
+			this.nudParaA.Location = new System.Drawing.Point(23, 2);
+			this.nudParaA.Margin = new System.Windows.Forms.Padding(2);
+			this.nudParaA.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.nudParaA.Name = "nudParaA";
+			this.nudParaA.Size = new System.Drawing.Size(100, 26);
+			this.nudParaA.TabIndex = 6;
+			this.nudParaA.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// flowLayoutPanel3
+			// 
+			this.flowLayoutPanel3.Controls.Add(this.label3);
+			this.flowLayoutPanel3.Controls.Add(this.nudParaB);
+			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel3.Location = new System.Drawing.Point(612, 210);
+			this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(409, 30);
+			this.flowLayoutPanel3.TabIndex = 15;
+			// 
+			// label3
+			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label3.Location = new System.Drawing.Point(2, 0);
+			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(18, 20);
+			this.label3.TabIndex = 5;
+			this.label3.Text = "b";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// nudParaB
+			// 
+			this.nudParaB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.nudParaB.DecimalPlaces = 3;
+			this.nudParaB.Location = new System.Drawing.Point(24, 2);
+			this.nudParaB.Margin = new System.Windows.Forms.Padding(2);
+			this.nudParaB.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.nudParaB.Name = "nudParaB";
+			this.nudParaB.Size = new System.Drawing.Size(100, 26);
+			this.nudParaB.TabIndex = 6;
+			this.nudParaB.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			// 
 			// menuStrip1
 			// 
@@ -394,15 +547,6 @@
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
 			// 
-			// lblM
-			// 
-			this.lblM.AutoSize = true;
-			this.lblM.Location = new System.Drawing.Point(3, 0);
-			this.lblM.Name = "lblM";
-			this.lblM.Size = new System.Drawing.Size(50, 20);
-			this.lblM.TabIndex = 9;
-			this.lblM.Text = "label1";
-			// 
 			// Form6
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -429,9 +573,16 @@
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).EndInit();
 			this.tableLayoutPanelMain.ResumeLayout(false);
 			this.tableLayoutPanelMain.PerformLayout();
+			this.flowLayoutPanel2.ResumeLayout(false);
+			this.flowLayoutPanel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaA)).EndInit();
+			this.flowLayoutPanel3.ResumeLayout(false);
+			this.flowLayoutPanel3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaB)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -463,5 +614,13 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInSite;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label lblM;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown nudParaA;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.NumericUpDown nudParaB;
 	}
 }
