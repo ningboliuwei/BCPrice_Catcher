@@ -53,7 +53,8 @@ namespace BCPrice_Catcher.Class
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
 			double tradeAmount)
 		{
-			
+			accounts["btcc"].Buy(-1, prices["btcc"], tradeAmount);
+			accounts["huobi"].Sell(-1, prices["huobi"], tradeAmount);
 		}
 
 

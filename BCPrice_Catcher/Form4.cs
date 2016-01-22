@@ -37,7 +37,7 @@ namespace BCPrice_Catcher
 		};
 
 
-		private static readonly List<Strategy> _strategies = new List<Strategy>();
+		private static readonly List<Strategy1> _strategies = new List<Strategy1>();
 		private static readonly TimerList _strategyTimerList = new TimerList();
 
 		private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
@@ -357,7 +357,7 @@ namespace BCPrice_Catcher
 		private void AddStrategy()
 		{
 			var strategyId = _strategyControlsCount - 1;
-			var strategy = new Strategy
+			var strategy = new Strategy1
 			{
 				Id = strategyId,
 				InputParameters = GetStrategyParameters(strategyId),
@@ -626,7 +626,7 @@ namespace BCPrice_Catcher
 			Application.Exit();
 		}
 
-		private void ShowStrategyValues(Strategy strategy)
+		private void ShowStrategyValues(Strategy1 strategy)
 		{
 			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThreshold}{strategy.Id}"] as Label).Text =
 				strategy.TradeThreshold.ToString("0.000");
@@ -645,7 +645,7 @@ namespace BCPrice_Catcher
 				strategy.TradeCount.ToString();
 		}
 
-		private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)
+		private Strategy1.StrategyInputParameters GetStrategyParameters(int strategyId)
 		{
 			const string floatRegex = @"^(-?\d+)(\.\d+)?$";
 			const string integerRegex = @"^(\+|-)?\d+$";
@@ -680,7 +680,7 @@ namespace BCPrice_Catcher
 				NumericUpDown).Text;
 
 
-			var parameters = new Strategy.StrategyInputParameters
+			var parameters = new Strategy1.StrategyInputParameters
 			{
 				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
 				TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,

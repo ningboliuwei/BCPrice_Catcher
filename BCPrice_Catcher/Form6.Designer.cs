@@ -36,10 +36,10 @@
 			this.lblM = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label2 = new System.Windows.Forms.Label();
-			this.nudStartPrice = new System.Windows.Forms.NumericUpDown();
+			this.nudParaMin = new System.Windows.Forms.NumericUpDown();
 			this.btnSwitchMode = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.nudParaZ = new System.Windows.Forms.NumericUpDown();
 			this.lblBtccPrice = new System.Windows.Forms.Label();
 			this.lblHuobiAccount = new System.Windows.Forms.Label();
 			this.lblHuobiPrice = new System.Windows.Forms.Label();
@@ -60,10 +60,11 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnAllStop = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
 			this.tableLayoutPanelMain.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
@@ -82,13 +83,15 @@
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.BackColor = System.Drawing.Color.Khaki;
-			this.tableLayoutPanel1.ColumnCount = 3;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.ColumnCount = 4;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.btnCancelAllOrders, 2, 0);
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.tableLayoutPanel1.Controls.Add(this.btnCancelAllOrders, 3, 0);
 			this.tableLayoutPanel1.Controls.Add(this.lblM, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.btnAllStop, 2, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(612, 140);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -102,12 +105,12 @@
 			// 
 			this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
 			this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStart.Location = new System.Drawing.Point(206, 2);
+			this.btnAllStart.Location = new System.Drawing.Point(104, 2);
 			this.btnAllStart.Margin = new System.Windows.Forms.Padding(2);
 			this.btnAllStart.Name = "btnAllStart";
 			this.btnAllStart.Size = new System.Drawing.Size(98, 46);
 			this.btnAllStart.TabIndex = 8;
-			this.btnAllStart.Text = "全部开始(&S)";
+			this.btnAllStart.Text = "开始(&S)";
 			this.btnAllStart.UseVisualStyleBackColor = false;
 			this.btnAllStart.Click += new System.EventHandler(this.btnAllStart_Click);
 			// 
@@ -137,10 +140,10 @@
 			// 
 			this.flowLayoutPanel1.BackColor = System.Drawing.Color.Khaki;
 			this.flowLayoutPanel1.Controls.Add(this.label2);
-			this.flowLayoutPanel1.Controls.Add(this.nudStartPrice);
+			this.flowLayoutPanel1.Controls.Add(this.nudParaMin);
 			this.flowLayoutPanel1.Controls.Add(this.btnSwitchMode);
 			this.flowLayoutPanel1.Controls.Add(this.label4);
-			this.flowLayoutPanel1.Controls.Add(this.numericUpDown1);
+			this.flowLayoutPanel1.Controls.Add(this.nudParaZ);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 140);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -161,23 +164,23 @@
 			this.label2.Text = "最小交易量";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// nudStartPrice
+			// nudParaMin
 			// 
-			this.nudStartPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.nudParaMin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.nudStartPrice.DecimalPlaces = 3;
-			this.nudStartPrice.Location = new System.Drawing.Point(85, 2);
-			this.nudStartPrice.Margin = new System.Windows.Forms.Padding(2);
-			this.nudStartPrice.Maximum = new decimal(new int[] {
+			this.nudParaMin.DecimalPlaces = 3;
+			this.nudParaMin.Location = new System.Drawing.Point(85, 2);
+			this.nudParaMin.Margin = new System.Windows.Forms.Padding(2);
+			this.nudParaMin.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-			this.nudStartPrice.Name = "nudStartPrice";
-			this.nudStartPrice.Size = new System.Drawing.Size(100, 26);
-			this.nudStartPrice.TabIndex = 6;
-			this.nudStartPrice.Value = new decimal(new int[] {
+			this.nudParaMin.Name = "nudParaMin";
+			this.nudParaMin.Size = new System.Drawing.Size(100, 26);
+			this.nudParaMin.TabIndex = 6;
+			this.nudParaMin.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -209,27 +212,22 @@
 			this.label4.Text = "Z";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// numericUpDown1
+			// nudParaZ
 			// 
-			this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.nudParaZ.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown1.DecimalPlaces = 3;
-			this.numericUpDown1.Location = new System.Drawing.Point(24, 41);
-			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
+			this.nudParaZ.DecimalPlaces = 3;
+			this.nudParaZ.Location = new System.Drawing.Point(24, 41);
+			this.nudParaZ.Margin = new System.Windows.Forms.Padding(2);
+			this.nudParaZ.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(100, 26);
-			this.numericUpDown1.TabIndex = 6;
-			this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+			this.nudParaZ.Name = "nudParaZ";
+			this.nudParaZ.Size = new System.Drawing.Size(100, 26);
+			this.nudParaZ.TabIndex = 6;
 			// 
 			// lblBtccPrice
 			// 
@@ -469,11 +467,6 @@
 			this.nudParaA.Name = "nudParaA";
 			this.nudParaA.Size = new System.Drawing.Size(100, 26);
 			this.nudParaA.TabIndex = 6;
-			this.nudParaA.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
 			// 
 			// flowLayoutPanel3
 			// 
@@ -515,11 +508,6 @@
 			this.nudParaB.Name = "nudParaB";
 			this.nudParaB.Size = new System.Drawing.Size(100, 26);
 			this.nudParaB.TabIndex = 6;
-			this.nudParaB.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
 			// 
 			// menuStrip1
 			// 
@@ -547,6 +535,19 @@
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
 			// 
+			// btnAllStop
+			// 
+			this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+			this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.btnAllStop.Location = new System.Drawing.Point(206, 2);
+			this.btnAllStop.Margin = new System.Windows.Forms.Padding(2);
+			this.btnAllStop.Name = "btnAllStop";
+			this.btnAllStop.Size = new System.Drawing.Size(98, 46);
+			this.btnAllStop.TabIndex = 8;
+			this.btnAllStop.Text = "停止(&T)";
+			this.btnAllStop.UseVisualStyleBackColor = false;
+			this.btnAllStop.Click += new System.EventHandler(this.btnAllStop_Click);
+			// 
 			// Form6
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -572,8 +573,8 @@
 			this.tableLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudStartPrice)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).EndInit();
 			this.tableLayoutPanelMain.ResumeLayout(false);
 			this.tableLayoutPanelMain.PerformLayout();
@@ -601,7 +602,7 @@
         private System.Windows.Forms.Label lblHuobiAccount;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown nudStartPrice;
+        private System.Windows.Forms.NumericUpDown nudParaMin;
         private System.Windows.Forms.Label lblBtccPrice;
         private System.Windows.Forms.Label lblBtccAccount;
         private System.Windows.Forms.Label lblDifferPrice;
@@ -615,12 +616,13 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label lblM;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown nudParaZ;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.NumericUpDown nudParaA;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown nudParaB;
+		private System.Windows.Forms.Button btnAllStop;
 	}
 }

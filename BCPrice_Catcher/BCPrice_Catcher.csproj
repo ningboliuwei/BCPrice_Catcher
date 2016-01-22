@@ -73,7 +73,7 @@
     <Compile Include="Class\Account.cs" />
     <Compile Include="Class\RealAccount.cs" />
     <Compile Include="Class\SimulateAccount.cs" />
-    <Compile Include="Class\Strategy.cs" />
+    <Compile Include="Class\Strategy1.cs" />
     <Compile Include="Class\Strategy2.cs" />
     <Compile Include="Fetcher\OkcHttpFetcher.cs" />
     <Compile Include="Fetcher\BtccHttpFetcher.cs" />

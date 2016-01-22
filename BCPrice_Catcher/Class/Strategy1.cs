@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BCPrice_Catcher.Class
 {
-	public class Strategy
+	public class Strategy1
 	{
 		public int Id { get; set; }
 		public double TradeThreshold { get; set; }
@@ -20,7 +20,7 @@ namespace BCPrice_Catcher.Class
 		public DateTime TradeThresholdLastUpdated { get; set; } =
 			Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-		public Strategy PreviousStrategy { get; set; }
+		public Strategy1 PreviousStrategy { get; set; }
 
 
 		public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
@@ -117,7 +117,7 @@ namespace BCPrice_Catcher.Class
 			}
 		}
 
-		public class StrategyInputParameters
+		public  class StrategyInputParameters
 		{
 			public double DifferPrice { get; set; }
 			public double BaseThreshold { get; set; }

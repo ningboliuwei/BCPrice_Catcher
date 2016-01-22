@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using BCPrice_Catcher.Class;
 using BCPrice_Catcher.Model;
@@ -41,8 +44,8 @@ namespace BCPrice_Catcher
 			"", "卖价", "量", "", "买价", "量"
 		};
 
-//		private static readonly List<Strategy> _strategies = new List<Strategy>();
-//		private static readonly TimerList _strategyTimerList = new TimerList();
+		private static readonly List<Strategy2> _strategies = new List<Strategy2>();
+		private static readonly TimerList _strategyTimerList = new TimerList();
 
 		private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
 		{
@@ -265,7 +268,7 @@ namespace BCPrice_Catcher
 
 		private void StopStrategy(int strategyId)
 		{
-//			_strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
+			_strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
 		}
 
 		private void RemoveStrategy(int strategyId)
@@ -300,38 +303,60 @@ namespace BCPrice_Catcher
 
 		private void StartStrategy(int strategyId)
 		{
-//			_strategyTimerList.Timers[strategyId.ToString()].Change(0,
-//				_strategies[strategyId].InputParameters.Peroid * 1000);
+			_strategyTimerList.Timers[strategyId.ToString()].Change(0,
+				1 * 1000);
 		}
 
 		//add a new strategy
 		private void AddStrategy()
 		{
-//			var strategyId = _strategyControlsCount - 1;
-//			var strategy = new Strategy
-//			{
-//				Id = strategyId,
-//				InputParameters = GetStrategyParameters(strategyId),
-//				//InputParameters = GetStrategyParameters(strategyId).Result,
-//				PreviousStrategy = strategyId == 0 ? null : _strategies[strategyId - 1]
-//			};
-//			_strategies.Add(strategy);
-//
-////            double tradeAmount = Convert.ToDouble(nudTradeAmount.Value);
-//			//need await here?
-//			//need task here?
-//			_strategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
-//			{
-//				await Task.Run(() =>
-//				{
-//					strategy.Update(GetStrategyParameters(strategy.Id));
-//					strategy.TryTrade(_accounts, new Dictionary<string, double>
-//					{
-//						{OutSitePrefix, _prices[OutSitePrefix]},
-//						{InSitePrefix, _prices[InSitePrefix]}
-//					}, strategy.InputParameters.TradeAmount);
-//				});
-//			});
+			var strategyId = -1;
+			var strategy = new Strategy2
+			{
+				InputParameters = GetStrategyParameters(),
+			};
+
+			_strategies.Add(strategy);
+
+			_strategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
+			{
+				await Task.Run(() =>
+				{
+					strategy.Update(GetStrategyParameters());
+					strategy.TryTrade(_accounts, new Dictionary<string, double>
+					{
+						{OutSitePrefix, _prices[OutSitePrefix]},
+						{InSitePrefix, _prices[InSitePrefix]}
+					}, strategy.m);
+				});
+			});
+
+
+			//			var strategyId = _strategyControlsCount - 1;
+			//			var strategy = new Strategy
+			//			{
+			//				Id = strategyId,
+			//				InputParameters = GetStrategyParameters(strategyId),
+			//				//InputParameters = GetStrategyParameters(strategyId).Result,
+			//				PreviousStrategy = strategyId == 0 ? null : _strategies[strategyId - 1]
+			//			};
+			//			_strategies.Add(strategy);
+			//
+			////            double tradeAmount = Convert.ToDouble(nudTradeAmount.Value);
+			//			//need await here?
+			//			//need task here?
+			//			_strategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
+			//			{
+			//				await Task.Run(() =>
+			//				{
+			//					strategy.Update(GetStrategyParameters(strategy.Id));
+			//					strategy.TryTrade(_accounts, new Dictionary<string, double>
+			//					{
+			//						{OutSitePrefix, _prices[OutSitePrefix]},
+			//						{InSitePrefix, _prices[InSitePrefix]}
+			//					}, strategy.InputParameters.TradeAmount);
+			//				});
+			//			});
 		}
 
 
@@ -383,7 +408,7 @@ namespace BCPrice_Catcher
 //			{
 			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblBtccPrice.BackColor, lblBtccAccount.BackColor);
 			GenerateOrderBookControls(tableLayoutPanelInSite, InSiteTitles, lblHuobiPrice.BackColor, lblHuobiAccount.BackColor);
-			//				AddStrategy();
+							AddStrategy();
 			//			}
 		}
 
@@ -598,7 +623,7 @@ namespace BCPrice_Catcher
 			Application.Exit();
 		}
 
-		private void ShowStrategyValues(Strategy strategy)
+		private void ShowStrategyValues(Strategy1 strategy)
 		{
 //			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThreshold}{strategy.Id}"] as Label).Text =
 //				strategy.TradeThreshold.ToString("0.000");
@@ -617,31 +642,21 @@ namespace BCPrice_Catcher
 //				strategy.TradeCount.ToString();
 		}
 
-//		private Strategy.StrategyInputParameters GetStrategyParameters(int strategyId)
-//		{
-//			const string floatRegex = @"^(-?\d+)(\.\d+)?$";
+		private Strategy2.StrategyInputParameters GetStrategyParameters()
+		{
+			const string floatRegex = @"^(-?\d+)(\.\d+)?$";
 //			const string integerRegex = @"^(\+|-)?\d+$";
-//
-//			var s1 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdIncrement}{strategyId}"] as
-//				NumericUpDown).Text;
-//
-//
-//			var s2 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeThresholdCoefficient}{strategyId}"]
-//				as
-//				NumericUpDown).Text;
-//
-//			var s3 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeLagThreshold}{strategyId}"] as
-//				NumericUpDown).Text;
-//			var s4 =
-//				(tableLayoutPanelStrategies.Controls[
-//					$"{ControlName.nudRegressionThresholdIncrement}{strategyId}"]
-//					as NumericUpDown).Text;
+
+			var s1 = nudParaMin.Text;
+			var s2 = nudParaA.Text;
+			var s3 = nudParaB.Text;
+			var s4 = nudParaZ.Text;
 //			var s5 =
 //				(tableLayoutPanelStrategies.Controls[
 //					$"{ControlName.nudRegressionThresholdCoefficient}{strategyId}"]
 //					as NumericUpDown).Text;
 //
-//			var s6 = nudStartPrice.Text;
+//			var s6 = nudParaMin.Text;
 //			var s7 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudPeriod}{strategyId}"]
 //				as NumericUpDown).Text;
 //
@@ -650,22 +665,29 @@ namespace BCPrice_Catcher
 //
 //			var s9 = (tableLayoutPanelStrategies.Controls[$"{ControlName.nudTradeAmount}{strategyId}"] as
 //				NumericUpDown).Text;
-//
-//
-//			var parameters = new Strategy.StrategyInputParameters
-//			{
-//				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
-//				TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
-//				TradeLagThreshold = Regex.IsMatch(s3, integerRegex) ? Convert.ToInt32(s3) : 0,
-//				RegressionThresholdIncrement = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
-//				RegressionThresholdCoefficient = Regex.IsMatch(s5, floatRegex) ? Convert.ToDouble(s5) : 0,
-//				StartPrice = Regex.IsMatch(s6, floatRegex) ? Convert.ToDouble(s6) : 3,
-//				Peroid = Regex.IsMatch(s7, integerRegex) ? Convert.ToInt32(s7) : 1,
-//				TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 9999999,
-//				TradeAmount = Regex.IsMatch(s9, floatRegex) ? Convert.ToDouble(s9) : 0.001
-//			};
-//
-//
+
+
+			var parameters = new Strategy2.StrategyInputParameters
+			{
+				a = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
+				b = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
+				Min = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 1,
+				Z = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
+				BuyBookOrders = _buyBookOrders,
+
+
+				//				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
+				//				TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
+				//				TradeLagThreshold = Regex.IsMatch(s3, integerRegex) ? Convert.ToInt32(s3) : 0,
+				//				RegressionThresholdIncrement = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
+				//				RegressionThresholdCoefficient = Regex.IsMatch(s5, floatRegex) ? Convert.ToDouble(s5) : 0,
+				//				StartPrice = Regex.IsMatch(s6, floatRegex) ? Convert.ToDouble(s6) : 3,
+				//				Peroid = Regex.IsMatch(s7, integerRegex) ? Convert.ToInt32(s7) : 1,
+				//				TotalTradeCountLimit = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 9999999,
+				//				TradeAmount = Regex.IsMatch(s9, floatRegex) ? Convert.ToDouble(s9) : 0.001
+			};
+
+
 //			if (strategyId == 0)
 //			{
 //				parameters.BaseThreshold = _baseDifferPrice;
@@ -676,14 +698,16 @@ namespace BCPrice_Catcher
 //			}
 //
 //			parameters.DifferPrice = _baseDifferPrice;
-//			//            currentStrategy.InputParameters.TradeQuantityThreshold =
-//			//                Convert.ToInt32(
-//			//                    (tableLayoutPanelStrategies.Controls[$"{ControlNames[8]}{index}"] as TextBox).Text);
-//			return parameters;
-//		}
+			//            currentStrategy.InputParameters.TradeQuantityThreshold =
+			//                Convert.ToInt32(
+			//                    (tableLayoutPanelStrategies.Controls[$"{ControlNames[8]}{index}"] as TextBox).Text);
+			return parameters;
+		}
 
 		private void btnAllStart_Click(object sender, EventArgs e)
 		{
+			StartStrategy(-1);
+
 			//            foreach (var s in _strategies)
 			//            {
 			//                StartStrategy(s.Id);
@@ -910,6 +934,10 @@ namespace BCPrice_Catcher
 			lblBuyAmount,
 			lblSellPrice,
 			lblSellAmount
+		}
+
+		private void btnAllStop_Click(object sender, EventArgs e)
+		{
 		}
 	}
 }
