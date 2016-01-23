@@ -31,7 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.btnAllStart = new System.Windows.Forms.Button();
+			this.btnStartStopStrategy = new System.Windows.Forms.Button();
 			this.btnCancelAllOrders = new System.Windows.Forms.Button();
 			this.lblM = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -60,18 +60,20 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnAllStop = new System.Windows.Forms.Button();
+			this.gdvBtccTrades = new System.Windows.Forms.DataGridView();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
 			this.tableLayoutPanelMain.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaA)).BeginInit();
 			this.flowLayoutPanel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaB)).BeginInit();
 			this.menuStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.gdvBtccTrades)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// timer1
@@ -89,9 +91,7 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.Controls.Add(this.btnCancelAllOrders, 3, 0);
-			this.tableLayoutPanel1.Controls.Add(this.lblM, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.btnAllStart, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.btnAllStop, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.btnStartStopStrategy, 1, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(612, 140);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -101,18 +101,18 @@
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(409, 70);
 			this.tableLayoutPanel1.TabIndex = 11;
 			// 
-			// btnAllStart
+			// btnStartStopStrategy
 			// 
-			this.btnAllStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-			this.btnAllStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStart.Location = new System.Drawing.Point(104, 2);
-			this.btnAllStart.Margin = new System.Windows.Forms.Padding(2);
-			this.btnAllStart.Name = "btnAllStart";
-			this.btnAllStart.Size = new System.Drawing.Size(98, 46);
-			this.btnAllStart.TabIndex = 8;
-			this.btnAllStart.Text = "开始(&S)";
-			this.btnAllStart.UseVisualStyleBackColor = false;
-			this.btnAllStart.Click += new System.EventHandler(this.btnAllStart_Click);
+			this.btnStartStopStrategy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+			this.btnStartStopStrategy.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.btnStartStopStrategy.Location = new System.Drawing.Point(104, 2);
+			this.btnStartStopStrategy.Margin = new System.Windows.Forms.Padding(2);
+			this.btnStartStopStrategy.Name = "btnStartStopStrategy";
+			this.btnStartStopStrategy.Size = new System.Drawing.Size(98, 46);
+			this.btnStartStopStrategy.TabIndex = 8;
+			this.btnStartStopStrategy.Text = "开始(&S)";
+			this.btnStartStopStrategy.UseVisualStyleBackColor = false;
+			this.btnStartStopStrategy.Click += new System.EventHandler(this.btnStartStopStrategy_Click);
 			// 
 			// btnCancelAllOrders
 			// 
@@ -130,9 +130,11 @@
 			// lblM
 			// 
 			this.lblM.AutoSize = true;
-			this.lblM.Location = new System.Drawing.Point(3, 0);
+			this.lblM.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblM.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblM.Location = new System.Drawing.Point(0, 0);
 			this.lblM.Name = "lblM";
-			this.lblM.Size = new System.Drawing.Size(50, 20);
+			this.lblM.Size = new System.Drawing.Size(38, 16);
 			this.lblM.TabIndex = 9;
 			this.lblM.Text = "label1";
 			// 
@@ -184,7 +186,7 @@
             1,
             0,
             0,
-            0});
+            196608});
 			// 
 			// btnSwitchMode
 			// 
@@ -326,6 +328,7 @@
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+			this.tableLayoutPanelMain.Controls.Add(this.gdvBtccTrades, 0, 5);
 			this.tableLayoutPanelMain.Controls.Add(this.lblHuobiPrice, 2, 0);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanel1, 2, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.lblHuobiAccount, 2, 1);
@@ -345,12 +348,13 @@
 			this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 25);
 			this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
-			this.tableLayoutPanelMain.RowCount = 5;
+			this.tableLayoutPanelMain.RowCount = 6;
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
 			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1021, 637);
 			this.tableLayoutPanelMain.TabIndex = 0;
 			// 
@@ -390,7 +394,7 @@
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(408, 397);
+			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(408, 200);
 			this.tableLayoutPanelOutSite.TabIndex = 12;
 			// 
 			// tableLayoutPanelInSite
@@ -414,17 +418,18 @@
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(409, 397);
+			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(409, 200);
 			this.tableLayoutPanelInSite.TabIndex = 13;
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.Control;
+			this.panel1.Controls.Add(this.lblM);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(408, 240);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(204, 397);
+			this.panel1.Size = new System.Drawing.Size(204, 200);
 			this.panel1.TabIndex = 14;
 			// 
 			// flowLayoutPanel2
@@ -535,18 +540,18 @@
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
 			// 
-			// btnAllStop
+			// gdvBtccTrades
 			// 
-			this.btnAllStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-			this.btnAllStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnAllStop.Location = new System.Drawing.Point(206, 2);
-			this.btnAllStop.Margin = new System.Windows.Forms.Padding(2);
-			this.btnAllStop.Name = "btnAllStop";
-			this.btnAllStop.Size = new System.Drawing.Size(98, 46);
-			this.btnAllStop.TabIndex = 8;
-			this.btnAllStop.Text = "停止(&T)";
-			this.btnAllStop.UseVisualStyleBackColor = false;
-			this.btnAllStop.Click += new System.EventHandler(this.btnAllStop_Click);
+			this.gdvBtccTrades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.gdvBtccTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.tableLayoutPanelMain.SetColumnSpan(this.gdvBtccTrades, 3);
+			this.gdvBtccTrades.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gdvBtccTrades.Location = new System.Drawing.Point(2, 442);
+			this.gdvBtccTrades.Margin = new System.Windows.Forms.Padding(2);
+			this.gdvBtccTrades.Name = "gdvBtccTrades";
+			this.gdvBtccTrades.RowTemplate.Height = 30;
+			this.gdvBtccTrades.Size = new System.Drawing.Size(1017, 193);
+			this.gdvBtccTrades.TabIndex = 19;
 			// 
 			// Form6
 			// 
@@ -561,6 +566,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "Form6";
 			this.Text = "Form4";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.Form6_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form6_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_FormClosed);
@@ -570,7 +576,6 @@
 			this.ResizeEnd += new System.EventHandler(this.Form6_ResizeEnd);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form6_Paint);
 			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).EndInit();
@@ -578,6 +583,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).EndInit();
 			this.tableLayoutPanelMain.ResumeLayout(false);
 			this.tableLayoutPanelMain.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.flowLayoutPanel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaA)).EndInit();
@@ -586,6 +593,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.nudParaB)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.gdvBtccTrades)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -597,7 +605,7 @@
         private System.Windows.Forms.TrackBar tckPecentage;
         private System.Windows.Forms.Label lblHuobiPrice;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button btnAllStart;
+        private System.Windows.Forms.Button btnStartStopStrategy;
         private System.Windows.Forms.Button btnCancelAllOrders;
         private System.Windows.Forms.Label lblHuobiAccount;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -623,6 +631,6 @@
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown nudParaB;
-		private System.Windows.Forms.Button btnAllStop;
+		private System.Windows.Forms.DataGridView gdvBtccTrades;
 	}
 }

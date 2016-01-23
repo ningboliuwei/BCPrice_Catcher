@@ -23,8 +23,8 @@ namespace BCPrice_Catcher
 //		private const int StrategyMaxQuantity = 9;
 //		private const int StrategyMinQuantity = 1;
 		private const double InitialPecentage = 0.4d;
-//		private const string ButtonStartText = "开始";
-//		private const string ButtonStopText = "停止";
+		private const string ButtonStartText = "开始(&S)";
+		private const string ButtonStopText = "停止(&T)";
 
 		private const string OutSitePrefix = "btcc";
 		private const string InSitePrefix = "huobi";
@@ -158,7 +158,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.Transparent,
-						Dock = DockStyle.Fill
+						Dock = DockStyle.Fill,
+						ForeColor = Color.DarkRed
 					});
 
 				tableLayoutPanel.Controls.Add(panelSellPrice, 1, rowPosition);
@@ -183,7 +184,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.Transparent,
-						Dock = DockStyle.Fill
+						Dock = DockStyle.Fill,
+						ForeColor = Color.DarkRed
 					});
 
 				tableLayoutPanel.Controls.Add(panelSellAmount, 2, rowPosition);
@@ -232,7 +234,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.Transparent,
-						Dock = DockStyle.Fill
+						Dock = DockStyle.Fill,
+						ForeColor = Color.DarkGreen
 					});
 
 				tableLayoutPanel.Controls.Add(panelBuyPrice, 4, rowPosition);
@@ -257,7 +260,8 @@ namespace BCPrice_Catcher
 						TextAlign = ContentAlignment.MiddleCenter,
 						Font = new Font(Font.FontFamily, Font.Size, Font.Style | FontStyle.Bold),
 						BackColor = Color.Transparent,
-						Dock = DockStyle.Fill
+						Dock = DockStyle.Fill,
+						ForeColor = Color.DarkGreen
 					});
 
 				tableLayoutPanel.Controls.Add(panelBuyAmount, 5, rowPosition);
@@ -283,22 +287,21 @@ namespace BCPrice_Catcher
 
 		private void btnStartStopStrategy_Click(object sender, EventArgs e)
 		{
-//			var strategyId = Convert.ToInt32((sender as Button).Tag);
-//
-//			var button = sender as Button;
-//
-//			if (button != null && button.Text == ButtonStartText)
-//			{
-//				StartStrategy(strategyId);
-//				(sender as Button).BackColor = Color.LightCoral;
-//				(sender as Button).Text = ButtonStopText;
-//			}
-//			else
-//			{
-//				StopStrategy(strategyId);
-//				((Button) sender).BackColor = Color.LightGreen;
-//				((Button) sender).Text = ButtonStartText;
-//			}
+			
+			var button = sender as Button;
+
+			if (button != null && button.Text == ButtonStartText)
+			{
+				StartStrategy(-1);
+				(sender as Button).BackColor = Color.LightCoral;
+				(sender as Button).Text = ButtonStopText;
+			}
+			else
+			{
+				StopStrategy(-1);
+				((Button) sender).BackColor = Color.LightGreen;
+				((Button) sender).Text = ButtonStartText;
+			}
 		}
 
 		private void StartStrategy(int strategyId)
@@ -323,11 +326,15 @@ namespace BCPrice_Catcher
 				await Task.Run(() =>
 				{
 					strategy.Update(GetStrategyParameters());
-					strategy.TryTrade(_accounts, new Dictionary<string, double>
+
+					if (strategy.X - strategy.Y > strategy.InputParameters.Z)
 					{
-						{OutSitePrefix, _prices[OutSitePrefix]},
-						{InSitePrefix, _prices[InSitePrefix]}
-					}, strategy.m);
+						strategy.TryTrade(_accounts, new Dictionary<string, double>
+						{
+							{OutSitePrefix, _prices[OutSitePrefix]},
+							{InSitePrefix, _prices[InSitePrefix]}
+						}, strategy.m);
+					}
 				});
 			});
 
@@ -508,6 +515,13 @@ namespace BCPrice_Catcher
 			lblHuobiAccount.Text
 				=
 				$"HUOBI({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts["huobi"].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount.ToString("0.000")}";
+
+			//unelegent
+			if (_strategies.Count != 0)
+			{
+				_strategies[0].InputParameters.SiteAAmount = _accounts["btcc"].CoinAmount;
+				_strategies[0].InputParameters.SiteBAmount = _accounts["huobi"].CoinAmount;
+			}
 		}
 
 		private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -563,7 +577,32 @@ namespace BCPrice_Catcher
 //				ShowStrategyValues(_strategies[i]);
 //			}
 //
-//			ShowTrades();
+			ShowTrades();
+
+			ShowStrategyInfo();
+			
+
+
+		}
+
+		private void ShowStrategyInfo()
+		{
+			if (_strategies.Count != 0)
+			{
+				var s = _strategies[0];
+
+				lblM.Text = "Min" + s.InputParameters.Min + Environment.NewLine
+				            + "a" + s.InputParameters.a + Environment.NewLine
+				            + "b" + s.InputParameters.b + Environment.NewLine
+				            + "Z" + s.InputParameters.Z + Environment.NewLine
+				            + "siteAamount" + s.InputParameters.SiteAAmount + Environment.NewLine
+				            + "siteBamount" + s.InputParameters.SiteBAmount + Environment.NewLine
+				            + "m" + s.m + Environment.NewLine
+				            + "A" + s.A + Environment.NewLine
+				            + "B" + s.B + Environment.NewLine
+				            + "X" + s.X + Environment.NewLine
+				            + "Y" + s.Y + Environment.NewLine;
+			}
 		}
 
 		//for btcc, huobi and differ price
@@ -673,7 +712,8 @@ namespace BCPrice_Catcher
 				b = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
 				Min = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 1,
 				Z = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
-				BuyBookOrders = _buyBookOrders,
+				SellBookOrders = _sellBookOrders[OutSitePrefix],
+				BuyBookOrders = _buyBookOrders[InSitePrefix],
 
 
 				//				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
@@ -767,16 +807,15 @@ namespace BCPrice_Catcher
 
 		private void ShowTrades()
 		{
-			long btccIndex = _accounts["btcc"].AccountTradeRecords.Count;
+			long btccIndex = _accounts[OutSitePrefix].AccountTradeRecords.Count;
 //            gdvBtccTrades.DataSource =
 			var btccAccountTrades =
-				_accounts["btcc"].AccountTradeRecords.OrderByDescending(t => t.Time)
+				_accounts[InSitePrefix].AccountTradeRecords.OrderByDescending(t => t.Time)
 					.Select(
 						t =>
 							new
 							{
 								SN = btccIndex--,
-								t.StrategyId,
 								t.Price,
 								t.Amount,
 								t.Time,
@@ -809,7 +848,6 @@ namespace BCPrice_Catcher
 				select new
 				{
 					btcc.SN,
-					StrategoyID = btcc.StrategyId,
 					BtccPrice = btcc.Price.ToString("0.000"),
 					BtccAmount = btcc.Amount.ToString("0.0000"),
 					BtccType = btcc.Type,
@@ -820,7 +858,7 @@ namespace BCPrice_Catcher
 //Profit = btcc.Price + "," + btcc.Amount + "," + huobi.Price + "," + huobi.Amount + (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
 				};
 
-//			gdvBtccTrades.DataSource = totalTrades.ToList();
+			gdvBtccTrades.DataSource = totalTrades.ToList();
 		}
 
 		private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)

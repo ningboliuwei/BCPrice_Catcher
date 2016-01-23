@@ -22,32 +22,41 @@ namespace BCPrice_Catcher.Class
 		{
 			InputParameters = parameters;
 
-			A = (from s in parameters.SellBookOrders
-				where s.Amount > InputParameters.Min
-				select s.Price).Min();
+			if (parameters.SellBookOrders != null && parameters.BuyBookOrders != null)
+			{
 
-			B = (from s in parameters.BuyBookOrders
-				where s.Amount > InputParameters.Min
-				select s.Price).Max();
+				A = (from s in parameters.SellBookOrders
+					where s.Amount > InputParameters.Min
+					select s.Price).Min();
 
-			X = A + parameters.a;
-			Y = B + parameters.b;
-			differ = X - Y;
 
-			double C = (from s in parameters.SellBookOrders
-				where s.Price == A
-				select s.Amount).First();
 
-			double D = (from b in parameters.BuyBookOrders
-						where b.Price == B
-						select b.Amount).First();
 
-			var values = new List<double>();
-			values.Add(C);
-			values.Add(D);
-			values.Add(parameters.SiteAAmount);
-			values.Add(parameters.SiteBAmount);
-			m = values.Min();
+				B = (from s in parameters.BuyBookOrders
+					where s.Amount > InputParameters.Min
+					select s.Price).Max();
+
+
+				X = A + parameters.a;
+				Y = B + parameters.b;
+				differ = X - Y;
+
+				double C = (from s in parameters.SellBookOrders
+					where s.Price == A
+					select s.Amount).First();
+
+				double D = (from b in parameters.BuyBookOrders
+					where b.Price == B
+					select b.Amount).First();
+				var values = new List<double>();
+				values.Add(C);
+				values.Add(D);
+//				values.Add(parameters.SiteAAmount);
+//				values.Add(parameters.SiteBAmount);
+				m = values.Min();
+			}
+
+			
 		}
 
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
