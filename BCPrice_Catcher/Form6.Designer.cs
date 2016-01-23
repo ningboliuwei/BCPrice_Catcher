@@ -355,7 +355,7 @@
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1021, 637);
+			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1021, 783);
 			this.tableLayoutPanelMain.TabIndex = 0;
 			// 
 			// lblTotalProfits
@@ -550,14 +550,14 @@
 			this.gdvBtccTrades.Margin = new System.Windows.Forms.Padding(2);
 			this.gdvBtccTrades.Name = "gdvBtccTrades";
 			this.gdvBtccTrades.RowTemplate.Height = 30;
-			this.gdvBtccTrades.Size = new System.Drawing.Size(1017, 193);
+			this.gdvBtccTrades.Size = new System.Drawing.Size(1017, 339);
 			this.gdvBtccTrades.TabIndex = 19;
 			// 
 			// Form6
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1021, 662);
+			this.ClientSize = new System.Drawing.Size(1021, 808);
 			this.Controls.Add(this.tableLayoutPanelMain);
 			this.Controls.Add(this.menuStrip1);
 			this.DoubleBuffered = true;

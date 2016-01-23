@@ -327,14 +327,13 @@ namespace BCPrice_Catcher
 				{
 					strategy.Update(GetStrategyParameters());
 
-					if (strategy.X - strategy.Y > strategy.InputParameters.Z)
-					{
+					
 						strategy.TryTrade(_accounts, new Dictionary<string, double>
 						{
 							{OutSitePrefix, _prices[OutSitePrefix]},
 							{InSitePrefix, _prices[InSitePrefix]}
 						}, strategy.m);
-					}
+					
 				});
 			});
 
