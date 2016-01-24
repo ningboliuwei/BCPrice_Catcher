@@ -287,7 +287,6 @@ namespace BCPrice_Catcher
 
 		private void btnStartStopStrategy_Click(object sender, EventArgs e)
 		{
-			
 			var button = sender as Button;
 
 			if (button != null && button.Text == ButtonStartText)
@@ -327,13 +326,12 @@ namespace BCPrice_Catcher
 				{
 					strategy.Update(GetStrategyParameters());
 
-					
-						strategy.TryTrade(_accounts, new Dictionary<string, double>
-						{
-							{OutSitePrefix, _prices[OutSitePrefix]},
-							{InSitePrefix, _prices[InSitePrefix]}
-						}, strategy.m);
-					
+
+					strategy.TryTrade(_accounts, new Dictionary<string, double>
+					{
+						{OutSitePrefix, _prices[OutSitePrefix]},
+						{InSitePrefix, _prices[InSitePrefix]}
+					}, strategy.m);
 				});
 			});
 
@@ -379,23 +377,22 @@ namespace BCPrice_Catcher
 
 		private void InitializeControls()
 		{
-//			tableLayoutPanelOutSite.Visible = false;
+			//			tableLayoutPanelOutSite.Visible = false;
 			//            tableLayoutPanelStrategies.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-//			tableLayoutPanelBookOrders.Visible = true;
-//			GenerateTitleControls();
+			//			tableLayoutPanelBookOrders.Visible = true;
+			//			GenerateTitleControls();
 
-//			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Enabled = true;
-//			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Enabled = true;
-//			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Click += btnAddStrategy_Click;
-//			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Click += CheckControlStatus;
-//			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Click += btnRemoveStrategy_Click;
-//			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Click += CheckControlStatus;
+			//			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Enabled = true;
+			//			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Enabled = true;
+			//			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Click += btnAddStrategy_Click;
+			//			tableLayoutPanelStrategies.Controls["btnAddStrategy"].Click += CheckControlStatus;
+			//			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Click += btnRemoveStrategy_Click;
+			//			tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Click += CheckControlStatus;
 
 			//set gridview font size
 
-//			gdvHuobiTrades.ColumnHeadersDefaultCellStyle.Font = new Font(
-//				gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
-//			gdvHuobiTrades.DefaultCellStyle.Font = new Font(gdvBtccTrades.DefaultCellStyle.Font.FontFamily, 9);
+			gdvTrades.ColumnHeadersDefaultCellStyle.Font = new Font(gdvTrades.DefaultCellStyle.Font.FontFamily, 9);
+			gdvTrades.DefaultCellStyle.Font = new Font(gdvTrades.DefaultCellStyle.Font.FontFamily, 9);
 
 			btnCancelAllOrders.Enabled = false;
 		}
@@ -414,7 +411,7 @@ namespace BCPrice_Catcher
 //			{
 			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblBtccPrice.BackColor, lblBtccAccount.BackColor);
 			GenerateOrderBookControls(tableLayoutPanelInSite, InSiteTitles, lblHuobiPrice.BackColor, lblHuobiAccount.BackColor);
-							AddStrategy();
+			AddStrategy();
 			//			}
 		}
 
@@ -577,32 +574,14 @@ namespace BCPrice_Catcher
 //			}
 //
 			ShowTrades();
+			ShowStrategyValues();
 
-			ShowStrategyInfo();
-			
-
-
-		}
-
-		private void ShowStrategyInfo()
-		{
-			if (_strategies.Count != 0)
+			if (_inRealMode)
 			{
-				var s = _strategies[0];
-
-				lblM.Text = "Min" + s.InputParameters.Min + Environment.NewLine
-				            + "a" + s.InputParameters.a + Environment.NewLine
-				            + "b" + s.InputParameters.b + Environment.NewLine
-				            + "Z" + s.InputParameters.Z + Environment.NewLine
-				            + "siteAamount" + s.InputParameters.SiteAAmount + Environment.NewLine
-				            + "siteBamount" + s.InputParameters.SiteBAmount + Environment.NewLine
-				            + "m" + s.m + Environment.NewLine
-				            + "A" + s.A + Environment.NewLine
-				            + "B" + s.B + Environment.NewLine
-				            + "X" + s.X + Environment.NewLine
-				            + "Y" + s.Y + Environment.NewLine;
+				ShowPendingPlacedOrders();
 			}
 		}
+
 
 		//for btcc, huobi and differ price
 		private void ShowPrices()
@@ -661,23 +640,42 @@ namespace BCPrice_Catcher
 			Application.Exit();
 		}
 
-		private void ShowStrategyValues(Strategy1 strategy)
+		//		private void ShowStrategyValues(Strategy1 strategy)
+		private void ShowStrategyValues()
 		{
-//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThreshold}{strategy.Id}"] as Label).Text =
-//				strategy.TradeThreshold.ToString("0.000");
-//
-//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblRegressionThreshold}{strategy.Id}"] as Label).Text =
-//				strategy.RegressionThreshold.ToString("0.000");
-//
-//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblStrategyID}{strategy.Id}"] as Label).Text =
-//				(strategy.Id + 1).ToString();
-//
-//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThresholdLastUpdated}{strategy.Id}"] as Label)
-//				.Text =
-//				strategy.TradeThresholdLastUpdated.ToString("HH:mm:ss");
-//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTotalTradeCount}{strategy.Id}"] as Label)
-//				.Text =
-//				strategy.TradeCount.ToString();
+			//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThreshold}{strategy.Id}"] as Label).Text =
+			//				strategy.TradeThreshold.ToString("0.000");
+			//
+			//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblRegressionThreshold}{strategy.Id}"] as Label).Text =
+			//				strategy.RegressionThreshold.ToString("0.000");
+			//
+			//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblStrategyID}{strategy.Id}"] as Label).Text =
+			//				(strategy.Id + 1).ToString();
+			//
+			//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTradeThresholdLastUpdated}{strategy.Id}"] as Label)
+			//				.Text =
+			//				strategy.TradeThresholdLastUpdated.ToString("HH:mm:ss");
+			//			(tableLayoutPanelStrategies.Controls[$"{ControlName.lblTotalTradeCount}{strategy.Id}"] as Label)
+			//				.Text =
+			//				strategy.TradeCount.ToString();
+
+			if (_strategies.Count != 0)
+			{
+				var s = _strategies[0];
+
+				lblM.Text = "Min" + s.InputParameters.Min + Environment.NewLine
+				            + "a" + s.InputParameters.a + Environment.NewLine
+				            + "b" + s.InputParameters.b + Environment.NewLine
+				            + "Z" + s.InputParameters.Z + Environment.NewLine
+				            + "siteAamount" + s.InputParameters.SiteAAmount + Environment.NewLine
+				            + "siteBamount" + s.InputParameters.SiteBAmount + Environment.NewLine
+				            + "m" + s.m + Environment.NewLine
+				            + "A" + s.A + Environment.NewLine
+				            + "B" + s.B + Environment.NewLine
+				            + "X" + s.X + Environment.NewLine
+				            + "Y" + s.Y + Environment.NewLine
+				            + "Differ" + s.Differ;
+			}
 		}
 
 		private Strategy2.StrategyInputParameters GetStrategyParameters()
@@ -707,10 +705,10 @@ namespace BCPrice_Catcher
 
 			var parameters = new Strategy2.StrategyInputParameters
 			{
-				a = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
-				b = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
 				Min = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 1,
-				Z = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
+				a = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
+				b = Regex.IsMatch(s3, floatRegex) ? Convert.ToDouble(s3) : 0,
+				Z = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
 				SellBookOrders = _sellBookOrders[OutSitePrefix],
 				BuyBookOrders = _buyBookOrders[InSitePrefix],
 
@@ -778,7 +776,9 @@ namespace BCPrice_Catcher
 //				}
 //			}
 
-			if (!CancelAllPlacedOrders())
+			bool allSucceed = CancelAllPlacedOrders();
+			ShowPendingPlacedOrders();
+			if (!allSucceed)
 			{
 				MessageBox.Show("撤单未全部成功");
 			}
@@ -802,6 +802,26 @@ namespace BCPrice_Catcher
 			}
 
 			return allSucceed;
+		}
+
+		private void ShowPendingPlacedOrders()
+		{
+			gdvOutSitePlacedOrders.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
+
+			var index = 0;
+			gdvInSitePlacedOrders.DataSource = new HuobiTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc).
+				OrderByDescending(t => t.Time).Select(t =>
+					new
+					{
+						SN = index++,
+						t.Id,
+						t.Type,
+						Price = t.Price.ToString("0.000"),
+						AmountOriginal = t.AmountOriginal.ToString("0.000"),
+						AmountProcessed = t.AmountProcessed.ToString("0.000"),
+						Time = t.Time.ToString("HH:mm:ss"),
+						t.Status
+					}).ToList();
 		}
 
 		private void ShowTrades()
@@ -857,7 +877,7 @@ namespace BCPrice_Catcher
 //Profit = btcc.Price + "," + btcc.Amount + "," + huobi.Price + "," + huobi.Amount + (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
 				};
 
-			gdvBtccTrades.DataSource = totalTrades.ToList();
+			gdvTrades.DataSource = totalTrades.ToList();
 		}
 
 		private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -875,6 +895,8 @@ namespace BCPrice_Catcher
 				btnSwitchMode.BackColor = Color.Crimson;
 				tckPecentage.Enabled = false;
 				btnCancelAllOrders.Enabled = true;
+				gdvOutSitePlacedOrders.Enabled = true;
+				gdvInSitePlacedOrders.Enabled = true;
 				ChangeToRealMode();
 			}
 			else //change to simulate mode
@@ -884,6 +906,8 @@ namespace BCPrice_Catcher
 				btnSwitchMode.Text = "启动真实模式(&R)";
 				tckPecentage.Enabled = true;
 				btnCancelAllOrders.Enabled = false;
+				gdvOutSitePlacedOrders.Enabled = false;
+				gdvInSitePlacedOrders.Enabled = false;
 				ChangeToSimulateMode();
 				btnCancelAllOrders_Click(null, null);
 			}

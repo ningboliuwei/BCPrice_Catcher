@@ -14,7 +14,7 @@ namespace BCPrice_Catcher.Class
 		public double B { get; set; }
 		public double X { get; set; }
 		public double Y { get; set; }
-		public double differ { get; set; }
+		public double Differ { get; set; }
 
 		public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
 
@@ -39,7 +39,7 @@ namespace BCPrice_Catcher.Class
 
 				X = A + parameters.a;
 				Y = B + parameters.b;
-				differ = X - Y;
+				Differ = X - Y;
 
 				double C = (from s in parameters.SellBookOrders
 					where s.Price == A
@@ -62,7 +62,7 @@ namespace BCPrice_Catcher.Class
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
 			double tradeAmount)
 		{
-			if (X - Y > InputParameters.Z)
+			if (Differ > InputParameters.Z)
 			{
 				accounts["btcc"].Buy(-1, prices["btcc"], tradeAmount);
 				accounts["huobi"].Sell(-1, prices["huobi"], tradeAmount);
