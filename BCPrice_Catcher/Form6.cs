@@ -81,6 +81,8 @@ namespace BCPrice_Catcher
 		private double _initialTotalCoinAmount;
 
 		private bool _inRealMode;
+		private bool _matchConition;
+		private bool _autoTrade;
 
 
 		public Form6()
@@ -325,13 +327,16 @@ namespace BCPrice_Catcher
 				await Task.Run(() =>
 				{
 					strategy.Update(GetStrategyParameters());
+					_matchConition = strategy.MatchTradeCondition();
 
-
-					strategy.TryTrade(_accounts, new Dictionary<string, double>
+					if (_autoTrade)
 					{
-						{OutSitePrefix, _prices[OutSitePrefix]},
-						{InSitePrefix, _prices[InSitePrefix]}
-					}, strategy.m);
+						strategy.TryTrade(_accounts, new Dictionary<string, double>
+						{
+							{OutSitePrefix, _prices[OutSitePrefix]},
+							{InSitePrefix, _prices[InSitePrefix]}
+						}, strategy.m);
+					}
 				});
 			});
 
@@ -513,11 +518,11 @@ namespace BCPrice_Catcher
 				$"HUOBI({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts["huobi"].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount.ToString("0.000")}";
 
 			//unelegent
-			if (_strategies.Count != 0)
-			{
-				_strategies[0].InputParameters.SiteAAmount = _accounts["btcc"].CoinAmount;
-				_strategies[0].InputParameters.SiteBAmount = _accounts["huobi"].CoinAmount;
-			}
+//			if (_strategies.Count != 0)
+//			{
+//				_strategies[0].InputParameters.SiteAAmount = _accounts["btcc"].CoinAmount;
+//				_strategies[0].InputParameters.SiteBAmount = _accounts["huobi"].CoinAmount;
+//			}
 		}
 
 		private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -579,6 +584,22 @@ namespace BCPrice_Catcher
 			if (_inRealMode)
 			{
 				ShowPendingPlacedOrders();
+			}
+
+			UpdateControls();
+		}
+
+		private void UpdateControls()
+		{
+			if (_matchConition)
+			{
+				btnPlaceOrder.Enabled = true;
+				btnPlaceOrder.BackColor = Color.DarkGreen;
+			}
+			else
+			{
+				btnPlaceOrder.Enabled = false;
+				btnPlaceOrder.BackColor = Color.DarkRed;
 			}
 		}
 
@@ -675,6 +696,8 @@ namespace BCPrice_Catcher
 				            + "X" + s.X + Environment.NewLine
 				            + "Y" + s.Y + Environment.NewLine
 				            + "Differ" + s.Differ;
+
+				nudAmount.Value = (decimal) s.m;
 			}
 		}
 
@@ -684,8 +707,8 @@ namespace BCPrice_Catcher
 //			const string integerRegex = @"^(\+|-)?\d+$";
 
 			var s1 = nudParaMin.Text;
-			var s2 = nudParaA.Text;
-			var s3 = nudParaB.Text;
+			var s2 = nudParaB.Text;
+			var s3 = nudParaA.Text;
 			var s4 = nudParaZ.Text;
 //			var s5 =
 //				(tableLayoutPanelStrategies.Controls[
@@ -711,7 +734,8 @@ namespace BCPrice_Catcher
 				Z = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
 				SellBookOrders = _sellBookOrders[OutSitePrefix],
 				BuyBookOrders = _buyBookOrders[InSitePrefix],
-
+				SiteAAmount = _accounts[OutSitePrefix].CoinAmount,
+				SiteBAmount = _accounts[InSitePrefix].CoinAmount
 
 				//				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
 				//				TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
@@ -999,6 +1023,11 @@ namespace BCPrice_Catcher
 
 		private void btnAllStop_Click(object sender, EventArgs e)
 		{
+		}
+
+		private void chkAutoTrade_CheckedChanged(object sender, EventArgs e)
+		{
+			_autoTrade = chkAutoTrade.Checked;
 		}
 	}
 }

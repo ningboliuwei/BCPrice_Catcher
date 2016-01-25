@@ -24,51 +24,63 @@ namespace BCPrice_Catcher.Class
 
 			if (parameters.SellBookOrders != null && parameters.BuyBookOrders != null)
 			{
-
-				A = (from s in parameters.SellBookOrders
+				var qA = from s in parameters.SellBookOrders
 					where s.Amount > InputParameters.Min
-					select s.Price).Min();
+					select s.Price;
+				A = qA.Count() != 0 ? qA.Min() : 0;
 
-
-
-
-				B = (from s in parameters.BuyBookOrders
+				var qB = from s in parameters.BuyBookOrders
 					where s.Amount > InputParameters.Min
-					select s.Price).Max();
-
+					select s.Price;
+				B = qB.Count() != 0 ? qB.Max() : 0;
 
 				X = A + parameters.a;
 				Y = B + parameters.b;
 				Differ = X - Y;
 
-				double C = (from s in parameters.SellBookOrders
+				var qC = from s in parameters.SellBookOrders
 					where s.Price == A
-					select s.Amount).First();
+					select s.Amount;
+				double C = qC.Count() != 0 ? qC.First() : 0;
 
-				double D = (from b in parameters.BuyBookOrders
+
+				var qD = from b in parameters.BuyBookOrders
 					where b.Price == B
-					select b.Amount).First();
+					select b.Amount;
+				double D = qD.Count() != 0 ? qD.First() : 0;
+
 				var values = new List<double>();
 				values.Add(C);
 				values.Add(D);
-//				values.Add(parameters.SiteAAmount);
-//				values.Add(parameters.SiteBAmount);
+				values.Add(parameters.SiteAAmount);
+				values.Add(parameters.SiteBAmount);
 				m = values.Min();
-			}
 
-			
+				//sell the last little coins
+				if (InputParameters.SiteBAmount < InputParameters.Min)
+				{
+					m = InputParameters.SiteBAmount;
+				}
+			}
 		}
 
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
 			double tradeAmount)
 		{
-			if (Differ > InputParameters.Z)
+			//ensure the > Min price exists
+			if (MatchTradeCondition())
 			{
 				accounts["btcc"].Buy(-1, prices["btcc"], tradeAmount);
 				accounts["huobi"].Sell(-1, prices["huobi"], tradeAmount);
 			}
+			
 		}
 
+		public bool MatchTradeCondition()
+		{
+			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.SiteAAmount >= m &&
+			       InputParameters.SiteBAmount >= m && m != 0;
+		}
 
 		public class StrategyInputParameters
 		{
