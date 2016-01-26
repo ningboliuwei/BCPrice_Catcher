@@ -279,7 +279,32 @@ namespace BCPrice_Catcher.Trader
 
 		public override bool CancelPlacedOrder(int orderId, CoinType coinType)
 		{
-			throw new NotImplementedException();
+			Builder = new HuobiParasTextBuilder("cancel_order");
+
+			Builder.Parameters.Add("market", Market);
+			Builder.Parameters.Add("id", orderId.ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
+
+			var parasText =
+				Builder.GetParasText(new[] { "coin_type", "id" });
+			var result = DoMethod(parasText);
+			if (!result.Contains(ErrorMessageHead))
+			{
+				try
+				{
+					var o = JObject.Parse(result);
+
+					if (o["result"].ToString() == "success")
+					{
+						return true;
+					}
+				}
+				catch
+				{
+					// ignored
+				}
+			}
+			return false;
 		}
 
 		/// <summary>

@@ -121,5 +121,10 @@ namespace BCPrice_Catcher
 		{
 						dataGridView1.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
 		}
+
+		private void btnHuobiCancelOrder_Click(object sender, EventArgs e)
+		{
+			txtResult.Text= new HuobiTrader().CancelPlacedOrder(Convert.ToInt32(txtOrderId.Text), Trader.Trader.CoinType.Btc).ToString();
+		}
 	}
 }

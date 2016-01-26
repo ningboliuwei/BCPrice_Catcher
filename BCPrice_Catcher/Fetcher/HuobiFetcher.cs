@@ -62,8 +62,6 @@ namespace BCPrice_Catcher
 				try
 				{
 					var dataText = client.DownloadString(_tradeBtcCnyUrl);
-
-
 					var o = JObject.Parse(dataText);
 
 					return new TradeDetail

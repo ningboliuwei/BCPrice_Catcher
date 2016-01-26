@@ -51,6 +51,7 @@
 			this.button10 = new System.Windows.Forms.Button();
 			this.txtOrderId = new System.Windows.Forms.TextBox();
 			this.button11 = new System.Windows.Forms.Button();
+			this.btnHuobiCancelOrder = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -135,7 +136,7 @@
 			// txtPrice
 			// 
 			this.txtPrice.Location = new System.Drawing.Point(201, 238);
-			this.txtPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.txtPrice.Margin = new System.Windows.Forms.Padding(2);
 			this.txtPrice.Name = "txtPrice";
 			this.txtPrice.Size = new System.Drawing.Size(157, 22);
 			this.txtPrice.TabIndex = 2;
@@ -163,7 +164,7 @@
 			// txtAmount
 			// 
 			this.txtAmount.Location = new System.Drawing.Point(201, 292);
-			this.txtAmount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.txtAmount.Margin = new System.Windows.Forms.Padding(2);
 			this.txtAmount.Name = "txtAmount";
 			this.txtAmount.Size = new System.Drawing.Size(157, 22);
 			this.txtAmount.TabIndex = 2;
@@ -222,7 +223,7 @@
 			// 
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Location = new System.Drawing.Point(709, 501);
-			this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 30;
 			this.dataGridView1.Size = new System.Drawing.Size(430, 197);
@@ -231,7 +232,7 @@
 			// button10
 			// 
 			this.button10.Location = new System.Drawing.Point(94, 642);
-			this.button10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.button10.Margin = new System.Windows.Forms.Padding(2);
 			this.button10.Name = "button10";
 			this.button10.Size = new System.Drawing.Size(131, 19);
 			this.button10.TabIndex = 5;
@@ -242,7 +243,7 @@
 			// txtOrderId
 			// 
 			this.txtOrderId.Location = new System.Drawing.Point(9, 637);
-			this.txtOrderId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.txtOrderId.Margin = new System.Windows.Forms.Padding(2);
 			this.txtOrderId.Name = "txtOrderId";
 			this.txtOrderId.Size = new System.Drawing.Size(79, 22);
 			this.txtOrderId.TabIndex = 6;
@@ -257,11 +258,22 @@
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
+			// btnHuobiCancelOrder
+			// 
+			this.btnHuobiCancelOrder.Location = new System.Drawing.Point(537, 642);
+			this.btnHuobiCancelOrder.Name = "btnHuobiCancelOrder";
+			this.btnHuobiCancelOrder.Size = new System.Drawing.Size(127, 23);
+			this.btnHuobiCancelOrder.TabIndex = 7;
+			this.btnHuobiCancelOrder.Text = "HuobiCancelOrder";
+			this.btnHuobiCancelOrder.UseVisualStyleBackColor = true;
+			this.btnHuobiCancelOrder.Click += new System.EventHandler(this.btnHuobiCancelOrder_Click);
+			// 
 			// Form2
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1304, 764);
+			this.Controls.Add(this.btnHuobiCancelOrder);
 			this.Controls.Add(this.txtOrderId);
 			this.Controls.Add(this.button10);
 			this.Controls.Add(this.dataGridView1);
@@ -316,5 +328,6 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.TextBox txtOrderId;
         private System.Windows.Forms.Button button11;
-    }
+		private System.Windows.Forms.Button btnHuobiCancelOrder;
+	}
 }

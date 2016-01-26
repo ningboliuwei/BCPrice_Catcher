@@ -77,10 +77,11 @@ namespace BCPrice_Catcher
 		{
 			using (var client = new WebClient())
 			{
-				var dataText = client.DownloadString(_tradesUrl);
+				
 				//to become an object for parsing
 				try
 				{
+					var dataText = client.DownloadString(_tradesUrl);
 					var o = JObject.Parse("{trades:" + dataText + "}");
 
 					return (from c in o["trades"].Children()
@@ -105,9 +106,9 @@ namespace BCPrice_Catcher
 		{
 			using (var client = new WebClient())
 			{
-				var dataText = client.DownloadString(_bookOrdersUrl);
 				try
 				{
+					var dataText = client.DownloadString(_bookOrdersUrl);
 					var o = JObject.Parse(dataText);
 
 					return (from c in o["asks"].Children().Take(BookOrdersCount)

@@ -396,10 +396,22 @@ namespace BCPrice_Catcher
 
 			//set gridview font size
 
-			gdvTrades.ColumnHeadersDefaultCellStyle.Font = new Font(gdvTrades.DefaultCellStyle.Font.FontFamily, 9);
-			gdvTrades.DefaultCellStyle.Font = new Font(gdvTrades.DefaultCellStyle.Font.FontFamily, 9);
+			gdvTrades.ColumnHeadersDefaultCellStyle.Font = new Font(gdvTrades.DefaultCellStyle.Font.FontFamily, 8);
+			gdvTrades.DefaultCellStyle.Font = new Font(gdvTrades.DefaultCellStyle.Font.FontFamily, 8);
+			gdvTrades.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-			btnCancelAllOrders.Enabled = false;
+
+			gdvOutSitePlacedOrders.ColumnHeadersDefaultCellStyle.Font =
+				new Font(gdvOutSitePlacedOrders.DefaultCellStyle.Font.FontFamily, 8);
+			gdvOutSitePlacedOrders.DefaultCellStyle.Font = new Font(gdvOutSitePlacedOrders.DefaultCellStyle.Font.FontFamily, 8);
+			gdvOutSitePlacedOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+			gdvInSitePlacedOrders.ColumnHeadersDefaultCellStyle.Font =
+				new Font(gdvInSitePlacedOrders.DefaultCellStyle.Font.FontFamily, 8);
+			gdvInSitePlacedOrders.DefaultCellStyle.Font = new Font(gdvInSitePlacedOrders.DefaultCellStyle.Font.FontFamily, 8);
+			gdvInSitePlacedOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+			btnCancelAllPendingPlacedOrders.Enabled = false;
 		}
 
 		private void Form6_Activated(object sender, EventArgs e)
@@ -583,7 +595,7 @@ namespace BCPrice_Catcher
 
 			if (_inRealMode)
 			{
-				ShowPendingPlacedOrders();
+//				ShowPendingPlacedOrders();
 			}
 
 			UpdateControls();
@@ -594,12 +606,12 @@ namespace BCPrice_Catcher
 			if (_matchConition)
 			{
 				btnPlaceOrder.Enabled = true;
-				btnPlaceOrder.BackColor = Color.DarkGreen;
+				btnPlaceOrder.BackColor = Color.LightGreen;
 			}
 			else
 			{
 				btnPlaceOrder.Enabled = false;
-				btnPlaceOrder.BackColor = Color.DarkRed;
+				btnPlaceOrder.BackColor = Color.LightCoral;
 			}
 		}
 
@@ -684,18 +696,13 @@ namespace BCPrice_Catcher
 			{
 				var s = _strategies[0];
 
-				lblM.Text = "Min" + s.InputParameters.Min + Environment.NewLine
-				            + "a" + s.InputParameters.a + Environment.NewLine
-				            + "b" + s.InputParameters.b + Environment.NewLine
-				            + "Z" + s.InputParameters.Z + Environment.NewLine
-				            + "siteAamount" + s.InputParameters.SiteAAmount + Environment.NewLine
-				            + "siteBamount" + s.InputParameters.SiteBAmount + Environment.NewLine
-				            + "m" + s.m + Environment.NewLine
-				            + "A" + s.A + Environment.NewLine
-				            + "B" + s.B + Environment.NewLine
-				            + "X" + s.X + Environment.NewLine
-				            + "Y" + s.Y + Environment.NewLine
-				            + "Differ" + s.Differ;
+				lblStrategyValues.Text = "Min " + s.InputParameters.Min + Environment.NewLine
+				            + "m " + s.m.ToString("0.000") + Environment.NewLine
+				            + "A " + s.A.ToString("0.000") + Environment.NewLine
+				            + "B " + s.B.ToString("0.000") + Environment.NewLine
+				            + "X " + s.X.ToString("0.000") + Environment.NewLine
+				            + "Y " + s.Y.ToString("0.000") + Environment.NewLine
+				            + "差价 " + s.Differ.ToString("0.000");
 
 				nudAmount.Value = (decimal) s.m;
 			}
@@ -707,8 +714,8 @@ namespace BCPrice_Catcher
 //			const string integerRegex = @"^(\+|-)?\d+$";
 
 			var s1 = nudParaMin.Text;
-			var s2 = nudParaB.Text;
-			var s3 = nudParaA.Text;
+			var s2 = nudParaA.Text;
+			var s3 = nudParaB.Text;
 			var s4 = nudParaZ.Text;
 //			var s5 =
 //				(tableLayoutPanelStrategies.Controls[
@@ -786,29 +793,32 @@ namespace BCPrice_Catcher
 //			}
 		}
 
-//
-		private void btnCancelAllOrders_Click(object sender, EventArgs e)
+		//
+		private async void btnCancelAllPendingPlacedOrders_Click(object sender, EventArgs e)
 		{
-//			var strategyCount = _strategies.Count;
-//			for (var i = strategyCount - 1; i >= 0; i--)
-//			{
-//				var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
-//
-//				if (button.Text == ButtonStopText)
-//				{
-//					btnStartStopStrategy_Click(button, null);
-//				}
-//			}
-
-			bool allSucceed = CancelAllPlacedOrders();
-			ShowPendingPlacedOrders();
-			if (!allSucceed)
+			//			var strategyCount = _strategies.Count;
+			//			for (var i = strategyCount - 1; i >= 0; i--)
+			//			{
+			//				var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];
+			//
+			//				if (button.Text == ButtonStopText)
+			//				{
+			//					btnStartStopStrategy_Click(button, null);
+			//				}
+			//			}
+			await Task.Run(() =>
 			{
-				MessageBox.Show("撤单未全部成功");
-			}
+				CancelAllPendingPlacedOrders();
+				
+			});
+			ShowPendingPlacedOrders();
+			//			if (!allSucceed)
+			//			{
+			//				MessageBox.Show("撤单未全部成功");
+			//			}
 		}
 
-		private bool CancelAllPlacedOrders()
+		private bool CancelAllPendingPlacedOrders()
 		{
 			var allSucceed = true;
 
@@ -830,22 +840,51 @@ namespace BCPrice_Catcher
 
 		private void ShowPendingPlacedOrders()
 		{
-			gdvOutSitePlacedOrders.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
-
 			var index = 0;
+			gdvOutSitePlacedOrders.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc).
+				OrderByDescending(t => t.Time).Select(t =>
+					new
+					{
+						序号 = ++index,
+						单号 = t.Id,
+						类型 = t.Type,
+						价格 = t.Price.ToString("0.000"),
+						总量 = t.AmountOriginal.ToString("0.000"),
+						已处理 =t.AmountProcessed.ToString("0.000"),
+						时间 = t.Time.ToString("HH:mm:ss"),
+						状态 = t.Status
+					}).ToList();
+			;
+
+			index = 0;
 			gdvInSitePlacedOrders.DataSource = new HuobiTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc).
 				OrderByDescending(t => t.Time).Select(t =>
 					new
 					{
-						SN = index++,
-						t.Id,
-						t.Type,
-						Price = t.Price.ToString("0.000"),
-						AmountOriginal = t.AmountOriginal.ToString("0.000"),
-						AmountProcessed = t.AmountProcessed.ToString("0.000"),
-						Time = t.Time.ToString("HH:mm:ss"),
-						t.Status
+						序号 = ++index,
+						单号 = t.Id,
+						类型 = t.Type,
+						价格 = t.Price.ToString("0.000"),
+						总量 = t.AmountOriginal.ToString("0.000"),
+						已处理 = t.AmountProcessed.ToString("0.000"),
+						时间 = t.Time.ToString("HH:mm:ss"),
+						状态 = t.Status
 					}).ToList();
+
+			for (int i = 0; i < gdvOutSitePlacedOrders.ColumnCount-1; i++)
+			{
+				gdvOutSitePlacedOrders.Columns[i].AutoSizeMode=DataGridViewAutoSizeColumnMode.AllCells;
+			}
+			gdvOutSitePlacedOrders.Columns[gdvOutSitePlacedOrders.ColumnCount - 1].AutoSizeMode =
+				DataGridViewAutoSizeColumnMode.Fill;
+
+			for (int i = 0; i < gdvInSitePlacedOrders.ColumnCount - 1; i++)
+			{
+				gdvInSitePlacedOrders.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			}
+			gdvInSitePlacedOrders.Columns[gdvInSitePlacedOrders.ColumnCount - 1].AutoSizeMode =
+				DataGridViewAutoSizeColumnMode.Fill;
+
 		}
 
 		private void ShowTrades()
@@ -853,7 +892,7 @@ namespace BCPrice_Catcher
 			long btccIndex = _accounts[OutSitePrefix].AccountTradeRecords.Count;
 //            gdvBtccTrades.DataSource =
 			var btccAccountTrades =
-				_accounts[InSitePrefix].AccountTradeRecords.OrderByDescending(t => t.Time)
+				_accounts[OutSitePrefix].AccountTradeRecords.OrderByDescending(t => t.Time)
 					.Select(
 						t =>
 							new
@@ -918,9 +957,10 @@ namespace BCPrice_Catcher
 				btnSwitchMode.Text = "停止真实模式(&R)";
 				btnSwitchMode.BackColor = Color.Crimson;
 				tckPecentage.Enabled = false;
-				btnCancelAllOrders.Enabled = true;
+				btnCancelAllPendingPlacedOrders.Enabled = true;
 				gdvOutSitePlacedOrders.Enabled = true;
 				gdvInSitePlacedOrders.Enabled = true;
+				btnShowPendingPlacedOrders.Enabled = true;
 				ChangeToRealMode();
 			}
 			else //change to simulate mode
@@ -929,11 +969,12 @@ namespace BCPrice_Catcher
 				btnSwitchMode.BackColor = Color.LimeGreen;
 				btnSwitchMode.Text = "启动真实模式(&R)";
 				tckPecentage.Enabled = true;
-				btnCancelAllOrders.Enabled = false;
+				btnCancelAllPendingPlacedOrders.Enabled = false;
 				gdvOutSitePlacedOrders.Enabled = false;
 				gdvInSitePlacedOrders.Enabled = false;
+				btnShowPendingPlacedOrders.Enabled = false;
 				ChangeToSimulateMode();
-				btnCancelAllOrders_Click(null, null);
+//				btnCancelAllOrders_Click(null, null);
 			}
 		}
 
@@ -1028,6 +1069,29 @@ namespace BCPrice_Catcher
 		private void chkAutoTrade_CheckedChanged(object sender, EventArgs e)
 		{
 			_autoTrade = chkAutoTrade.Checked;
+		}
+
+		private void btnPlaceOrder_Click(object sender, EventArgs e)
+		{
+			if (_strategies.Count != 0)
+			{
+				var strategy = _strategies[0];
+				strategy.TryTrade(_accounts, new Dictionary<string, double>
+				{
+					{OutSitePrefix, _prices[OutSitePrefix]},
+					{InSitePrefix, _prices[InSitePrefix]}
+				}, strategy.m);
+			}
+		}
+
+		private void btnShowPendingPlacedOrders_Click(object sender, EventArgs e)
+		{
+			ShowPendingPlacedOrders();
+		}
+
+		private void lblStrategyValues_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
