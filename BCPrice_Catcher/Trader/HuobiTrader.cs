@@ -36,11 +36,11 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters.Add("market", Market);
 
 			var parasText = Builder.GetParasText(new string[] {});
-			var result = DoMethod(parasText);
-
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -50,11 +50,12 @@ namespace BCPrice_Catcher.Trader
 						AvailableCny = Convert.ToDouble(o["available_cny_display"])
 					};
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return null;
 		}
 
@@ -75,20 +76,21 @@ namespace BCPrice_Catcher.Trader
 
 			var parasText =
 				Builder.GetParasText(new[] {"amount", "coin_type"});
-			var result = DoMethod(parasText);
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["id"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return -1;
 		}
 
@@ -104,20 +106,21 @@ namespace BCPrice_Catcher.Trader
 
 			var parasText =
 				Builder.GetParasText(new[] {"amount", "coin_type", "price"});
-			var result = DoMethod(parasText);
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["id"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return -1;
 		}
 
@@ -137,11 +140,11 @@ namespace BCPrice_Catcher.Trader
 			var parasText =
 				Builder.GetParasText(new[] {"coin_type"});
 
-			var result = DoMethod(parasText);
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse("{orders:" + result + "}");
 
@@ -161,12 +164,13 @@ namespace BCPrice_Catcher.Trader
 							//Status is unknown   
 						}).ToList();
 				}
-				catch (Exception ex)
-				{
-					throw new Exception(ex.Message);
-					// ignored
-				}
 			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+				// ignored
+			}
+
 			return null;
 		}
 
@@ -181,20 +185,22 @@ namespace BCPrice_Catcher.Trader
 
 			var parasText =
 				Builder.GetParasText(new[] {"amount", "coin_type"});
-			var result = DoMethod(parasText);
-			if (!result.Contains(ErrorMessageHead))
+
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["id"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+		
 			return -1;
 		}
 
@@ -211,20 +217,22 @@ namespace BCPrice_Catcher.Trader
 
 			var parasText =
 				Builder.GetParasText(new[] {"amount", "coin_type", "price"});
-			var result = DoMethod(parasText);
-			if (!result.Contains(ErrorMessageHead))
+
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["id"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+		
 			return -1;
 		}
 
@@ -244,11 +252,12 @@ namespace BCPrice_Catcher.Trader
 			var parasText =
 				Builder.GetParasText(new[] {"coin_type"});
 
-			var result = DoMethod(parasText);
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse("{order:" + result + "}");
 
@@ -268,12 +277,13 @@ namespace BCPrice_Catcher.Trader
 						//Status is unknown   
 					};
 				}
-				catch (Exception ex)
-				{
-					throw new Exception(ex.Message);
-					// ignored
-				}
 			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+				// ignored
+			}
+		
 			return null;
 		}
 
@@ -283,14 +293,15 @@ namespace BCPrice_Catcher.Trader
 
 			Builder.Parameters.Add("market", Market);
 			Builder.Parameters.Add("id", orderId.ToString());
-			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
 
 			var parasText =
-				Builder.GetParasText(new[] { "coin_type", "id" });
-			var result = DoMethod(parasText);
-			if (!result.Contains(ErrorMessageHead))
+				Builder.GetParasText(new[] {"coin_type", "id"});
+
+			try
 			{
-				try
+				var result = DoMethod(parasText);
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -299,11 +310,12 @@ namespace BCPrice_Catcher.Trader
 						return true;
 					}
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+		
 			return false;
 		}
 

@@ -73,6 +73,14 @@ namespace BCPrice_Catcher
 			{InSitePrefix, null}
 		};
 
+
+		private Dictionary<string, List<PlacedOrderInfo>> _pendingPlacedOrders =
+			new Dictionary<string, List<PlacedOrderInfo>>
+			{
+				{OutSitePrefix, null},
+				{InSitePrefix, null}
+			};
+
 		//		private readonly int _strategyControlColumnCount = Titles.Length;
 
 		private double _baseDifferPrice;
@@ -595,7 +603,7 @@ namespace BCPrice_Catcher
 
 			if (_inRealMode)
 			{
-//				ShowPendingPlacedOrders();
+				ShowPendingPlacedOrders();
 			}
 
 			UpdateControls();
@@ -697,12 +705,12 @@ namespace BCPrice_Catcher
 				var s = _strategies[0];
 
 				lblStrategyValues.Text = "Min " + s.InputParameters.Min + Environment.NewLine
-				            + "m " + s.m.ToString("0.000") + Environment.NewLine
-				            + "A " + s.A.ToString("0.000") + Environment.NewLine
-				            + "B " + s.B.ToString("0.000") + Environment.NewLine
-				            + "X " + s.X.ToString("0.000") + Environment.NewLine
-				            + "Y " + s.Y.ToString("0.000") + Environment.NewLine
-				            + "差价 " + s.Differ.ToString("0.000");
+				                         + "m " + s.m.ToString("0.000") + Environment.NewLine
+				                         + "A " + s.A.ToString("0.000") + Environment.NewLine
+				                         + "B " + s.B.ToString("0.000") + Environment.NewLine
+				                         + "X " + s.X.ToString("0.000") + Environment.NewLine
+				                         + "Y " + s.Y.ToString("0.000") + Environment.NewLine
+				                         + "差价 " + s.Differ.ToString("0.000");
 
 				nudAmount.Value = (decimal) s.m;
 			}
@@ -806,11 +814,10 @@ namespace BCPrice_Catcher
 			//					btnStartStopStrategy_Click(button, null);
 			//				}
 			//			}
-			await Task.Run(() =>
-			{
-				CancelAllPendingPlacedOrders();
-				
-			});
+
+			CancelAllPendingPlacedOrders();
+
+
 			ShowPendingPlacedOrders();
 			//			if (!allSucceed)
 			//			{
@@ -822,43 +829,46 @@ namespace BCPrice_Catcher
 		{
 			var allSucceed = true;
 
-			var outSitePlacedOrders = _accounts[OutSitePrefix].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
-			var inSitePlacedOrders = _accounts[InSitePrefix].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
 
-			foreach (var order in outSitePlacedOrders)
+			var outSitePlacedOrders = _pendingPlacedOrders[OutSitePrefix];
+			var inSitePlacedOrders = _pendingPlacedOrders[InSitePrefix];
+
+//				foreach (var order in outSitePlacedOrders)
+//				{
+//					allSucceed = allSucceed && _accounts[OutSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
+//				}
+//
+//				foreach (var order in inSitePlacedOrders)
+//				{
+//					allSucceed = allSucceed && _accounts[InSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
+//				}
+
+			if (outSitePlacedOrders != null)
 			{
-				allSucceed = allSucceed && _accounts[OutSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
+				Parallel.ForEach(outSitePlacedOrders, o =>
+					_accounts[OutSitePrefix].Trader.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc));
 			}
 
-			foreach (var order in inSitePlacedOrders)
+			if (inSitePlacedOrders != null)
 			{
-				allSucceed = allSucceed && _accounts[InSitePrefix].Trader.CancelPlacedOrder(order.Id, Trader.Trader.CoinType.Btc);
+				Parallel.ForEach(inSitePlacedOrders, o =>
+					_accounts[InSitePrefix].Trader.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc));
 			}
 
 			return allSucceed;
 		}
 
-		private void ShowPendingPlacedOrders()
+		private async void ShowPendingPlacedOrders()
 		{
 			var index = 0;
-			gdvOutSitePlacedOrders.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc).
-				OrderByDescending(t => t.Time).Select(t =>
-					new
-					{
-						序号 = ++index,
-						单号 = t.Id,
-						类型 = t.Type,
-						价格 = t.Price.ToString("0.000"),
-						总量 = t.AmountOriginal.ToString("0.000"),
-						已处理 =t.AmountProcessed.ToString("0.000"),
-						时间 = t.Time.ToString("HH:mm:ss"),
-						状态 = t.Status
-					}).ToList();
-			;
+			var outSiteAllPlacedOrders =
+				await Task.Run(() => new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+					OrderByDescending(t => t.Time));
 
-			index = 0;
-			gdvInSitePlacedOrders.DataSource = new HuobiTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc).
-				OrderByDescending(t => t.Time).Select(t =>
+			if (outSiteAllPlacedOrders != null )
+			{
+				_pendingPlacedOrders[OutSitePrefix] = outSiteAllPlacedOrders.ToList();
+				gdvOutSitePlacedOrders.DataSource = outSiteAllPlacedOrders.Select(t =>
 					new
 					{
 						序号 = ++index,
@@ -870,21 +880,52 @@ namespace BCPrice_Catcher
 						时间 = t.Time.ToString("HH:mm:ss"),
 						状态 = t.Status
 					}).ToList();
-
-			for (int i = 0; i < gdvOutSitePlacedOrders.ColumnCount-1; i++)
-			{
-				gdvOutSitePlacedOrders.Columns[i].AutoSizeMode=DataGridViewAutoSizeColumnMode.AllCells;
+				;
 			}
-			gdvOutSitePlacedOrders.Columns[gdvOutSitePlacedOrders.ColumnCount - 1].AutoSizeMode =
-				DataGridViewAutoSizeColumnMode.Fill;
 
-			for (int i = 0; i < gdvInSitePlacedOrders.ColumnCount - 1; i++)
+
+			index = 0;
+			var inSiteAllPlacedOrders =
+				await Task.Run(() => new HuobiTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+					OrderByDescending(t => t.Time));
+
+			if (inSiteAllPlacedOrders != null )
 			{
-				gdvInSitePlacedOrders.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+				_pendingPlacedOrders[InSitePrefix] = inSiteAllPlacedOrders.ToList();
+				gdvInSitePlacedOrders.DataSource = inSiteAllPlacedOrders.Select(t =>
+					new
+					{
+						序号 = ++index,
+						单号 = t.Id,
+						类型 = t.Type,
+						价格 = t.Price.ToString("0.000"),
+						总量 = t.AmountOriginal.ToString("0.000"),
+						已处理 = t.AmountProcessed.ToString("0.000"),
+						时间 = t.Time.ToString("HH:mm:ss"),
+						状态 = t.Status
+					}).ToList();
+				;
 			}
-			gdvInSitePlacedOrders.Columns[gdvInSitePlacedOrders.ColumnCount - 1].AutoSizeMode =
-				DataGridViewAutoSizeColumnMode.Fill;
 
+			if (gdvOutSitePlacedOrders.ColumnCount != 0)
+			{
+				for (int i = 0; i < gdvOutSitePlacedOrders.ColumnCount - 1; i++)
+				{
+					gdvOutSitePlacedOrders.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+				}
+				gdvOutSitePlacedOrders.Columns[gdvOutSitePlacedOrders.ColumnCount - 1].AutoSizeMode =
+					DataGridViewAutoSizeColumnMode.Fill;
+			}
+
+			if (gdvInSitePlacedOrders.ColumnCount != 0)
+			{
+				for (int i = 0; i < gdvInSitePlacedOrders.ColumnCount - 1; i++)
+				{
+					gdvInSitePlacedOrders.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+				}
+				gdvInSitePlacedOrders.Columns[gdvInSitePlacedOrders.ColumnCount - 1].AutoSizeMode =
+					DataGridViewAutoSizeColumnMode.Fill;
+			}
 		}
 
 		private void ShowTrades()
@@ -929,13 +970,13 @@ namespace BCPrice_Catcher
 					on btcc.SN equals huobi.SN
 				select new
 				{
-					btcc.SN,
-					BtccPrice = btcc.Price.ToString("0.000"),
-					BtccAmount = btcc.Amount.ToString("0.0000"),
-					BtccType = btcc.Type,
-					HuobiPrice = huobi.Price.ToString("0.000"),
-					HuobiAmount = huobi.Amount.ToString("0.0000"),
-					HuobiType = huobi.Type
+					序号=btcc.SN,
+					卖出价格 = btcc.Price.ToString("0.000"),
+					卖出数量 = btcc.Amount.ToString("0.0000"),
+//					BtccType = btcc.Type,
+					买入价格 = huobi.Price.ToString("0.000"),
+					买入数量 = huobi.Amount.ToString("0.0000"),
+//					HuobiType = huobi.Type
 //					Profit = (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
 //Profit = btcc.Price + "," + btcc.Amount + "," + huobi.Price + "," + huobi.Amount + (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
 				};
@@ -1001,21 +1042,29 @@ namespace BCPrice_Catcher
 			_initialTotalCoinAmount = btccAccount.CoinAmount + huobiAccount.CoinAmount;
 		}
 
-		private void UpdateRealAccount()
+		private async void UpdateRealAccount()
 		{
 			var btccAccount = _accounts[OutSitePrefix];
 //		    btccAccount.Trader = new BtccTrader();
-			var accountInfo = btccAccount.Trader.GetAccountInfo();
-			btccAccount.Balance = accountInfo.AvailableCny;
-			btccAccount.CoinAmount = accountInfo.AvailableBtc;
-			_accounts[OutSitePrefix] = btccAccount;
+			var accountInfoA = await Task.Run(() => btccAccount.Trader?.GetAccountInfo());
+
+			if (accountInfoA != null)
+			{
+				btccAccount.Balance = accountInfoA.AvailableCny;
+				btccAccount.CoinAmount = accountInfoA.AvailableBtc;
+				_accounts[OutSitePrefix] = btccAccount;
+			}
 
 			var huobiAccount = _accounts[InSitePrefix];
 //			huobiAccount.Trader = new HuobiTrader();
-			accountInfo = huobiAccount.Trader.GetAccountInfo();
-			huobiAccount.Balance = accountInfo.AvailableCny;
-			huobiAccount.CoinAmount = accountInfo.AvailableBtc;
-			_accounts[InSitePrefix] = huobiAccount;
+			var accountInfoB = await Task.Run(() => huobiAccount.Trader?.GetAccountInfo());
+
+			if (accountInfoB != null)
+			{
+				huobiAccount.Balance = accountInfoB.AvailableCny;
+				huobiAccount.CoinAmount = accountInfoB.AvailableBtc;
+				_accounts[InSitePrefix] = huobiAccount;
+			}
 		}
 
 
@@ -1091,7 +1140,6 @@ namespace BCPrice_Catcher
 
 		private void lblStrategyValues_Click(object sender, EventArgs e)
 		{
-
 		}
 	}
 }

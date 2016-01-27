@@ -21,15 +21,15 @@ namespace BCPrice_Catcher.Class
 
 					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
-//					AccountTradeRecords.Add(new AccountTradeInfo
-//					{
-//						Type = "Buy",
-//						Price = price,
-//						StrategyId = strategyId + 1,
-//						Amount = amount,
-//						Time = DateTime.Now
-////						Profit = Balance - previousBalance
-//					});
+					AccountTradeRecords.Add(new AccountTradeInfo
+					{
+						Type = "Buy",
+						Price = price,
+						StrategyId = strategyId + 1,
+						Amount = amount,
+						Time = DateTime.Now
+//						Profit = Balance - previousBalance
+					});
 					//if sell success
 					return true;
 				}
@@ -49,15 +49,15 @@ namespace BCPrice_Catcher.Class
 					//					Balance -= price * amount;
 
 					Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
-//					AccountTradeRecords.Add(new AccountTradeInfo
-//					{
-//						Type = "Sell",
-//						Price = price,
-//						StrategyId = strategyId + 1,
-//						Amount = amount,
-//						Time = DateTime.Now
-////						Profit = Balance - previousBalance
-//					});
+					AccountTradeRecords.Add(new AccountTradeInfo
+					{
+						Type = "Sell",
+						Price = price,
+						StrategyId = strategyId + 1,
+						Amount = amount,
+						Time = DateTime.Now
+//						Profit = Balance - previousBalance
+					});
 
 					return true;
 				}

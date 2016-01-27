@@ -624,7 +624,6 @@
 			// 
 			// gdvOutSitePlacedOrders
 			// 
-			this.gdvOutSitePlacedOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.gdvOutSitePlacedOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gdvOutSitePlacedOrders.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gdvOutSitePlacedOrders.Enabled = false;
@@ -637,7 +636,6 @@
 			// 
 			// gdvInSitePlacedOrders
 			// 
-			this.gdvInSitePlacedOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.gdvInSitePlacedOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gdvInSitePlacedOrders.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gdvInSitePlacedOrders.Enabled = false;

@@ -28,11 +28,12 @@ namespace BCPrice_Catcher.Trader
 		public override AccountInfo GetAccountInfo()
 		{
 			Builder = new BtccParasTextBuilder("getAccountInfo");
-			var result = DoMethod();
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod();
+
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -42,11 +43,12 @@ namespace BCPrice_Catcher.Trader
 						AvailableCny = Convert.ToDouble(o["result"]["balance"]["cny"]["amount"])
 					};
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return null;
 		}
 
@@ -57,21 +59,22 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters.Add("price", "null");
 			Builder.Parameters.Add("amount", $"{amount}");
 			Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-			var result = DoMethod();
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod();
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["result"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return -1;
 		}
 
@@ -82,21 +85,22 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters.Add("price", $"{price}");
 			Builder.Parameters.Add("amount", $"{amount}");
 			Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-			var result = DoMethod();
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod();
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["result"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return -1;
 		}
 
@@ -107,21 +111,24 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters.Add("price", "null");
 			Builder.Parameters.Add("amount", $"{amount}");
 			Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
-			var result = DoMethod();
 
-			if (!result.Contains(ErrorMessageHead))
+
+			try
 			{
-				try
+				var result = DoMethod();
+
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["result"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return -1;
 		}
 
@@ -133,21 +140,21 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters.Add("amount", $"{amount}");
 			Builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
 
-			var result = DoMethod();
-
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod();
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
 					return Convert.ToInt32(o["result"]);
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return -1;
 		}
 
@@ -161,11 +168,12 @@ namespace BCPrice_Catcher.Trader
 			Builder = new BtccParasTextBuilder("getOrder");
 			Builder.Parameters.Add("order_id", $"{orderId}");
 
-			var result = DoMethod();
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod();
+
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -182,11 +190,12 @@ namespace BCPrice_Catcher.Trader
 								Enum.Parse(typeof (OrderStatus), o["result"]["order"]["status"].ToString(), true)
 					};
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return null;
 		}
 
@@ -196,11 +205,12 @@ namespace BCPrice_Catcher.Trader
 			//price must be added earlier
 			Builder.Parameters.Add("order_id", $"{orderId}");
 
-			var result = DoMethod();
 
-			if (!result.Contains(ErrorMessageHead))
+			try
 			{
-				try
+				var result = DoMethod();
+
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -209,11 +219,12 @@ namespace BCPrice_Catcher.Trader
 						return true;
 					}
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return false;
 		}
 
@@ -233,10 +244,11 @@ namespace BCPrice_Catcher.Trader
 			{
 				return Encoding.UTF8.GetString(_client.UploadData(postUrl, "POST", Encoding.Default.GetBytes(postData)));
 			}
-			catch (Exception ex)
+			catch
 			{
-				throw new Exception(ex.Message);
+//				throw new Exception(ex.Message);
 			}
+			return null;
 		}
 
 		public override List<PlacedOrderInfo> GetAllPlacedOrders(CoinType coinType)
@@ -244,10 +256,11 @@ namespace BCPrice_Catcher.Trader
 			Builder = new BtccParasTextBuilder("getOrders");
 			Builder.Parameters.Add("openonly", "true");
 
-			var result = DoMethod();
-			if (!result.Contains(ErrorMessageHead))
+
+			try
 			{
-				try
+				var result = DoMethod();
+				if (!result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -264,11 +277,12 @@ namespace BCPrice_Catcher.Trader
 									Enum.Parse(typeof (OrderStatus), c["status"].ToString(), true)
 						}).ToList();
 				}
-				catch
-				{
-					// ignored
-				}
 			}
+			catch
+			{
+				// ignored
+			}
+
 			return null;
 		}
 
