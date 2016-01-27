@@ -606,10 +606,10 @@ namespace BCPrice_Catcher
 				ShowPendingPlacedOrders();
 			}
 
-			UpdateControls();
+			UpdateControlsStatus();
 		}
 
-		private void UpdateControls()
+		private void UpdateControlsStatus()
 		{
 			if (_matchConition)
 			{
@@ -976,9 +976,10 @@ namespace BCPrice_Catcher
 //					BtccType = btcc.Type,
 					买入价格 = huobi.Price.ToString("0.000"),
 					买入数量 = huobi.Amount.ToString("0.0000"),
-//					HuobiType = huobi.Type
-//					Profit = (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
-//Profit = btcc.Price + "," + btcc.Amount + "," + huobi.Price + "," + huobi.Amount + (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
+					利润= (btcc.Price*btcc.Amount - huobi.Price*huobi.Amount).ToString("0.000")
+					//					HuobiType = huobi.Type
+					//					Profit = (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
+					//Profit = btcc.Price + "," + btcc.Amount + "," + huobi.Price + "," + huobi.Amount + (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
 				};
 
 			gdvTrades.DataSource = totalTrades.ToList();
@@ -1042,11 +1043,11 @@ namespace BCPrice_Catcher
 			_initialTotalCoinAmount = btccAccount.CoinAmount + huobiAccount.CoinAmount;
 		}
 
-		private async void UpdateRealAccount()
+		private  void UpdateRealAccount()
 		{
 			var btccAccount = _accounts[OutSitePrefix];
 //		    btccAccount.Trader = new BtccTrader();
-			var accountInfoA = await Task.Run(() => btccAccount.Trader?.GetAccountInfo());
+			var accountInfoA = btccAccount.Trader?.GetAccountInfo();
 
 			if (accountInfoA != null)
 			{
@@ -1057,7 +1058,7 @@ namespace BCPrice_Catcher
 
 			var huobiAccount = _accounts[InSitePrefix];
 //			huobiAccount.Trader = new HuobiTrader();
-			var accountInfoB = await Task.Run(() => huobiAccount.Trader?.GetAccountInfo());
+			var accountInfoB =  huobiAccount.Trader?.GetAccountInfo();
 
 			if (accountInfoB != null)
 			{

@@ -268,7 +268,6 @@ namespace BCPrice_Catcher
 				infos.Add("huobi_bookorders", _infoSets[HuobiPrefix].BookOrders);
 			}
 
-
 //			//change to send to form4
 //			//_form3.Tag = prices;
 			_form6.Tag = infos;

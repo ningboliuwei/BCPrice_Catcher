@@ -70,16 +70,16 @@ namespace BCPrice_Catcher.Class
 			//ensure the > Min price exists
 			if (MatchTradeCondition())
 			{
-				accounts["btcc"].Buy(-1, prices["btcc"], tradeAmount);
-				accounts["huobi"].Sell(-1, prices["huobi"], tradeAmount);
+				accounts["btcc"].Sell(-1, prices["btcc"], tradeAmount);
+				accounts["huobi"].Buy(-1, prices["huobi"], tradeAmount);
 			}
 			
 		}
 
 		public bool MatchTradeCondition()
 		{
-			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.SiteAAmount >= m &&
-			       InputParameters.SiteBAmount >= m && m != 0;
+			//&& InputParameters.SiteBAmount >= m
+			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.SiteAAmount >= m  && m != 0;
 		}
 
 		public class StrategyInputParameters
