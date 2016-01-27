@@ -37,12 +37,12 @@
 			this.btnSwitchMode = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.nudParaZ = new System.Windows.Forms.NumericUpDown();
-			this.lblBtccPrice = new System.Windows.Forms.Label();
-			this.lblHuobiAccount = new System.Windows.Forms.Label();
-			this.lblHuobiPrice = new System.Windows.Forms.Label();
+			this.lblOutSitePrice = new System.Windows.Forms.Label();
+			this.lblInSiteAccount = new System.Windows.Forms.Label();
+			this.lblInSitePrice = new System.Windows.Forms.Label();
 			this.lblDifferPrice = new System.Windows.Forms.Label();
 			this.tckPecentage = new System.Windows.Forms.TrackBar();
-			this.lblBtccAccount = new System.Windows.Forms.Label();
+			this.lblOutSiteAccount = new System.Windows.Forms.Label();
 			this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.btnShowPendingPlacedOrders = new System.Windows.Forms.Button();
@@ -65,11 +65,11 @@
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.lblStrategyValues = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.cmbOutSite = new System.Windows.Forms.ComboBox();
+			this.cmbInSite = new System.Windows.Forms.ComboBox();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmbOutSite = new System.Windows.Forms.ComboBox();
-			this.cmbInSite = new System.Windows.Forms.ComboBox();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
@@ -203,50 +203,50 @@
 			this.nudParaZ.Size = new System.Drawing.Size(70, 23);
 			this.nudParaZ.TabIndex = 6;
 			// 
-			// lblBtccPrice
+			// lblOutSitePrice
 			// 
-			this.lblBtccPrice.AutoEllipsis = true;
-			this.lblBtccPrice.AutoSize = true;
-			this.lblBtccPrice.BackColor = System.Drawing.Color.LightBlue;
-			this.lblBtccPrice.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lblBtccPrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblBtccPrice.Location = new System.Drawing.Point(0, 25);
-			this.lblBtccPrice.Margin = new System.Windows.Forms.Padding(0);
-			this.lblBtccPrice.Name = "lblBtccPrice";
-			this.lblBtccPrice.Size = new System.Drawing.Size(473, 40);
-			this.lblBtccPrice.TabIndex = 5;
-			this.lblBtccPrice.Text = "Btcc价格\r\n";
-			this.lblBtccPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.lblOutSitePrice.AutoEllipsis = true;
+			this.lblOutSitePrice.AutoSize = true;
+			this.lblOutSitePrice.BackColor = System.Drawing.Color.LightBlue;
+			this.lblOutSitePrice.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblOutSitePrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblOutSitePrice.Location = new System.Drawing.Point(0, 25);
+			this.lblOutSitePrice.Margin = new System.Windows.Forms.Padding(0);
+			this.lblOutSitePrice.Name = "lblOutSitePrice";
+			this.lblOutSitePrice.Size = new System.Drawing.Size(473, 40);
+			this.lblOutSitePrice.TabIndex = 5;
+			this.lblOutSitePrice.Text = "Btcc价格\r\n";
+			this.lblOutSitePrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// lblHuobiAccount
+			// lblInSiteAccount
 			// 
-			this.lblHuobiAccount.AutoEllipsis = true;
-			this.lblHuobiAccount.AutoSize = true;
-			this.lblHuobiAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-			this.lblHuobiAccount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lblHuobiAccount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblHuobiAccount.Location = new System.Drawing.Point(709, 65);
-			this.lblHuobiAccount.Margin = new System.Windows.Forms.Padding(0);
-			this.lblHuobiAccount.Name = "lblHuobiAccount";
-			this.lblHuobiAccount.Size = new System.Drawing.Size(475, 60);
-			this.lblHuobiAccount.TabIndex = 5;
-			this.lblHuobiAccount.Text = "Huobi比例";
-			this.lblHuobiAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.lblInSiteAccount.AutoEllipsis = true;
+			this.lblInSiteAccount.AutoSize = true;
+			this.lblInSiteAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+			this.lblInSiteAccount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblInSiteAccount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblInSiteAccount.Location = new System.Drawing.Point(709, 65);
+			this.lblInSiteAccount.Margin = new System.Windows.Forms.Padding(0);
+			this.lblInSiteAccount.Name = "lblInSiteAccount";
+			this.lblInSiteAccount.Size = new System.Drawing.Size(475, 60);
+			this.lblInSiteAccount.TabIndex = 5;
+			this.lblInSiteAccount.Text = "Huobi比例";
+			this.lblInSiteAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// lblHuobiPrice
+			// lblInSitePrice
 			// 
-			this.lblHuobiPrice.AutoEllipsis = true;
-			this.lblHuobiPrice.AutoSize = true;
-			this.lblHuobiPrice.BackColor = System.Drawing.Color.Moccasin;
-			this.lblHuobiPrice.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lblHuobiPrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblHuobiPrice.Location = new System.Drawing.Point(709, 25);
-			this.lblHuobiPrice.Margin = new System.Windows.Forms.Padding(0);
-			this.lblHuobiPrice.Name = "lblHuobiPrice";
-			this.lblHuobiPrice.Size = new System.Drawing.Size(475, 40);
-			this.lblHuobiPrice.TabIndex = 5;
-			this.lblHuobiPrice.Text = "Huobi价格";
-			this.lblHuobiPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.lblInSitePrice.AutoEllipsis = true;
+			this.lblInSitePrice.AutoSize = true;
+			this.lblInSitePrice.BackColor = System.Drawing.Color.Moccasin;
+			this.lblInSitePrice.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblInSitePrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblInSitePrice.Location = new System.Drawing.Point(709, 25);
+			this.lblInSitePrice.Margin = new System.Windows.Forms.Padding(0);
+			this.lblInSitePrice.Name = "lblInSitePrice";
+			this.lblInSitePrice.Size = new System.Drawing.Size(475, 40);
+			this.lblInSitePrice.TabIndex = 5;
+			this.lblInSitePrice.Text = "Huobi价格";
+			this.lblInSitePrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// lblDifferPrice
 			// 
@@ -281,20 +281,20 @@
 			this.tckPecentage.Value = 40;
 			this.tckPecentage.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
 			// 
-			// lblBtccAccount
+			// lblOutSiteAccount
 			// 
-			this.lblBtccAccount.AutoEllipsis = true;
-			this.lblBtccAccount.AutoSize = true;
-			this.lblBtccAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-			this.lblBtccAccount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lblBtccAccount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblBtccAccount.Location = new System.Drawing.Point(0, 65);
-			this.lblBtccAccount.Margin = new System.Windows.Forms.Padding(0);
-			this.lblBtccAccount.Name = "lblBtccAccount";
-			this.lblBtccAccount.Size = new System.Drawing.Size(473, 60);
-			this.lblBtccAccount.TabIndex = 5;
-			this.lblBtccAccount.Text = "Btcc比例";
-			this.lblBtccAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.lblOutSiteAccount.AutoEllipsis = true;
+			this.lblOutSiteAccount.AutoSize = true;
+			this.lblOutSiteAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+			this.lblOutSiteAccount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblOutSiteAccount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblOutSiteAccount.Location = new System.Drawing.Point(0, 65);
+			this.lblOutSiteAccount.Margin = new System.Windows.Forms.Padding(0);
+			this.lblOutSiteAccount.Name = "lblOutSiteAccount";
+			this.lblOutSiteAccount.Size = new System.Drawing.Size(473, 60);
+			this.lblOutSiteAccount.TabIndex = 5;
+			this.lblOutSiteAccount.Text = "Btcc比例";
+			this.lblOutSiteAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// tableLayoutPanelMain
 			// 
@@ -303,11 +303,11 @@
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
 			this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-			this.tableLayoutPanelMain.Controls.Add(this.lblHuobiPrice, 3, 1);
+			this.tableLayoutPanelMain.Controls.Add(this.lblInSitePrice, 3, 1);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanel1, 3, 3);
-			this.tableLayoutPanelMain.Controls.Add(this.lblHuobiAccount, 3, 2);
-			this.tableLayoutPanelMain.Controls.Add(this.lblBtccPrice, 0, 1);
-			this.tableLayoutPanelMain.Controls.Add(this.lblBtccAccount, 0, 2);
+			this.tableLayoutPanelMain.Controls.Add(this.lblInSiteAccount, 3, 2);
+			this.tableLayoutPanelMain.Controls.Add(this.lblOutSitePrice, 0, 1);
+			this.tableLayoutPanelMain.Controls.Add(this.lblOutSiteAccount, 0, 2);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelOutSite, 0, 4);
 			this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanel2, 0, 3);
 			this.tableLayoutPanelMain.Controls.Add(this.gdvTrades, 0, 5);
@@ -697,6 +697,30 @@
 			this.panel1.Size = new System.Drawing.Size(236, 40);
 			this.panel1.TabIndex = 23;
 			// 
+			// cmbOutSite
+			// 
+			this.cmbOutSite.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cmbOutSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbOutSite.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.cmbOutSite.FormattingEnabled = true;
+			this.cmbOutSite.Location = new System.Drawing.Point(0, 0);
+			this.cmbOutSite.Margin = new System.Windows.Forms.Padding(0);
+			this.cmbOutSite.Name = "cmbOutSite";
+			this.cmbOutSite.Size = new System.Drawing.Size(473, 25);
+			this.cmbOutSite.TabIndex = 23;
+			// 
+			// cmbInSite
+			// 
+			this.cmbInSite.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cmbInSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbInSite.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.cmbInSite.FormattingEnabled = true;
+			this.cmbInSite.Location = new System.Drawing.Point(709, 0);
+			this.cmbInSite.Margin = new System.Windows.Forms.Padding(0);
+			this.cmbInSite.Name = "cmbInSite";
+			this.cmbInSite.Size = new System.Drawing.Size(475, 25);
+			this.cmbInSite.TabIndex = 23;
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -722,30 +746,6 @@
 			this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
-			// 
-			// cmbOutSite
-			// 
-			this.cmbOutSite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.cmbOutSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbOutSite.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.cmbOutSite.FormattingEnabled = true;
-			this.cmbOutSite.Location = new System.Drawing.Point(0, 0);
-			this.cmbOutSite.Margin = new System.Windows.Forms.Padding(0);
-			this.cmbOutSite.Name = "cmbOutSite";
-			this.cmbOutSite.Size = new System.Drawing.Size(473, 25);
-			this.cmbOutSite.TabIndex = 23;
-			// 
-			// cmbInSite
-			// 
-			this.cmbInSite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.cmbInSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbInSite.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.cmbInSite.FormattingEnabled = true;
-			this.cmbInSite.Location = new System.Drawing.Point(709, 0);
-			this.cmbInSite.Margin = new System.Windows.Forms.Padding(0);
-			this.cmbInSite.Name = "cmbInSite";
-			this.cmbInSite.Size = new System.Drawing.Size(475, 25);
-			this.cmbInSite.TabIndex = 23;
 			// 
 			// Form6
 			// 
@@ -797,14 +797,14 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private System.Windows.Forms.TrackBar tckPecentage;
-        private System.Windows.Forms.Label lblHuobiPrice;
+        private System.Windows.Forms.Label lblInSitePrice;
         private System.Windows.Forms.Button btnStartStopStrategy;
         private System.Windows.Forms.Button btnCancelAllPendingPlacedOrders;
-        private System.Windows.Forms.Label lblHuobiAccount;
+        private System.Windows.Forms.Label lblInSiteAccount;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown nudParaMin;
-        private System.Windows.Forms.Label lblBtccPrice;
-        private System.Windows.Forms.Label lblBtccAccount;
+        private System.Windows.Forms.Label lblOutSitePrice;
+        private System.Windows.Forms.Label lblOutSiteAccount;
         private System.Windows.Forms.Label lblDifferPrice;
         private System.Windows.Forms.Label lblTotalProfits;
         private System.Windows.Forms.MenuStrip menuStrip1;
