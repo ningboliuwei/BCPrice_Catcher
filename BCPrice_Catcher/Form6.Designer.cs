@@ -708,6 +708,7 @@
 			this.cmbOutSite.Name = "cmbOutSite";
 			this.cmbOutSite.Size = new System.Drawing.Size(473, 25);
 			this.cmbOutSite.TabIndex = 23;
+			this.cmbOutSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
 			// 
 			// cmbInSite
 			// 
@@ -720,6 +721,7 @@
 			this.cmbInSite.Name = "cmbInSite";
 			this.cmbInSite.Size = new System.Drawing.Size(475, 25);
 			this.cmbInSite.TabIndex = 23;
+			this.cmbInSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
 			// 
 			// menuStrip1
 			// 

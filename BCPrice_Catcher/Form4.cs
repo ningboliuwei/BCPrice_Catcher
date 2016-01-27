@@ -37,8 +37,8 @@ namespace BCPrice_Catcher
 		};
 
 
-		private static readonly List<Strategy1> _strategies = new List<Strategy1>();
-		private static readonly TimerList _strategyTimerList = new TimerList();
+		private static readonly List<Strategy1> Strategies = new List<Strategy1>();
+		private static readonly TimerList StrategyTimerList = new TimerList();
 
 		private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
 		{
@@ -314,16 +314,16 @@ namespace BCPrice_Catcher
 
 		private void StopStrategy(int strategyId)
 		{
-			_strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
+			StrategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
 		}
 
 		private void RemoveStrategy(int strategyId)
 		{
 			//_strategies.Remove()
 			//_strategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
-			_strategies.RemoveAt(strategyId);
-			var timer = _strategyTimerList.Timers[strategyId.ToString()];
-			_strategyTimerList.Timers.Remove(strategyId.ToString());
+			Strategies.RemoveAt(strategyId);
+			var timer = StrategyTimerList.Timers[strategyId.ToString()];
+			StrategyTimerList.Timers.Remove(strategyId.ToString());
 			timer.Dispose();
 		}
 
@@ -349,8 +349,8 @@ namespace BCPrice_Catcher
 
 		private void StartStrategy(int strategyId)
 		{
-			_strategyTimerList.Timers[strategyId.ToString()].Change(0,
-				_strategies[strategyId].InputParameters.Peroid * 1000);
+			StrategyTimerList.Timers[strategyId.ToString()].Change(0,
+				Strategies[strategyId].InputParameters.Peroid * 1000);
 		}
 
 		//add a new strategy
@@ -362,14 +362,14 @@ namespace BCPrice_Catcher
 				Id = strategyId,
 				InputParameters = GetStrategyParameters(strategyId),
 				//InputParameters = GetStrategyParameters(strategyId).Result,
-				PreviousStrategy = strategyId == 0 ? null : _strategies[strategyId - 1]
+				PreviousStrategy = strategyId == 0 ? null : Strategies[strategyId - 1]
 			};
-			_strategies.Add(strategy);
+			Strategies.Add(strategy);
 
 //            double tradeAmount = Convert.ToDouble(nudTradeAmount.Value);
 			//need await here?
 			//need task here?
-			_strategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
+			StrategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
 			{
 				await Task.Run(() =>
 				{
@@ -386,7 +386,7 @@ namespace BCPrice_Catcher
 
 		private void Strategy_Updated(int strategyId)
 		{
-			ShowStrategyValues(_strategies[strategyId]);
+			ShowStrategyValues(Strategies[strategyId]);
 		}
 
 		private void Form4_Load(object sender, EventArgs e)
@@ -437,7 +437,7 @@ namespace BCPrice_Catcher
 
 		private void btnAddStrategy_Click(object sender, EventArgs e)
 		{
-			if (_strategies.Count < StrategyMaxQuantity)
+			if (Strategies.Count < StrategyMaxQuantity)
 			{
 				GenerateStrategyControls();
 				AddStrategy();
@@ -447,11 +447,11 @@ namespace BCPrice_Catcher
 		private void RemoveStrategy()
 		{
 			//must before removing the strategy, or the .Count is not correct
-			var strategyId = _strategies.Count - 1;
-			var timer = _strategyTimerList.Timers[strategyId.ToString()];
-			_strategyTimerList.Timers.Remove(strategyId.ToString());
+			var strategyId = Strategies.Count - 1;
+			var timer = StrategyTimerList.Timers[strategyId.ToString()];
+			StrategyTimerList.Timers.Remove(strategyId.ToString());
 			timer.Dispose();
-			_strategies.Remove(_strategies[strategyId]);
+			Strategies.Remove(Strategies[strategyId]);
 		}
 
 		private void RemoveStrategyControls()
@@ -468,11 +468,11 @@ namespace BCPrice_Catcher
 
 		private void CheckControlStatus(object sender, EventArgs e)
 		{
-			if (_strategies.Count == StrategyMaxQuantity)
+			if (Strategies.Count == StrategyMaxQuantity)
 			{
 				tableLayoutPanelStrategies.Controls["btnAddStrategy"].Enabled = false;
 			}
-			else if (_strategies.Count == StrategyMinQuantity)
+			else if (Strategies.Count == StrategyMinQuantity)
 			{
 				tableLayoutPanelStrategies.Controls["btnRemoveStrategy"].Enabled = false;
 			}
@@ -485,7 +485,7 @@ namespace BCPrice_Catcher
 
 		private void btnRemoveStrategy_Click(object sender, EventArgs e)
 		{
-			if (_strategies.Count > StrategyMinQuantity)
+			if (Strategies.Count > StrategyMinQuantity)
 			{
 				RemoveStrategy();
 				RemoveStrategyControls();
@@ -539,17 +539,13 @@ namespace BCPrice_Catcher
 			ShowAccounts();
 		}
 
-		private
-			void GetPrices()
+		private void GetPrices()
 		{
-			if (
-				Tag != null)
+			if (Tag != null)
 			{
 				var prices = Tag as Dictionary<string, double>;
 
-				if (
-					prices != null && prices.Count
-					== 2)
+				if (prices != null && prices.Count== 2)
 				{
 					_prices[BtccPrefix] = prices[BtccPrefix];
 					_prices[HuobiPrefix] = prices[HuobiPrefix];
@@ -558,8 +554,7 @@ namespace BCPrice_Catcher
 			}
 		}
 
-		private
-			void timer1_Tick(object sender, EventArgs e)
+		private void timer1_Tick(object sender, EventArgs e)
 		{
 			GetPrices();
 			ShowPrices();
@@ -571,21 +566,16 @@ namespace BCPrice_Catcher
 
 			ShowAccounts();
 
-			for (
-				var i = 0;
-				i < _strategies.Count;
-				i
-					++)
+			foreach (Strategy1 s in Strategies)
 			{
-				ShowStrategyValues(_strategies[i]);
+				ShowStrategyValues(s);
 			}
 
 			ShowTrades();
 		}
 
 		//for btcc, huobi and differ price
-		private
-			void ShowPrices()
+		private void ShowPrices()
 		{
 			_baseDifferPrice
 				=
@@ -700,7 +690,7 @@ namespace BCPrice_Catcher
 			}
 			else
 			{
-				parameters.BaseThreshold = _strategies[strategyId - 1].TradeThreshold;
+				parameters.BaseThreshold = Strategies[strategyId - 1].TradeThreshold;
 			}
 
 			parameters.DifferPrice = _baseDifferPrice;
@@ -731,7 +721,7 @@ namespace BCPrice_Catcher
 
 		private void btnAllStop_Click(object sender, EventArgs e)
 		{
-			var strategyCount = _strategies.Count;
+			var strategyCount = Strategies.Count;
 			for (var i = strategyCount - 1; i >= 0; i--)
 			{
 				var button = tableLayoutPanelStrategies.Controls[$"{ControlName.btnStartStopStrategy}{i}"];

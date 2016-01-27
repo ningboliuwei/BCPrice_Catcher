@@ -26,8 +26,8 @@ namespace BCPrice_Catcher
 		private const string ButtonStartText = "开始(&S)";
 		private const string ButtonStopText = "停止(&T)";
 
-		private const string OutSitePrefix = "btcc";
-		private const string InSitePrefix = "huobi";
+		private static string _outSiteCode = "btcc";
+		private static string _inSiteCode = "huobi";
 
 		//买或卖的数量限制
 		private const int BookOrdersCount = 5;
@@ -49,29 +49,37 @@ namespace BCPrice_Catcher
 
 		private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
 		{
-			{OutSitePrefix, new SimulateAccount()},
-			{InSitePrefix, new SimulateAccount()}
+			{_outSiteCode, new SimulateAccount()},
+			{_inSiteCode, new SimulateAccount()}
 		};
 
 		private readonly Dictionary<string, List<BookOrderInfo>> _buyBookOrders = new Dictionary<string, List<BookOrderInfo>>
 		{
-			{OutSitePrefix, null},
-			{InSitePrefix, null}
+			{_outSiteCode, null},
+			{_inSiteCode, null}
 		};
 
 		private readonly Dictionary<string, List<BookOrderInfo>> _sellBookOrders = new Dictionary<string, List<BookOrderInfo>>
 		{
-			{OutSitePrefix, null},
-			{InSitePrefix, null}
+			{_outSiteCode, null},
+			{_inSiteCode, null}
 		};
 
 		//private List<int> _strategyCounters = new List<int>();
 
 		private readonly Dictionary<string, double> _prices = new Dictionary<string, double>
 		{
-			{OutSitePrefix, 0},
-			{InSitePrefix, 0}
+			{_outSiteCode, 0},
+			{_inSiteCode, 0}
 		};
+
+		private readonly Dictionary<string, List<PlacedOrderInfo>> _pendingPlacedOrders =
+			new Dictionary<string, List<PlacedOrderInfo>>
+			{
+				{_outSiteCode, null},
+				{_inSiteCode, null}
+			};
+
 
 		private bool _allowAutoTrade;
 
@@ -82,13 +90,6 @@ namespace BCPrice_Catcher
 		private double _initialTotalCoinAmount;
 		private bool _inRealMode;
 		private bool _matchConition;
-
-		private readonly Dictionary<string, List<PlacedOrderInfo>> _pendingPlacedOrders =
-			new Dictionary<string, List<PlacedOrderInfo>>
-			{
-				{OutSitePrefix, null},
-				{InSitePrefix, null}
-			};
 
 
 		public Form6()
@@ -339,8 +340,8 @@ namespace BCPrice_Catcher
 					{
 						strategy.TryTrade(_accounts, new Dictionary<string, double>
 						{
-							{OutSitePrefix, _prices[OutSitePrefix]},
-							{InSitePrefix, _prices[InSitePrefix]}
+							{_outSiteCode, _prices[_outSiteCode]},
+							{_inSiteCode, _prices[_inSiteCode]}
 						}, strategy.m);
 					}
 				});
@@ -428,6 +429,8 @@ namespace BCPrice_Catcher
 			cmbInSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
 		}
 
+		
+
 		private void Form6_Activated(object sender, EventArgs e)
 		{
 		}
@@ -440,7 +443,8 @@ namespace BCPrice_Catcher
 
 //			for (var i = 0; i < InitialRowCount; i++)
 //			{
-			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblOutSitePrice.BackColor, lblOutSiteAccount.BackColor);
+			GenerateOrderBookControls(tableLayoutPanelOutSite, OutSiteTitles, lblOutSitePrice.BackColor,
+				lblOutSiteAccount.BackColor);
 			GenerateOrderBookControls(tableLayoutPanelInSite, InSiteTitles, lblInSitePrice.BackColor, lblInSiteAccount.BackColor);
 			AddStrategy();
 			//			}
@@ -518,14 +522,14 @@ namespace BCPrice_Catcher
 		private void AdjustAccounts(double pecentage)
 		{
 			//_accounts.Clear();
-			var totalBalance = _accounts[OutSitePrefix].Balance + _accounts[InSitePrefix].Balance;
-			var totalCoinAmount = _accounts[OutSitePrefix].CoinAmount + _accounts[InSitePrefix].CoinAmount;
+			var totalBalance = _accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance;
+			var totalCoinAmount = _accounts[_outSiteCode].CoinAmount + _accounts[_inSiteCode].CoinAmount;
 
-			_accounts[OutSitePrefix].Balance = Math.Round(totalBalance * pecentage);
-			_accounts[OutSitePrefix].CoinAmount = Math.Round(totalCoinAmount * (1 - pecentage));
+			_accounts[_outSiteCode].Balance = Math.Round(totalBalance * pecentage);
+			_accounts[_outSiteCode].CoinAmount = Math.Round(totalCoinAmount * (1 - pecentage));
 
-			_accounts[InSitePrefix].Balance = Math.Round(totalBalance * (1 - pecentage));
-			_accounts[InSitePrefix].CoinAmount = Math.Round(totalCoinAmount * pecentage);
+			_accounts[_inSiteCode].Balance = Math.Round(totalBalance * (1 - pecentage));
+			_accounts[_inSiteCode].CoinAmount = Math.Round(totalCoinAmount * pecentage);
 		}
 
 
@@ -538,10 +542,10 @@ namespace BCPrice_Catcher
 
 			lblOutSiteAccount.Text
 				=
-				$"BTCC({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts["btcc"].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts["btcc"].CoinAmount.ToString("0.000")}";
+				$"{cmbOutSite.Text}({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_outSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_outSiteCode].CoinAmount.ToString("0.000")}";
 			lblInSiteAccount.Text
 				=
-				$"HUOBI({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts["huobi"].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts["huobi"].CoinAmount.ToString("0.000")}";
+				$"{cmbInSite.Text}({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_inSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_inSiteCode].CoinAmount.ToString("0.000")}";
 
 			//unelegent
 //			if (_strategies.Count != 0)
@@ -565,16 +569,16 @@ namespace BCPrice_Catcher
 
 				if (infos.Count != 0)
 				{
-					_prices[OutSitePrefix] = Convert.ToDouble(infos?["btcc_price"]);
-					_prices[InSitePrefix] = Convert.ToDouble(infos?["huobi_price"]);
+					_prices[_outSiteCode] = Convert.ToDouble(infos?[$"{_outSiteCode}_price"]);
+					_prices[_inSiteCode] = Convert.ToDouble(infos?[$"{_inSiteCode}_price"]);
 
-					_sellBookOrders[OutSitePrefix] = (infos["btcc_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
-					_sellBookOrders[InSitePrefix] = (infos["huobi_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+					_sellBookOrders[_outSiteCode] = (infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+					_sellBookOrders[_inSiteCode] = (infos[$"{_inSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
 
-					_buyBookOrders[OutSitePrefix] =
-						(infos["btcc_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
-					_buyBookOrders[InSitePrefix] =
-						(infos["huobi_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
+					_buyBookOrders[_outSiteCode] =
+						(infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
+					_buyBookOrders[_inSiteCode] =
+						(infos[$"{_inSiteCode}_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
 
 					//					_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
 				}
@@ -585,8 +589,8 @@ namespace BCPrice_Catcher
 		{
 			GetInfos();
 			ShowPrices();
-			ShowBookOrders(tableLayoutPanelOutSite, _sellBookOrders[OutSitePrefix], _buyBookOrders[OutSitePrefix]);
-			ShowBookOrders(tableLayoutPanelInSite, _sellBookOrders[InSitePrefix], _buyBookOrders[InSitePrefix]);
+			ShowBookOrders(tableLayoutPanelOutSite, _sellBookOrders[_outSiteCode], _buyBookOrders[_outSiteCode]);
+			ShowBookOrders(tableLayoutPanelInSite, _sellBookOrders[_inSiteCode], _buyBookOrders[_inSiteCode]);
 
 			//            foreach (var s in _strategies)
 			//            {
@@ -633,24 +637,24 @@ namespace BCPrice_Catcher
 		//for btcc, huobi and differ price
 		private void ShowPrices()
 		{
-			_baseDifferPrice = Math.Abs(_prices[OutSitePrefix] - _prices[InSitePrefix]);
+			_baseDifferPrice = Math.Abs(_prices[_outSiteCode] - _prices[_inSiteCode]);
 			lblOutSitePrice.Text
-				= $"BTCC{Environment.NewLine}{_prices[OutSitePrefix].ToString("0.000")}";
+				= $"{cmbOutSite.Text}{Environment.NewLine}{_prices[_outSiteCode].ToString("0.000")}";
 			lblInSitePrice.Text
-				= $"HUOBI{Environment.NewLine}{_prices[InSitePrefix].ToString("0.000")}";
+				= $"{cmbInSite.Text}{Environment.NewLine}{_prices[_inSiteCode].ToString("0.000")}";
 			lblDifferPrice.Text
 				= $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
 			lblTotalProfits.Text
 				=
-				$"总利润{Environment.NewLine}{(_accounts[OutSitePrefix].Balance + _accounts[InSitePrefix].Balance - _initialTotalBalance).ToString("0.000")}";
+				$"总利润{Environment.NewLine}{(_accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance - _initialTotalBalance).ToString("0.000")}";
 
-			if (_prices[OutSitePrefix] > _prices[InSitePrefix]
+			if (_prices[_outSiteCode] > _prices[_inSiteCode]
 				)
 			{
 				lblDifferPrice.Text = lblDifferPrice.Text.Insert(4, "<< ");
 			}
 			else if (
-				_prices[OutSitePrefix] < _prices[InSitePrefix])
+				_prices[_outSiteCode] < _prices[_inSiteCode])
 			{
 				lblDifferPrice.Text = lblDifferPrice.Text + @" >>";
 			}
@@ -753,10 +757,10 @@ namespace BCPrice_Catcher
 				a = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
 				b = Regex.IsMatch(s3, floatRegex) ? Convert.ToDouble(s3) : 0,
 				Z = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
-				SellBookOrders = _sellBookOrders[OutSitePrefix],
-				BuyBookOrders = _buyBookOrders[InSitePrefix],
-				SiteAAmount = _accounts[OutSitePrefix].CoinAmount,
-				SiteBAmount = _accounts[InSitePrefix].CoinAmount
+				SellBookOrders = _sellBookOrders[_outSiteCode],
+				BuyBookOrders = _buyBookOrders[_inSiteCode],
+				SiteAAmount = _accounts[_outSiteCode].CoinAmount,
+				SiteBAmount = _accounts[_inSiteCode].CoinAmount
 
 				//				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
 				//				TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
@@ -836,8 +840,8 @@ namespace BCPrice_Catcher
 			var allSucceed = true;
 
 
-			var outSitePlacedOrders = _pendingPlacedOrders[OutSitePrefix];
-			var inSitePlacedOrders = _pendingPlacedOrders[InSitePrefix];
+			var outSitePlacedOrders = _pendingPlacedOrders[_outSiteCode];
+			var inSitePlacedOrders = _pendingPlacedOrders[_inSiteCode];
 
 //				foreach (var order in outSitePlacedOrders)
 //				{
@@ -852,13 +856,13 @@ namespace BCPrice_Catcher
 			if (outSitePlacedOrders != null)
 			{
 				Parallel.ForEach(outSitePlacedOrders, o =>
-					_accounts[OutSitePrefix].Trader.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc));
+					_accounts[_outSiteCode].Trader.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc));
 			}
 
 			if (inSitePlacedOrders != null)
 			{
 				Parallel.ForEach(inSitePlacedOrders, o =>
-					_accounts[InSitePrefix].Trader.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc));
+					_accounts[_inSiteCode].Trader.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc));
 			}
 
 			return allSucceed;
@@ -873,7 +877,7 @@ namespace BCPrice_Catcher
 
 			if (outSiteAllPlacedOrders != null)
 			{
-				_pendingPlacedOrders[OutSitePrefix] = outSiteAllPlacedOrders.ToList();
+				_pendingPlacedOrders[_outSiteCode] = outSiteAllPlacedOrders.ToList();
 				gdvOutSitePlacedOrders.DataSource = outSiteAllPlacedOrders.Select(t =>
 					new
 					{
@@ -897,7 +901,7 @@ namespace BCPrice_Catcher
 
 			if (inSiteAllPlacedOrders != null)
 			{
-				_pendingPlacedOrders[InSitePrefix] = inSiteAllPlacedOrders.ToList();
+				_pendingPlacedOrders[_inSiteCode] = inSiteAllPlacedOrders.ToList();
 				gdvInSitePlacedOrders.DataSource = inSiteAllPlacedOrders.Select(t =>
 					new
 					{
@@ -936,10 +940,10 @@ namespace BCPrice_Catcher
 
 		private void ShowTrades()
 		{
-			long btccIndex = _accounts[OutSitePrefix].AccountTradeRecords.Count;
+			long btccIndex = _accounts[_outSiteCode].AccountTradeRecords.Count;
 //            gdvBtccTrades.DataSource =
 			var btccAccountTrades =
-				_accounts[OutSitePrefix].AccountTradeRecords.OrderByDescending(t => t.Time)
+				_accounts[_outSiteCode].AccountTradeRecords.OrderByDescending(t => t.Time)
 					.Select(
 						t =>
 							new
@@ -1033,44 +1037,44 @@ namespace BCPrice_Catcher
 
 		private void UseRealAccount()
 		{
-			var btccAccount = new RealAccount {Trader = new BtccTrader()};
-			var accountInfo = btccAccount.Trader.GetAccountInfo();
-			btccAccount.Balance = accountInfo.AvailableCny;
-			btccAccount.CoinAmount = accountInfo.AvailableBtc;
-			_accounts[OutSitePrefix] = btccAccount;
+			var outSiteAccount = new RealAccount {Trader = new BtccTrader()};
+			var accountInfo = outSiteAccount.Trader.GetAccountInfo();
+			outSiteAccount.Balance = accountInfo.AvailableCny;
+			outSiteAccount.CoinAmount = accountInfo.AvailableBtc;
+			_accounts[_outSiteCode] = outSiteAccount;
 
-			var huobiAccount = new RealAccount {Trader = new HuobiTrader()};
-			accountInfo = huobiAccount.Trader.GetAccountInfo();
-			huobiAccount.Balance = accountInfo.AvailableCny;
-			huobiAccount.CoinAmount = accountInfo.AvailableBtc;
-			_accounts[InSitePrefix] = huobiAccount;
+			var inSiteAccount = new RealAccount {Trader = new HuobiTrader()};
+			accountInfo = inSiteAccount.Trader.GetAccountInfo();
+			inSiteAccount.Balance = accountInfo.AvailableCny;
+			inSiteAccount.CoinAmount = accountInfo.AvailableBtc;
+			_accounts[_inSiteCode] = inSiteAccount;
 
-			_initialTotalBalance = btccAccount.Balance + huobiAccount.Balance;
-			_initialTotalCoinAmount = btccAccount.CoinAmount + huobiAccount.CoinAmount;
+			_initialTotalBalance = outSiteAccount.Balance + inSiteAccount.Balance;
+			_initialTotalCoinAmount = outSiteAccount.CoinAmount + inSiteAccount.CoinAmount;
 		}
 
 		private void UpdateRealAccount()
 		{
-			var btccAccount = _accounts[OutSitePrefix];
+			var outSiteAccount = _accounts[_outSiteCode];
 //		    btccAccount.Trader = new BtccTrader();
-			var accountInfoA = btccAccount.Trader?.GetAccountInfo();
+			var accountInfoA = outSiteAccount.Trader?.GetAccountInfo();
 
 			if (accountInfoA != null)
 			{
-				btccAccount.Balance = accountInfoA.AvailableCny;
-				btccAccount.CoinAmount = accountInfoA.AvailableBtc;
-				_accounts[OutSitePrefix] = btccAccount;
+				outSiteAccount.Balance = accountInfoA.AvailableCny;
+				outSiteAccount.CoinAmount = accountInfoA.AvailableBtc;
+				_accounts[_outSiteCode] = outSiteAccount;
 			}
 
-			var huobiAccount = _accounts[InSitePrefix];
+			var inSiteAccount = _accounts[_inSiteCode];
 //			huobiAccount.Trader = new HuobiTrader();
-			var accountInfoB = huobiAccount.Trader?.GetAccountInfo();
+			var accountInfoB = inSiteAccount.Trader?.GetAccountInfo();
 
 			if (accountInfoB != null)
 			{
-				huobiAccount.Balance = accountInfoB.AvailableCny;
-				huobiAccount.CoinAmount = accountInfoB.AvailableBtc;
-				_accounts[InSitePrefix] = huobiAccount;
+				inSiteAccount.Balance = accountInfoB.AvailableCny;
+				inSiteAccount.CoinAmount = accountInfoB.AvailableBtc;
+				_accounts[_inSiteCode] = inSiteAccount;
 			}
 		}
 
@@ -1126,8 +1130,8 @@ namespace BCPrice_Catcher
 				var strategy = Strategies[0];
 				strategy.TryTrade(_accounts, new Dictionary<string, double>
 				{
-					{OutSitePrefix, _prices[OutSitePrefix]},
-					{InSitePrefix, _prices[InSitePrefix]}
+					{_outSiteCode, _prices[_outSiteCode]},
+					{_inSiteCode, _prices[_inSiteCode]}
 				}, strategy.m);
 			}
 		}
@@ -1147,6 +1151,24 @@ namespace BCPrice_Catcher
 			lblBuyAmount,
 			lblSellPrice,
 			lblSellAmount
+		}
+
+		private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			_inSiteCode = cmbInSite.SelectedValue?.ToString();
+			_outSiteCode = cmbOutSite.SelectedValue?.ToString();
+
+			if (_inSiteCode == _outSiteCode)
+			{
+				if (cmbOutSite.SelectedIndex == 0)
+				{
+					cmbInSite.SelectedIndex = 1;
+				}
+				else
+				{
+					cmbInSite.SelectedIndex = 0;
+				}
+			}
 		}
 	}
 }
