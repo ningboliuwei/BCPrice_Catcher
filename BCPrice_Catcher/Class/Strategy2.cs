@@ -52,26 +52,26 @@ namespace BCPrice_Catcher.Class
 				var values = new List<double>();
 				values.Add(C);
 				values.Add(D);
-				values.Add(parameters.SiteAAmount);
-				values.Add(parameters.SiteBAmount);
+				values.Add(parameters.OutSiteAmount);
+				values.Add(parameters.InSiteAmount);
 				m = values.Min();
 
 				//sell the last little coins
-				if (InputParameters.SiteBAmount < InputParameters.Min)
+				if (InputParameters.InSiteAmount < InputParameters.Min)
 				{
-					m = InputParameters.SiteBAmount;
+					m = InputParameters.InSiteAmount;
 				}
 			}
 		}
 
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
-			double tradeAmount)
+			double tradeAmount,string outSiteCode, string inSiteCode)
 		{
 			//ensure the > Min price exists
 			if (MatchTradeCondition())
 			{
-				accounts["btcc"].Sell(-1, prices["btcc"], tradeAmount);
-				accounts["huobi"].Buy(-1, prices["huobi"], tradeAmount);
+				accounts[outSiteCode].Sell(-1, prices[outSiteCode], tradeAmount);
+				accounts[inSiteCode].Buy(-1, prices[inSiteCode], tradeAmount);
 			}
 			
 		}
@@ -79,7 +79,7 @@ namespace BCPrice_Catcher.Class
 		public bool MatchTradeCondition()
 		{
 			//&& InputParameters.SiteBAmount >= m
-			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.SiteAAmount >= m  && m != 0;
+			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.OutSiteAmount >= m  && m != 0;
 		}
 
 		public class StrategyInputParameters
@@ -88,8 +88,8 @@ namespace BCPrice_Catcher.Class
 			public double a { get; set; }
 			public double b { get; set; }
 			public double Z { get; set; }
-			public double SiteAAmount { get; set; }
-			public double SiteBAmount { get; set; }
+			public double OutSiteAmount { get; set; }
+			public double InSiteAmount { get; set; }
 			public List<BookOrderInfo> BuyBookOrders { get; set; }
 			public List<BookOrderInfo> SellBookOrders { get; set; }
 		}

@@ -31,6 +31,7 @@ namespace BCPrice_Catcher
 		public Form1()
 		{
 			InitializeComponent();
+
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -48,6 +49,8 @@ namespace BCPrice_Catcher
 			_infoSets.Add(OkcHttpPrefix, new InfoSet());
 
 			InitializeFetchers();
+
+			Hide();
 		}
 
 		private void InitializeFetchers()

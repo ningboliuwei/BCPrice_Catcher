@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,6 +91,7 @@ namespace BCPrice_Catcher
 		private double _initialTotalCoinAmount;
 		private bool _inRealMode;
 		private bool _matchConition;
+		private int _previousSiteIndex;
 
 
 		public Form6()
@@ -301,14 +303,16 @@ namespace BCPrice_Catcher
 			if (button != null && button.Text == ButtonStartText)
 			{
 				StartStrategy(-1);
-				((Button) sender).BackColor = Color.LightCoral;
-				((Button) sender).Text = ButtonStopText;
+				button.BackColor = Color.LightSalmon;
+				button.FlatAppearance.BorderColor = Color.LightCoral;
+				button.Text = ButtonStopText;
 			}
 			else
 			{
 				StopStrategy(-1);
-				((Button) sender).BackColor = Color.LightGreen;
-				((Button) sender).Text = ButtonStartText;
+				button.BackColor = Color.LightGreen;
+				button.FlatAppearance.BorderColor = Color.ForestGreen;
+				button.Text = ButtonStartText;
 			}
 		}
 
@@ -342,7 +346,7 @@ namespace BCPrice_Catcher
 						{
 							{_outSiteCode, _prices[_outSiteCode]},
 							{_inSiteCode, _prices[_inSiteCode]}
-						}, strategy.m);
+						}, strategy.m, _outSiteCode, _inSiteCode);
 					}
 				});
 			});
@@ -424,12 +428,14 @@ namespace BCPrice_Catcher
 			cmbOutSite.DisplayMember = "Name";
 			cmbOutSite.ValueMember = "Code";
 			cmbOutSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
+			cmbOutSite.SelectedIndex = 0;
+
 			cmbInSite.DisplayMember = "Name";
 			cmbInSite.ValueMember = "Code";
 			cmbInSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
+			cmbInSite.SelectedIndex = 1;
 		}
 
-		
 
 		private void Form6_Activated(object sender, EventArgs e)
 		{
@@ -542,10 +548,10 @@ namespace BCPrice_Catcher
 
 			lblOutSiteAccount.Text
 				=
-				$"{cmbOutSite.Text}({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_outSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_outSiteCode].CoinAmount.ToString("0.000")}";
+				$"{cmbOutSite.Text}({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_outSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_outSiteCode].CoinAmount.ToString("0.000")}{Environment.NewLine}总资产：{(_accounts[_outSiteCode].CoinAmount * _prices[_outSiteCode] + _accounts[_outSiteCode].Balance).ToString("0.000")}";
 			lblInSiteAccount.Text
 				=
-				$"{cmbInSite.Text}({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_inSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_inSiteCode].CoinAmount.ToString("0.000")}";
+				$"{cmbInSite.Text}({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_inSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_inSiteCode].CoinAmount.ToString("0.000")}{Environment.NewLine}总资产：{(_accounts[_inSiteCode].CoinAmount * _prices[_inSiteCode] + _accounts[_inSiteCode].Balance).ToString("0.000")}";
 
 			//unelegent
 //			if (_strategies.Count != 0)
@@ -572,8 +578,10 @@ namespace BCPrice_Catcher
 					_prices[_outSiteCode] = Convert.ToDouble(infos?[$"{_outSiteCode}_price"]);
 					_prices[_inSiteCode] = Convert.ToDouble(infos?[$"{_inSiteCode}_price"]);
 
-					_sellBookOrders[_outSiteCode] = (infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
-					_sellBookOrders[_inSiteCode] = (infos[$"{_inSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+					_sellBookOrders[_outSiteCode] =
+						(infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+					_sellBookOrders[_inSiteCode] =
+						(infos[$"{_inSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
 
 					_buyBookOrders[_outSiteCode] =
 						(infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount).Take(BookOrdersCount).ToList();
@@ -625,11 +633,13 @@ namespace BCPrice_Catcher
 			{
 				btnPlaceOrder.Enabled = true;
 				btnPlaceOrder.BackColor = Color.LightGreen;
+				btnPlaceOrder.FlatAppearance.BorderColor = Color.ForestGreen;
 			}
 			else
 			{
 				btnPlaceOrder.Enabled = false;
-				btnPlaceOrder.BackColor = Color.LightCoral;
+				btnPlaceOrder.BackColor = Color.LightSalmon;
+				btnPlaceOrder.FlatAppearance.BorderColor = Color.LightCoral;
 			}
 		}
 
@@ -646,7 +656,7 @@ namespace BCPrice_Catcher
 				= $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
 			lblTotalProfits.Text
 				=
-				$"总利润{Environment.NewLine}{(_accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance - _initialTotalBalance).ToString("0.000")}";
+				$"总利润{Environment.NewLine}{(_accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance - _initialTotalBalance).ToString("0.000")}{Environment.NewLine}总资产{Environment.NewLine}{(_accounts[_outSiteCode].CoinAmount * _prices[_outSiteCode] + _accounts[_outSiteCode].Balance + _accounts[_inSiteCode].CoinAmount * _prices[_inSiteCode] + _accounts[_inSiteCode].Balance).ToString("0.000")}";
 
 			if (_prices[_outSiteCode] > _prices[_inSiteCode]
 				)
@@ -759,8 +769,8 @@ namespace BCPrice_Catcher
 				Z = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
 				SellBookOrders = _sellBookOrders[_outSiteCode],
 				BuyBookOrders = _buyBookOrders[_inSiteCode],
-				SiteAAmount = _accounts[_outSiteCode].CoinAmount,
-				SiteBAmount = _accounts[_inSiteCode].CoinAmount
+				OutSiteAmount = _accounts[_outSiteCode].CoinAmount,
+				InSiteAmount = _accounts[_inSiteCode].CoinAmount
 
 				//				TradeThresholdIncrement = Regex.IsMatch(s1, floatRegex) ? Convert.ToDouble(s1) : 0,
 				//				TradeThresholdCoefficient = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
@@ -872,7 +882,7 @@ namespace BCPrice_Catcher
 		{
 			var index = 0;
 			var outSiteAllPlacedOrders =
-				await Task.Run(() => new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+				await Task.Run(() => (TraderFactory.GetTrader(_outSiteCode)).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
 					OrderByDescending(t => t.Time));
 
 			if (outSiteAllPlacedOrders != null)
@@ -896,7 +906,7 @@ namespace BCPrice_Catcher
 
 			index = 0;
 			var inSiteAllPlacedOrders =
-				await Task.Run(() => new HuobiTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+				await Task.Run(() => TraderFactory.GetTrader(_inSiteCode).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
 					OrderByDescending(t => t.Time));
 
 			if (inSiteAllPlacedOrders != null)
@@ -940,15 +950,15 @@ namespace BCPrice_Catcher
 
 		private void ShowTrades()
 		{
-			long btccIndex = _accounts[_outSiteCode].AccountTradeRecords.Count;
+			long outSiteIndex = _accounts[_outSiteCode].AccountTradeRecords.Count;
 //            gdvBtccTrades.DataSource =
-			var btccAccountTrades =
+			var outSiteAccountTrades =
 				_accounts[_outSiteCode].AccountTradeRecords.OrderByDescending(t => t.Time)
 					.Select(
 						t =>
 							new
 							{
-								SN = btccIndex--,
+								SN = outSiteIndex--,
 								t.Price,
 								t.Amount,
 								t.Time,
@@ -957,15 +967,15 @@ namespace BCPrice_Catcher
 							});
 //					.ToList();
 
-			long huobiIndex = _accounts["huobi"].AccountTradeRecords.Count;
+			long inSiteIndex = _accounts[_inSiteCode].AccountTradeRecords.Count;
 			//			gdvHuobiTrades.DataSource = 
 
-			var huobiAccountTrades =
-				_accounts["huobi"].AccountTradeRecords.OrderByDescending(t => t.Time).Select(
+			var inSiteAccountTrades =
+				_accounts[_inSiteCode].AccountTradeRecords.OrderByDescending(t => t.Time).Select(
 					t =>
 						new
 						{
-							SN = huobiIndex--,
+							SN = inSiteIndex--,
 							t.StrategyId,
 							t.Price,
 							t.Amount,
@@ -975,8 +985,8 @@ namespace BCPrice_Catcher
 						});
 //					.ToList();
 
-			var totalTrades = from btcc in btccAccountTrades
-				join huobi in huobiAccountTrades
+			var totalTrades = from btcc in outSiteAccountTrades
+				join huobi in inSiteAccountTrades
 					on btcc.SN equals huobi.SN
 				select new
 				{
@@ -1008,6 +1018,7 @@ namespace BCPrice_Catcher
 				_inRealMode = true;
 				btnSwitchMode.Text = "停止真实模式(&R)";
 				btnSwitchMode.BackColor = Color.Crimson;
+				btnSwitchMode.FlatAppearance.BorderColor = Color.Brown;
 				tckPecentage.Enabled = false;
 				btnCancelAllPendingPlacedOrders.Enabled = true;
 				gdvOutSitePlacedOrders.Enabled = true;
@@ -1019,6 +1030,7 @@ namespace BCPrice_Catcher
 			{
 				_inRealMode = false;
 				btnSwitchMode.BackColor = Color.LimeGreen;
+				btnSwitchMode.FlatAppearance.BorderColor = Color.DarkGreen;
 				btnSwitchMode.Text = "启动真实模式(&R)";
 				tckPecentage.Enabled = true;
 				btnCancelAllPendingPlacedOrders.Enabled = false;
@@ -1037,13 +1049,13 @@ namespace BCPrice_Catcher
 
 		private void UseRealAccount()
 		{
-			var outSiteAccount = new RealAccount {Trader = new BtccTrader()};
+			var outSiteAccount = new RealAccount {Trader = TraderFactory.GetTrader(_outSiteCode)};
 			var accountInfo = outSiteAccount.Trader.GetAccountInfo();
 			outSiteAccount.Balance = accountInfo.AvailableCny;
 			outSiteAccount.CoinAmount = accountInfo.AvailableBtc;
 			_accounts[_outSiteCode] = outSiteAccount;
 
-			var inSiteAccount = new RealAccount {Trader = new HuobiTrader()};
+			var inSiteAccount = new RealAccount {Trader = TraderFactory.GetTrader(_inSiteCode)};
 			accountInfo = inSiteAccount.Trader.GetAccountInfo();
 			inSiteAccount.Balance = accountInfo.AvailableCny;
 			inSiteAccount.CoinAmount = accountInfo.AvailableBtc;
@@ -1132,7 +1144,7 @@ namespace BCPrice_Catcher
 				{
 					{_outSiteCode, _prices[_outSiteCode]},
 					{_inSiteCode, _prices[_inSiteCode]}
-				}, strategy.m);
+				}, strategy.m, _outSiteCode, _inSiteCode);
 			}
 		}
 
@@ -1155,20 +1167,21 @@ namespace BCPrice_Catcher
 
 		private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			_inSiteCode = cmbInSite.SelectedValue?.ToString();
-			_outSiteCode = cmbOutSite.SelectedValue?.ToString();
+			var thisComboBox = (ComboBox) sender;
+			var thatComboBox = thisComboBox == cmbOutSite ? cmbInSite : cmbOutSite;
 
-			if (_inSiteCode == _outSiteCode)
+			if (thisComboBox.Text == thatComboBox.Text)
 			{
-				if (cmbOutSite.SelectedIndex == 0)
-				{
-					cmbInSite.SelectedIndex = 1;
-				}
-				else
-				{
-					cmbInSite.SelectedIndex = 0;
-				}
+				thatComboBox.SelectedIndex = _previousSiteIndex;
 			}
+
+			_outSiteCode = cmbOutSite.SelectedValue?.ToString();
+			_inSiteCode = cmbInSite.SelectedValue?.ToString();
+		}
+
+		private void cmbSite_Click(object sender, EventArgs e)
+		{
+			_previousSiteIndex = ((ComboBox) sender).SelectedIndex;
 		}
 	}
 }
