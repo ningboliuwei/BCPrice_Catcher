@@ -283,7 +283,7 @@ namespace BCPrice_Catcher
 
 		private void StopStrategy(int strategyId)
 		{
-			StrategyTimerList.Timers[strategyId.ToString()].Change(Timeout.Infinite, Timeout.Infinite);
+			StrategyTimerList.Timers["0"].Change(Timeout.Infinite, Timeout.Infinite);
 		}
 
 		private void RemoveStrategy(int strategyId)
@@ -302,30 +302,32 @@ namespace BCPrice_Catcher
 
 			if (button != null && button.Text == ButtonStartText)
 			{
-				StartStrategy(-1);
+				StartStrategy(0);
 				button.BackColor = Color.LightSalmon;
 				button.FlatAppearance.BorderColor = Color.LightCoral;
 				button.Text = ButtonStopText;
+				btnPlaceOrder.Enabled = true;
 			}
 			else
 			{
-				StopStrategy(-1);
+				StopStrategy(0);
 				button.BackColor = Color.LightGreen;
 				button.FlatAppearance.BorderColor = Color.ForestGreen;
 				button.Text = ButtonStartText;
+				btnPlaceOrder.Enabled = false;
 			}
 		}
 
 		private void StartStrategy(int strategyId)
 		{
-			StrategyTimerList.Timers[strategyId.ToString()].Change(0,
+			StrategyTimerList.Timers["0"].Change(0,
 				1 * 1000);
 		}
 
 		//add a new strategy
 		private void AddStrategy()
 		{
-			var strategyId = -1;
+			var strategyId = 0;
 			var strategy = new Strategy2
 			{
 				InputParameters = GetStrategyParameters()
@@ -333,7 +335,7 @@ namespace BCPrice_Catcher
 
 			Strategies.Add(strategy);
 
-			StrategyTimerList.Add(strategyId.ToString(), Timeout.Infinite, async o =>
+			StrategyTimerList.Add("0", Timeout.Infinite, async o =>
 			{
 				await Task.Run(() =>
 				{
@@ -347,6 +349,17 @@ namespace BCPrice_Catcher
 							{_outSiteCode, _prices[_outSiteCode]},
 							{_inSiteCode, _prices[_inSiteCode]}
 						}, strategy.m, _outSiteCode, _inSiteCode);
+					}
+				});
+			});
+
+			StrategyTimerList.Add("1", Timeout.Infinite, async o =>
+			{
+				await Task.Run(() =>
+				{
+					if (_inRealMode)
+					{
+						UpdateRealAccount();
 					}
 				});
 			});
@@ -541,10 +554,7 @@ namespace BCPrice_Catcher
 
 		private void ShowAccounts()
 		{
-			if (_inRealMode)
-			{
-				UpdateRealAccount();
-			}
+		
 
 			lblOutSiteAccount.Text
 				=
@@ -802,7 +812,7 @@ namespace BCPrice_Catcher
 
 		private void btnAllStart_Click(object sender, EventArgs e)
 		{
-			StartStrategy(-1);
+//			StartStrategy(-1);
 
 			//            foreach (var s in _strategies)
 			//            {
@@ -985,18 +995,18 @@ namespace BCPrice_Catcher
 						});
 //					.ToList();
 
-			var totalTrades = from btcc in outSiteAccountTrades
-				join huobi in inSiteAccountTrades
-					on btcc.SN equals huobi.SN
+			var totalTrades = from outTrade in outSiteAccountTrades
+				join inTrade in inSiteAccountTrades
+					on outTrade.SN equals inTrade.SN
 				select new
 				{
-					序号 = btcc.SN,
-					卖出价格 = btcc.Price.ToString("0.000"),
-					卖出数量 = btcc.Amount.ToString("0.0000"),
+					序号 = outTrade.SN,
+					卖出价格 = outTrade.Price.ToString("0.000"),
+					卖出数量 = outTrade.Amount.ToString("0.0000"),
 //					BtccType = btcc.Type,
-					买入价格 = huobi.Price.ToString("0.000"),
-					买入数量 = huobi.Amount.ToString("0.0000"),
-					利润 = (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
+					买入价格 = inTrade.Price.ToString("0.000"),
+					买入数量 = inTrade.Amount.ToString("0.0000"),
+					利润 = (outTrade.Price * outTrade.Amount - inTrade.Price * inTrade.Amount).ToString("0.000")
 					//					HuobiType = huobi.Type
 					//					Profit = (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")
 					//Profit = btcc.Price + "," + btcc.Amount + "," + huobi.Price + "," + huobi.Amount + (btcc.Price * btcc.Amount - huobi.Price * huobi.Amount).ToString("0.000")

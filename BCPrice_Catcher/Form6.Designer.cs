@@ -518,6 +518,7 @@
 			this.btnPlaceOrder.BackColor = System.Drawing.Color.LightGreen;
 			this.tableLayoutPanel2.SetColumnSpan(this.btnPlaceOrder, 3);
 			this.btnPlaceOrder.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnPlaceOrder.Enabled = false;
 			this.btnPlaceOrder.FlatAppearance.BorderColor = System.Drawing.Color.ForestGreen;
 			this.btnPlaceOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnPlaceOrder.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -746,12 +747,12 @@
 			this.label6.AutoSize = true;
 			this.tableLayoutPanelMain.SetColumnSpan(this.label6, 2);
 			this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label6.Location = new System.Drawing.Point(478, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(230, 25);
 			this.label6.TabIndex = 24;
-			this.label6.Text = "================>";
+			this.label6.Text = "➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// menuStrip1
