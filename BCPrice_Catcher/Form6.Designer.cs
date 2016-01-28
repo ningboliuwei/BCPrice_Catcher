@@ -698,7 +698,6 @@
 			this.lblStrategyValues.Name = "lblStrategyValues";
 			this.lblStrategyValues.Size = new System.Drawing.Size(236, 150);
 			this.lblStrategyValues.TabIndex = 22;
-			this.lblStrategyValues.Text = "333";
 			this.lblStrategyValues.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblStrategyValues.Click += new System.EventHandler(this.lblStrategyValues_Click);
 			// 
@@ -792,7 +791,7 @@
 			this.MainMenuStrip = this.menuStrip1;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "Form6";
-			this.Text = "Form4";
+			this.Text = "BitCoinTrader";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.Form6_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form6_FormClosing);
