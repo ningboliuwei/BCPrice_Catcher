@@ -125,7 +125,7 @@ namespace BCPrice_Catcher
 			for (var i = 0; i < InitialRowCount; i++)
 			{
 				var rowPosition = i + 1;
-				var columnPosition = 0;
+//				var columnPosition = 0;
 
 				#region 卖N
 
@@ -548,10 +548,10 @@ namespace BCPrice_Catcher
 
 			lblOutSiteAccount.Text
 				=
-				$"{cmbOutSite.Text}({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_outSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_outSiteCode].CoinAmount.ToString("0.000")}{Environment.NewLine}总资产：{(_accounts[_outSiteCode].CoinAmount * _prices[_outSiteCode] + _accounts[_outSiteCode].Balance).ToString("0.000")}";
+				$"{cmbOutSite.Text}账户({tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_outSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_outSiteCode].CoinAmount.ToString("0.000")}{Environment.NewLine}总资产：{(_accounts[_outSiteCode].CoinAmount * _prices[_outSiteCode] + _accounts[_outSiteCode].Balance).ToString("0.000")}";
 			lblInSiteAccount.Text
 				=
-				$"{cmbInSite.Text}({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_inSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_inSiteCode].CoinAmount.ToString("0.000")}{Environment.NewLine}总资产：{(_accounts[_inSiteCode].CoinAmount * _prices[_inSiteCode] + _accounts[_inSiteCode].Balance).ToString("0.000")}";
+				$"{cmbInSite.Text}账户({tckPecentage.Maximum - tckPecentage.Value}%){Environment.NewLine}现金：{_accounts[_inSiteCode].Balance.ToString("0.000")}{Environment.NewLine}币数：{_accounts[_inSiteCode].CoinAmount.ToString("0.000")}{Environment.NewLine}总资产：{(_accounts[_inSiteCode].CoinAmount * _prices[_inSiteCode] + _accounts[_inSiteCode].Balance).ToString("0.000")}";
 
 			//unelegent
 //			if (_strategies.Count != 0)
@@ -649,9 +649,9 @@ namespace BCPrice_Catcher
 		{
 			_baseDifferPrice = Math.Abs(_prices[_outSiteCode] - _prices[_inSiteCode]);
 			lblOutSitePrice.Text
-				= $"{cmbOutSite.Text}{Environment.NewLine}{_prices[_outSiteCode].ToString("0.000")}";
+				= $"{cmbOutSite.Text}最新价格{Environment.NewLine}{_prices[_outSiteCode].ToString("0.000")}";
 			lblInSitePrice.Text
-				= $"{cmbInSite.Text}{Environment.NewLine}{_prices[_inSiteCode].ToString("0.000")}";
+				= $"{cmbInSite.Text}最新价格{Environment.NewLine}{_prices[_inSiteCode].ToString("0.000")}";
 			lblDifferPrice.Text
 				= $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
 			lblTotalProfits.Text
@@ -724,7 +724,7 @@ namespace BCPrice_Catcher
 			{
 				var s = Strategies[0];
 
-				lblStrategyValues.Text = "Min " + s.InputParameters.Min + Environment.NewLine
+				lblStrategyValues.Text = "Min " + s.InputParameters.Min.ToString("0.000") + Environment.NewLine
 				                         + "m " + s.m.ToString("0.000") + Environment.NewLine
 				                         + "A " + s.A.ToString("0.000") + Environment.NewLine
 				                         + "B " + s.B.ToString("0.000") + Environment.NewLine
@@ -1050,13 +1050,13 @@ namespace BCPrice_Catcher
 		private void UseRealAccount()
 		{
 			var outSiteAccount = new RealAccount {Trader = TraderFactory.GetTrader(_outSiteCode)};
-			var accountInfo = outSiteAccount.Trader.GetAccountInfo();
+			var accountInfo = outSiteAccount.Trader?.GetAccountInfo();
 			outSiteAccount.Balance = accountInfo.AvailableCny;
 			outSiteAccount.CoinAmount = accountInfo.AvailableBtc;
 			_accounts[_outSiteCode] = outSiteAccount;
 
 			var inSiteAccount = new RealAccount {Trader = TraderFactory.GetTrader(_inSiteCode)};
-			accountInfo = inSiteAccount.Trader.GetAccountInfo();
+			accountInfo = inSiteAccount.Trader?.GetAccountInfo();
 			inSiteAccount.Balance = accountInfo.AvailableCny;
 			inSiteAccount.CoinAmount = accountInfo.AvailableBtc;
 			_accounts[_inSiteCode] = inSiteAccount;
@@ -1069,6 +1069,7 @@ namespace BCPrice_Catcher
 		{
 			var outSiteAccount = _accounts[_outSiteCode];
 //		    btccAccount.Trader = new BtccTrader();
+//			var accountInfoA =Task.Run(() =>outSiteAccount.Trader?.GetAccountInfo()).Result;
 			var accountInfoA = outSiteAccount.Trader?.GetAccountInfo();
 
 			if (accountInfoA != null)
@@ -1080,6 +1081,7 @@ namespace BCPrice_Catcher
 
 			var inSiteAccount = _accounts[_inSiteCode];
 //			huobiAccount.Trader = new HuobiTrader();
+//			var accountInfoB = Task.Run(() => inSiteAccount.Trader?.GetAccountInfo()).Result;
 			var accountInfoB = inSiteAccount.Trader?.GetAccountInfo();
 
 			if (accountInfoB != null)

@@ -17,11 +17,11 @@ namespace BCPrice_Catcher.Trader
 	internal class BtccTrader : Trader
 	{
 		private const string ErrorMessageHead = "\"error\"";
-		private static readonly string _accessKey = Settings.Default.BtccAccessKey;
-		private static readonly string _secretKey = Settings.Default.BtccSecretKey;
+		private static readonly string AccessKey = Settings.Default.BtccAccessKey;
+		private static readonly string SecretKey = Settings.Default.BtccSecretKey;
 
-		private readonly string _headerContent = "application/json-rpc";
-		private readonly string postUrl = "https://api.btcc.com/api_trade_v1.php";
+		private const string HeaderContent = "application/json-rpc";
+		private const string PostUrl = "https://api.btcc.com/api_trade_v1.php";
 		private WebClient _client;
 		public BtccParasTextBuilder Builder;
 
@@ -234,7 +234,7 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters["tonce"] = Convertor.ConvertDateTimeToBtccTonce(DateTime.Now).ToString();
 			var s = Builder.GetSign();
 			_client = new WebClient();
-			_client.Headers.Add("Content-Type", _headerContent);
+			_client.Headers.Add("Content-Type", HeaderContent);
 			_client.Headers.Add("Authorization", $"Basic {s}");
 			_client.Headers.Add("Json-Rpc-Tonce", Builder.Parameters["tonce"]);
 
@@ -242,7 +242,7 @@ namespace BCPrice_Catcher.Trader
 
 			try
 			{
-				return Encoding.UTF8.GetString(_client.UploadData(postUrl, "POST", Encoding.Default.GetBytes(postData)));
+				return Encoding.UTF8.GetString(_client.UploadData(PostUrl, "POST", Encoding.Default.GetBytes(postData)));
 			}
 			catch
 			{
@@ -303,7 +303,7 @@ namespace BCPrice_Catcher.Trader
 			public BtccParasTextBuilder(string method)
 			{
 				Parameters.Add("tonce", Convertor.ConvertDateTimeToBtccTonce(DateTime.Now).ToString());
-				Parameters.Add("accesskey", _accessKey);
+				Parameters.Add("accesskey", AccessKey);
 				Parameters.Add("requestmethod", "post");
 				Parameters.Add("id", "1");
 				Parameters.Add("method", method);
@@ -428,9 +428,9 @@ namespace BCPrice_Catcher.Trader
 //                }
 
 				var parasTextForSign = builder.ToString();
-				var sha1 = Convertor.ConvertPlainTextToHMACSHA1Value(_secretKey, parasTextForSign);
+				var sha1 = Convertor.ConvertPlainTextToHMACSHA1Value(SecretKey, parasTextForSign);
 
-				return Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_accessKey}:{sha1}"));
+				return Convert.ToBase64String(Encoding.ASCII.GetBytes($"{AccessKey}:{sha1}"));
 			}
 		}
 	}

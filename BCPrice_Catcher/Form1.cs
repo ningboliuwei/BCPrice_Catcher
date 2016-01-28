@@ -49,8 +49,8 @@ namespace BCPrice_Catcher
 			_infoSets.Add(OkcHttpPrefix, new InfoSet());
 
 			InitializeFetchers();
-
-			Hide();
+			
+			//
 		}
 
 		private void InitializeFetchers()
@@ -88,14 +88,14 @@ namespace BCPrice_Catcher
 
 			#region 添加 btcc_http_trades
 
-			_fetchers.Add($"{BtccHttpPrefix}_trades",
-				new BtccHttpFetcher());
-
-			_timerList.Add($"{BtccHttpPrefix}_trades", FetchInterval, async o =>
-			{
-				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_trades"].GetTrades());
-				_infoSets[BtccHttpPrefix].Trades = await task;
-			});
+//			_fetchers.Add($"{BtccHttpPrefix}_trades",
+//				new BtccHttpFetcher());
+//
+//			_timerList.Add($"{BtccHttpPrefix}_trades", FetchInterval, async o =>
+//			{
+//				var task = Task.Run(() => _fetchers[$"{BtccHttpPrefix}_trades"].GetTrades());
+//				_infoSets[BtccHttpPrefix].Trades = await task;
+//			});
 
 			#endregion
 
@@ -155,40 +155,40 @@ namespace BCPrice_Catcher
 
 			#region 添加 okc_http_ticker
 
-			_fetchers.Add($"{OkcHttpPrefix}_ticker",
-				new OkcHttpFetcher());
-
-			_timerList.Add($"{OkcHttpPrefix}_ticker", FetchInterval, async o =>
-			{
-				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_ticker"].GetTicker());
-				_infoSets[OkcHttpPrefix].Ticker = await task;
-			});
-
-			#endregion
-
-			#region 添加 okc_http_orders
-
-			_fetchers.Add($"{OkcHttpPrefix}_trades",
-				new OkcHttpFetcher());
-
-			_timerList.Add($"{OkcHttpPrefix}_trades", FetchInterval, async o =>
-			{
-				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_trades"].GetTrades());
-				_infoSets[OkcHttpPrefix].Trades = await task;
-			});
+//			_fetchers.Add($"{OkcHttpPrefix}_ticker",
+//				new OkcHttpFetcher());
+//
+//			_timerList.Add($"{OkcHttpPrefix}_ticker", FetchInterval, async o =>
+//			{
+//				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_ticker"].GetTicker());
+//				_infoSets[OkcHttpPrefix].Ticker = await task;
+//			});
 
 			#endregion
 
 			#region 添加 okc_http_orders
 
-			_fetchers.Add($"{OkcHttpPrefix}_orders",
-				new OkcHttpFetcher());
+//			_fetchers.Add($"{OkcHttpPrefix}_trades",
+//				new OkcHttpFetcher());
+//
+//			_timerList.Add($"{OkcHttpPrefix}_trades", FetchInterval, async o =>
+//			{
+//				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_trades"].GetTrades());
+//				_infoSets[OkcHttpPrefix].Trades = await task;
+//			});
 
-			_timerList.Add($"{OkcHttpPrefix}_orders", FetchInterval, async o =>
-			{
-				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_orders"].GetBookOrders());
-				_infoSets[OkcHttpPrefix].BookOrders = await task;
-			});
+			#endregion
+
+			#region 添加 okc_http_orders
+
+//			_fetchers.Add($"{OkcHttpPrefix}_orders",
+//				new OkcHttpFetcher());
+//
+//			_timerList.Add($"{OkcHttpPrefix}_orders", FetchInterval, async o =>
+//			{
+//				var task = Task.Run(() => _fetchers[$"{OkcHttpPrefix}_orders"].GetBookOrders());
+//				_infoSets[OkcHttpPrefix].BookOrders = await task;
+//			});
 
 			#endregion
 
@@ -196,16 +196,16 @@ namespace BCPrice_Catcher
 
 			#region 添加 btcc_socket_ticker
 
-			_fetchers.Add($"{BtcSocketPrefix}_ticker",
-				new BtccSocketFetcher());
-
-			(_fetchers[$"{BtcSocketPrefix}_ticker"] as BtccSocketFetcher)?.Subscribe();
-
-			_timerList.Add($"{BtcSocketPrefix}_ticker", FetchInterval, async o =>
-			{
-				var task = Task.Run(() => _fetchers[$"{BtcSocketPrefix}_ticker"].GetTicker());
-				_infoSets[BtcSocketPrefix].Ticker = await task;
-			});
+//			_fetchers.Add($"{BtcSocketPrefix}_ticker",
+//				new BtccSocketFetcher());
+//
+//			(_fetchers[$"{BtcSocketPrefix}_ticker"] as BtccSocketFetcher)?.Subscribe();
+//
+//			_timerList.Add($"{BtcSocketPrefix}_ticker", FetchInterval, async o =>
+//			{
+//				var task = Task.Run(() => _fetchers[$"{BtcSocketPrefix}_ticker"].GetTicker());
+//				_infoSets[BtcSocketPrefix].Ticker = await task;
+//			});
 
 			#endregion
 
@@ -234,19 +234,19 @@ namespace BCPrice_Catcher
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			dgvBtccTicker.DataSource =
-				Convertor.ConvertTickerInfoToDictionary(_infoSets[BtccHttpPrefix].Ticker).ToList();
-			dgvBtccTrades.DataSource = _infoSets[BtccHttpPrefix].Trades;
-			dgvBtccOrders.DataSource = _infoSets[BtccHttpPrefix].BookOrders;
+//			dgvBtccTicker.DataSource =
+//				Convertor.ConvertTickerInfoToDictionary(_infoSets[BtccHttpPrefix].Ticker).ToList();
+//			dgvBtccTrades.DataSource = _infoSets[BtccHttpPrefix].Trades;
+//			dgvBtccOrders.DataSource = _infoSets[BtccHttpPrefix].BookOrders;
 
 
-			dgvHuobiTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[HuobiPrefix].Ticker).ToList();
-			dgvHuobiTrades.DataSource = _infoSets[HuobiPrefix].Trades;
-			dgvHuobiOrders.DataSource = _infoSets[HuobiPrefix].BookOrders;
+//			dgvHuobiTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[HuobiPrefix].Ticker).ToList();
+//			dgvHuobiTrades.DataSource = _infoSets[HuobiPrefix].Trades;
+//			dgvHuobiOrders.DataSource = _infoSets[HuobiPrefix].BookOrders;
 
-			dgvOkcTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[OkcHttpPrefix].Ticker).ToList();
-			dgvOkcTrades.DataSource = _infoSets[OkcHttpPrefix].Trades;
-			dgvOkcOrders.DataSource = _infoSets[OkcHttpPrefix].BookOrders;
+//			dgvOkcTicker.DataSource = Convertor.ConvertTickerInfoToDictionary(_infoSets[OkcHttpPrefix].Ticker).ToList();
+//			dgvOkcTrades.DataSource = _infoSets[OkcHttpPrefix].Trades;
+//			dgvOkcOrders.DataSource = _infoSets[OkcHttpPrefix].BookOrders;
 
 
 			//			dgvBtccTrade.DataSource = Convertor.ConvertTradeDetailToDictionary(_infoSets["btcc"].Trade).ToList();
@@ -278,12 +278,14 @@ namespace BCPrice_Catcher
 
 		private void Form1_Shown(object sender, EventArgs e)
 		{
+
+			//			Form2 form2 = new Form2();
+			//			form2.Show();
 			_form6.Show();
 			_form6.Activate();
-//
-//			Form2 form2 = new Form2();
-//			form2.Show();
-			
+
+			Hide();
+
 		}
 	}
 }
