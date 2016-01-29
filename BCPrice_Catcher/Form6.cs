@@ -48,6 +48,10 @@ namespace BCPrice_Catcher
 		private static readonly List<Strategy2> Strategies = new List<Strategy2>();
 		private static readonly TimerList StrategyTimerList = new TimerList();
 
+
+
+
+
 		private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
 		{
 			{_outSiteCode, new SimulateAccount()},
@@ -342,7 +346,10 @@ namespace BCPrice_Catcher
 					strategy.Update(GetStrategyParameters());
 					_matchConition = strategy.MatchTradeCondition();
 
-					if (_allowAutoTrade)
+					var hasPendingPlacedOrders = _pendingPlacedOrders[_outSiteCode]?.Count != 0 &&
+					                             _pendingPlacedOrders[_inSiteCode]?.Count != 0;
+
+					if (_allowAutoTrade && !hasPendingPlacedOrders)
 					{
 						strategy.TryTrade(_accounts, new Dictionary<string, double>
 						{
@@ -353,17 +360,17 @@ namespace BCPrice_Catcher
 				});
 			});
 
-			StrategyTimerList.Add("1", Timeout.Infinite, async o =>
+			StrategyTimerList.Add("1", 1000, async o =>
 			{
 				await Task.Run(() =>
 				{
 					if (_inRealMode)
 					{
 						UpdateRealAccount();
+						UpdatePendingPlacedOrders();
 					}
 				});
 			});
-
 
 			//			var strategyId = _strategyControlsCount - 1;
 			//			var strategy = new Strategy
@@ -639,7 +646,9 @@ namespace BCPrice_Catcher
 
 		private void UpdateControlsStatus()
 		{
-			if (_matchConition)
+			var hasPendingPlacedOrders = _pendingPlacedOrders[_outSiteCode]?.Count != 0 &&
+												 _pendingPlacedOrders[_inSiteCode]?.Count != 0;
+			if (_matchConition && !hasPendingPlacedOrders)
 			{
 				btnPlaceOrder.Enabled = true;
 				btnPlaceOrder.BackColor = Color.LightGreen;
@@ -891,13 +900,14 @@ namespace BCPrice_Catcher
 		private async void ShowPendingPlacedOrders()
 		{
 			var index = 0;
-			var outSiteAllPlacedOrders =
-				await Task.Run(() => (TraderFactory.GetTrader(_outSiteCode)).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
-					OrderByDescending(t => t.Time));
+//			var outSiteAllPlacedOrders =
+//				await Task.Run(() => (TraderFactory.GetTrader(_outSiteCode)).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+//					OrderByDescending(t => t.Time));
 
+			var outSiteAllPlacedOrders = _pendingPlacedOrders[_outSiteCode];
 			if (outSiteAllPlacedOrders != null)
 			{
-				_pendingPlacedOrders[_outSiteCode] = outSiteAllPlacedOrders.ToList();
+//				_pendingPlacedOrders[_outSiteCode] = outSiteAllPlacedOrders.ToList();
 				gdvOutSitePlacedOrders.DataSource = outSiteAllPlacedOrders.Select(t =>
 					new
 					{
@@ -915,13 +925,14 @@ namespace BCPrice_Catcher
 
 
 			index = 0;
-			var inSiteAllPlacedOrders =
-				await Task.Run(() => TraderFactory.GetTrader(_inSiteCode).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
-					OrderByDescending(t => t.Time));
+//			var inSiteAllPlacedOrders =
+//				await Task.Run(() => TraderFactory.GetTrader(_inSiteCode).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+//					OrderByDescending(t => t.Time));
 
+			var inSiteAllPlacedOrders = _pendingPlacedOrders[_inSiteCode];
 			if (inSiteAllPlacedOrders != null)
 			{
-				_pendingPlacedOrders[_inSiteCode] = inSiteAllPlacedOrders.ToList();
+//				_pendingPlacedOrders[_inSiteCode] = inSiteAllPlacedOrders.ToList();
 				gdvInSitePlacedOrders.DataSource = inSiteAllPlacedOrders.Select(t =>
 					new
 					{
@@ -1102,7 +1113,20 @@ namespace BCPrice_Catcher
 			}
 		}
 
+		private void UpdatePendingPlacedOrders()
+		{
+			_pendingPlacedOrders[_outSiteCode] =
+				(TraderFactory.GetTrader(_outSiteCode)).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+					OrderByDescending(t => t.Time).ToList();
 
+			_pendingPlacedOrders[_inSiteCode] =
+			(TraderFactory.GetTrader(_inSiteCode)).GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?.
+				OrderByDescending(t => t.Time).ToList();
+
+
+		}
+
+		
 		private void ChangeToSimulateMode()
 		{
 			UseSimulateAccount();

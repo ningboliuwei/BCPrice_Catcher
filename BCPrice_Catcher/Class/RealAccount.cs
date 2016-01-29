@@ -19,11 +19,11 @@ namespace BCPrice_Catcher.Class
 
 					var orderId = Trader.Sell(price, amount, AccountCoinType);
 
-					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
+//					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
-						Type = "Buy",
+						Type = "Sell",
 						Price = price,
 						StrategyId = strategyId + 1,
 						Amount = amount,
@@ -51,7 +51,7 @@ namespace BCPrice_Catcher.Class
 					Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
-						Type = "Sell",
+						Type = "Buy",
 						Price = price,
 						StrategyId = strategyId + 1,
 						Amount = amount,

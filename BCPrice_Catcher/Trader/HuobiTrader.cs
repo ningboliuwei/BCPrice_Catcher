@@ -154,7 +154,7 @@ namespace BCPrice_Catcher.Trader
 							Id = Convert.ToInt32(c["id"]),
 							Type = c["type"].ToString() == "1" ? OrderType.Bid : OrderType.Ask,
 							Price = Convert.ToDouble(c["order_price"]),
-							AmountProcessed = Convert.ToDouble(c[" processed_amount"]),
+							AmountProcessed = Convert.ToDouble(c["processed_amount"]),
 							AmountOriginal = Convert.ToDouble(c["order_amount"]),
 							Time = Convertor.ConvertJsonDateTimeToLocalDateTime(c["order_time"].ToString()),
 							Status =
