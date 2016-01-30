@@ -53,13 +53,12 @@ namespace BCPrice_Catcher.Class
 				values.Add(C);
 				values.Add(D);
 				values.Add(parameters.SiteAAmount);
-				values.Add(parameters.SiteBAmount);
 				m = values.Min();
 
 				//sell the last little coins
-				if (InputParameters.SiteBAmount < InputParameters.Min)
+				if (InputParameters.SiteAAmount < InputParameters.Min)
 				{
-					m = InputParameters.SiteBAmount;
+					m = InputParameters.SiteAAmount;
 				}
 			}
 		}
