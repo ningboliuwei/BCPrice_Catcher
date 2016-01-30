@@ -34,8 +34,8 @@ namespace BCPrice_Catcher.Class
 					select s.Price;
 				B = qB.Count() != 0 ? qB.Max() : 0;
 
-				X = A + parameters.a;
-				Y = B + parameters.b;
+				X = A;
+				Y = B;
 				Differ = X - Y;
 
 				var qC = from s in parameters.SellBookOrders
@@ -65,21 +65,20 @@ namespace BCPrice_Catcher.Class
 		}
 
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
-			double tradeAmount,string outSiteCode, string inSiteCode)
+			double tradeAmount, string outSiteCode, string inSiteCode)
 		{
 			//ensure the > Min price exists
 			if (MatchTradeCondition())
 			{
-				accounts[outSiteCode].Sell(-1, prices[outSiteCode], tradeAmount);
-				accounts[inSiteCode].Buy(-1, prices[inSiteCode], tradeAmount);
+				accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount);
+				accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount);
 			}
-			
 		}
 
 		public bool MatchTradeCondition()
 		{
 			//&& InputParameters.SiteBAmount >= m
-			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.OutSiteAmount >= m  && m != 0;
+			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.OutSiteAmount >= m && m != 0;
 		}
 
 		public class StrategyInputParameters
