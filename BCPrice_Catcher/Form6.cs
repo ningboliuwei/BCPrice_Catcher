@@ -1028,13 +1028,13 @@ namespace BCPrice_Catcher
 		private void UseRealAccount()
 		{
 			var btccAccount = new RealAccount {Trader = new BtccTrader()};
-			var accountInfo = btccAccount.Trader.GetAccountInfo();
+			var accountInfo = btccAccount.Trader?.GetAccountInfo();
 			btccAccount.Balance = accountInfo.AvailableCny;
 			btccAccount.CoinAmount = accountInfo.AvailableBtc;
 			_accounts[OutSitePrefix] = btccAccount;
 
 			var huobiAccount = new RealAccount {Trader = new HuobiTrader()};
-			accountInfo = huobiAccount.Trader.GetAccountInfo();
+			accountInfo = huobiAccount.Trader?.GetAccountInfo();
 			huobiAccount.Balance = accountInfo.AvailableCny;
 			huobiAccount.CoinAmount = accountInfo.AvailableBtc;
 			_accounts[InSitePrefix] = huobiAccount;
