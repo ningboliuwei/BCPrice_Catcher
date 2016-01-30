@@ -23,6 +23,7 @@ namespace BCPrice_Catcher.Class
 
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
+						OrderId = orderId,
 						Type = "Sell",
 						Price = price,
 						StrategyId = strategyId + 1,
@@ -48,9 +49,10 @@ namespace BCPrice_Catcher.Class
 					//					CoinAmount += amount;
 					//					Balance -= price * amount;
 
-					Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
+					var orderId = Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
+						OrderId = orderId,
 						Type = "Buy",
 						Price = price,
 						StrategyId = strategyId + 1,

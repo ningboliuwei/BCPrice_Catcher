@@ -13,6 +13,7 @@ namespace BCPrice_Catcher.Class
 		public double Balance { get; set; }
 		public double CoinAmount { get; set; }
 		public List<AccountTradeInfo> AccountTradeRecords { get; set; } = new List<AccountTradeInfo>();
+		public List<PlacedOrderInfo> RealPlacedOrders { get; set; } = new List<PlacedOrderInfo>(); 
 		public Trader.Trader Trader { get; set; }
 
 

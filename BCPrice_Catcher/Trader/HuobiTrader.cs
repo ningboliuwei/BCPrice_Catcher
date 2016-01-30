@@ -35,7 +35,7 @@ namespace BCPrice_Catcher.Trader
 			Builder = new HuobiParasTextBuilder("get_account_info");
 			Builder.Parameters.Add("market", Market);
 
-			var parasText = Builder.GetParasText(new string[] {});
+			var parasText = Builder.GetParasText(new string[] { });
 			try
 			{
 				var result = DoMethod(parasText);
@@ -71,11 +71,11 @@ namespace BCPrice_Catcher.Trader
 
 			Builder.Parameters.Add("market", Market);
 			Builder.Parameters.Add("amount", amount.ToString());
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 			Builder.Parameters.Add("trade_password", TradePassword);
 
 			var parasText =
-				Builder.GetParasText(new[] {"amount", "coin_type"});
+				Builder.GetParasText(new[] { "amount", "coin_type" });
 			try
 			{
 				var result = DoMethod(parasText);
@@ -101,11 +101,11 @@ namespace BCPrice_Catcher.Trader
 			Builder.Parameters.Add("market", Market);
 			Builder.Parameters.Add("amount", amount.ToString());
 			Builder.Parameters.Add("price", price.ToString());
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 			Builder.Parameters.Add("trade_password", TradePassword);
 
 			var parasText =
-				Builder.GetParasText(new[] {"amount", "coin_type", "price"});
+				Builder.GetParasText(new[] { "amount", "coin_type", "price" });
 			try
 			{
 				var result = DoMethod(parasText);
@@ -133,12 +133,12 @@ namespace BCPrice_Catcher.Trader
 		{
 			Builder = new HuobiParasTextBuilder("get_orders");
 
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 			Builder.Parameters.Add("market", Market);
 
 
 			var parasText =
-				Builder.GetParasText(new[] {"coin_type"});
+				Builder.GetParasText(new[] { "coin_type" });
 
 
 			try
@@ -149,20 +149,20 @@ namespace BCPrice_Catcher.Trader
 					var o = JObject.Parse("{orders:" + result + "}");
 
 					return (from c in o["orders"].Children()
-						select new PlacedOrderInfo
-						{
-							Id = Convert.ToInt32(c["id"]),
-							Type = c["type"].ToString() == "1" ? OrderType.Bid : OrderType.Ask,
-							Price = Convert.ToDouble(c["order_price"]),
-							AmountProcessed = Convert.ToDouble(c["processed_amount"]),
-							AmountOriginal = Convert.ToDouble(c["order_amount"]),
-							Time = Convertor.ConvertJsonDateTimeToLocalDateTime(c["order_time"].ToString()),
-							Status =
-								Convert.ToDouble(c["processed_amount"]) == Convert.ToDouble(c["order_amount"])
-									? OrderStatus.Closed
-									: OrderStatus.Open
-							//Status is unknown   
-						}).ToList();
+							select new PlacedOrderInfo
+							{
+								Id = Convert.ToInt32(c["id"]),
+								Type = c["type"].ToString() == "1" ? OrderType.Bid : OrderType.Ask,
+								Price = Convert.ToDouble(c["order_price"]),
+								AmountProcessed = Convert.ToDouble(c["processed_amount"]),
+								AmountOriginal = Convert.ToDouble(c["order_amount"]),
+								Time = Convertor.ConvertJsonDateTimeToLocalDateTime(c["order_time"].ToString()),
+								Status =
+									Convert.ToDouble(c["processed_amount"]) == Convert.ToDouble(c["order_amount"])
+										? OrderStatus.Closed
+										: OrderStatus.Open
+								//Status is unknown   
+							}).ToList();
 				}
 			}
 			catch (Exception ex)
@@ -180,11 +180,11 @@ namespace BCPrice_Catcher.Trader
 
 			Builder.Parameters.Add("market", Market);
 			Builder.Parameters.Add("amount", amount.ToString());
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 			Builder.Parameters.Add("trade_password", TradePassword);
 
 			var parasText =
-				Builder.GetParasText(new[] {"amount", "coin_type"});
+				Builder.GetParasText(new[] { "amount", "coin_type" });
 
 			try
 			{
@@ -200,7 +200,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				// ignored
 			}
-		
+
 			return -1;
 		}
 
@@ -212,11 +212,11 @@ namespace BCPrice_Catcher.Trader
 			//huobi uses total price (price * amount) for paramater "amount"
 			Builder.Parameters.Add("amount", amount.ToString());
 			Builder.Parameters.Add("price", price.ToString());
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 			Builder.Parameters.Add("trade_password", TradePassword);
 
 			var parasText =
-				Builder.GetParasText(new[] {"amount", "coin_type", "price"});
+				Builder.GetParasText(new[] { "amount", "coin_type", "price" });
 
 			try
 			{
@@ -232,7 +232,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				// ignored
 			}
-		
+
 			return -1;
 		}
 
@@ -241,16 +241,16 @@ namespace BCPrice_Catcher.Trader
 			throw new NotImplementedException();
 		}
 
-		public override PlacedOrderInfo GetPlacedOrder(int orderId, CoinType coinType)
+		public override PlacedOrderInfo GetPlacedOrder(long orderId, CoinType coinType)
 		{
 			Builder = new HuobiParasTextBuilder("order_info");
 
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 			Builder.Parameters.Add("market", Market);
 
 
 			var parasText =
-				Builder.GetParasText(new[] {"coin_type"});
+				Builder.GetParasText(new[] { "coin_type" });
 
 
 			try
@@ -283,7 +283,7 @@ namespace BCPrice_Catcher.Trader
 				throw new Exception(ex.Message);
 				// ignored
 			}
-		
+
 			return null;
 		}
 
@@ -293,10 +293,10 @@ namespace BCPrice_Catcher.Trader
 
 			Builder.Parameters.Add("market", Market);
 			Builder.Parameters.Add("id", orderId.ToString());
-			Builder.Parameters.Add("coin_type", ((int) coinType).ToString());
+			Builder.Parameters.Add("coin_type", ((int)coinType).ToString());
 
 			var parasText =
-				Builder.GetParasText(new[] {"coin_type", "id"});
+				Builder.GetParasText(new[] { "coin_type", "id" });
 
 			try
 			{
@@ -315,7 +315,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				// ignored
 			}
-		
+
 			return false;
 		}
 
@@ -338,7 +338,7 @@ namespace BCPrice_Catcher.Trader
 		public class HuobiParasTextBuilder
 		{
 			//固定包含在需要生成签名中的参数
-			private readonly string[] _fixParaNamesForSign = {"created", "secret_key", "method", "access_key"};
+			private readonly string[] _fixParaNamesForSign = { "created", "secret_key", "method", "access_key" };
 
 			public HuobiParasTextBuilder(string method)
 			{
@@ -355,9 +355,9 @@ namespace BCPrice_Catcher.Trader
 				var paraNamesForSign = _fixParaNamesForSign.Union(extraParaNamesForSign).ToArray();
 
 				var parasForSign = (from p in Parameters
-					where paraNamesForSign.Contains(p.Key)
-					orderby p.Key
-					select p).ToList();
+									where paraNamesForSign.Contains(p.Key)
+									orderby p.Key
+									select p).ToList();
 
 				var plainTextBuilder = new StringBuilder();
 				foreach (var v in parasForSign)

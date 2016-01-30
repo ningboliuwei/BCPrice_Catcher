@@ -163,7 +163,7 @@ namespace BCPrice_Catcher.Trader
 			throw new NotImplementedException();
 		}
 
-		public override PlacedOrderInfo GetPlacedOrder(int orderId, CoinType coinType)
+		public override PlacedOrderInfo GetPlacedOrder(long orderId, CoinType coinType)
 		{
 			Builder = new BtccParasTextBuilder("getOrder");
 			Builder.Parameters.Add("order_id", $"{orderId}");
