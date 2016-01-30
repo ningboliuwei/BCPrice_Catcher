@@ -34,8 +34,8 @@ namespace BCPrice_Catcher.Class
 					select s.Price;
 				B = qB.Count() != 0 ? qB.Max() : 0;
 
-				X = A + parameters.a;
-				Y = B + parameters.b;
+				X = A;
+				Y = B;
 				Differ = X - Y;
 
 				var qC = from s in parameters.SellBookOrders
@@ -70,8 +70,8 @@ namespace BCPrice_Catcher.Class
 			//ensure the > Min price exists
 			if (MatchTradeCondition())
 			{
-				accounts["btcc"].Sell(-1, prices["btcc"], tradeAmount);
-				accounts["huobi"].Buy(-1, prices["huobi"], tradeAmount);
+				accounts["btcc"].Sell(-1, prices["btcc"] + InputParameters.a, tradeAmount);
+				accounts["huobi"].Buy(-1, prices["huobi"] + InputParameters.b, tradeAmount);
 			}
 			
 		}
