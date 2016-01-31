@@ -40,7 +40,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				var result = DoMethod(parasText);
 
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -79,7 +79,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod(parasText);
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -109,7 +109,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod(parasText);
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -144,7 +144,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod(parasText);
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse("{orders:" + result + "}");
 
@@ -189,7 +189,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod(parasText);
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -221,7 +221,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod(parasText);
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -257,7 +257,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				var result = DoMethod(parasText);
 
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse("{order:" + result + "}");
 
@@ -301,7 +301,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod(parasText);
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 

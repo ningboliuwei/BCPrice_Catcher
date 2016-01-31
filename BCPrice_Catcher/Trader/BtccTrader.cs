@@ -33,7 +33,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				var result = DoMethod();
 
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -63,7 +63,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod();
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -89,7 +89,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod();
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -117,7 +117,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				var result = DoMethod();
 
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -143,7 +143,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod();
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -173,7 +173,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				var result = DoMethod();
 
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -210,7 +210,7 @@ namespace BCPrice_Catcher.Trader
 			{
 				var result = DoMethod();
 
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
@@ -260,7 +260,7 @@ namespace BCPrice_Catcher.Trader
 			try
 			{
 				var result = DoMethod();
-				if (!result.Contains(ErrorMessageHead))
+				if (result != null && !result.Contains(ErrorMessageHead))
 				{
 					var o = JObject.Parse(result);
 
