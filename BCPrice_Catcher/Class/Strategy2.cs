@@ -69,8 +69,9 @@ namespace BCPrice_Catcher.Class
 			//ensure the > Min price exists
 			if (MatchTradeCondition())
 			{
-				accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount);
-				accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount);
+				Guid guid = Guid.NewGuid();
+				accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid);
+				accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid);
 			}
 		}
 

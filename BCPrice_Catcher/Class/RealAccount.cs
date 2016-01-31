@@ -9,7 +9,7 @@ namespace BCPrice_Catcher.Class
 {
 	public class RealAccount : Account
 	{
-		public override bool Sell(int strategyId, double price, double amount)
+		public override bool Sell(int strategyId, double price, double amount, Guid tradePairGuid)
 		{
 			lock (this)
 			{
@@ -23,6 +23,7 @@ namespace BCPrice_Catcher.Class
 
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
+						TradePairGuid = tradePairGuid,
 						OrderId = orderId,
 						Type = "Sell",
 						Price = price,
@@ -39,7 +40,7 @@ namespace BCPrice_Catcher.Class
 			}
 		}
 
-		public override bool Buy(int strategyId, double price, double amount)
+		public override bool Buy(int strategyId, double price, double amount, Guid tradePairGuid)
 		{
 			lock (this)
 			{
