@@ -9,7 +9,7 @@ namespace BCPrice_Catcher.Class
 {
 	public class SimulateAccount : Account
 	{
-		public override bool Sell(int strategyId, double price, double amount, Guid tradePairGuid)
+		public override bool Sell(int strategyId, double price, double amount, string tradePairGuid)
 		{
 			lock (this)
 			{
@@ -36,7 +36,7 @@ namespace BCPrice_Catcher.Class
 			}
 		}
 
-		public override bool Buy(int strategyId, double price, double amount, Guid tradePairGuid)
+		public override bool Buy(int strategyId, double price, double amount, string tradePairGuid)
 		{
 			lock (this)
 			{

@@ -9,41 +9,47 @@ namespace BCPrice_Catcher.Class
 {
 	public class RealAccount : Account
 	{
-		public override bool Sell(int strategyId, double price, double amount, Guid tradePairGuid)
+		public override bool Sell(int strategyId, double price, double amount, string tradePairGuid)
 		{
-			lock (this)
-			{
-				if (CoinAmount >= amount)
-				{
-					var previousBalance = Balance;
+//		    lock (this)
+//		    {
+		        if (CoinAmount >= amount)
+		        {
+		            var previousBalance = Balance;
 
-					var orderId = Trader.Sell(price, amount, AccountCoinType);
+		            var orderId = Trader.Sell(price, amount, AccountCoinType);
 
 //					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
-					AccountTradeRecords.Add(new AccountTradeInfo
-					{
-						TradePairGuid = tradePairGuid,
-						OrderId = orderId,
-						Type = "Sell",
-						Price = price,
-						StrategyId = strategyId + 1,
-						Amount = amount,
-						Time = DateTime.Now
+		            if (orderId != -1)
+		            {
+		                AccountTradeRecords.Add(new AccountTradeInfo
+		                {
+		                    TradePairGuid = tradePairGuid,
+		                    OrderId = orderId,
+		                    Type = "Sell",
+		                    Price = price,
+		                    StrategyId = strategyId + 1,
+		                    Amount = amount,
+		                    Time = DateTime.Now
 //						Profit = Balance - previousBalance
-					});
-					//if sell success
-					return true;
-				}
-				//if fail (coin is not enough)
-				return false;
-			}
-		}
+		                });
+		                return true;
+//                    }
+		                //if sell success
 
-		public override bool Buy(int strategyId, double price, double amount, Guid tradePairGuid)
+		            }
+		            //if fail (coin is not enough)
+		          
+		        }
+            return false;
+            //		    }
+        }
+
+		public override bool Buy(int strategyId, double price, double amount, string tradePairGuid)
 		{
-			lock (this)
-			{
+//			lock (this)
+//			{
 				if (Balance >= price * amount)
 				{
 					var previousBalance = Balance;
@@ -51,21 +57,26 @@ namespace BCPrice_Catcher.Class
 					//					Balance -= price * amount;
 
 					var orderId = Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
-					AccountTradeRecords.Add(new AccountTradeInfo
-					{
-						OrderId = orderId,
-						Type = "Buy",
-						Price = price,
-						StrategyId = strategyId + 1,
-						Amount = amount,
-						Time = DateTime.Now
-//						Profit = Balance - previousBalance
-					});
 
-					return true;
+				    if (orderId != -1)
+				    {
+				        AccountTradeRecords.Add(new AccountTradeInfo
+				        {
+                            TradePairGuid = tradePairGuid,
+                            OrderId = orderId,
+				            Type = "Buy",
+				            Price = price,
+				            StrategyId = strategyId + 1,
+				            Amount = amount,
+				            Time = DateTime.Now
+//						Profit = Balance - previousBalance
+				        });
+
+				        return true;
+				    }
 				}
 				return false;
-			}
+//			}
 		}
 	}
 }

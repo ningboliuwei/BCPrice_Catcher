@@ -17,7 +17,7 @@ namespace BCPrice_Catcher.Class
 		public List<PlacedOrderInfo> RealPlacedOrders { get; set; } = new List<PlacedOrderInfo>(); 
 		public Trader.Trader Trader { get; set; }
 
-		public abstract bool Buy(int strategyId, double price, double amount, Guid tradePairGuid);
-		public abstract bool Sell(int strategyId, double price, double amount, Guid tradePairGuid);
+		public abstract bool Buy(int strategyId, double price, double amount, string tradePairGuid);
+		public abstract bool Sell(int strategyId, double price, double amount, string tradePairGuid);
 	}
 }

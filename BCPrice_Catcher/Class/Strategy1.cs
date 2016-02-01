@@ -61,7 +61,7 @@ namespace BCPrice_Catcher.Class
 
 			var currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-			Guid guid = Guid.NewGuid();
+			string guid = Guid.NewGuid().ToString();
 			if (differPrice > InputParameters.StartPrice && TradeCount < InputParameters.TotalTradeCountLimit
 			    &&
 			    (Id == 0 || (PreviousStrategy?.TradeCount > PreviousStrategy?.InputParameters.TradeCountThreshold))
