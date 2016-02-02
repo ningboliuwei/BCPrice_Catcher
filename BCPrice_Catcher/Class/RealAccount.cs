@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
 
 #endregion
@@ -17,7 +18,7 @@ namespace BCPrice_Catcher.Class
 		        {
 		            var previousBalance = Balance;
 
-		            var orderId = Trader.Sell(price, amount, AccountCoinType);
+		            var orderId = Task.Run(()=>Trader.Sell(price, amount, AccountCoinType)).Result;
 
 //					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
@@ -56,9 +57,8 @@ namespace BCPrice_Catcher.Class
 					//					CoinAmount += amount;
 					//					Balance -= price * amount;
 
-					var orderId = Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
-
-				    if (orderId != -1)
+				var orderId = Task.Run(()=>Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc)).Result;
+				if (orderId != -1)
 				    {
 				        AccountTradeRecords.Add(new AccountTradeInfo
 				        {

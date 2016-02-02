@@ -9,12 +9,12 @@ namespace BCPrice_Catcher.Class
 {
 	class Strategy2
 	{
-		public double m { get; set; }
-		public double A { get; set; }
-		public double B { get; set; }
-		public double X { get; set; }
-		public double Y { get; set; }
-		public double Differ { get; set; }
+		public double m { get; private set; }
+		public double A { get; private set; }
+		public double B { get; private set; }
+		public double X { get; private set; }
+		public double Y { get; private set; }
+		public double Differ { get; private set; }
 
 		public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
 
@@ -70,7 +70,6 @@ namespace BCPrice_Catcher.Class
 			if (MatchTradeCondition())
 			{
 				string guid = Guid.NewGuid().ToString();
-			    tradeAmount = tradeAmount * 0.1;
 				accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid);
 				accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid);
 			}
