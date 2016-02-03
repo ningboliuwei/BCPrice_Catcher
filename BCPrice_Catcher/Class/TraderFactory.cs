@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BCPrice_Catcher.Trader;
+﻿using BCPrice_Catcher.Trader;
 
 namespace BCPrice_Catcher.Class
 {

@@ -23,8 +23,8 @@ namespace BCPrice_Catcher
 		private const string ButtonStartText = "开始";
 		private const string ButtonStopText = "停止";
 
-		private const string BtccPrefix = "btcc";
-		private const string HuobiPrefix = "huobi";
+		public const string BtccPrefix = "btcc";
+		public const string HuobiPrefix = "huobi";
 
 		private const int InitialStrategyCount = 3;
 		private static int _strategyControlsCount;
@@ -545,7 +545,7 @@ namespace BCPrice_Catcher
 			{
 				var prices = Tag as Dictionary<string, double>;
 
-				if (prices != null && prices.Count== 2)
+				if (prices != null && prices.Count == 2)
 				{
 					_prices[BtccPrefix] = prices[BtccPrefix];
 					_prices[HuobiPrefix] = prices[HuobiPrefix];
@@ -566,7 +566,7 @@ namespace BCPrice_Catcher
 
 			ShowAccounts();
 
-			foreach (Strategy1 s in Strategies)
+			foreach (var s in Strategies)
 			{
 				ShowStrategyValues(s);
 			}

@@ -77,7 +77,6 @@ namespace BCPrice_Catcher
 		{
 			using (var client = new WebClient())
 			{
-				
 				//to become an object for parsing
 				try
 				{

@@ -8,6 +8,7 @@ namespace BCPrice_Catcher.Model
 {
 	public class AccountTradeInfo
 	{
+		public string SiteCode { get; set; }
 		public int StrategyId { get; set; }
 		public long OrderId { get; set; }
 		public string Type { get; set; }

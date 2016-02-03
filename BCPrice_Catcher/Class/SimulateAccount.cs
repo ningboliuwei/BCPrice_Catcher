@@ -9,7 +9,7 @@ namespace BCPrice_Catcher.Class
 {
 	public class SimulateAccount : Account
 	{
-		public override bool Sell(int strategyId, double price, double amount, string tradePairGuid)
+		public override bool Sell(int strategyId, double price, double amount, string tradePairGuid, string siteCode)
 		{
 			lock (this)
 			{
@@ -21,6 +21,7 @@ namespace BCPrice_Catcher.Class
 
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
+						SiteCode = siteCode,
 						Type = "Buy",
 						Price = price,
 						StrategyId = strategyId + 1,
@@ -36,7 +37,7 @@ namespace BCPrice_Catcher.Class
 			}
 		}
 
-		public override bool Buy(int strategyId, double price, double amount, string tradePairGuid)
+		public override bool Buy(int strategyId, double price, double amount, string tradePairGuid, string siteCode)
 		{
 			lock (this)
 			{
@@ -47,6 +48,7 @@ namespace BCPrice_Catcher.Class
 					Balance -= price * amount;
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
+						SiteCode =  siteCode,
 						Type = "Sell",
 						Price = price,
 						StrategyId = strategyId + 1,

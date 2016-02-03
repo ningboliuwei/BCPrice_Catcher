@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BCPrice_Catcher.Util;
 using Newtonsoft.Json.Linq;
 
 #endregion
@@ -31,7 +30,6 @@ namespace BCPrice_Catcher
 		public Form1()
 		{
 			InitializeComponent();
-
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -49,7 +47,7 @@ namespace BCPrice_Catcher
 			_infoSets.Add(OkcHttpPrefix, new InfoSet());
 
 			InitializeFetchers();
-			
+
 			//
 		}
 
@@ -264,7 +262,7 @@ namespace BCPrice_Catcher
 			{
 //				prices.Add("btcc", _infoSets[BtccHttpPrefix].Ticker.Last);
 //				prices.Add("huobi", _infoSets[HuobiPrefix].Ticker.Last);
-			
+
 				infos.Add("btcc_price", _infoSets[BtccHttpPrefix].Ticker.Last);
 				infos.Add("huobi_price", _infoSets[HuobiPrefix].Ticker.Last);
 				infos.Add("btcc_bookorders", _infoSets[BtccHttpPrefix].BookOrders);
@@ -278,14 +276,12 @@ namespace BCPrice_Catcher
 
 		private void Form1_Shown(object sender, EventArgs e)
 		{
-
 			//			Form2 form2 = new Form2();
 			//			form2.Show();
 			_form6.Show();
 			_form6.Activate();
 
 			Hide();
-
 		}
 	}
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher.Class
 {
-	class Strategy2
+	internal class Strategy2
 	{
 		public double m { get; private set; }
 		public double A { get; private set; }
@@ -15,6 +13,8 @@ namespace BCPrice_Catcher.Class
 		public double X { get; private set; }
 		public double Y { get; private set; }
 		public double Differ { get; private set; }
+		public DateTime LastTradeTime { get; set; } = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
 
 		public StrategyInputParameters InputParameters { get; set; } = new StrategyInputParameters();
 
@@ -41,13 +41,13 @@ namespace BCPrice_Catcher.Class
 				var qC = from s in parameters.SellBookOrders
 					where s.Price == A
 					select s.Amount;
-				double C = qC.Count() != 0 ? qC.First() : 0;
+				var C = qC.Count() != 0 ? qC.First() : 0;
 
 
 				var qD = from b in parameters.BuyBookOrders
 					where b.Price == B
 					select b.Amount;
-				double D = qD.Count() != 0 ? qD.First() : 0;
+				var D = qD.Count() != 0 ? qD.First() : 0;
 
 				var values = new List<double>();
 				values.Add(C);
@@ -66,19 +66,22 @@ namespace BCPrice_Catcher.Class
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
 			double tradeAmount, string outSiteCode, string inSiteCode)
 		{
+			DateTime currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 			//ensure the > Min price exists
-			if (MatchTradeCondition())
+			if (MatchTradeCondition(currentTime))
 			{
-				string guid = Guid.NewGuid().ToString();
-				accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid);
-				accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid);
+				var guid = Guid.NewGuid().ToString();
+				accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid, outSiteCode);
+				accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid, inSiteCode);
+				LastTradeTime = currentTime;
 			}
 		}
 
-		public bool MatchTradeCondition()
+		public bool MatchTradeCondition(DateTime currentTime)
 		{
 			//&& InputParameters.SiteBAmount >= m
-			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.OutSiteAmount >= m && m != 0;
+			return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.OutSiteAmount >= m && m != 0 &&
+			       (currentTime - LastTradeTime).TotalSeconds >= InputParameters.Peroid;
 		}
 
 		public class StrategyInputParameters
@@ -91,6 +94,7 @@ namespace BCPrice_Catcher.Class
 			public double InSiteAmount { get; set; }
 			public List<BookOrderInfo> BuyBookOrders { get; set; }
 			public List<BookOrderInfo> SellBookOrders { get; set; }
+			public int Peroid { get; set; }
 		}
 	}
 }

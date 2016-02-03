@@ -34,10 +34,8 @@ namespace BCPrice_Catcher
 			//            MessageBox.Show(new BtccTrader().SellMarket(10, Trader.Trader.CoinType.Btc));
 
 
-            txtResult.Text = new BtccTrader().Buy(Convert.ToDouble(txtPrice.Text), Convert.ToDouble(txtAmount.Text),
-                Trader.Trader.CoinType.Btc).ToString();
-
-
+			txtResult.Text = new BtccTrader().Buy(Convert.ToDouble(txtPrice.Text), Convert.ToDouble(txtAmount.Text),
+				Trader.Trader.CoinType.Btc).ToString();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -119,12 +117,13 @@ namespace BCPrice_Catcher
 
 		private void button1_Click_1(object sender, EventArgs e)
 		{
-						dataGridView1.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
+			dataGridView1.DataSource = new BtccTrader().GetAllPlacedOrders(Trader.Trader.CoinType.Btc);
 		}
 
 		private void btnHuobiCancelOrder_Click(object sender, EventArgs e)
 		{
-			txtResult.Text= new HuobiTrader().CancelPlacedOrder(Convert.ToInt32(txtOrderId.Text), Trader.Trader.CoinType.Btc).ToString();
+			txtResult.Text =
+				new HuobiTrader().CancelPlacedOrder(Convert.ToInt32(txtOrderId.Text), Trader.Trader.CoinType.Btc).ToString();
 		}
 	}
 }

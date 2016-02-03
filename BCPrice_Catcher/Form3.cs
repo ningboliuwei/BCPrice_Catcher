@@ -118,7 +118,7 @@ namespace BCPrice_Catcher
 		private void ShowTotalAssets()
 		{
 			txtTotalAssets.Text = txtTotalAssets.Text.Insert(0, huobiAccount.Balance + btccAccount.Balance +
-			                                        Environment.NewLine);
+			                                                    Environment.NewLine);
 		}
 
 
