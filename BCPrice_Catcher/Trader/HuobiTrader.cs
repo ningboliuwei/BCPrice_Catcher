@@ -247,10 +247,11 @@ namespace BCPrice_Catcher.Trader
 
             builder.Parameters.Add("coin_type", ((int) coinType).ToString());
             builder.Parameters.Add("market", Market);
+            builder.Parameters.Add("id", orderId.ToString());
 
 
             var parasText =
-                builder.GetParasText(new[] {"coin_type"});
+                builder.GetParasText(new[] {"coin_type", "id"});
 
 
             try
@@ -259,7 +260,22 @@ namespace BCPrice_Catcher.Trader
 
                 if (result != null && !result.Contains(ErrorMessageHead))
                 {
-                    var o = JObject.Parse("{order:" + result + "}");
+//                    var o = JObject.Parse("{order:" + result + "}");
+                    var o = JObject.Parse(result);
+                    OrderStatus status;
+                    switch (o["status"].ToString())
+                    {
+                        case "0":
+                        case "1":
+                            status = OrderStatus.Open;
+                            break;
+                        case "2":
+                            status = OrderStatus.Closed;
+                            break;
+                        default:
+                            status = OrderStatus.Pending;
+                            break;
+                    }
 
                     return new PlacedOrderInfo
                     {
@@ -268,13 +284,14 @@ namespace BCPrice_Catcher.Trader
                         Type =
                             o["type"].ToString() == "1" || o["type"].ToString() == "3" ? OrderType.Bid : OrderType.Ask,
                         Price = Convert.ToDouble(o["order_price"]),
-                        AmountProcessed = Convert.ToDouble(o[" processed_amount"]),
+                        AmountProcessed = Convert.ToDouble(o["processed_amount"]),
                         AmountOriginal = Convert.ToDouble(o["order_amount"]),
-                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["order_time"].ToString()),
-                        Status =
-                            Convert.ToDouble(o["processed_amount"]) == Convert.ToDouble(o["order_amount"])
-                                ? OrderStatus.Closed
-                                : OrderStatus.Open
+//                        Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["order_time"].ToString()),
+                        Status = status
+//                            Convert.ToDouble(o["processed_amount"]) == Convert.ToDouble(o["order_amount"])
+//                                ? OrderStatus.Closed
+//                                : OrderStatus.Open
+                            
                         //Status is unknown   
                     };
                 }
