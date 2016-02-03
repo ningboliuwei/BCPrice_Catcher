@@ -50,12 +50,15 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.nudParaA = new System.Windows.Forms.NumericUpDown();
 			this.label3 = new System.Windows.Forms.Label();
-			this.nudParaZ = new System.Windows.Forms.NumericUpDown();
 			this.label5 = new System.Windows.Forms.Label();
 			this.nudAmount = new System.Windows.Forms.NumericUpDown();
-			this.chkAutoTrade = new System.Windows.Forms.CheckBox();
-			this.btnPlaceOrder = new System.Windows.Forms.Button();
 			this.nudParaB = new System.Windows.Forms.NumericUpDown();
+			this.btnPlaceOrder = new System.Windows.Forms.Button();
+			this.nudPeroid = new System.Windows.Forms.NumericUpDown();
+			this.chkAutoTrade = new System.Windows.Forms.CheckBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.chkDoNotTradeWhenHasPendingOrders = new System.Windows.Forms.CheckBox();
+			this.nudParaZ = new System.Windows.Forms.NumericUpDown();
 			this.gdvTrades = new System.Windows.Forms.DataGridView();
 			this.lblTotalProfits = new System.Windows.Forms.Label();
 			this.tableLayoutPanelInSite = new System.Windows.Forms.TableLayoutPanel();
@@ -71,26 +74,22 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.nudPeroid = new System.Windows.Forms.NumericUpDown();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.chkDoNotTradeWhenHasPendingOrders = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
 			this.tableLayoutPanelMain.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaA)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudAmount)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaB)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPeroid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gdvTrades)).BeginInit();
 			this.tableLayoutPanel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gdvOutSitePlacedOrders)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gdvInSitePlacedOrders)).BeginInit();
 			this.tableLayoutPanel4.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudPeroid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// timer1
@@ -154,18 +153,18 @@
 			this.nudParaMin.Location = new System.Drawing.Point(32, 2);
 			this.nudParaMin.Margin = new System.Windows.Forms.Padding(2);
 			this.nudParaMin.Maximum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			0});
+            100000,
+            0,
+            0,
+            0});
 			this.nudParaMin.Name = "nudParaMin";
 			this.nudParaMin.Size = new System.Drawing.Size(70, 23);
 			this.nudParaMin.TabIndex = 6;
 			this.nudParaMin.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			196608});
+            1,
+            0,
+            0,
+            196608});
 			// 
 			// btnSwitchMode
 			// 
@@ -418,10 +417,9 @@
 			this.tableLayoutPanel2.Controls.Add(this.btnPlaceOrder, 7, 2);
 			this.tableLayoutPanel2.Controls.Add(this.nudPeroid, 3, 2);
 			this.tableLayoutPanel2.Controls.Add(this.chkAutoTrade, 4, 2);
-			this.tableLayoutPanel2.Controls.Add(this.label7, 3, 1);
 			this.tableLayoutPanel2.Controls.Add(this.label8, 0, 2);
-			this.tableLayoutPanel2.Controls.Add(this.chkDoNotTradeWhenHasPendingOrders, 4, 1);
 			this.tableLayoutPanel2.Controls.Add(this.nudParaZ, 7, 0);
+			this.tableLayoutPanel2.Controls.Add(this.chkDoNotTradeWhenHasPendingOrders, 3, 1);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 135);
 			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
@@ -453,15 +451,15 @@
 			this.nudParaA.Location = new System.Drawing.Point(124, 2);
 			this.nudParaA.Margin = new System.Windows.Forms.Padding(2);
 			this.nudParaA.Maximum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			0});
+            100000,
+            0,
+            0,
+            0});
 			this.nudParaA.Minimum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			-2147483648});
+            100000,
+            0,
+            0,
+            -2147483648});
 			this.nudParaA.Name = "nudParaA";
 			this.nudParaA.Size = new System.Drawing.Size(70, 23);
 			this.nudParaA.TabIndex = 6;
@@ -478,27 +476,6 @@
 			this.label3.TabIndex = 5;
 			this.label3.Text = "b";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// nudParaZ
-			// 
-			this.nudParaZ.DecimalPlaces = 3;
-			this.nudParaZ.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.nudParaZ.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudParaZ.Location = new System.Drawing.Point(325, 2);
-			this.nudParaZ.Margin = new System.Windows.Forms.Padding(2);
-			this.nudParaZ.Maximum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			0});
-			this.nudParaZ.Minimum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			-2147483648});
-			this.nudParaZ.Name = "nudParaZ";
-			this.nudParaZ.Size = new System.Drawing.Size(165, 23);
-			this.nudParaZ.TabIndex = 6;
 			// 
 			// label5
 			// 
@@ -520,29 +497,33 @@
 			this.nudAmount.Location = new System.Drawing.Point(32, 32);
 			this.nudAmount.Margin = new System.Windows.Forms.Padding(2);
 			this.nudAmount.Maximum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			0});
+            100000,
+            0,
+            0,
+            0});
 			this.nudAmount.Name = "nudAmount";
 			this.nudAmount.Size = new System.Drawing.Size(70, 23);
 			this.nudAmount.TabIndex = 6;
 			// 
-			// chkAutoTrade
+			// nudParaB
 			// 
-			this.chkAutoTrade.AutoSize = true;
-			this.tableLayoutPanel2.SetColumnSpan(this.chkAutoTrade, 2);
-			this.chkAutoTrade.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chkAutoTrade.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chkAutoTrade.Location = new System.Drawing.Point(199, 60);
-			this.chkAutoTrade.Margin = new System.Windows.Forms.Padding(0);
-			this.chkAutoTrade.Name = "chkAutoTrade";
-			this.chkAutoTrade.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-			this.chkAutoTrade.Size = new System.Drawing.Size(109, 30);
-			this.chkAutoTrade.TabIndex = 7;
-			this.chkAutoTrade.Text = "允许自动下单";
-			this.chkAutoTrade.UseVisualStyleBackColor = true;
-			this.chkAutoTrade.CheckedChanged += new System.EventHandler(this.chkAutoTrade_CheckedChanged);
+			this.nudParaB.DecimalPlaces = 3;
+			this.nudParaB.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.nudParaB.Location = new System.Drawing.Point(217, 2);
+			this.nudParaB.Margin = new System.Windows.Forms.Padding(2);
+			this.nudParaB.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.nudParaB.Minimum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            -2147483648});
+			this.nudParaB.Name = "nudParaB";
+			this.nudParaB.Size = new System.Drawing.Size(70, 23);
+			this.nudParaB.TabIndex = 6;
 			// 
 			// btnPlaceOrder
 			// 
@@ -561,25 +542,97 @@
 			this.btnPlaceOrder.UseVisualStyleBackColor = false;
 			this.btnPlaceOrder.Click += new System.EventHandler(this.btnPlaceOrder_Click);
 			// 
-			// nudParaB
+			// nudPeroid
 			// 
-			this.nudParaB.DecimalPlaces = 3;
-			this.nudParaB.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudParaB.Location = new System.Drawing.Point(217, 2);
-			this.nudParaB.Margin = new System.Windows.Forms.Padding(2);
-			this.nudParaB.Maximum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			0});
-			this.nudParaB.Minimum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			-2147483648});
-			this.nudParaB.Name = "nudParaB";
-			this.nudParaB.Size = new System.Drawing.Size(70, 23);
-			this.nudParaB.TabIndex = 6;
+			this.nudPeroid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.nudPeroid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.nudPeroid.Location = new System.Drawing.Point(121, 62);
+			this.nudPeroid.Margin = new System.Windows.Forms.Padding(2);
+			this.nudPeroid.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.nudPeroid.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.nudPeroid.Name = "nudPeroid";
+			this.nudPeroid.Size = new System.Drawing.Size(76, 23);
+			this.nudPeroid.TabIndex = 6;
+			this.nudPeroid.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// chkAutoTrade
+			// 
+			this.chkAutoTrade.AutoSize = true;
+			this.tableLayoutPanel2.SetColumnSpan(this.chkAutoTrade, 2);
+			this.chkAutoTrade.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chkAutoTrade.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chkAutoTrade.Location = new System.Drawing.Point(199, 60);
+			this.chkAutoTrade.Margin = new System.Windows.Forms.Padding(0);
+			this.chkAutoTrade.Name = "chkAutoTrade";
+			this.chkAutoTrade.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+			this.chkAutoTrade.Size = new System.Drawing.Size(109, 30);
+			this.chkAutoTrade.TabIndex = 7;
+			this.chkAutoTrade.Text = "允许自动下单";
+			this.chkAutoTrade.UseVisualStyleBackColor = true;
+			this.chkAutoTrade.CheckedChanged += new System.EventHandler(this.chkAutoTrade_CheckedChanged);
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.tableLayoutPanel2.SetColumnSpan(this.label8, 2);
+			this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label8.Location = new System.Drawing.Point(0, 60);
+			this.label8.Margin = new System.Windows.Forms.Padding(0);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(104, 30);
+			this.label8.TabIndex = 5;
+			this.label8.Text = "自动下单周期";
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label8.Click += new System.EventHandler(this.label8_Click);
+			// 
+			// chkDoNotTradeWhenHasPendingOrders
+			// 
+			this.chkDoNotTradeWhenHasPendingOrders.AutoSize = true;
+			this.tableLayoutPanel2.SetColumnSpan(this.chkDoNotTradeWhenHasPendingOrders, 4);
+			this.chkDoNotTradeWhenHasPendingOrders.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chkDoNotTradeWhenHasPendingOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(124, 30);
+			this.chkDoNotTradeWhenHasPendingOrders.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.chkDoNotTradeWhenHasPendingOrders.Name = "chkDoNotTradeWhenHasPendingOrders";
+			this.chkDoNotTradeWhenHasPendingOrders.Size = new System.Drawing.Size(199, 30);
+			this.chkDoNotTradeWhenHasPendingOrders.TabIndex = 7;
+			this.chkDoNotTradeWhenHasPendingOrders.Text = "当前有挂单时不允许自动下单";
+			this.chkDoNotTradeWhenHasPendingOrders.UseVisualStyleBackColor = true;
+			this.chkDoNotTradeWhenHasPendingOrders.CheckedChanged += new System.EventHandler(this.chkAutoTrade_CheckedChanged);
+			// 
+			// nudParaZ
+			// 
+			this.nudParaZ.DecimalPlaces = 3;
+			this.nudParaZ.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.nudParaZ.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.nudParaZ.Location = new System.Drawing.Point(325, 2);
+			this.nudParaZ.Margin = new System.Windows.Forms.Padding(2);
+			this.nudParaZ.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.nudParaZ.Minimum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            -2147483648});
+			this.nudParaZ.Name = "nudParaZ";
+			this.nudParaZ.Size = new System.Drawing.Size(165, 23);
+			this.nudParaZ.TabIndex = 6;
 			// 
 			// gdvTrades
 			// 
@@ -763,7 +816,7 @@
 			// 
 			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.功能FToolStripMenuItem});
+            this.功能FToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(1269, 25);
@@ -773,7 +826,7 @@
 			// 功能FToolStripMenuItem
 			// 
 			this.功能FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.SettingsToolStripMenuItem});
+            this.SettingsToolStripMenuItem});
 			this.功能FToolStripMenuItem.Name = "功能FToolStripMenuItem";
 			this.功能FToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
 			this.功能FToolStripMenuItem.Text = "功能(&F)";
@@ -784,75 +837,6 @@
 			this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.SettingsToolStripMenuItem.Text = "设置(&C)";
 			this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
-			// 
-			// nudPeroid
-			// 
-			this.nudPeroid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.nudPeroid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudPeroid.Location = new System.Drawing.Point(121, 62);
-			this.nudPeroid.Margin = new System.Windows.Forms.Padding(2);
-			this.nudPeroid.Maximum = new decimal(new int[] {
-			100000,
-			0,
-			0,
-			0});
-			this.nudPeroid.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
-			this.nudPeroid.Name = "nudPeroid";
-			this.nudPeroid.Size = new System.Drawing.Size(76, 23);
-			this.nudPeroid.TabIndex = 6;
-			this.nudPeroid.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label7.Location = new System.Drawing.Point(119, 30);
-			this.label7.Margin = new System.Windows.Forms.Padding(0);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(80, 30);
-			this.label7.TabIndex = 5;
-			this.label7.Text = "自动下单周期";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.tableLayoutPanel2.SetColumnSpan(this.label8, 2);
-			this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label8.Location = new System.Drawing.Point(0, 60);
-			this.label8.Margin = new System.Windows.Forms.Padding(0);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(104, 30);
-			this.label8.TabIndex = 5;
-			this.label8.Text = "自动下单周期";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.label8.Click += new System.EventHandler(this.label8_Click);
-			// 
-			// chkDoNotTradeWhenHasPendingOrders
-			// 
-			this.chkDoNotTradeWhenHasPendingOrders.AutoSize = true;
-			this.tableLayoutPanel2.SetColumnSpan(this.chkDoNotTradeWhenHasPendingOrders, 4);
-			this.chkDoNotTradeWhenHasPendingOrders.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chkDoNotTradeWhenHasPendingOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(199, 30);
-			this.chkDoNotTradeWhenHasPendingOrders.Margin = new System.Windows.Forms.Padding(0);
-			this.chkDoNotTradeWhenHasPendingOrders.Name = "chkDoNotTradeWhenHasPendingOrders";
-			this.chkDoNotTradeWhenHasPendingOrders.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-			this.chkDoNotTradeWhenHasPendingOrders.Size = new System.Drawing.Size(293, 30);
-			this.chkDoNotTradeWhenHasPendingOrders.TabIndex = 7;
-			this.chkDoNotTradeWhenHasPendingOrders.Text = "当前有挂单时不允许自动下单";
-			this.chkDoNotTradeWhenHasPendingOrders.UseVisualStyleBackColor = true;
-			this.chkDoNotTradeWhenHasPendingOrders.CheckedChanged += new System.EventHandler(this.chkAutoTrade_CheckedChanged);
 			// 
 			// Form6
 			// 
@@ -884,9 +868,10 @@
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaA)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudAmount)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudParaB)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPeroid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudParaZ)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gdvTrades)).EndInit();
 			this.tableLayoutPanel3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gdvOutSitePlacedOrders)).EndInit();
@@ -895,7 +880,6 @@
 			this.tableLayoutPanel4.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudPeroid)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -946,7 +930,6 @@
 		private System.Windows.Forms.NumericUpDown nudParaZ;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.NumericUpDown nudPeroid;
-		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.CheckBox chkDoNotTradeWhenHasPendingOrders;
 	}
 }
