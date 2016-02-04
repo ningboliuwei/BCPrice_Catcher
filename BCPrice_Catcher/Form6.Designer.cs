@@ -57,8 +57,8 @@
 			this.nudPeroid = new System.Windows.Forms.NumericUpDown();
 			this.chkAutoTrade = new System.Windows.Forms.CheckBox();
 			this.label8 = new System.Windows.Forms.Label();
-			this.chkDoNotTradeWhenHasPendingOrders = new System.Windows.Forms.CheckBox();
 			this.nudParaZ = new System.Windows.Forms.NumericUpDown();
+			this.chkDoNotTradeWhenHasPendingOrders = new System.Windows.Forms.CheckBox();
 			this.gdvTrades = new System.Windows.Forms.DataGridView();
 			this.lblTotalProfits = new System.Windows.Forms.Label();
 			this.tableLayoutPanelInSite = new System.Windows.Forms.TableLayoutPanel();
@@ -598,21 +598,6 @@
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.label8.Click += new System.EventHandler(this.label8_Click);
 			// 
-			// chkDoNotTradeWhenHasPendingOrders
-			// 
-			this.chkDoNotTradeWhenHasPendingOrders.AutoSize = true;
-			this.tableLayoutPanel2.SetColumnSpan(this.chkDoNotTradeWhenHasPendingOrders, 4);
-			this.chkDoNotTradeWhenHasPendingOrders.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chkDoNotTradeWhenHasPendingOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(124, 30);
-			this.chkDoNotTradeWhenHasPendingOrders.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
-			this.chkDoNotTradeWhenHasPendingOrders.Name = "chkDoNotTradeWhenHasPendingOrders";
-			this.chkDoNotTradeWhenHasPendingOrders.Size = new System.Drawing.Size(199, 30);
-			this.chkDoNotTradeWhenHasPendingOrders.TabIndex = 7;
-			this.chkDoNotTradeWhenHasPendingOrders.Text = "当前有挂单时不允许自动下单";
-			this.chkDoNotTradeWhenHasPendingOrders.UseVisualStyleBackColor = true;
-			this.chkDoNotTradeWhenHasPendingOrders.CheckedChanged += new System.EventHandler(this.chkAutoTrade_CheckedChanged);
-			// 
 			// nudParaZ
 			// 
 			this.nudParaZ.DecimalPlaces = 3;
@@ -633,6 +618,21 @@
 			this.nudParaZ.Name = "nudParaZ";
 			this.nudParaZ.Size = new System.Drawing.Size(165, 23);
 			this.nudParaZ.TabIndex = 6;
+			// 
+			// chkDoNotTradeWhenHasPendingOrders
+			// 
+			this.chkDoNotTradeWhenHasPendingOrders.AutoSize = true;
+			this.tableLayoutPanel2.SetColumnSpan(this.chkDoNotTradeWhenHasPendingOrders, 4);
+			this.chkDoNotTradeWhenHasPendingOrders.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chkDoNotTradeWhenHasPendingOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(124, 30);
+			this.chkDoNotTradeWhenHasPendingOrders.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.chkDoNotTradeWhenHasPendingOrders.Name = "chkDoNotTradeWhenHasPendingOrders";
+			this.chkDoNotTradeWhenHasPendingOrders.Size = new System.Drawing.Size(199, 30);
+			this.chkDoNotTradeWhenHasPendingOrders.TabIndex = 7;
+			this.chkDoNotTradeWhenHasPendingOrders.Text = "当前有挂单时不允许自动下单";
+			this.chkDoNotTradeWhenHasPendingOrders.UseVisualStyleBackColor = true;
+			this.chkDoNotTradeWhenHasPendingOrders.CheckedChanged += new System.EventHandler(this.chkAutoTrade_CheckedChanged);
 			// 
 			// gdvTrades
 			// 

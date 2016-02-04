@@ -48,7 +48,7 @@ namespace BCPrice_Catcher.Class
 					Balance -= price * amount;
 					AccountTradeRecords.Add(new AccountTradeInfo
 					{
-						SiteCode =  siteCode,
+						SiteCode = siteCode,
 						Type = "Sell",
 						Price = price,
 						StrategyId = strategyId + 1,

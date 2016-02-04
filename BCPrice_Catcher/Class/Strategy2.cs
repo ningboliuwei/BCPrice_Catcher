@@ -66,7 +66,7 @@ namespace BCPrice_Catcher.Class
 		public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
 			double tradeAmount, string outSiteCode, string inSiteCode)
 		{
-			DateTime currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+			var currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 			//ensure the > Min price exists
 			if (MatchTradeCondition(currentTime))
 			{

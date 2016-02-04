@@ -18,7 +18,7 @@ namespace BCPrice_Catcher.Class
 			{
 				var previousBalance = Balance;
 
-				var orderId= Task.Run(() => Trader.Sell(price, amount, AccountCoinType)).Result;
+				var orderId = Task.Run(() => Trader.Sell(price, amount, AccountCoinType)).Result;
 
 //					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
