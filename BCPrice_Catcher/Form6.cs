@@ -1083,113 +1083,175 @@ namespace BCPrice_Catcher
 
 		private async void UpdateAllPlacedOrders()
 		{
-//			lock (_threadLock)
-//			{
-				if (_accounts[_outSiteCode].AccountTradeRecords.Count != 0)
+            //			lock (_threadLock)
+            //			{
+            //				if (_accounts[_outSiteCode].AccountTradeRecords.Count != 0)
+            //				{
+            //					for (var i = 0; i < _accounts[_outSiteCode].AccountTradeRecords.Count; i++)
+            //					{
+            //						var t = _accounts[_outSiteCode].AccountTradeRecords[i];
+            //						if (_accounts[_outSiteCode].RealPlacedOrders.Count == 0)
+            //						{
+            //							var order = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(t.OrderId,
+            //								Trader.Trader.CoinType.Btc));
+            //
+            //							if (order != null)
+            //							{
+            //								_accounts[_outSiteCode].RealPlacedOrders.Add(order);
+            //							}
+            //						}
+            //						else
+            //						{
+            //							if (!_accounts[_outSiteCode].RealPlacedOrders.Exists(o => o?.Id == t?.OrderId))
+            //							{
+            //								var order = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(t.OrderId,
+            //									Trader.Trader.CoinType.Btc));
+            //
+            //								if (order != null)
+            //								{
+            //									_accounts[_outSiteCode].RealPlacedOrders.Add(order);
+            //								}
+            //							}
+            //						}
+            //					}
+            //
+            //
+            //					if (_accounts[_outSiteCode].RealPlacedOrders.Count != 0)
+            //					{
+            //						var notClosedRealPlacedOrder =
+            //							_accounts[_outSiteCode].RealPlacedOrders.Where(o => o?.Status != OrderStatus.Closed)
+            //								.ToList();
+            //
+            //						for (var i = 0; i < notClosedRealPlacedOrder.Count; i++)
+            //						{
+            //							if (notClosedRealPlacedOrder[i] != null)
+            //							{
+            //								notClosedRealPlacedOrder[i] = await
+            //									Task.Run(
+            //										() =>
+            //											_accounts[_outSiteCode].Trader?.GetPlacedOrder(
+            //												notClosedRealPlacedOrder[i].Id,
+            //												Trader.Trader.CoinType.Btc));
+            //							}
+            //						}
+            //					}
+            //				}
+            //				//}
+            //
+            //				//lock(_threadLock)
+            //				//{ 
+            //				if (_accounts[_inSiteCode].AccountTradeRecords.Count != 0)
+            //				{
+            //					for (var i = 0; i < _accounts[_inSiteCode].AccountTradeRecords.Count; i++)
+            //					{
+            //						var t = _accounts[_inSiteCode].AccountTradeRecords[i];
+            //						if (_accounts[_inSiteCode].RealPlacedOrders.Count == 0)
+            //						{
+            //							var order = await Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(t.OrderId,
+            //								Trader.Trader.CoinType.Btc));//.Result;
+            //
+            //							if (order != null)
+            //							{
+            //								_accounts[_inSiteCode].RealPlacedOrders.Add(order);
+            //							}
+            //						}
+            //						else
+            //						{
+            //							if (!_accounts[_inSiteCode].RealPlacedOrders.Exists(o => o?.Id == t?.OrderId))
+            //							{
+            //								var order =await Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(t.OrderId,
+            //									Trader.Trader.CoinType.Btc));//.Result;
+            //
+            //								if (order != null)
+            //								{
+            //									_accounts[_inSiteCode].RealPlacedOrders.Add(order);
+            //								}
+            //							}
+            //						}
+            //					}
+            //					if (_accounts[_inSiteCode].RealPlacedOrders.Count != 0)
+            //					{
+            //						var notClosedRealPlacedOrder =
+            //							_accounts[_inSiteCode].RealPlacedOrders.Where(o => o?.Status != OrderStatus.Closed).ToList();
+            //
+            //						for (var i = 0; i < notClosedRealPlacedOrder.Count; i++)
+            //						{
+            //							if (notClosedRealPlacedOrder[i] != null)
+            //							{
+            //								notClosedRealPlacedOrder[i] = await Task.Run(() =>
+            //									_accounts[_inSiteCode].Trader?.GetPlacedOrder(notClosedRealPlacedOrder[i].Id,
+            //										Trader.Trader.CoinType.Btc)); //.Result;
+            //							}
+            //						}
+            //					}
+            //				}
+            //			}
+
+            if (_accounts[_outSiteCode].AccountTradeRecords.Count != 0)
 				{
-					for (var i = 0; i < _accounts[_outSiteCode].AccountTradeRecords.Count; i++)
-					{
-						var t = _accounts[_outSiteCode].AccountTradeRecords[i];
-						if (_accounts[_outSiteCode].RealPlacedOrders.Count == 0)
-						{
-							var order = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(t.OrderId,
-								Trader.Trader.CoinType.Btc));
+				    foreach (var t in _accounts[_outSiteCode].AccountTradeRecords)
+				    {
+				        if (_accounts[_outSiteCode].RealPlacedOrders.Count == 0 || !_accounts[_outSiteCode].RealPlacedOrders.DefaultIfEmpty().Exists(o => o?.Id == t?.OrderId))
+				        {
+				            
+				        }
 
-							if (order != null)
-							{
-								_accounts[_outSiteCode].RealPlacedOrders.Add(order);
-							}
-						}
-						else
-						{
-							if (!_accounts[_outSiteCode].RealPlacedOrders.Exists(o => o?.Id == t?.OrderId))
-							{
-								var order = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(t.OrderId,
-									Trader.Trader.CoinType.Btc));
-
-								if (order != null)
-								{
-									_accounts[_outSiteCode].RealPlacedOrders.Add(order);
-								}
-							}
-						}
-					}
-
-
-					if (_accounts[_outSiteCode].RealPlacedOrders.Count != 0)
-					{
-						var notClosedRealPlacedOrder =
-							_accounts[_outSiteCode].RealPlacedOrders.Where(o => o?.Status != OrderStatus.Closed)
-								.ToList();
-
-						for (var i = 0; i < notClosedRealPlacedOrder.Count; i++)
-						{
-							if (notClosedRealPlacedOrder[i] != null)
-							{
-								notClosedRealPlacedOrder[i] = await
-									Task.Run(
-										() =>
-											_accounts[_outSiteCode].Trader?.GetPlacedOrder(
-												notClosedRealPlacedOrder[i].Id,
-												Trader.Trader.CoinType.Btc));
-							}
-						}
-					}
+                    }
+				   
+//					for (var i = 0; i < _accounts[_outSiteCode].AccountTradeRecords.Count; i++)
+//					{
+//						var t = _accounts[_outSiteCode].AccountTradeRecords[i];
+//						if (_accounts[_outSiteCode].RealPlacedOrders.Count == 0)
+//						{
+//							var order = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(t.OrderId,
+//								Trader.Trader.CoinType.Btc));
+//
+//							if (order != null)
+//							{
+//								_accounts[_outSiteCode].RealPlacedOrders.Add(order);
+//							}
+//						}
+//						else
+//						{
+//							if (!_accounts[_outSiteCode].RealPlacedOrders.Exists(o => o?.Id == t?.OrderId))
+//							{
+//								var order = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(t.OrderId,
+//									Trader.Trader.CoinType.Btc));
+//
+//								if (order != null)
+//								{
+//									_accounts[_outSiteCode].RealPlacedOrders.Add(order);
+//								}
+//							}
+//						}
+//					}
+//
+//
+//					if (_accounts[_outSiteCode].RealPlacedOrders.Count != 0)
+//					{
+//						var notClosedRealPlacedOrder =
+//							_accounts[_outSiteCode].RealPlacedOrders.Where(o => o?.Status != OrderStatus.Closed)
+//								.ToList();
+//
+//						for (var i = 0; i < notClosedRealPlacedOrder.Count; i++)
+//						{
+//							if (notClosedRealPlacedOrder[i] != null)
+//							{
+//								notClosedRealPlacedOrder[i] = await
+//									Task.Run(
+//										() =>
+//											_accounts[_outSiteCode].Trader?.GetPlacedOrder(
+//												notClosedRealPlacedOrder[i].Id,
+//												Trader.Trader.CoinType.Btc));
+//							}
+//						}
+//					}
 				}
 				//}
-
-				//lock(_threadLock)
-				//{ 
-				if (_accounts[_inSiteCode].AccountTradeRecords.Count != 0)
-				{
-					for (var i = 0; i < _accounts[_inSiteCode].AccountTradeRecords.Count; i++)
-					{
-						var t = _accounts[_inSiteCode].AccountTradeRecords[i];
-						if (_accounts[_inSiteCode].RealPlacedOrders.Count == 0)
-						{
-							var order = await Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(t.OrderId,
-								Trader.Trader.CoinType.Btc));//.Result;
-
-							if (order != null)
-							{
-								_accounts[_inSiteCode].RealPlacedOrders.Add(order);
-							}
-						}
-						else
-						{
-							if (!_accounts[_inSiteCode].RealPlacedOrders.Exists(o => o?.Id == t?.OrderId))
-							{
-								var order =await Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(t.OrderId,
-									Trader.Trader.CoinType.Btc));//.Result;
-
-								if (order != null)
-								{
-									_accounts[_inSiteCode].RealPlacedOrders.Add(order);
-								}
-							}
-						}
-					}
-					if (_accounts[_inSiteCode].RealPlacedOrders.Count != 0)
-					{
-						var notClosedRealPlacedOrder =
-							_accounts[_inSiteCode].RealPlacedOrders.Where(o => o?.Status != OrderStatus.Closed).ToList();
-
-						for (var i = 0; i < notClosedRealPlacedOrder.Count; i++)
-						{
-							if (notClosedRealPlacedOrder[i] != null)
-							{
-								notClosedRealPlacedOrder[i] = await Task.Run(() =>
-									_accounts[_inSiteCode].Trader?.GetPlacedOrder(notClosedRealPlacedOrder[i].Id,
-										Trader.Trader.CoinType.Btc)); //.Result;
-							}
-						}
-					}
-				}
-//			}
-		}
+        }
 
 
-		private void UseRealAccount()
+        private void UseRealAccount()
 		{
 			_accounts[_outSiteCode] = new RealAccount {Trader = TraderFactory.GetTrader(_outSiteCode)};
 			_accounts[_inSiteCode] = new RealAccount {Trader = TraderFactory.GetTrader(_inSiteCode)};
