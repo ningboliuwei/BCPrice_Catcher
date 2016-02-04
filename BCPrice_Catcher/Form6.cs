@@ -331,12 +331,16 @@ namespace BCPrice_Catcher
 
 		private void StartStrategy(int strategyId)
 		{
-			StrategyTimerList.Timers["0"].Change(0, 1000);
+			StrategyTimerList.Timers["0"].Change(0, 500);
 		}
 
 		//add a new strategy
 		private void AddStrategy()
 		{
+			try
+			{
+
+			
 			var strategyId = 0;
 			var strategy = new Strategy2
 			{
@@ -384,6 +388,12 @@ namespace BCPrice_Catcher
 					}
 				});
 			});
+			}
+			catch (Exception ex)
+			{
+
+				throw new Exception(ex.Message);
+			}
 
 			//		    StrategyTimerList.Add("1", 500, o =>
 			//		    {
@@ -776,24 +786,34 @@ namespace BCPrice_Catcher
 
 		private void CancelAllPendingPlacedOrders()
 		{
-			//			lock (_threadLock)
-			//			{
-			var outSitePlacedOrders = _pendingPlacedOrders[_outSiteCode];
-			var inSitePlacedOrders = _pendingPlacedOrders[_inSiteCode];
-			//            lock (_threadLock)
-			//            {
-			if (outSitePlacedOrders != null && outSitePlacedOrders.Count != 0)
+			if (_accounts[_outSiteCode].Trader.GetType() == _accounts[_inSiteCode].Trader.GetType())
 			{
-				Parallel.ForEach(from o in outSitePlacedOrders select o.Id, id => Task.Run(() =>
-					_accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc)));
+				throw new Exception("Same Type Trader");
 			}
 
-			if (inSitePlacedOrders != null && inSitePlacedOrders.Count != 0)
+			Task.Run(() =>
 			{
-				Parallel.ForEach(from o in inSitePlacedOrders select o.Id, id => Task.Run(() =>
-					_accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc)));
-			}
-			//			}
+				lock (_threadLock)
+				{
+					var outSitePlacedOrders = _pendingPlacedOrders[_outSiteCode];
+					var inSitePlacedOrders = _pendingPlacedOrders[_inSiteCode];
+					//            lock (_threadLock)
+					//            {
+					if (outSitePlacedOrders != null && outSitePlacedOrders.Count != 0)
+					{
+						//					Parallel.ForEach(from o in outSitePlacedOrders select o.Id, id => Task.Run(() =>
+						//						_accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc)));
+						Parallel.ForEach(from o in outSitePlacedOrders select o.Id, id =>
+							_accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc));
+					}
+
+					if (inSitePlacedOrders != null && inSitePlacedOrders.Count != 0)
+					{
+						Parallel.ForEach(from o in inSitePlacedOrders select o.Id, id =>
+							_accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc));
+					}
+				}
+			});
 		}
 
 		private void ShowPendingPlacedOrders()
@@ -985,13 +1005,13 @@ namespace BCPrice_Catcher
 			//                };
 
 			var outSiteClosedPlacedOrders =
-				_accounts[_outSiteCode].RealPlacedOrders.Where(o => o?.Status == OrderStatus.Closed).ToList();
+				_accounts[_outSiteCode].RealPlacedOrders.Where(o => o.Status == OrderStatus.Closed).ToList();
 			var outSiteClosedTrades = (from t in _accounts[_outSiteCode].AccountTradeRecords
 									   where outSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
 									   select t).ToList();
 
 			var inSiteClosedPlacedOrders =
-				_accounts[_inSiteCode].RealPlacedOrders.Where(o => o?.Status == OrderStatus.Closed).ToList();
+				_accounts[_inSiteCode].RealPlacedOrders.Where(o => o.Status == OrderStatus.Closed).ToList();
 			var inSiteClosedTrades = (from t in _accounts[_inSiteCode].AccountTradeRecords
 									  where inSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
 									  select t).ToList();
@@ -1013,8 +1033,7 @@ namespace BCPrice_Catcher
 								   利润 =
 									   (outOrder.Price * outOrder.Amount - inOrder.Price * inOrder.Amount).ToString(
 										   "0.000")
-							   }).OrderByDescending(i => i.买入时间).ToList();
-
+							   }).ToList();
 
 			long tradeIndex = totalTrades.Count();
 			gdvTrades.DataSource = (from t in totalTrades
@@ -1030,7 +1049,7 @@ namespace BCPrice_Catcher
 										t.买入数量,
 										t.买入时间,
 										t.利润
-									}).ToList();
+									}).OrderByDescending(i => i.买入时间).ToList();
 		}
 
 		private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1182,85 +1201,103 @@ namespace BCPrice_Catcher
 			//				}
 			//			}
 
-			//			lock (_threadLock)
-			//			{
-			if (_accounts[_outSiteCode].AccountTradeRecords.Count != 0)
+			if (_accounts[_outSiteCode].Trader.GetType() == _accounts[_inSiteCode].Trader.GetType())
 			{
-				var outOrderIds = new List<long>();
-				for (var index = 0; index < _accounts[_outSiteCode].AccountTradeRecords.Count; index++)
-				{
-					var t = _accounts[_outSiteCode].AccountTradeRecords[index];
-					if (_accounts[_outSiteCode].RealPlacedOrders.Count == 0 ||
-						_accounts[_outSiteCode].RealPlacedOrders.All(o => o.Id != t.OrderId))
-					{
-						outOrderIds.Add(t.OrderId);
-					}
-				}
-
-				Parallel.ForEach(outOrderIds, o =>
-				{
-					var order =
-						Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc)).Result;
-					if (order != null)
-					{
-						_accounts[_outSiteCode].RealPlacedOrders.Add(order);
-					}
-				});
+				throw new Exception("Same Type Trader");
 			}
 
-			if (_accounts[_inSiteCode].AccountTradeRecords.Count != 0)
+			lock (_threadLock)
 			{
-				var inOrderIds = new List<long>();
-				foreach (var t in _accounts[_inSiteCode].AccountTradeRecords)
+				if (_accounts[_outSiteCode].AccountTradeRecords.Count != 0)
 				{
-					if (_accounts[_inSiteCode].RealPlacedOrders.Count == 0 ||
-						_accounts[_inSiteCode].RealPlacedOrders.All(o => o.Id != t.OrderId))
+					var outOrderIds = new List<long>();
+					for (var index = 0; index < _accounts[_outSiteCode].AccountTradeRecords.Count; index++)
 					{
-						inOrderIds.Add(t.OrderId);
+						var t = _accounts[_outSiteCode].AccountTradeRecords[index];
+						if (_accounts[_outSiteCode].RealPlacedOrders.Count == 0 ||
+							_accounts[_outSiteCode].RealPlacedOrders.All(o => o.Id != t.OrderId))
+						{
+							outOrderIds.Add(t.OrderId);
+						}
 					}
+
+					Parallel.ForEach(outOrderIds, o =>
+					{
+						//						var order =
+						//							Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc)).Result;
+
+						var order = _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
+						if (order != null)
+						{
+							_accounts[_outSiteCode].RealPlacedOrders.Add(order);
+						}
+					});
 				}
 
-				Parallel.ForEach(inOrderIds, o =>
+				if (_accounts[_inSiteCode].AccountTradeRecords.Count != 0)
 				{
-					var order =
-						Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc)).Result;
-					if (order != null)
+					var inOrderIds = new List<long>();
+					foreach (var t in _accounts[_inSiteCode].AccountTradeRecords)
 					{
-						_accounts[_inSiteCode].RealPlacedOrders.Add(order);
+						if (_accounts[_inSiteCode].RealPlacedOrders.Count == 0 ||
+							_accounts[_inSiteCode].RealPlacedOrders.All(o => o.Id != t.OrderId))
+						{
+							inOrderIds.Add(t.OrderId);
+						}
 					}
-				});
+
+					Parallel.ForEach(inOrderIds, o =>
+					{
+						//						var order =
+						//							Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc)).Result;
+						var order = _accounts[_inSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
+						if (order != null)
+						{
+							_accounts[_inSiteCode].RealPlacedOrders.Add(order);
+						}
+					});
+				}
 			}
-			//			}
 		}
 
-		private  void UseRealAccount()
+		private void UseRealAccount()
 		{
-			_accounts[_outSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_outSiteCode) };
-			_accounts[_inSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_inSiteCode) };
-
-			var outSiteAccountInfo = Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo()).Result;
-			var inSiteAccountInfo = Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo()).Result;
-			//			var outSiteAccountInfo = _accounts[_outSiteCode].Trader?.GetAccountInfo();
-			//			var inSiteAccountInfo = _accounts[_inSiteCode].Trader?.GetAccountInfo();
-
-
-			if (outSiteAccountInfo != null)
+			lock (_threadLock)
 			{
-				_accounts[_outSiteCode].Balance = outSiteAccountInfo.AvailableCny;
-				_accounts[_outSiteCode].CoinAmount = outSiteAccountInfo.AvailableBtc;
-			}
+				_accounts[_outSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_outSiteCode) };
+				_accounts[_inSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_inSiteCode) };
 
-			if (inSiteAccountInfo != null)
-			{
-				_accounts[_inSiteCode].Balance = inSiteAccountInfo.AvailableCny;
-				_accounts[_inSiteCode].CoinAmount = inSiteAccountInfo.AvailableBtc;
-			}
+				//				var outSiteAccountInfo = Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo()).Result;
+				//				var inSiteAccountInfo = Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo()).Result;
 
-			_initialTotalBalance = _accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance;
-			_initialTotalCoinAmount = _accounts[_outSiteCode].CoinAmount + _accounts[_inSiteCode].CoinAmount;
+				if (_accounts[_outSiteCode].Trader.GetType() == _accounts[_inSiteCode].Trader.GetType())
+				{
+					throw new Exception("Same Type Trader");
+				}
+
+
+				var outSiteAccountInfo = _accounts[_outSiteCode].Trader?.GetAccountInfo();
+				var inSiteAccountInfo = _accounts[_inSiteCode].Trader?.GetAccountInfo();
+
+
+				if (outSiteAccountInfo != null)
+				{
+					_accounts[_outSiteCode].Balance = outSiteAccountInfo.AvailableCny;
+					_accounts[_outSiteCode].CoinAmount = outSiteAccountInfo.AvailableBtc;
+				}
+
+				if (inSiteAccountInfo != null)
+				{
+					_accounts[_inSiteCode].Balance = inSiteAccountInfo.AvailableCny;
+					_accounts[_inSiteCode].CoinAmount = inSiteAccountInfo.AvailableBtc;
+				}
+
+				_initialTotalBalance = _accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance;
+				_initialTotalCoinAmount = _accounts[_outSiteCode].CoinAmount + _accounts[_inSiteCode].CoinAmount;
+			}
 		}
 
-		private  void UpdateRealAccount()
+		private void UpdateRealAccount()
 		{
 			//			if (_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType())//hacking, not elegant
 			//			{
@@ -1269,19 +1306,31 @@ namespace BCPrice_Catcher
 			//			var outSiteAccountInfo = Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo()).Result;
 			//			var outSiteAccountInfo = _accounts[_outSiteCode].Trader?.GetAccountInfo();
 			//			var inSiteAccountInfo = _accounts[_inSiteCode].Trader?.GetAccountInfo();
-			var outSiteAccountInfo = Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo()).Result;
-			var inSiteAccountInfo = Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo()).Result;
-
-			if (outSiteAccountInfo != null)
+			lock (_threadLock)
 			{
-				_accounts[_outSiteCode].Balance = outSiteAccountInfo.AvailableCny;
-				_accounts[_outSiteCode].CoinAmount = outSiteAccountInfo.AvailableBtc;
-			}
+				//				var outSiteAccountInfo = Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo()).Result;
+				//				var inSiteAccountInfo = Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo()).Result;
 
-			if (inSiteAccountInfo != null)
-			{
-				_accounts[_inSiteCode].Balance = inSiteAccountInfo.AvailableCny;
-				_accounts[_inSiteCode].CoinAmount = inSiteAccountInfo.AvailableBtc;
+				var outSiteAccountInfo = _accounts[_outSiteCode].Trader?.GetAccountInfo();
+				var inSiteAccountInfo = _accounts[_inSiteCode].Trader?.GetAccountInfo();
+
+				if (_accounts[_outSiteCode].Trader.GetType() == _accounts[_inSiteCode].Trader.GetType())
+				{
+					throw new Exception("Same Type Trader");
+				}
+
+
+				if (outSiteAccountInfo != null)
+				{
+					_accounts[_outSiteCode].Balance = outSiteAccountInfo.AvailableCny;
+					_accounts[_outSiteCode].CoinAmount = outSiteAccountInfo.AvailableBtc;
+				}
+
+				if (inSiteAccountInfo != null)
+				{
+					_accounts[_inSiteCode].Balance = inSiteAccountInfo.AvailableCny;
+					_accounts[_inSiteCode].CoinAmount = inSiteAccountInfo.AvailableBtc;
+				}
 			}
 			//			}
 			//			}
@@ -1301,17 +1350,33 @@ namespace BCPrice_Catcher
 			//					.OrderByDescending(t => t.Time)
 			//					.ToList();
 
-			_pendingPlacedOrders[_outSiteCode] = Task.Run(()=>
-			_accounts[_outSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
-				.OrderByDescending(t => t.Time)
-				.ToList()).Result;
+			lock (_threadLock)
+			{
+				//				_pendingPlacedOrders[_outSiteCode] = Task.Run(() =>
+				//					_accounts[_outSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+				//						.OrderByDescending(t => t.Time)
+				//						.ToList()).Result;
+				//
+				//				_pendingPlacedOrders[_inSiteCode] = Task.Run(() =>
+				//					_accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+				//						.OrderByDescending(t => t.Time)
+				//						.ToList()).Result;
 
-			_pendingPlacedOrders[_inSiteCode] = Task.Run(()=>
-				_accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
-					.OrderByDescending(t => t.Time)
-					.ToList()).Result;
+				if (_accounts[_outSiteCode].Trader.GetType() == _accounts[_inSiteCode].Trader.GetType())
+				{
+					throw new Exception("Same Type Trader");
+				}
 
+				_pendingPlacedOrders[_outSiteCode] =
+					_accounts[_outSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+						.OrderByDescending(t => t.Time)
+						.ToList();
 
+				_pendingPlacedOrders[_inSiteCode] =
+					_accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+						.OrderByDescending(t => t.Time)
+						.ToList();
+			}
 			//			}
 		}
 
@@ -1395,25 +1460,26 @@ namespace BCPrice_Catcher
 
 		private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			lock (_threadLock)
+
+			var thisComboBox = (ComboBox)sender;
+			var thatComboBox = thisComboBox == cmbOutSite ? cmbInSite : cmbOutSite;
+
+			if (thisComboBox.Text == thatComboBox.Text)
 			{
-				var thisComboBox = (ComboBox)sender;
-				var thatComboBox = thisComboBox == cmbOutSite ? cmbInSite : cmbOutSite;
+				thatComboBox.SelectedIndex = _previousSiteIndex;
+			}
 
-				if (thisComboBox.Text == thatComboBox.Text)
-				{
-					thatComboBox.SelectedIndex = _previousSiteIndex;
-				}
-
+//			lock (_threadLock)
+//			{
 				_outSiteCode = cmbOutSite.SelectedValue?.ToString();
 				_inSiteCode = cmbInSite.SelectedValue?.ToString();
-
-				//only stop, never start
-				if (btnStartStopStrategy.Text == ButtonStopText)
-				{
-					btnStartStopStrategy_Click(btnStartStopStrategy, null);
-				}
+//			}
+			//only stop, never start
+			if (btnStartStopStrategy.Text == ButtonStopText)
+			{
+				btnStartStopStrategy_Click(btnStartStopStrategy, null);
 			}
+
 
 			//			if (_placedOrders[_outSiteCode] != null)
 			//			{

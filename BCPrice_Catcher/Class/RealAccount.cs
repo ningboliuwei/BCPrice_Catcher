@@ -18,9 +18,10 @@ namespace BCPrice_Catcher.Class
 			{
 				var previousBalance = Balance;
 
-				var orderId = Task.Run(() => Trader.Sell(price, amount, AccountCoinType)).Result;
+				//				var orderId = Task.Run(() => Trader.Sell(price, amount, AccountCoinType)).Result;
+				var orderId = Trader.Sell(price, amount, AccountCoinType);
 
-//					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
+				//					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
 				if (orderId != -1)
 				{
@@ -56,7 +57,9 @@ namespace BCPrice_Catcher.Class
 				//					CoinAmount += amount;
 				//					Balance -= price * amount;
 
-				var orderId = Task.Run(() => Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc)).Result;
+				//				var orderId = Task.Run(() => Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc)).Result;
+
+				var orderId = Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
 				if (orderId != -1)
 				{
 					AccountTradeRecords.Add(new AccountTradeInfo
