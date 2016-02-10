@@ -854,12 +854,9 @@
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.Form6_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form6_FormClosing);
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_FormClosed);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form6_FormClosed);
 			this.Load += new System.EventHandler(this.Form6_Load);
 			this.Shown += new System.EventHandler(this.Form6_Shown);
-			this.ResizeBegin += new System.EventHandler(this.Form6_ResizeBegin);
-			this.ResizeEnd += new System.EventHandler(this.Form6_ResizeEnd);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form6_Paint);
 			((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).EndInit();
 			this.tableLayoutPanelMain.ResumeLayout(false);
