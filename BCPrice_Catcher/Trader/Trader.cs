@@ -23,7 +23,7 @@ namespace BCPrice_Catcher.Trader
 		public abstract int Buy(double price, double amount, CoinType coinType);
 		public abstract string GetAllTransactions();
 		public abstract PlacedOrderInfo GetPlacedOrder(long orderId, CoinType coinType);
-		public abstract bool CancelPlacedOrder(int orderId, CoinType coinType);
+		public abstract bool CancelPlacedOrder(long orderId, CoinType coinType);
 //        public abstract List<PlacedOrderInfo> GetOrders();
 	}
 }

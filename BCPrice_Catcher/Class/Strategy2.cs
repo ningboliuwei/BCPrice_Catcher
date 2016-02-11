@@ -95,6 +95,7 @@ namespace BCPrice_Catcher.Class
 			public List<BookOrderInfo> BuyBookOrders { get; set; }
 			public List<BookOrderInfo> SellBookOrders { get; set; }
 			public int Peroid { get; set; }
+            public int CancelLag { get; set; }
 		}
 	}
 }

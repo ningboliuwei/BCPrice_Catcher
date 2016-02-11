@@ -40,6 +40,7 @@ namespace BCPrice_Catcher
         private bool _inRealMode;
         private bool _matchConition;
         private int _previousSiteIndex;
+        private bool _allowAutoCancel;
 
         private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
         {
@@ -356,6 +357,7 @@ namespace BCPrice_Catcher
                         UpdateRealAccount();
                         UpdatePendingPlacedOrders();
                         UpdateAllPlacedOrders();
+                        CancelAllOverduePlacedOrders();
                     }
                     //				};
                 }
@@ -365,6 +367,53 @@ namespace BCPrice_Catcher
             catch
             {
                 //do nothing
+            }
+        }
+
+        private void CancelAllOverduePlacedOrders()
+        {
+            List<long> sellOrderIdsToCancel = new List<long>();
+            List<long> buyOrderIdsToCancel = new List<long>();
+            DateTime currentTime = DateTime.Now;
+
+            foreach (var o in _pendingPlacedOrders[_outSiteCode])
+            {
+                if ((currentTime - o.Time).TotalSeconds > Strategies[0].InputParameters.CancelLag)
+                {
+                    sellOrderIdsToCancel.Add(o.Id);
+                }
+            }
+
+            foreach (var o in _pendingPlacedOrders[_inSiteCode])
+            {
+                if ((currentTime - o.Time).TotalSeconds > Strategies[0].InputParameters.CancelLag)
+                {
+                    buyOrderIdsToCancel.Add(o.Id);
+                }
+            }
+
+            if (sellOrderIdsToCancel.Count != 0)
+            {
+                Parallel.ForEach(from o in sellOrderIdsToCancel select o,
+                    async id =>
+                        await
+                            Task.Run(
+                                () =>
+                                {
+                                    _accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
+                                }));
+            }
+
+            if (buyOrderIdsToCancel.Count != 0)
+            {
+                Parallel.ForEach(from o in buyOrderIdsToCancel select o,
+                    async id =>
+                        await
+                            Task.Run(
+                                () =>
+                                {
+                                    _accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
+                                }));
             }
         }
 
@@ -406,6 +455,10 @@ namespace BCPrice_Catcher
             cmbInSite.ValueMember = "Code";
             cmbInSite.DataSource = (from n in siteNames select new { Code = n.Key, Name = n.Value }).ToList();
             cmbInSite.SelectedIndex = 1;
+
+            nudPeroid.Enabled = false;
+
+            chkAutoCancel.Checked = true;
         }
 
 
@@ -622,6 +675,7 @@ namespace BCPrice_Catcher
             var s3 = nudParaB.Text;
             var s4 = nudParaZ.Text;
             var s5 = nudPeroid.Text;
+            var s6 = nudAutoCancelLag.Text;
 
             var parameters = new Strategy2.StrategyInputParameters
             {
@@ -629,7 +683,8 @@ namespace BCPrice_Catcher
                 a = Regex.IsMatch(s2, floatRegex) ? Convert.ToDouble(s2) : 0,
                 b = Regex.IsMatch(s3, floatRegex) ? Convert.ToDouble(s3) : 0,
                 Z = Regex.IsMatch(s4, floatRegex) ? Convert.ToDouble(s4) : 0,
-                Peroid = Regex.IsMatch(s5, integerRegex) ? Convert.ToInt32(s5) : 0,
+                Peroid = Regex.IsMatch(s5, integerRegex) ? Convert.ToInt32(s5) : 1,
+                CancelLag = Regex.IsMatch(s6, integerRegex) ? Convert.ToInt32(s6) : 8,
                 SellBookOrders = _sellBookOrders[_outSiteCode],
                 BuyBookOrders = _buyBookOrders[_inSiteCode],
                 OutSiteAmount = _accounts[_outSiteCode].CoinAmount,
@@ -900,7 +955,7 @@ namespace BCPrice_Catcher
         {
             //			lock (_threadLock)
             {
-//                Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
+                //                Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
 
                 if (_accounts[_outSiteCode].AccountTradeRecords.Count != 0)
                 {
@@ -964,7 +1019,7 @@ namespace BCPrice_Catcher
             var outSiteAccountInfo = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo());
             var inSiteAccountInfo = await Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo());
 
-//            Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
+            //            Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
 
             //            var outSiteAccountInfo = _accounts[_outSiteCode].Trader?.GetAccountInfo();
             //            var inSiteAccountInfo = _accounts[_inSiteCode].Trader?.GetAccountInfo();
@@ -1000,7 +1055,7 @@ namespace BCPrice_Catcher
                     //				var outSiteAccountInfo = Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo()).Result;
                     //				var inSiteAccountInfo = Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo()).Result;
 
-//                    Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
+                    //                    Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
 
                     var outSiteAccountInfo = _accounts[_outSiteCode].Trader?.GetAccountInfo();
                     var inSiteAccountInfo = _accounts[_inSiteCode].Trader?.GetAccountInfo();
@@ -1046,16 +1101,16 @@ namespace BCPrice_Catcher
             //					_accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
             //						.OrderByDescending(t => t.Time)
             //						.ToList()).Result;
-//            Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
+            //            Debug.Assert(_accounts[_outSiteCode].Trader.GetType() != _accounts[_inSiteCode].Trader.GetType());
 
 
             _pendingPlacedOrders[_outSiteCode] = await Task.Run(() =>
-                _accounts[_outSiteCode].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+                _accounts[_outSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
                     .OrderByDescending(t => t.Time)
                     .ToList());
 
             _pendingPlacedOrders[_inSiteCode] = await Task.Run(() =>
-                    _accounts[_inSiteCode].Trader.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+                    _accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
                         .OrderByDescending(t => t.Time)
                         .ToList());
 
@@ -1101,6 +1156,7 @@ namespace BCPrice_Catcher
         private void chkAutoTrade_CheckedChanged(object sender, EventArgs e)
         {
             _allowAutoTrade = chkAutoTrade.Checked;
+            nudPeroid.Enabled = _allowAutoTrade;
         }
 
         private void btnPlaceOrder_Click(object sender, EventArgs e)
@@ -1199,6 +1255,12 @@ namespace BCPrice_Catcher
             lblBuyAmount,
             lblSellPrice,
             lblSellAmount
+        }
+
+        private void chkAutoCancel_CheckedChanged(object sender, EventArgs e)
+        {
+            _allowAutoCancel = chkAutoCancel.Checked;
+            nudAutoCancelLag.Enabled = _allowAutoCancel;
         }
     }
 }

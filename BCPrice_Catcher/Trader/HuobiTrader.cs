@@ -305,7 +305,7 @@ namespace BCPrice_Catcher.Trader
 			return null;
 		}
 
-		public override bool CancelPlacedOrder(int orderId, CoinType coinType)
+		public override bool CancelPlacedOrder(long orderId, CoinType coinType)
 		{
 			var builder = new HuobiParasTextBuilder("cancel_order");
 
