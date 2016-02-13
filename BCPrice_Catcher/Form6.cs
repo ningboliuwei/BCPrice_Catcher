@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -27,20 +26,12 @@ namespace BCPrice_Catcher
         //买或卖的数量限制
         private const int BookOrdersCount = 5;
         private const int InitialRowCount = 5;
+        private const int StrategyInterval = 500;
+        private const int UIRefreshInterval = 250;
+        private const int AutoCancelInterval = 250;
         private static string _outSiteCode = "btcc";
         private static string _inSiteCode = "huobi";
         private static readonly object ThreadLock = new object();
-        private readonly List<Strategy2> Strategies = new List<Strategy2>();
-        private readonly TimerList StrategyTimerList = new TimerList();
-        private bool _allowAutoTrade;
-        private double _baseDifferPrice;
-        private bool _hasNoPendingPlacedOrders;
-        private double _initialTotalBalance;
-        private double _initialTotalCoinAmount;
-        private bool _inRealMode;
-        private bool _matchConition;
-        private int _previousSiteIndex;
-        private bool _allowAutoCancel;
 
         private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
         {
@@ -85,11 +76,24 @@ namespace BCPrice_Catcher
             "", "卖价", "量", "", "买价", "量"
         };
 
+        private readonly List<Strategy2> Strategies = new List<Strategy2>();
+        private readonly TimerList StrategyTimerList = new TimerList();
+        private bool _allowAutoCancel = true;
+        private bool _allowAutoTrade;
+        private double _baseDifferPrice;
+        private bool _hasNoPendingPlacedOrders;
+        private double _initialTotalBalance;
+        private double _initialTotalCoinAmount;
+        private bool _inRealMode;
+        private bool _matchConition;
+
         private Dictionary<string, List<PlacedOrderInfo>> _placedOrders = new Dictionary<string, List<PlacedOrderInfo>>
         {
             {_outSiteCode, null},
             {_inSiteCode, null}
         };
+
+        private int _previousSiteIndex;
 
         public Form6()
         {
@@ -280,6 +284,7 @@ namespace BCPrice_Catcher
         private void StopStrategy(int strategyId)
         {
             StrategyTimerList.Timers["0"].Change(Timeout.Infinite, Timeout.Infinite);
+            StrategyTimerList.Timers["1"].Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private void btnStartStopStrategy_Click(object sender, EventArgs e)
@@ -288,7 +293,7 @@ namespace BCPrice_Catcher
 
             if (button != null && button.Text == ButtonStartText)
             {
-                StartStrategy(0);
+                StartStrategy();
                 button.BackColor = Color.LightSalmon;
                 button.FlatAppearance.BorderColor = Color.LightCoral;
                 button.Text = ButtonStopText;
@@ -297,16 +302,20 @@ namespace BCPrice_Catcher
             else
             {
                 StopStrategy(0);
-                button.BackColor = Color.LightGreen;
-                button.FlatAppearance.BorderColor = Color.ForestGreen;
-                button.Text = ButtonStartText;
+                if (button != null)
+                {
+                    button.BackColor = Color.LightGreen;
+                    button.FlatAppearance.BorderColor = Color.ForestGreen;
+                    button.Text = ButtonStartText;
+                }
                 btnPlaceOrder.Enabled = false;
             }
         }
 
-        private void StartStrategy(int strategyId)
+        private void StartStrategy()
         {
-            StrategyTimerList.Timers["0"].Change(0, 500);
+            StrategyTimerList.Timers["0"].Change(0, StrategyInterval);
+            StrategyTimerList.Timers["1"].Change(0, AutoCancelInterval);
         }
 
         //add a new strategy
@@ -357,12 +366,19 @@ namespace BCPrice_Catcher
                         UpdateRealAccount();
                         UpdatePendingPlacedOrders();
                         UpdateAllPlacedOrders();
-                        CancelAllOverduePlacedOrders();
                     }
                     //				};
                 }
                     //				);
                     );
+
+                StrategyTimerList.Add("1", Timeout.Infinite, o =>
+                {
+                    if (_inRealMode && _allowAutoCancel)
+                    {
+                        CancelAllOverduePlacedOrders();
+                    }
+                });
             }
             catch
             {
@@ -372,48 +388,66 @@ namespace BCPrice_Catcher
 
         private void CancelAllOverduePlacedOrders()
         {
-            List<long> sellOrderIdsToCancel = new List<long>();
-            List<long> buyOrderIdsToCancel = new List<long>();
-            DateTime currentTime = DateTime.Now;
+            var currentTime = DateTime.Now;
+            var cancelLag = Strategies[0].InputParameters.CancelLag;
 
-            foreach (var o in _pendingPlacedOrders[_outSiteCode])
+            if (_pendingPlacedOrders[_outSiteCode] != null)
             {
-                if ((currentTime - o.Time).TotalSeconds > Strategies[0].InputParameters.CancelLag)
+                var sellOrderIdsToCancel =
+                    (from o in _pendingPlacedOrders[_outSiteCode]
+                        where (currentTime - o.Time).TotalSeconds > cancelLag
+                        select o.Id).Select(dummy => (long) dummy).ToList();
+
+                //            from a in _pendingPlacedOrders[_outSiteCode].Where(o=>(currentTime-o.Time).TotalSeconds>cancelLag) select a 
+
+
+                if (sellOrderIdsToCancel.Count != 0)
                 {
-                    sellOrderIdsToCancel.Add(o.Id);
+                    //                    Parallel.ForEach(from o in sellOrderIdsToCancel select o,
+                    //                         id =>
+                    //
+                    //                                Task.Run(
+                    //                                    () =>
+                    //                                    {
+                    //                                        _accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
+                    //                                    }));
+                    Task.Run(() =>
+                    {
+                        foreach (var o in sellOrderIdsToCancel)
+                        {
+                            _accounts[_outSiteCode].Trader?.CancelPlacedOrder(o, Trader.Trader.CoinType.Btc);
+                            Task.Delay(100);
+                        }
+                    });
                 }
             }
 
-            foreach (var o in _pendingPlacedOrders[_inSiteCode])
+            if (_pendingPlacedOrders[_inSiteCode] != null)
             {
-                if ((currentTime - o.Time).TotalSeconds > Strategies[0].InputParameters.CancelLag)
+                var buyOrderIdsToCancel =
+                    (from o in _pendingPlacedOrders[_inSiteCode]
+                        where (currentTime - o.Time).TotalSeconds > cancelLag
+                        select o.Id).Select(dummy => (long) dummy).ToList();
+
+                if (buyOrderIdsToCancel.Count != 0)
                 {
-                    buyOrderIdsToCancel.Add(o.Id);
+                    //                    Parallel.ForEach(from o in buyOrderIdsToCancel select o,
+                    //                         id =>
+                    //
+                    //                                Task.Run(
+                    //                                    () =>
+                    //                                    {
+                    //                                        _accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
+                    //                                    }));
+                    Task.Run(() =>
+                    {
+                        foreach (var o in buyOrderIdsToCancel)
+                        {
+                            _accounts[_inSiteCode].Trader?.CancelPlacedOrder(o, Trader.Trader.CoinType.Btc);
+                            Task.Delay(100);
+                        }
+                    });
                 }
-            }
-
-            if (sellOrderIdsToCancel.Count != 0)
-            {
-                Parallel.ForEach(from o in sellOrderIdsToCancel select o,
-                    async id =>
-                        await
-                            Task.Run(
-                                () =>
-                                {
-                                    _accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
-                                }));
-            }
-
-            if (buyOrderIdsToCancel.Count != 0)
-            {
-                Parallel.ForEach(from o in buyOrderIdsToCancel select o,
-                    async id =>
-                        await
-                            Task.Run(
-                                () =>
-                                {
-                                    _accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
-                                }));
             }
         }
 
@@ -445,20 +479,22 @@ namespace BCPrice_Catcher
 
             btnCancelAllPendingPlacedOrders.Enabled = false;
 
-            var siteNames = new Dictionary<string, string> { { "btcc", "BTCC" }, { "huobi", "火币网" } };
+            var siteNames = new Dictionary<string, string> {{"btcc", "BTCC"}, {"huobi", "火币网"}};
             cmbOutSite.DisplayMember = "Name";
             cmbOutSite.ValueMember = "Code";
-            cmbOutSite.DataSource = (from n in siteNames select new { Code = n.Key, Name = n.Value }).ToList();
+            cmbOutSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
             cmbOutSite.SelectedIndex = 0;
 
             cmbInSite.DisplayMember = "Name";
             cmbInSite.ValueMember = "Code";
-            cmbInSite.DataSource = (from n in siteNames select new { Code = n.Key, Name = n.Value }).ToList();
+            cmbInSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
             cmbInSite.SelectedIndex = 1;
 
-            nudPeroid.Enabled = false;
+            //            nudPeroid.Enabled = false;
 
             chkAutoCancel.Checked = true;
+
+            timer1.Interval = UIRefreshInterval;
         }
 
 
@@ -616,25 +652,25 @@ namespace BCPrice_Catcher
                 for (var i = 0; i < InitialRowCount; i++)
                 {
                     ((Label)
-                        ((Panel)tableLayoutPanel.Controls["panelSellPrice" + i]).Controls[
+                        ((Panel) tableLayoutPanel.Controls["panelSellPrice" + i]).Controls[
                             $"{ControlName.lblSellPrice}{i}"]).Text
                         =
                         sellBookOrders[i].Price.ToString("0.00");
 
                     ((Label)
-                        ((Panel)tableLayoutPanel.Controls["panelSellAmount" + i]).Controls[
+                        ((Panel) tableLayoutPanel.Controls["panelSellAmount" + i]).Controls[
                             $"{ControlName.lblSellAmount}{i}"])
                         .Text =
                         sellBookOrders[i].Amount.ToString();
 
                     ((Label)
-                        ((Panel)tableLayoutPanel.Controls["panelBuyPrice" + i]).Controls[
+                        ((Panel) tableLayoutPanel.Controls["panelBuyPrice" + i]).Controls[
                             $"{ControlName.lblBuyPrice}{i}"]).Text
                         =
                         buyBookOrders[i].Price.ToString("0.00");
 
                     ((Label)
-                        ((Panel)tableLayoutPanel.Controls["panelBuyAmount" + i]).Controls[
+                        ((Panel) tableLayoutPanel.Controls["panelBuyAmount" + i]).Controls[
                             $"{ControlName.lblBuyAmount}{i}"]).Text
                         =
                         buyBookOrders[i].Amount.ToString();
@@ -661,7 +697,7 @@ namespace BCPrice_Catcher
                                          + "实际买价 " + (s.B + s.InputParameters.b).ToString("0.000") + Environment.NewLine
                                          + "差价 " + s.Differ.ToString("0.000");
 
-                nudAmount.Value = (decimal)s.m;
+                nudAmount.Value = (decimal) s.m;
             }
         }
 
@@ -718,26 +754,43 @@ namespace BCPrice_Catcher
             {
                 //					Parallel.ForEach(from o in outSitePlacedOrders select o.Id, id => Task.Run(() =>
                 //						_accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc)));
-                Parallel.ForEach(from o in outSitePlacedOrders select o.Id,
-                    async id =>
-                        await
-                            Task.Run(
-                                () =>
-                                {
-                                    _accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
-                                }));
+                //                Parallel.ForEach(from o in outSitePlacedOrders select o.Id,
+                //                    async id =>
+                //                        await
+                //                            Task.Run(
+                //                                () =>
+                //                                {
+                //                                    _accounts[_outSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
+                //                                }));
+                Task.Run(() =>
+                {
+                    foreach (var o in outSitePlacedOrders)
+                    {
+                        _accounts[_outSiteCode].Trader?.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc);
+                        Task.Delay(100);
+                    }
+                });
             }
 
             if (inSitePlacedOrders != null && inSitePlacedOrders.Count != 0)
             {
-                Parallel.ForEach(from o in outSitePlacedOrders select o.Id,
-                    async id =>
-                        await
-                            Task.Run(
-                                () =>
-                                {
-                                    _accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
-                                }));
+                //                Parallel.ForEach(from o in outSitePlacedOrders select o.Id,
+                //                    async id =>
+                //                        await
+                //                            Task.Run(
+                //                                () =>
+                //                                {
+                //                                    _accounts[_inSiteCode].Trader.CancelPlacedOrder(id, Trader.Trader.CoinType.Btc);
+                //                                }));
+
+                Task.Run(() =>
+                {
+                    foreach (var o in inSitePlacedOrders)
+                    {
+                        _accounts[_inSiteCode].Trader?.CancelPlacedOrder(o.Id, Trader.Trader.CoinType.Btc);
+                        Task.Delay(100);
+                    }
+                });
             }
             //				}
             //            });
@@ -839,21 +892,21 @@ namespace BCPrice_Catcher
                         });
 
             var totalTrades = from outTrade in outSiteAccountTrades
-                              join inTrade in inSiteAccountTrades
-                                  on outTrade.SN equals inTrade.SN
-                              select new
-                              {
-                                  序号 = outTrade.SN,
-                                  卖出网站 = outTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
-                                  卖出价格 = outTrade.Price.ToString("0.000"),
-                                  卖出数量 = outTrade.Amount.ToString("0.0000"),
-                                  卖出时间 = outTrade.Time.ToString("HH:mm:ss"),
-                                  买入网站 = inTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
-                                  买入价格 = inTrade.Price.ToString("0.000"),
-                                  买入数量 = inTrade.Amount.ToString("0.0000"),
-                                  买入时间 = inTrade.Time.ToString("HH:mm:ss"),
-                                  利润 = (outTrade.Price * outTrade.Amount - inTrade.Price * inTrade.Amount).ToString("0.000")
-                              };
+                join inTrade in inSiteAccountTrades
+                    on outTrade.SN equals inTrade.SN
+                select new
+                {
+                    序号 = outTrade.SN,
+                    卖出网站 = outTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
+                    卖出价格 = outTrade.Price.ToString("0.000"),
+                    卖出数量 = outTrade.Amount.ToString("0.0000"),
+                    卖出时间 = outTrade.Time.ToString("HH:mm:ss"),
+                    买入网站 = inTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
+                    买入价格 = inTrade.Price.ToString("0.000"),
+                    买入数量 = inTrade.Amount.ToString("0.0000"),
+                    买入时间 = inTrade.Time.ToString("HH:mm:ss"),
+                    利润 = (outTrade.Price * outTrade.Amount - inTrade.Price * inTrade.Amount).ToString("0.000")
+                };
 
             gdvTrades.DataSource = totalTrades.ToList();
         }
@@ -864,48 +917,49 @@ namespace BCPrice_Catcher
             var outSiteClosedPlacedOrders =
                 _accounts[_outSiteCode].RealPlacedOrders.Where(o => o.Status == OrderStatus.Closed).ToList();
             var outSiteClosedTrades = (from t in _accounts[_outSiteCode].AccountTradeRecords
-                                       where outSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
-                                       select t).ToList();
+                where outSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
+                select t).ToList();
 
             var inSiteClosedPlacedOrders =
                 _accounts[_inSiteCode].RealPlacedOrders.Where(o => o.Status == OrderStatus.Closed).ToList();
             var inSiteClosedTrades = (from t in _accounts[_inSiteCode].AccountTradeRecords
-                                      where inSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
-                                      select t).ToList();
+                where inSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
+                select t).ToList();
 
             var totalTrades = (from outOrder in outSiteClosedTrades
-                               join inOrder in inSiteClosedTrades
-                                   on outOrder.TradePairGuid equals inOrder.TradePairGuid
-                               select new
-                               {
-                                   卖出网站 = outOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
-                                   卖出价格 = outOrder.Price.ToString("0.000"),
-                                   卖出数量 = outOrder.Amount.ToString("0.0000"),
-                                   卖出时间 = outOrder.Time.ToString("HH:mm:ss"),
-                                   买入网站 = inOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
-                                   买入价格 = inOrder.Price.ToString("0.000"),
-                                   买入数量 = inOrder.Amount.ToString("0.0000"),
-                                   买入时间 = inOrder.Time.ToString("HH:mm:ss"),
-                                   利润 =
-                                       (outOrder.Price * outOrder.Amount - inOrder.Price * inOrder.Amount).ToString(
-                                           "0.000")
-                               }).ToList();
+                join inOrder in inSiteClosedTrades
+                    on outOrder.TradePairGuid equals inOrder.TradePairGuid
+                select new
+                {
+                    卖出网站 = outOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
+                    卖出价格 = outOrder.Price.ToString("0.000"),
+                    卖出数量 = outOrder.Amount.ToString("0.0000"),
+                    卖出时间 = outOrder.Time.ToString("HH:mm:ss"),
+                    买入网站 = inOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
+                    买入价格 = inOrder.Price.ToString("0.000"),
+                    买入数量 = inOrder.Amount.ToString("0.0000"),
+                    买入时间 = inOrder.Time.ToString("HH:mm:ss"),
+                    利润 =
+                        (outOrder.Price * outOrder.Amount - inOrder.Price * inOrder.Amount).ToString(
+                            "0.000")
+                }).ToList();
 
-            long tradeIndex = totalTrades.Count();
+//            long tradeIndex = totalTrades.Count();
+            long tradeIndex = 1;
             gdvTrades.DataSource = (from t in totalTrades
-                                    select new
-                                    {
-                                        序号 = tradeIndex--,
-                                        t.卖出网站,
-                                        t.卖出价格,
-                                        t.卖出数量,
-                                        t.卖出时间,
-                                        t.买入网站,
-                                        t.买入价格,
-                                        t.买入数量,
-                                        t.买入时间,
-                                        t.利润
-                                    }).OrderByDescending(i => i.买入时间).ToList();
+                select new
+                {
+                    序号 = tradeIndex++,
+                    t.卖出网站,
+                    t.卖出价格,
+                    t.卖出数量,
+                    t.卖出时间,
+                    t.买入网站,
+                    t.买入价格,
+                    t.买入数量,
+                    t.买入时间,
+                    t.利润
+                }).OrderByDescending(i => i.买入时间).ToList();
         }
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -971,16 +1025,16 @@ namespace BCPrice_Catcher
                     }
 
                     Parallel.ForEach(outOrderIds, async o =>
-                     {
-                         var order = await
-                             Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc));
+                    {
+                        var order = await
+                            Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc));
 
-                         //                        var order = _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
-                         if (order != null)
-                         {
-                             _accounts[_outSiteCode].RealPlacedOrders.Add(order);
-                         }
-                     });
+                        //                        var order = _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
+                        if (order != null)
+                        {
+                            _accounts[_outSiteCode].RealPlacedOrders.Add(order);
+                        }
+                    });
                 }
 
                 if (_accounts[_inSiteCode].AccountTradeRecords.Count != 0)
@@ -1013,8 +1067,8 @@ namespace BCPrice_Catcher
         {
             lock (ThreadLock)
             {
-                _accounts[_outSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_outSiteCode) };
-                _accounts[_inSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_inSiteCode) };
+                _accounts[_outSiteCode] = new RealAccount {Trader = TraderFactory.GetTrader(_outSiteCode)};
+                _accounts[_inSiteCode] = new RealAccount {Trader = TraderFactory.GetTrader(_inSiteCode)};
             }
             var outSiteAccountInfo = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo());
             var inSiteAccountInfo = await Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo());
@@ -1110,9 +1164,9 @@ namespace BCPrice_Catcher
                     .ToList());
 
             _pendingPlacedOrders[_inSiteCode] = await Task.Run(() =>
-                    _accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
-                        .OrderByDescending(t => t.Time)
-                        .ToList());
+                _accounts[_inSiteCode].Trader?.GetAllPlacedOrders(Trader.Trader.CoinType.Btc)?
+                    .OrderByDescending(t => t.Time)
+                    .ToList());
 
             //			}
         }
@@ -1156,7 +1210,7 @@ namespace BCPrice_Catcher
         private void chkAutoTrade_CheckedChanged(object sender, EventArgs e)
         {
             _allowAutoTrade = chkAutoTrade.Checked;
-            nudPeroid.Enabled = _allowAutoTrade;
+            //            nudPeroid.Enabled = _allowAutoTrade;
         }
 
         private void btnPlaceOrder_Click(object sender, EventArgs e)
@@ -1198,7 +1252,7 @@ namespace BCPrice_Catcher
 
         private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var thisComboBox = (ComboBox)sender;
+            var thisComboBox = (ComboBox) sender;
             var thatComboBox = thisComboBox == cmbOutSite ? cmbInSite : cmbOutSite;
 
             if (thisComboBox.Text == thatComboBox.Text)
@@ -1242,11 +1296,17 @@ namespace BCPrice_Catcher
 
         private void cmbSite_Click(object sender, EventArgs e)
         {
-            _previousSiteIndex = ((ComboBox)sender).SelectedIndex;
+            _previousSiteIndex = ((ComboBox) sender).SelectedIndex;
         }
 
         private void label8_Click(object sender, EventArgs e)
         {
+        }
+
+        private void chkAutoCancel_CheckedChanged(object sender, EventArgs e)
+        {
+            _allowAutoCancel = chkAutoCancel.Checked;
+            //            nudAutoCancelLag.Enabled = _allowAutoCancel;
         }
 
         private enum ControlName
@@ -1255,12 +1315,6 @@ namespace BCPrice_Catcher
             lblBuyAmount,
             lblSellPrice,
             lblSellAmount
-        }
-
-        private void chkAutoCancel_CheckedChanged(object sender, EventArgs e)
-        {
-            _allowAutoCancel = chkAutoCancel.Checked;
-            nudAutoCancelLag.Enabled = _allowAutoCancel;
         }
     }
 }

@@ -47,6 +47,9 @@
             this.btnShowPendingPlacedOrders = new System.Windows.Forms.Button();
             this.tableLayoutPanelOutSite = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.nudAutoCancelLag = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.chkAutoCancel = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.nudParaA = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -74,14 +77,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkAutoCancel = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.nudAutoCancelLag = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAutoCancelLag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudParaA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudParaB)).BeginInit();
@@ -93,7 +94,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gdvInSitePlacedOrders)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAutoCancelLag)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -438,6 +438,61 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(507, 120);
             this.tableLayoutPanel2.TabIndex = 20;
+            // 
+            // nudAutoCancelLag
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.nudAutoCancelLag, 2);
+            this.nudAutoCancelLag.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudAutoCancelLag.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.nudAutoCancelLag.Location = new System.Drawing.Point(274, 92);
+            this.nudAutoCancelLag.Margin = new System.Windows.Forms.Padding(2);
+            this.nudAutoCancelLag.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudAutoCancelLag.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudAutoCancelLag.Name = "nudAutoCancelLag";
+            this.nudAutoCancelLag.Size = new System.Drawing.Size(150, 31);
+            this.nudAutoCancelLag.TabIndex = 11;
+            this.nudAutoCancelLag.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.label7, 2);
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(154, 90);
+            this.label7.Margin = new System.Windows.Forms.Padding(0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(118, 30);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "自动撤单延时";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // chkAutoCancel
+            // 
+            this.chkAutoCancel.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.chkAutoCancel, 2);
+            this.chkAutoCancel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkAutoCancel.Location = new System.Drawing.Point(0, 90);
+            this.chkAutoCancel.Margin = new System.Windows.Forms.Padding(0);
+            this.chkAutoCancel.Name = "chkAutoCancel";
+            this.chkAutoCancel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.chkAutoCancel.Size = new System.Drawing.Size(154, 28);
+            this.chkAutoCancel.TabIndex = 9;
+            this.chkAutoCancel.Text = "允许自动撤单";
+            this.chkAutoCancel.UseVisualStyleBackColor = true;
+            this.chkAutoCancel.CheckedChanged += new System.EventHandler(this.chkAutoCancel_CheckedChanged);
             // 
             // label1
             // 
@@ -845,61 +900,6 @@
             this.SettingsToolStripMenuItem.Text = "设置(&C)";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // chkAutoCancel
-            // 
-            this.chkAutoCancel.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.chkAutoCancel, 2);
-            this.chkAutoCancel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkAutoCancel.Location = new System.Drawing.Point(0, 90);
-            this.chkAutoCancel.Margin = new System.Windows.Forms.Padding(0);
-            this.chkAutoCancel.Name = "chkAutoCancel";
-            this.chkAutoCancel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.chkAutoCancel.Size = new System.Drawing.Size(154, 28);
-            this.chkAutoCancel.TabIndex = 9;
-            this.chkAutoCancel.Text = "允许自动撤单";
-            this.chkAutoCancel.UseVisualStyleBackColor = true;
-            this.chkAutoCancel.CheckedChanged += new System.EventHandler(this.chkAutoCancel_CheckedChanged);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.label7, 2);
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(154, 90);
-            this.label7.Margin = new System.Windows.Forms.Padding(0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(118, 30);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "自动撤单延时";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // nudAutoCancelLag
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.nudAutoCancelLag, 2);
-            this.nudAutoCancelLag.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudAutoCancelLag.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.nudAutoCancelLag.Location = new System.Drawing.Point(274, 92);
-            this.nudAutoCancelLag.Margin = new System.Windows.Forms.Padding(2);
-            this.nudAutoCancelLag.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nudAutoCancelLag.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudAutoCancelLag.Name = "nudAutoCancelLag";
-            this.nudAutoCancelLag.Size = new System.Drawing.Size(150, 31);
-            this.nudAutoCancelLag.TabIndex = 11;
-            this.nudAutoCancelLag.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -927,6 +927,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAutoCancelLag)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudParaA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudParaB)).EndInit();
@@ -940,7 +941,6 @@
             this.tableLayoutPanel4.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAutoCancelLag)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
