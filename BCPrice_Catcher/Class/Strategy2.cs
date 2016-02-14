@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using BCPrice_Catcher.Model;
 
 namespace BCPrice_Catcher.Class
 {
     internal class Strategy2
     {
+        private static readonly object ThreadLock = new object();
+        private static bool _trading = false;
+
         public double m { get; private set; }
         public double A { get; private set; }
         public double B { get; private set; }
@@ -25,13 +30,13 @@ namespace BCPrice_Catcher.Class
             if (parameters.SellBookOrders != null && parameters.BuyBookOrders != null)
             {
                 var qA = from s in parameters.SellBookOrders
-                    where s.Amount > InputParameters.Min
-                    select s.Price;
+                         where s.Amount > InputParameters.Min
+                         select s.Price;
                 A = qA.Count() != 0 ? qA.Min() : 0;
 
                 var qB = from s in parameters.BuyBookOrders
-                    where s.Amount > InputParameters.Min
-                    select s.Price;
+                         where s.Amount > InputParameters.Min
+                         select s.Price;
                 B = qB.Count() != 0 ? qB.Max() : 0;
 
                 X = A;
@@ -39,14 +44,14 @@ namespace BCPrice_Catcher.Class
                 Differ = X - Y;
 
                 var qC = from s in parameters.SellBookOrders
-                    where s.Price == A
-                    select s.Amount;
+                         where s.Price == A
+                         select s.Amount;
                 var C = qC.Count() != 0 ? qC.First() : 0;
 
 
                 var qD = from b in parameters.BuyBookOrders
-                    where b.Price == B
-                    select b.Amount;
+                         where b.Price == B
+                         select b.Amount;
                 var D = qD.Count() != 0 ? qD.First() : 0;
 
                 var values = new List<double>();
@@ -66,14 +71,27 @@ namespace BCPrice_Catcher.Class
         public void TryTrade(Dictionary<string, Account> accounts, Dictionary<string, double> prices,
             double tradeAmount, string outSiteCode, string inSiteCode)
         {
-            var currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            //ensure the > Min price exists
-            if (MatchTradeCondition(currentTime))
+            lock (ThreadLock)
             {
-                var guid = Guid.NewGuid().ToString();
-                accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid, outSiteCode);
-                accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid, inSiteCode);
-                LastTradeTime = currentTime;
+
+                var currentTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                //ensure the > Min price exists
+                if (MatchTradeCondition(currentTime))
+                {
+                    _trading = true;
+                    var guid = Guid.NewGuid().ToString();
+                    //                lock (ThreadLock)
+                    //                {
+                    accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid,
+                        outSiteCode);
+                    //                    Thread.Sleep(1000);
+                    accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid, inSiteCode);
+                    //                }
+                    LastTradeTime = currentTime;
+                    //                    Thread.Sleep(1000);
+                    _trading = false;
+                }
+
             }
         }
 
@@ -81,7 +99,7 @@ namespace BCPrice_Catcher.Class
         {
             //&& InputParameters.SiteBAmount >= m
             return Differ > InputParameters.Z && A != 0 && B != 0 && InputParameters.OutSiteAmount >= m && m != 0 &&
-                   (currentTime - LastTradeTime).TotalSeconds >= InputParameters.Peroid;
+                   (currentTime - LastTradeTime).TotalSeconds >= InputParameters.Peroid && !_trading;
         }
 
         public class StrategyInputParameters

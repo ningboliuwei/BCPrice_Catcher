@@ -1,7 +1,11 @@
 ﻿#region
 
 using System;
+using System.IO;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 
 #endregion
@@ -23,7 +27,8 @@ namespace BCPrice_Catcher.Class
 
                 //					var placedOrderInfo = Trader.GetPlacedOrder(orderId, AccountCoinType);
 
-                if (orderId == -1) return false;
+                //                if (orderId == -1) return false;
+                var currentTime = DateTime.Now;
                 AccountTradeRecords.Add(new AccountTradeInfo
                 {
                     SiteCode = siteCode,
@@ -33,9 +38,23 @@ namespace BCPrice_Catcher.Class
                     Price = price,
                     StrategyId = strategyId + 1,
                     Amount = amount,
-                    Time = DateTime.Now
+                    Time = currentTime
                     //						Profit = Balance - previousBalance
                 });
+
+                StringBuilder builder = new StringBuilder();
+                builder.Append(siteCode)
+                    .Append("sell,")
+                    .Append(tradePairGuid)
+                    .Append(",")
+                    .Append(orderId)
+                    .Append(",")
+                    .Append(price)
+                    .Append(",")
+                    .Append(amount)
+                    .Append(",")
+                    .Append(currentTime).Append(":").Append(currentTime.Millisecond).Append(",").Append(Thread.CurrentThread.ManagedThreadId).Append("\n");
+                WriteLog(builder.ToString());
                 return true;
                 //                    }
                 //if sell success
@@ -43,6 +62,25 @@ namespace BCPrice_Catcher.Class
             }
             return false;
             //		    }
+        }
+
+        private void WriteLog(string content)
+        {
+            string path = Application.StartupPath + "\\log.txt";
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    File.Create(path);
+                }
+
+                StreamWriter writer = File.AppendText(path);
+                writer.Write(content);
+                writer.Close();
+            }
+            catch
+            {
+            }
         }
 
         public override bool Buy(int strategyId, double price, double amount, string tradePairGuid, string siteCode)
@@ -58,24 +96,38 @@ namespace BCPrice_Catcher.Class
                 Task.Run(() => Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc)).Result;
 
             //                var orderId = Trader.Buy(price, amount, BCPrice_Catcher.Trader.Trader.CoinType.Btc);
-            if (orderId != -1)
+            //            if (orderId == -1) return false;
+            var currentTime = DateTime.Now;
+            AccountTradeRecords.Add(new AccountTradeInfo
             {
-                AccountTradeRecords.Add(new AccountTradeInfo
-                {
-                    SiteCode = siteCode,
-                    TradePairGuid = tradePairGuid,
-                    OrderId = orderId,
-                    Type = "Buy",
-                    Price = price,
-                    StrategyId = strategyId + 1,
-                    Amount = amount,
-                    Time = DateTime.Now
-                    //						Profit = Balance - previousBalance
-                });
+                SiteCode = siteCode,
+                TradePairGuid = tradePairGuid,
+                OrderId = orderId,
+                Type = "Buy",
+                Price = price,
+                StrategyId = strategyId + 1,
+                Amount = amount,
+                Time = currentTime
+                //						Profit = Balance - previousBalance
+            });
 
-                return true;
-            }
-            return false;
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append(siteCode)
+                .Append("buy,")
+                .Append(tradePairGuid)
+                .Append(",")
+                .Append(orderId)
+                .Append(",")
+                .Append(price)
+                .Append(",")
+                .Append(amount)
+                .Append(",")
+                .Append(currentTime).Append(":").Append(currentTime.Millisecond).Append(",").Append(Thread.CurrentThread.ManagedThreadId).Append("\n");
+            WriteLog(builder.ToString());
+
+
+            return true;
             //			}
         }
     }
