@@ -374,19 +374,19 @@ namespace BCPrice_Catcher
 
                         if (_allowAutoTrade && pendingOrdersCondition)
                         {
-                            lock (ThreadLock)
-                            {
-                                if (!Trading)
-                                {
-                                    Trading = true;
-                                    strategy.TryTrade(_accounts, new Dictionary<string, double>
+                            //                            lock (ThreadLock)
+                            //                            {
+                            //                                if (!Trading)
+                            //                                {
+                            Trading = true;
+                            strategy.TryTrade(_accounts, new Dictionary<string, double>
                                     {
                                         {_outSiteCode, _prices[_outSiteCode]},
                                         {_inSiteCode, _prices[_inSiteCode]}
                                     }, strategy.m, _outSiteCode, _inSiteCode);
-                                }
-                                Trading = false;
-                            }
+                            //                                }
+                            //                                Trading = false;
+                            //                            }
                         }
 
 
@@ -1391,6 +1391,11 @@ namespace BCPrice_Catcher
             lblBuyAmount,
             lblSellPrice,
             lblSellAmount
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
