@@ -26,13 +26,14 @@ namespace BCPrice_Catcher
         //买或卖的数量限制
         private const int BookOrdersCount = 5;
         private const int InitialRowCount = 5;
-        private const int StrategyInterval = 500;
+        private const int StrategyInterval = 1000;
         private const int UIRefreshInterval = 250;
         private const int DataRefreshInterval = 250;
         private const int AutoCancelInterval = 250;
         private string _outSiteCode = "btcc";
         private string _inSiteCode = "huobi";
         private static readonly object ThreadLock = new object();
+        private static bool Trading;
 
         private readonly Dictionary<string, Account> _accounts = new Dictionary<string, Account>
         {
@@ -340,7 +341,7 @@ namespace BCPrice_Catcher
 
             StrategyTimerList.Add("strategy", Timeout.Infinite, o =>
             {
-                
+
                 Task.Run(() =>
                 {
                     try
@@ -364,21 +365,31 @@ namespace BCPrice_Catcher
                         var pendingOrdersCondition = !chkDoNotTradeWhenHasPendingOrders.Checked ||
                                                      _hasNoPendingPlacedOrders;
 
-                        if (_allowAutoTrade && pendingOrdersCondition)
-                        {
-                            strategy.TryTrade(_accounts, new Dictionary<string, double>
-                            {
-                                {_outSiteCode, _prices[_outSiteCode]},
-                                {_inSiteCode, _prices[_inSiteCode]}
-                            }, strategy.m, _outSiteCode, _inSiteCode);
-                        }
-
                         if (_inRealMode)
                         {
                             UpdateRealAccount();
                             UpdatePendingPlacedOrders();
                             UpdateAllPlacedOrders();
                         }
+
+                        if (_allowAutoTrade && pendingOrdersCondition)
+                        {
+                            lock (ThreadLock)
+                            {
+                                if (!Trading)
+                                {
+                                    Trading = true;
+                                    strategy.TryTrade(_accounts, new Dictionary<string, double>
+                                    {
+                                        {_outSiteCode, _prices[_outSiteCode]},
+                                        {_inSiteCode, _prices[_inSiteCode]}
+                                    }, strategy.m, _outSiteCode, _inSiteCode);
+                                }
+                                Trading = false;
+                            }
+                        }
+
+
                     }
                     catch
                     {
@@ -429,7 +440,7 @@ namespace BCPrice_Catcher
                     }
                     catch
                     {
-                        
+
                     }
                 });
 
@@ -608,16 +619,16 @@ namespace BCPrice_Catcher
                     _prices[_inSiteCode] = Convert.ToDouble(infos[$"{_inSiteCode}_price"]);
 
                     _sellBookOrders[_outSiteCode] =
-                        (infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+                        ((List<BookOrderInfo>)infos[$"{_outSiteCode}_bookorders"]).Take(BookOrdersCount).ToList();
                     _sellBookOrders[_inSiteCode] =
-                        (infos[$"{_inSiteCode}_bookorders"] as List<BookOrderInfo>).Take(BookOrdersCount).ToList();
+                        ((List<BookOrderInfo>)infos[$"{_inSiteCode}_bookorders"]).Take(BookOrdersCount).ToList();
 
                     _buyBookOrders[_outSiteCode] =
-                        (infos[$"{_outSiteCode}_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount)
+                        ((List<BookOrderInfo>)infos[$"{_outSiteCode}_bookorders"]).Skip(BookOrdersCount)
                             .Take(BookOrdersCount)
                             .ToList();
                     _buyBookOrders[_inSiteCode] =
-                        (infos[$"{_inSiteCode}_bookorders"] as List<BookOrderInfo>).Skip(BookOrdersCount)
+                        ((List<BookOrderInfo>)infos[$"{_inSiteCode}_bookorders"]).Skip(BookOrdersCount)
                             .Take(BookOrdersCount)
                             .ToList();
                 }
@@ -1083,8 +1094,8 @@ namespace BCPrice_Catcher
                        var order =
                            Task.Run(() => _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc)).Result;
 
-               //                        var order = _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
-               if (order != null)
+                       //                        var order = _accounts[_outSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
+                       if (order != null)
                        {
                            _accounts[_outSiteCode].RealPlacedOrders.Add(order);
                        }
@@ -1107,8 +1118,8 @@ namespace BCPrice_Catcher
                    {
                        var order =
                            Task.Run(() => _accounts[_inSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc)).Result;
-               //                        var order = _accounts[_inSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
-               if (order != null)
+                       //                        var order = _accounts[_inSiteCode].Trader?.GetPlacedOrder(o, Trader.Trader.CoinType.Btc);
+                       if (order != null)
                        {
                            _accounts[_inSiteCode].RealPlacedOrders.Add(order);
                        }

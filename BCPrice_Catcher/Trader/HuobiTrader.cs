@@ -2,9 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
@@ -106,9 +108,10 @@ namespace BCPrice_Catcher.Trader
 
             var parasText =
                 builder.GetParasText(new[] {"amount", "coin_type", "price"});
+            string result = "xxx";
             try
             {
-                var result = DoMethod(parasText);
+                result = DoMethod(parasText);
                 if (result != null && !result.Contains(ErrorMessageHead))
                 {
                     var o = JObject.Parse(result);
@@ -121,7 +124,27 @@ namespace BCPrice_Catcher.Trader
                 // ignored
             }
 
+            WriteErrorLog(result);
             return -1;
+        }
+
+        private void WriteErrorLog(string content)
+        {
+            string path = Application.StartupPath + "\\errorlog.txt";
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    File.Create(path);
+                }
+
+                StreamWriter writer = File.AppendText(path);
+                writer.Write(content + "\n");
+                writer.Close();
+            }
+            catch
+            {
+            }
         }
 
         /// <summary>
@@ -218,9 +241,10 @@ namespace BCPrice_Catcher.Trader
             var parasText =
                 builder.GetParasText(new[] {"amount", "coin_type", "price"});
 
+            string result = "xxx";
             try
             {
-                var result = DoMethod(parasText);
+                 result = DoMethod(parasText);
                 if (result != null && !result.Contains(ErrorMessageHead))
                 {
                     var o = JObject.Parse(result);
@@ -232,6 +256,8 @@ namespace BCPrice_Catcher.Trader
             {
                 // ignored
             }
+
+            WriteErrorLog(result);
 
             return -1;
         }

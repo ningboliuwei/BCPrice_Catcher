@@ -2,9 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Windows.Forms;
 using BCPrice_Catcher.Model;
 using BCPrice_Catcher.Properties;
 using BCPrice_Catcher.Util;
@@ -23,7 +25,7 @@ namespace BCPrice_Catcher.Trader
         private static readonly string AccessKey = Settings.Default.BtccAccessKey;
         private static readonly string SecretKey = Settings.Default.BtccSecretKey;
 
-//        public BtccParasTextBuilder Builder;
+        //        public BtccParasTextBuilder Builder;
 
         public override AccountInfo GetAccountInfo()
         {
@@ -86,9 +88,11 @@ namespace BCPrice_Catcher.Trader
             builder.Parameters.Add("amount", $"{amount}");
             builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
 
+            string result = "xxx";
+
             try
             {
-                var result = DoMethod(builder);
+                result = DoMethod(builder);
                 if (result != null && !result.Contains(ErrorMessageHead))
                 {
                     var o = JObject.Parse(result);
@@ -100,6 +104,8 @@ namespace BCPrice_Catcher.Trader
             {
                 // ignored
             }
+
+            WriteErrorLog(result);
 
             return -1;
         }
@@ -129,8 +135,29 @@ namespace BCPrice_Catcher.Trader
                 // ignored
             }
 
+
             return -1;
         }
+
+        private void WriteErrorLog(string content)
+        {
+            string path = Application.StartupPath + "\\errorlog.txt";
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    File.Create(path);
+                }
+
+                StreamWriter writer = File.AppendText(path);
+                writer.Write(content + "\n");
+                writer.Close();
+            }
+            catch
+            {
+            }
+        }
+
 
         public override int Buy(double price, double amount, CoinType coinType)
         {
@@ -140,9 +167,10 @@ namespace BCPrice_Catcher.Trader
             builder.Parameters.Add("amount", $"{amount}");
             builder.Parameters.Add("coin_type", $"\"{BtccCoinType.BTCCNY}\"");
 
+            string result = "xxx";
             try
             {
-                var result = DoMethod(builder);
+                 result = DoMethod(builder);
                 if (result != null && !result.Contains(ErrorMessageHead))
                 {
                     var o = JObject.Parse(result);
@@ -155,6 +183,8 @@ namespace BCPrice_Catcher.Trader
                 // ignored
             }
 
+
+            WriteErrorLog(result);
             return -1;
         }
 
@@ -187,7 +217,7 @@ namespace BCPrice_Catcher.Trader
                         Time = Convertor.ConvertJsonDateTimeToLocalDateTime(o["result"]["order"]["date"].ToString()),
                         Status =
                             (OrderStatus)
-                                Enum.Parse(typeof (OrderStatus), o["result"]["order"]["status"].ToString(), true)
+                                Enum.Parse(typeof(OrderStatus), o["result"]["order"]["status"].ToString(), true)
                     };
                 }
             }
@@ -267,17 +297,17 @@ namespace BCPrice_Catcher.Trader
                     var o = JObject.Parse(result);
 
                     return (from c in o["result"]["order"].Children()
-                        select new PlacedOrderInfo
-                        {
-                            Id = Convert.ToInt32(c["id"]),
-                            Type = c["type"].ToString() == "bid" ? OrderType.Bid : OrderType.Ask,
-                            Price = Convert.ToDouble(c["price"]),
-                            AmountOriginal = Convert.ToDouble(c["amount_original"]),
-                            Time = Convertor.ConvertJsonDateTimeToLocalDateTime(c["date"].ToString()),
-                            Status =
-                                (OrderStatus)
-                                    Enum.Parse(typeof (OrderStatus), c["status"].ToString(), true)
-                        }).ToList();
+                            select new PlacedOrderInfo
+                            {
+                                Id = Convert.ToInt32(c["id"]),
+                                Type = c["type"].ToString() == "bid" ? OrderType.Bid : OrderType.Ask,
+                                Price = Convert.ToDouble(c["price"]),
+                                AmountOriginal = Convert.ToDouble(c["amount_original"]),
+                                Time = Convertor.ConvertJsonDateTimeToLocalDateTime(c["date"].ToString()),
+                                Status =
+                                    (OrderStatus)
+                                        Enum.Parse(typeof(OrderStatus), c["status"].ToString(), true)
+                            }).ToList();
                 }
             }
             catch
@@ -318,8 +348,8 @@ namespace BCPrice_Catcher.Trader
             {
                 var builder = new StringBuilder();
                 var paraValues = (from p in Parameters
-                    where !_fixParaNamesForSign.ToArray().Contains(p.Key)
-                    select p).ToList();
+                                  where !_fixParaNamesForSign.ToArray().Contains(p.Key)
+                                  select p).ToList();
 
                 foreach (var v in paraValues)
                 {
@@ -358,8 +388,8 @@ namespace BCPrice_Catcher.Trader
             {
                 var builder = new StringBuilder();
                 var paraValues = (from p in Parameters
-                    where !_fixParaNamesForSign.ToArray().Contains(p.Key)
-                    select p).ToList();
+                                  where !_fixParaNamesForSign.ToArray().Contains(p.Key)
+                                  select p).ToList();
 
                 foreach (var v in paraValues)
                 {
@@ -395,8 +425,8 @@ namespace BCPrice_Catcher.Trader
 
                 var builder = new StringBuilder();
                 var parasForSign = (from p in Parameters
-                    where paraNamesForSign.Contains(p.Key)
-                    select p).ToList();
+                                    where paraNamesForSign.Contains(p.Key)
+                                    select p).ToList();
 
                 foreach (var v in parasForSign)
                 {
