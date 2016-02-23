@@ -66,7 +66,7 @@ namespace BCPrice_Catcher.Class
 
         private void WriteLog(string content)
         {
-            string path = Application.StartupPath + "\\log.txt";
+            string path = Application.StartupPath + "\\tradelog.txt";
             try
             {
                 if (!File.Exists(path))
