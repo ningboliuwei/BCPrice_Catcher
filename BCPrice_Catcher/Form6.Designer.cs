@@ -135,7 +135,7 @@
 			this.btnCancelAllPendingPlacedOrders.FlatAppearance.BorderColor = System.Drawing.Color.IndianRed;
 			this.btnCancelAllPendingPlacedOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnCancelAllPendingPlacedOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnCancelAllPendingPlacedOrders.Location = new System.Drawing.Point(350, 0);
+			this.btnCancelAllPendingPlacedOrders.Location = new System.Drawing.Point(38, 0);
 			this.btnCancelAllPendingPlacedOrders.Margin = new System.Windows.Forms.Padding(0);
 			this.btnCancelAllPendingPlacedOrders.Name = "btnCancelAllPendingPlacedOrders";
 			this.tableLayoutPanel1.SetRowSpan(this.btnCancelAllPendingPlacedOrders, 2);
@@ -156,7 +156,7 @@
 			this.btnStartStopStrategy.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStartStopStrategy.Name = "btnStartStopStrategy";
 			this.tableLayoutPanel1.SetRowSpan(this.btnStartStopStrategy, 2);
-			this.btnStartStopStrategy.Size = new System.Drawing.Size(100, 180);
+			this.btnStartStopStrategy.Size = new System.Drawing.Size(1, 180);
 			this.btnStartStopStrategy.TabIndex = 8;
 			this.btnStartStopStrategy.Text = "开始(&S)";
 			this.btnStartStopStrategy.UseVisualStyleBackColor = false;
@@ -185,7 +185,7 @@
             0,
             0});
 			this.nudParaMin.Name = "nudParaMin";
-			this.nudParaMin.Size = new System.Drawing.Size(100, 23);
+			this.nudParaMin.Size = new System.Drawing.Size(70, 23);
 			this.nudParaMin.TabIndex = 6;
 			this.nudParaMin.Value = new decimal(new int[] {
             1,
@@ -231,7 +231,7 @@
 			this.lblOutSitePrice.Location = new System.Drawing.Point(0, 25);
 			this.lblOutSitePrice.Margin = new System.Windows.Forms.Padding(0);
 			this.lblOutSitePrice.Name = "lblOutSitePrice";
-			this.lblOutSitePrice.Size = new System.Drawing.Size(600, 40);
+			this.lblOutSitePrice.Size = new System.Drawing.Size(452, 40);
 			this.lblOutSitePrice.TabIndex = 5;
 			this.lblOutSitePrice.Text = "Btcc价格\r\n";
 			this.lblOutSitePrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -243,10 +243,10 @@
 			this.lblInSiteAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
 			this.lblInSiteAccount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblInSiteAccount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblInSiteAccount.Location = new System.Drawing.Point(900, 65);
+			this.lblInSiteAccount.Location = new System.Drawing.Point(678, 65);
 			this.lblInSiteAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.lblInSiteAccount.Name = "lblInSiteAccount";
-			this.lblInSiteAccount.Size = new System.Drawing.Size(601, 70);
+			this.lblInSiteAccount.Size = new System.Drawing.Size(452, 70);
 			this.lblInSiteAccount.TabIndex = 5;
 			this.lblInSiteAccount.Text = "Huobi比例";
 			this.lblInSiteAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -258,10 +258,10 @@
 			this.lblInSitePrice.BackColor = System.Drawing.Color.Moccasin;
 			this.lblInSitePrice.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblInSitePrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblInSitePrice.Location = new System.Drawing.Point(900, 25);
+			this.lblInSitePrice.Location = new System.Drawing.Point(678, 25);
 			this.lblInSitePrice.Margin = new System.Windows.Forms.Padding(0);
 			this.lblInSitePrice.Name = "lblInSitePrice";
-			this.lblInSitePrice.Size = new System.Drawing.Size(601, 40);
+			this.lblInSitePrice.Size = new System.Drawing.Size(452, 40);
 			this.lblInSitePrice.TabIndex = 5;
 			this.lblInSitePrice.Text = "Huobi价格";
 			this.lblInSitePrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -274,10 +274,10 @@
 			this.tableLayoutPanelMain.SetColumnSpan(this.lblDifferPrice, 2);
 			this.lblDifferPrice.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblDifferPrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblDifferPrice.Location = new System.Drawing.Point(600, 25);
+			this.lblDifferPrice.Location = new System.Drawing.Point(452, 25);
 			this.lblDifferPrice.Margin = new System.Windows.Forms.Padding(0);
 			this.lblDifferPrice.Name = "lblDifferPrice";
-			this.lblDifferPrice.Size = new System.Drawing.Size(300, 40);
+			this.lblDifferPrice.Size = new System.Drawing.Size(226, 40);
 			this.lblDifferPrice.TabIndex = 5;
 			this.lblDifferPrice.Text = "差价";
 			this.lblDifferPrice.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -288,11 +288,11 @@
 			this.tableLayoutPanelMain.SetColumnSpan(this.tckPecentage, 2);
 			this.tckPecentage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tckPecentage.LargeChange = 10;
-			this.tckPecentage.Location = new System.Drawing.Point(600, 135);
+			this.tckPecentage.Location = new System.Drawing.Point(452, 135);
 			this.tckPecentage.Margin = new System.Windows.Forms.Padding(0);
 			this.tckPecentage.Maximum = 100;
 			this.tckPecentage.Name = "tckPecentage";
-			this.tckPecentage.Size = new System.Drawing.Size(300, 180);
+			this.tckPecentage.Size = new System.Drawing.Size(226, 180);
 			this.tckPecentage.TabIndex = 6;
 			this.tckPecentage.TickFrequency = 5;
 			this.tckPecentage.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -309,7 +309,7 @@
 			this.lblOutSiteAccount.Location = new System.Drawing.Point(0, 65);
 			this.lblOutSiteAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.lblOutSiteAccount.Name = "lblOutSiteAccount";
-			this.lblOutSiteAccount.Size = new System.Drawing.Size(600, 70);
+			this.lblOutSiteAccount.Size = new System.Drawing.Size(452, 70);
 			this.lblOutSiteAccount.TabIndex = 5;
 			this.lblOutSiteAccount.Text = "Btcc比例";
 			this.lblOutSiteAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -350,29 +350,29 @@
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
 			this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1501, 783);
+			this.tableLayoutPanelMain.Size = new System.Drawing.Size(1130, 783);
 			this.tableLayoutPanelMain.TabIndex = 0;
 			// 
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.BackColor = System.Drawing.Color.LightBlue;
 			this.tableLayoutPanel1.ColumnCount = 4;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.tableLayoutPanel1.Controls.Add(this.btnSwitchMode, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnStartStopStrategy, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnShowPendingPlacedOrders, 2, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnCancelAllPendingPlacedOrders, 3, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(900, 135);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(678, 135);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 180);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(452, 180);
 			this.tableLayoutPanel1.TabIndex = 11;
 			// 
 			// btnShowPendingPlacedOrders
@@ -383,7 +383,7 @@
 			this.btnShowPendingPlacedOrders.FlatAppearance.BorderColor = System.Drawing.Color.DarkGoldenrod;
 			this.btnShowPendingPlacedOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnShowPendingPlacedOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnShowPendingPlacedOrders.Location = new System.Drawing.Point(250, 0);
+			this.btnShowPendingPlacedOrders.Location = new System.Drawing.Point(-62, 0);
 			this.btnShowPendingPlacedOrders.Margin = new System.Windows.Forms.Padding(0);
 			this.btnShowPendingPlacedOrders.Name = "btnShowPendingPlacedOrders";
 			this.tableLayoutPanel1.SetRowSpan(this.btnShowPendingPlacedOrders, 2);
@@ -414,7 +414,7 @@
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelOutSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(600, 200);
+			this.tableLayoutPanelOutSite.Size = new System.Drawing.Size(452, 200);
 			this.tableLayoutPanelOutSite.TabIndex = 12;
 			// 
 			// tableLayoutPanel2
@@ -448,7 +448,7 @@
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(600, 180);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(452, 180);
 			this.tableLayoutPanel2.TabIndex = 20;
 			this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
 			// 
@@ -471,7 +471,7 @@
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label1.Location = new System.Drawing.Point(154, 0);
+			this.label1.Location = new System.Drawing.Point(124, 0);
 			this.label1.Margin = new System.Windows.Forms.Padding(0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(50, 24);
@@ -483,7 +483,7 @@
 			// 
 			this.nudParaA.DecimalPlaces = 3;
 			this.nudParaA.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudParaA.Location = new System.Drawing.Point(206, 2);
+			this.nudParaA.Location = new System.Drawing.Point(176, 2);
 			this.nudParaA.Margin = new System.Windows.Forms.Padding(2);
 			this.nudParaA.Maximum = new decimal(new int[] {
             100000,
@@ -496,13 +496,13 @@
             0,
             -2147483648});
 			this.nudParaA.Name = "nudParaA";
-			this.nudParaA.Size = new System.Drawing.Size(100, 23);
+			this.nudParaA.Size = new System.Drawing.Size(70, 23);
 			this.nudParaA.TabIndex = 6;
 			// 
 			// label3
 			// 
 			this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label3.Location = new System.Drawing.Point(308, 0);
+			this.label3.Location = new System.Drawing.Point(248, 0);
 			this.label3.Margin = new System.Windows.Forms.Padding(0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(50, 24);
@@ -514,7 +514,7 @@
 			// 
 			this.nudParaB.DecimalPlaces = 3;
 			this.nudParaB.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudParaB.Location = new System.Drawing.Point(360, 2);
+			this.nudParaB.Location = new System.Drawing.Point(300, 2);
 			this.nudParaB.Margin = new System.Windows.Forms.Padding(2);
 			this.nudParaB.Maximum = new decimal(new int[] {
             100000,
@@ -527,7 +527,7 @@
             0,
             -2147483648});
 			this.nudParaB.Name = "nudParaB";
-			this.nudParaB.Size = new System.Drawing.Size(100, 23);
+			this.nudParaB.Size = new System.Drawing.Size(70, 23);
 			this.nudParaB.TabIndex = 6;
 			// 
 			// flowLayoutPanel2
@@ -561,13 +561,13 @@
             0,
             -2147483648});
 			this.nudParaZ.Name = "nudParaZ";
-			this.nudParaZ.Size = new System.Drawing.Size(100, 23);
+			this.nudParaZ.Size = new System.Drawing.Size(70, 23);
 			this.nudParaZ.TabIndex = 6;
 			// 
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label5.Location = new System.Drawing.Point(154, 0);
+			this.label5.Location = new System.Drawing.Point(124, 0);
 			this.label5.Margin = new System.Windows.Forms.Padding(0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(50, 24);
@@ -579,7 +579,7 @@
 			// 
 			this.nudAmount.DecimalPlaces = 3;
 			this.nudAmount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudAmount.Location = new System.Drawing.Point(206, 2);
+			this.nudAmount.Location = new System.Drawing.Point(176, 2);
 			this.nudAmount.Margin = new System.Windows.Forms.Padding(2);
 			this.nudAmount.Maximum = new decimal(new int[] {
             100000,
@@ -587,7 +587,7 @@
             0,
             0});
 			this.nudAmount.Name = "nudAmount";
-			this.nudAmount.Size = new System.Drawing.Size(100, 23);
+			this.nudAmount.Size = new System.Drawing.Size(70, 23);
 			this.nudAmount.TabIndex = 6;
 			// 
 			// flowLayoutPanel3
@@ -648,7 +648,7 @@
             0,
             0});
 			this.nudPeroid.Name = "nudPeroid";
-			this.nudPeroid.Size = new System.Drawing.Size(100, 23);
+			this.nudPeroid.Size = new System.Drawing.Size(70, 23);
 			this.nudPeroid.TabIndex = 6;
 			this.nudPeroid.Value = new decimal(new int[] {
             1,
@@ -660,7 +660,7 @@
 			// 
 			this.label13.AutoSize = true;
 			this.label13.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label13.Location = new System.Drawing.Point(293, 0);
+			this.label13.Location = new System.Drawing.Point(263, 0);
 			this.label13.Margin = new System.Windows.Forms.Padding(0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(20, 17);
@@ -673,7 +673,7 @@
 			// 
 			this.chkDoNotTradeWhenHasPendingOrders.AutoSize = true;
 			this.chkDoNotTradeWhenHasPendingOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(318, 0);
+			this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(288, 0);
 			this.chkDoNotTradeWhenHasPendingOrders.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
 			this.chkDoNotTradeWhenHasPendingOrders.Name = "chkDoNotTradeWhenHasPendingOrders";
 			this.chkDoNotTradeWhenHasPendingOrders.Size = new System.Drawing.Size(183, 21);
@@ -738,7 +738,7 @@
             0,
             0});
 			this.nudAutoCancelLag.Name = "nudAutoCancelLag";
-			this.nudAutoCancelLag.Size = new System.Drawing.Size(100, 23);
+			this.nudAutoCancelLag.Size = new System.Drawing.Size(70, 23);
 			this.nudAutoCancelLag.TabIndex = 11;
 			this.nudAutoCancelLag.Value = new decimal(new int[] {
             8,
@@ -750,7 +750,7 @@
 			// 
 			this.label14.AutoSize = true;
 			this.label14.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label14.Location = new System.Drawing.Point(293, 0);
+			this.label14.Location = new System.Drawing.Point(263, 0);
 			this.label14.Margin = new System.Windows.Forms.Padding(0);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(20, 17);
@@ -818,7 +818,7 @@
             0,
             0});
 			this.nudAutoBuyLag.Name = "nudAutoBuyLag";
-			this.nudAutoBuyLag.Size = new System.Drawing.Size(100, 23);
+			this.nudAutoBuyLag.Size = new System.Drawing.Size(70, 23);
 			this.nudAutoBuyLag.TabIndex = 13;
 			this.nudAutoBuyLag.Value = new decimal(new int[] {
             30,
@@ -830,7 +830,7 @@
 			// 
 			this.label15.AutoSize = true;
 			this.label15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label15.Location = new System.Drawing.Point(329, 0);
+			this.label15.Location = new System.Drawing.Point(299, 0);
 			this.label15.Margin = new System.Windows.Forms.Padding(0);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(20, 17);
@@ -843,7 +843,7 @@
 			// 
 			this.label11.AutoSize = true;
 			this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label11.Location = new System.Drawing.Point(349, 0);
+			this.label11.Location = new System.Drawing.Point(319, 0);
 			this.label11.Margin = new System.Windows.Forms.Padding(0);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(80, 17);
@@ -854,10 +854,10 @@
 			// nudAutoBuyBalancePercentage
 			// 
 			this.nudAutoBuyBalancePercentage.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nudAutoBuyBalancePercentage.Location = new System.Drawing.Point(431, 2);
+			this.nudAutoBuyBalancePercentage.Location = new System.Drawing.Point(401, 2);
 			this.nudAutoBuyBalancePercentage.Margin = new System.Windows.Forms.Padding(2);
 			this.nudAutoBuyBalancePercentage.Name = "nudAutoBuyBalancePercentage";
-			this.nudAutoBuyBalancePercentage.Size = new System.Drawing.Size(100, 23);
+			this.nudAutoBuyBalancePercentage.Size = new System.Drawing.Size(70, 23);
 			this.nudAutoBuyBalancePercentage.TabIndex = 13;
 			this.nudAutoBuyBalancePercentage.Value = new decimal(new int[] {
             60,
@@ -869,7 +869,7 @@
 			// 
 			this.label12.AutoSize = true;
 			this.label12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label12.Location = new System.Drawing.Point(533, 0);
+			this.label12.Location = new System.Drawing.Point(473, 0);
 			this.label12.Margin = new System.Windows.Forms.Padding(0);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(19, 17);
@@ -914,7 +914,7 @@
             0,
             0});
 			this.nudSingleTradeCoinLimit.Name = "nudSingleTradeCoinLimit";
-			this.nudSingleTradeCoinLimit.Size = new System.Drawing.Size(100, 23);
+			this.nudSingleTradeCoinLimit.Size = new System.Drawing.Size(70, 23);
 			this.nudSingleTradeCoinLimit.TabIndex = 6;
 			this.nudSingleTradeCoinLimit.Value = new decimal(new int[] {
             1,
@@ -932,7 +932,7 @@
 			this.btnPlaceOrder.FlatAppearance.BorderColor = System.Drawing.Color.ForestGreen;
 			this.btnPlaceOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnPlaceOrder.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.btnPlaceOrder.Location = new System.Drawing.Point(208, 0);
+			this.btnPlaceOrder.Location = new System.Drawing.Point(178, 0);
 			this.btnPlaceOrder.Margin = new System.Windows.Forms.Padding(0);
 			this.btnPlaceOrder.Name = "btnPlaceOrder";
 			this.btnPlaceOrder.Size = new System.Drawing.Size(200, 27);
@@ -950,7 +950,7 @@
 			this.gdvTrades.Margin = new System.Windows.Forms.Padding(2);
 			this.gdvTrades.Name = "gdvTrades";
 			this.gdvTrades.RowTemplate.Height = 30;
-			this.gdvTrades.Size = new System.Drawing.Size(596, 264);
+			this.gdvTrades.Size = new System.Drawing.Size(448, 264);
 			this.gdvTrades.TabIndex = 19;
 			// 
 			// lblTotalProfits
@@ -961,10 +961,10 @@
 			this.tableLayoutPanelMain.SetColumnSpan(this.lblTotalProfits, 2);
 			this.lblTotalProfits.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblTotalProfits.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lblTotalProfits.Location = new System.Drawing.Point(600, 65);
+			this.lblTotalProfits.Location = new System.Drawing.Point(452, 65);
 			this.lblTotalProfits.Margin = new System.Windows.Forms.Padding(0);
 			this.lblTotalProfits.Name = "lblTotalProfits";
-			this.lblTotalProfits.Size = new System.Drawing.Size(300, 70);
+			this.lblTotalProfits.Size = new System.Drawing.Size(226, 70);
 			this.lblTotalProfits.TabIndex = 5;
 			this.lblTotalProfits.Text = "总利润";
 			this.lblTotalProfits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -979,7 +979,7 @@
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.tableLayoutPanelInSite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(900, 315);
+			this.tableLayoutPanelInSite.Location = new System.Drawing.Point(678, 315);
 			this.tableLayoutPanelInSite.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelInSite.Name = "tableLayoutPanelInSite";
 			this.tableLayoutPanelInSite.RowCount = 7;
@@ -990,7 +990,7 @@
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelInSite.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(601, 200);
+			this.tableLayoutPanelInSite.Size = new System.Drawing.Size(452, 200);
 			this.tableLayoutPanelInSite.TabIndex = 13;
 			// 
 			// tableLayoutPanel3
@@ -1002,12 +1002,12 @@
 			this.tableLayoutPanel3.Controls.Add(this.gdvOutSitePlacedOrders, 0, 0);
 			this.tableLayoutPanel3.Controls.Add(this.gdvInSitePlacedOrders, 1, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(600, 515);
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(452, 515);
 			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 			this.tableLayoutPanel3.RowCount = 1;
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(901, 268);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(678, 268);
 			this.tableLayoutPanel3.TabIndex = 21;
 			// 
 			// gdvOutSitePlacedOrders
@@ -1019,7 +1019,7 @@
 			this.gdvOutSitePlacedOrders.Margin = new System.Windows.Forms.Padding(2);
 			this.gdvOutSitePlacedOrders.Name = "gdvOutSitePlacedOrders";
 			this.gdvOutSitePlacedOrders.RowTemplate.Height = 30;
-			this.gdvOutSitePlacedOrders.Size = new System.Drawing.Size(446, 264);
+			this.gdvOutSitePlacedOrders.Size = new System.Drawing.Size(335, 264);
 			this.gdvOutSitePlacedOrders.TabIndex = 20;
 			// 
 			// gdvInSitePlacedOrders
@@ -1027,11 +1027,11 @@
 			this.gdvInSitePlacedOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gdvInSitePlacedOrders.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gdvInSitePlacedOrders.Enabled = false;
-			this.gdvInSitePlacedOrders.Location = new System.Drawing.Point(452, 2);
+			this.gdvInSitePlacedOrders.Location = new System.Drawing.Point(341, 2);
 			this.gdvInSitePlacedOrders.Margin = new System.Windows.Forms.Padding(2);
 			this.gdvInSitePlacedOrders.Name = "gdvInSitePlacedOrders";
 			this.gdvInSitePlacedOrders.RowTemplate.Height = 30;
-			this.gdvInSitePlacedOrders.Size = new System.Drawing.Size(447, 264);
+			this.gdvInSitePlacedOrders.Size = new System.Drawing.Size(335, 264);
 			this.gdvInSitePlacedOrders.TabIndex = 21;
 			// 
 			// tableLayoutPanel4
@@ -1043,14 +1043,14 @@
 			this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 0);
 			this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tableLayoutPanel4.Location = new System.Drawing.Point(600, 315);
+			this.tableLayoutPanel4.Location = new System.Drawing.Point(452, 315);
 			this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
 			this.tableLayoutPanel4.RowCount = 3;
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(300, 200);
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(226, 200);
 			this.tableLayoutPanel4.TabIndex = 22;
 			// 
 			// lblStrategyValues
@@ -1062,7 +1062,7 @@
 			this.lblStrategyValues.Location = new System.Drawing.Point(0, 40);
 			this.lblStrategyValues.Margin = new System.Windows.Forms.Padding(0);
 			this.lblStrategyValues.Name = "lblStrategyValues";
-			this.lblStrategyValues.Size = new System.Drawing.Size(300, 150);
+			this.lblStrategyValues.Size = new System.Drawing.Size(226, 150);
 			this.lblStrategyValues.TabIndex = 22;
 			this.lblStrategyValues.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblStrategyValues.Click += new System.EventHandler(this.lblStrategyValues_Click);
@@ -1074,7 +1074,7 @@
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(300, 40);
+			this.panel1.Size = new System.Drawing.Size(226, 40);
 			this.panel1.TabIndex = 23;
 			// 
 			// cmbOutSite
@@ -1087,7 +1087,7 @@
 			this.cmbOutSite.Location = new System.Drawing.Point(0, 0);
 			this.cmbOutSite.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbOutSite.Name = "cmbOutSite";
-			this.cmbOutSite.Size = new System.Drawing.Size(600, 25);
+			this.cmbOutSite.Size = new System.Drawing.Size(452, 25);
 			this.cmbOutSite.TabIndex = 23;
 			this.cmbOutSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
 			this.cmbOutSite.Click += new System.EventHandler(this.cmbSite_Click);
@@ -1098,10 +1098,10 @@
 			this.cmbInSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbInSite.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.cmbInSite.FormattingEnabled = true;
-			this.cmbInSite.Location = new System.Drawing.Point(900, 0);
+			this.cmbInSite.Location = new System.Drawing.Point(678, 0);
 			this.cmbInSite.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbInSite.Name = "cmbInSite";
-			this.cmbInSite.Size = new System.Drawing.Size(601, 25);
+			this.cmbInSite.Size = new System.Drawing.Size(452, 25);
 			this.cmbInSite.TabIndex = 23;
 			this.cmbInSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
 			this.cmbInSite.Click += new System.EventHandler(this.cmbSite_Click);
@@ -1112,9 +1112,9 @@
 			this.tableLayoutPanelMain.SetColumnSpan(this.label6, 2);
 			this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label6.Location = new System.Drawing.Point(603, 0);
+			this.label6.Location = new System.Drawing.Point(455, 0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(294, 25);
+			this.label6.Size = new System.Drawing.Size(220, 25);
 			this.label6.TabIndex = 24;
 			this.label6.Text = "➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜➜";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1126,7 +1126,7 @@
             this.功能FToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1501, 25);
+			this.menuStrip1.Size = new System.Drawing.Size(1130, 25);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -1150,7 +1150,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(1501, 808);
+			this.ClientSize = new System.Drawing.Size(1130, 808);
 			this.Controls.Add(this.tableLayoutPanelMain);
 			this.Controls.Add(this.menuStrip1);
 			this.DoubleBuffered = true;

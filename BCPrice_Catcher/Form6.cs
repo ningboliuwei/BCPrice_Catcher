@@ -385,12 +385,14 @@ namespace BCPrice_Catcher
 								? strategy.m
 								: strategy.InputParameters.SingleTradeCoinLimit;
 
-
-							strategy.TryTrade(_accounts, new Dictionary<string, double>
+							if (_accounts[_outSiteCode].Trader != null && _accounts[_inSiteCode].Trader != null)
 							{
-								{_outSiteCode, _prices[_outSiteCode]},
-								{_inSiteCode, _prices[_inSiteCode]}
-							}, amount, _outSiteCode, _inSiteCode);
+								strategy.TryTrade(_accounts, new Dictionary<string, double>
+								{
+									{_outSiteCode, _prices[_outSiteCode]},
+									{_inSiteCode, _prices[_inSiteCode]}
+								}, amount, _outSiteCode, _inSiteCode);
+							}
 							//                                }
 							//                                Trading = false;
 							//                            }
@@ -454,26 +456,37 @@ namespace BCPrice_Catcher
 				{
 					if (_inRealMode)
 					{
-						if (_accounts[_outSiteCode].CoinAmount == 0 && _accounts[_inSiteCode].CoinAmount == 0)
+						if (_accounts[_outSiteCode].CoinAmount == 0 && _accounts[_inSiteCode].CoinAmount == 0 && _noCoinStartTime == DateTime.MaxValue)
 						{
 							_noCoinStartTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 						}
 
 						if (DateTime.Now.Subtract(_noCoinStartTime).Seconds >= Strategies[0].InputParameters.AutoBuyLag && _allowAutoBuy)
 						{
+							int orderId;
 							if (_prices[_outSiteCode] <= _prices[_inSiteCode])
 							{
 								//outsite buy
 								var amountToBuy = Math.Round(_accounts[_outSiteCode].Balance *
-												  (Strategies[0].InputParameters.AutoBuyBalancePercentage / 100) / _prices[_outSiteCode], 3);
-								_accounts[_outSiteCode].Trader.Buy(_prices[_outSiteCode], amountToBuy, Trader.Trader.CoinType.Btc);
+															 (Strategies[0].InputParameters.AutoBuyBalancePercentage / 100.0) /
+															 _prices[_outSiteCode], 3);
+
+								orderId = _accounts[_outSiteCode].Trader.Buy(_prices[_outSiteCode] + strategy.InputParameters.b, amountToBuy, Trader.Trader.CoinType.Btc);
+
 							}
 							else
 							{
 								var amountToBuy = Math.Round(_accounts[_inSiteCode].Balance *
-												  (Strategies[0].InputParameters.AutoBuyBalancePercentage / 100) / _prices[_inSiteCode], 3);
-								_accounts[_inSiteCode].Trader.Buy(_prices[_inSiteCode], amountToBuy, Trader.Trader.CoinType.Btc);
+															 (Strategies[0].InputParameters.AutoBuyBalancePercentage / 100.0) /
+															 _prices[_inSiteCode], 3);
+								orderId = _accounts[_inSiteCode].Trader.Buy(_prices[_inSiteCode] + strategy.InputParameters.b, amountToBuy, Trader.Trader.CoinType.Btc);
 								//insite buy
+
+							}
+
+							if (orderId != -1)
+							{
+								_noCoinStartTime = DateTime.MaxValue;
 							}
 						}
 					}

@@ -78,18 +78,23 @@ namespace BCPrice_Catcher.Class
 				//ensure the > Min price exists
 				if (MatchTradeCondition(currentTime))
 				{
-					_trading = true;
-					var guid = Guid.NewGuid().ToString();
+
 					//                lock (ThreadLock)
 					//                {
-					accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid,
-						outSiteCode);
-					//                    Thread.Sleep(1000);
-					accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid, inSiteCode);
-					//                }
-					LastTradeTime = currentTime;
-					//                    Thread.Sleep(1000);
-					_trading = false;
+					if (accounts[outSiteCode].Trader != null && accounts[inSiteCode].Trader != null)
+					{
+						_trading = true;
+						var guid = Guid.NewGuid().ToString();
+
+						accounts[outSiteCode].Sell(-1, prices[outSiteCode] + InputParameters.a, tradeAmount, guid,
+							outSiteCode);
+						//                    Thread.Sleep(1000);
+						accounts[inSiteCode].Buy(-1, prices[inSiteCode] + InputParameters.b, tradeAmount, guid, inSiteCode);
+						//                }
+						LastTradeTime = currentTime;
+						//                    Thread.Sleep(1000);
+						_trading = false;
+					}
 				}
 
 			}
