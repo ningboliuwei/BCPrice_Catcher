@@ -122,6 +122,7 @@ namespace BCPrice_Catcher.Class
 			public int AutoBuyLag { get; set; }
 			public int AutoBuyBalancePercentage { get; set; }
 			public double SingleTradeCoinLimit { get; set; }
+            public int AutoTrackPeroid { get; set; }
 
 		}
 	}

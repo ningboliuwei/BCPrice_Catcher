@@ -75,10 +75,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.nudAutoBuyBalancePercentage = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.nudSingleTradeCoinLimit = new System.Windows.Forms.NumericUpDown();
-            this.btnPlaceOrder = new System.Windows.Forms.Button();
             this.gdvTrades = new System.Windows.Forms.DataGridView();
             this.lblTotalProfits = new System.Windows.Forms.Label();
             this.tableLayoutPanelInSite = new System.Windows.Forms.TableLayoutPanel();
@@ -94,7 +90,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.功能FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnPlaceOrder = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
+            this.nudSingleTradeCoinLimit = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
+            this.chkAutoTrackPrice = new System.Windows.Forms.CheckBox();
+            this.nudAutoTrackPeroid = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudParaMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tckPecentage)).BeginInit();
             this.tableLayoutPanelMain.SuspendLayout();
@@ -113,14 +117,16 @@
             this.flowLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAutoBuyLag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAutoBuyBalancePercentage)).BeginInit();
-            this.flowLayoutPanel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSingleTradeCoinLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvTrades)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gdvOutSitePlacedOrders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvInSitePlacedOrders)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSingleTradeCoinLimit)).BeginInit();
+            this.flowLayoutPanel6.SuspendLayout();
+            this.flowLayoutPanel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAutoTrackPeroid)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -140,7 +146,7 @@
             this.btnCancelAllPendingPlacedOrders.Margin = new System.Windows.Forms.Padding(0);
             this.btnCancelAllPendingPlacedOrders.Name = "btnCancelAllPendingPlacedOrders";
             this.tableLayoutPanel1.SetRowSpan(this.btnCancelAllPendingPlacedOrders, 2);
-            this.btnCancelAllPendingPlacedOrders.Size = new System.Drawing.Size(113, 180);
+            this.btnCancelAllPendingPlacedOrders.Size = new System.Drawing.Size(113, 210);
             this.btnCancelAllPendingPlacedOrders.TabIndex = 8;
             this.btnCancelAllPendingPlacedOrders.Text = "全部撤单(&T)";
             this.btnCancelAllPendingPlacedOrders.UseVisualStyleBackColor = false;
@@ -157,7 +163,7 @@
             this.btnStartStopStrategy.Margin = new System.Windows.Forms.Padding(0);
             this.btnStartStopStrategy.Name = "btnStartStopStrategy";
             this.tableLayoutPanel1.SetRowSpan(this.btnStartStopStrategy, 2);
-            this.btnStartStopStrategy.Size = new System.Drawing.Size(113, 180);
+            this.btnStartStopStrategy.Size = new System.Drawing.Size(113, 210);
             this.btnStartStopStrategy.TabIndex = 8;
             this.btnStartStopStrategy.Text = "开始(&S)";
             this.btnStartStopStrategy.UseVisualStyleBackColor = false;
@@ -205,7 +211,7 @@
             this.btnSwitchMode.Margin = new System.Windows.Forms.Padding(0);
             this.btnSwitchMode.Name = "btnSwitchMode";
             this.tableLayoutPanel1.SetRowSpan(this.btnSwitchMode, 2);
-            this.btnSwitchMode.Size = new System.Drawing.Size(113, 180);
+            this.btnSwitchMode.Size = new System.Drawing.Size(113, 210);
             this.btnSwitchMode.TabIndex = 8;
             this.btnSwitchMode.Text = "启动真实模式(&R)";
             this.btnSwitchMode.UseVisualStyleBackColor = false;
@@ -293,7 +299,7 @@
             this.tckPecentage.Margin = new System.Windows.Forms.Padding(0);
             this.tckPecentage.Maximum = 100;
             this.tckPecentage.Name = "tckPecentage";
-            this.tckPecentage.Size = new System.Drawing.Size(226, 180);
+            this.tckPecentage.Size = new System.Drawing.Size(226, 210);
             this.tckPecentage.TabIndex = 6;
             this.tckPecentage.TickFrequency = 5;
             this.tckPecentage.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -348,7 +354,7 @@
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 210F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanelMain.Size = new System.Drawing.Size(1130, 776);
@@ -373,7 +379,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(452, 180);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(452, 210);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // btnShowPendingPlacedOrders
@@ -388,7 +394,7 @@
             this.btnShowPendingPlacedOrders.Margin = new System.Windows.Forms.Padding(0);
             this.btnShowPendingPlacedOrders.Name = "btnShowPendingPlacedOrders";
             this.tableLayoutPanel1.SetRowSpan(this.btnShowPendingPlacedOrders, 2);
-            this.btnShowPendingPlacedOrders.Size = new System.Drawing.Size(113, 180);
+            this.btnShowPendingPlacedOrders.Size = new System.Drawing.Size(113, 210);
             this.btnShowPendingPlacedOrders.TabIndex = 8;
             this.btnShowPendingPlacedOrders.Text = "显示挂单(&D)";
             this.btnShowPendingPlacedOrders.UseVisualStyleBackColor = false;
@@ -404,7 +410,7 @@
             this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanelOutSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanelOutSite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(0, 315);
+            this.tableLayoutPanelOutSite.Location = new System.Drawing.Point(0, 345);
             this.tableLayoutPanelOutSite.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelOutSite.Name = "tableLayoutPanelOutSite";
             this.tableLayoutPanelOutSite.RowCount = 7;
@@ -422,34 +428,36 @@
             // 
             this.tableLayoutPanel2.BackColor = System.Drawing.Color.Moccasin;
             this.tableLayoutPanel2.ColumnCount = 9;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel2, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel3, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel4, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel5, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel6, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel7, 0, 6);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 135);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.tableLayoutPanel2.RowCount = 6;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(452, 180);
+            this.tableLayoutPanel2.RowCount = 7;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(452, 210);
             this.tableLayoutPanel2.TabIndex = 20;
             this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
@@ -466,7 +474,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(757, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(447, 29);
             this.flowLayoutPanel1.TabIndex = 15;
             // 
             // label1
@@ -542,7 +550,7 @@
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(757, 29);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(447, 29);
             this.flowLayoutPanel2.TabIndex = 16;
             // 
             // nudParaZ
@@ -603,7 +611,7 @@
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 58);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(757, 29);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(447, 29);
             this.flowLayoutPanel3.TabIndex = 17;
             // 
             // chkAutoTrade
@@ -674,7 +682,7 @@
             // 
             this.chkDoNotTradeWhenHasPendingOrders.AutoSize = true;
             this.chkDoNotTradeWhenHasPendingOrders.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(379, 0);
+            this.chkDoNotTradeWhenHasPendingOrders.Location = new System.Drawing.Point(5, 35);
             this.chkDoNotTradeWhenHasPendingOrders.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.chkDoNotTradeWhenHasPendingOrders.Name = "chkDoNotTradeWhenHasPendingOrders";
             this.chkDoNotTradeWhenHasPendingOrders.Size = new System.Drawing.Size(270, 28);
@@ -694,7 +702,7 @@
             this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 87);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(757, 29);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(447, 29);
             this.flowLayoutPanel4.TabIndex = 18;
             // 
             // chkAutoCancel
@@ -764,7 +772,6 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.flowLayoutPanel5, 9);
             this.flowLayoutPanel5.Controls.Add(this.chkAutoBuy);
-            this.flowLayoutPanel5.Controls.Add(this.label9);
             this.flowLayoutPanel5.Controls.Add(this.nudAutoBuyLag);
             this.flowLayoutPanel5.Controls.Add(this.label15);
             this.flowLayoutPanel5.Controls.Add(this.label11);
@@ -774,7 +781,7 @@
             this.flowLayoutPanel5.Location = new System.Drawing.Point(0, 116);
             this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(757, 29);
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(447, 29);
             this.flowLayoutPanel5.TabIndex = 19;
             // 
             // chkAutoBuy
@@ -795,18 +802,18 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.Location = new System.Drawing.Point(208, 0);
+            this.label9.Location = new System.Drawing.Point(190, 0);
             this.label9.Margin = new System.Windows.Forms.Padding(0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(118, 24);
+            this.label9.Size = new System.Drawing.Size(82, 24);
             this.label9.TabIndex = 12;
-            this.label9.Text = "自动买入延时";
+            this.label9.Text = "跟踪周期";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nudAutoBuyLag
             // 
             this.nudAutoBuyLag.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.nudAutoBuyLag.Location = new System.Drawing.Point(328, 2);
+            this.nudAutoBuyLag.Location = new System.Drawing.Point(210, 2);
             this.nudAutoBuyLag.Margin = new System.Windows.Forms.Padding(2);
             this.nudAutoBuyLag.Maximum = new decimal(new int[] {
             100000,
@@ -831,7 +838,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.Location = new System.Drawing.Point(400, 0);
+            this.label15.Location = new System.Drawing.Point(282, 0);
             this.label15.Margin = new System.Windows.Forms.Padding(0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(28, 24);
@@ -844,7 +851,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.Location = new System.Drawing.Point(428, 0);
+            this.label11.Location = new System.Drawing.Point(310, 0);
             this.label11.Margin = new System.Windows.Forms.Padding(0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(118, 24);
@@ -855,7 +862,7 @@
             // nudAutoBuyBalancePercentage
             // 
             this.nudAutoBuyBalancePercentage.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.nudAutoBuyBalancePercentage.Location = new System.Drawing.Point(548, 2);
+            this.nudAutoBuyBalancePercentage.Location = new System.Drawing.Point(2, 37);
             this.nudAutoBuyBalancePercentage.Margin = new System.Windows.Forms.Padding(2);
             this.nudAutoBuyBalancePercentage.Name = "nudAutoBuyBalancePercentage";
             this.nudAutoBuyBalancePercentage.Size = new System.Drawing.Size(70, 31);
@@ -870,7 +877,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(620, 0);
+            this.label12.Location = new System.Drawing.Point(74, 35);
             this.label12.Margin = new System.Windows.Forms.Padding(0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(26, 24);
@@ -878,81 +885,16 @@
             this.label12.Text = "%";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // flowLayoutPanel6
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.flowLayoutPanel6, 9);
-            this.flowLayoutPanel6.Controls.Add(this.label10);
-            this.flowLayoutPanel6.Controls.Add(this.nudSingleTradeCoinLimit);
-            this.flowLayoutPanel6.Controls.Add(this.label16);
-            this.flowLayoutPanel6.Controls.Add(this.btnPlaceOrder);
-            this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(0, 145);
-            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(757, 35);
-            this.flowLayoutPanel6.TabIndex = 20;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.Location = new System.Drawing.Point(0, 0);
-            this.label10.Margin = new System.Windows.Forms.Padding(0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(154, 24);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "单笔最大成交币数";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // nudSingleTradeCoinLimit
-            // 
-            this.nudSingleTradeCoinLimit.DecimalPlaces = 3;
-            this.nudSingleTradeCoinLimit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.nudSingleTradeCoinLimit.Location = new System.Drawing.Point(156, 2);
-            this.nudSingleTradeCoinLimit.Margin = new System.Windows.Forms.Padding(2);
-            this.nudSingleTradeCoinLimit.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nudSingleTradeCoinLimit.Name = "nudSingleTradeCoinLimit";
-            this.nudSingleTradeCoinLimit.Size = new System.Drawing.Size(70, 31);
-            this.nudSingleTradeCoinLimit.TabIndex = 6;
-            this.nudSingleTradeCoinLimit.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // btnPlaceOrder
-            // 
-            this.btnPlaceOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPlaceOrder.BackColor = System.Drawing.Color.LightGreen;
-            this.btnPlaceOrder.Enabled = false;
-            this.btnPlaceOrder.FlatAppearance.BorderColor = System.Drawing.Color.ForestGreen;
-            this.btnPlaceOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPlaceOrder.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnPlaceOrder.Location = new System.Drawing.Point(278, 0);
-            this.btnPlaceOrder.Margin = new System.Windows.Forms.Padding(0);
-            this.btnPlaceOrder.Name = "btnPlaceOrder";
-            this.btnPlaceOrder.Size = new System.Drawing.Size(200, 35);
-            this.btnPlaceOrder.TabIndex = 8;
-            this.btnPlaceOrder.Text = "手动下单(&B)";
-            this.btnPlaceOrder.UseVisualStyleBackColor = false;
-            this.btnPlaceOrder.Click += new System.EventHandler(this.btnPlaceOrder_Click);
-            // 
             // gdvTrades
             // 
             this.gdvTrades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gdvTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gdvTrades.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gdvTrades.Location = new System.Drawing.Point(2, 517);
+            this.gdvTrades.Location = new System.Drawing.Point(2, 547);
             this.gdvTrades.Margin = new System.Windows.Forms.Padding(2);
             this.gdvTrades.Name = "gdvTrades";
             this.gdvTrades.RowTemplate.Height = 30;
-            this.gdvTrades.Size = new System.Drawing.Size(448, 257);
+            this.gdvTrades.Size = new System.Drawing.Size(448, 227);
             this.gdvTrades.TabIndex = 19;
             // 
             // lblTotalProfits
@@ -981,7 +923,7 @@
             this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanelInSite.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanelInSite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelInSite.Location = new System.Drawing.Point(678, 315);
+            this.tableLayoutPanelInSite.Location = new System.Drawing.Point(678, 345);
             this.tableLayoutPanelInSite.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelInSite.Name = "tableLayoutPanelInSite";
             this.tableLayoutPanelInSite.RowCount = 7;
@@ -1004,12 +946,12 @@
             this.tableLayoutPanel3.Controls.Add(this.gdvOutSitePlacedOrders, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.gdvInSitePlacedOrders, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(452, 515);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(452, 545);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(678, 261);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(678, 231);
             this.tableLayoutPanel3.TabIndex = 21;
             // 
             // gdvOutSitePlacedOrders
@@ -1021,7 +963,7 @@
             this.gdvOutSitePlacedOrders.Margin = new System.Windows.Forms.Padding(2);
             this.gdvOutSitePlacedOrders.Name = "gdvOutSitePlacedOrders";
             this.gdvOutSitePlacedOrders.RowTemplate.Height = 30;
-            this.gdvOutSitePlacedOrders.Size = new System.Drawing.Size(335, 257);
+            this.gdvOutSitePlacedOrders.Size = new System.Drawing.Size(335, 227);
             this.gdvOutSitePlacedOrders.TabIndex = 20;
             // 
             // gdvInSitePlacedOrders
@@ -1033,7 +975,7 @@
             this.gdvInSitePlacedOrders.Margin = new System.Windows.Forms.Padding(2);
             this.gdvInSitePlacedOrders.Name = "gdvInSitePlacedOrders";
             this.gdvInSitePlacedOrders.RowTemplate.Height = 30;
-            this.gdvInSitePlacedOrders.Size = new System.Drawing.Size(335, 257);
+            this.gdvInSitePlacedOrders.Size = new System.Drawing.Size(335, 227);
             this.gdvInSitePlacedOrders.TabIndex = 21;
             // 
             // tableLayoutPanel4
@@ -1045,7 +987,7 @@
             this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(452, 315);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(452, 345);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
@@ -1147,15 +1089,142 @@
             this.SettingsToolStripMenuItem.Text = "设置(&C)";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
+            // btnPlaceOrder
+            // 
+            this.btnPlaceOrder.BackColor = System.Drawing.Color.LightGreen;
+            this.btnPlaceOrder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnPlaceOrder.Enabled = false;
+            this.btnPlaceOrder.FlatAppearance.BorderColor = System.Drawing.Color.ForestGreen;
+            this.btnPlaceOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlaceOrder.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnPlaceOrder.Location = new System.Drawing.Point(228, 0);
+            this.btnPlaceOrder.Margin = new System.Windows.Forms.Padding(0);
+            this.btnPlaceOrder.Name = "btnPlaceOrder";
+            this.btnPlaceOrder.Size = new System.Drawing.Size(150, 35);
+            this.btnPlaceOrder.TabIndex = 8;
+            this.btnPlaceOrder.Text = "手动下单(&B)";
+            this.btnPlaceOrder.UseVisualStyleBackColor = false;
+            this.btnPlaceOrder.Click += new System.EventHandler(this.btnPlaceOrder_Click);
+            // 
             // label16
             // 
             this.label16.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label16.Location = new System.Drawing.Point(228, 0);
+            this.label16.Location = new System.Drawing.Point(374, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(50, 24);
             this.label16.TabIndex = 5;
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nudSingleTradeCoinLimit
+            // 
+            this.nudSingleTradeCoinLimit.DecimalPlaces = 3;
+            this.nudSingleTradeCoinLimit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.nudSingleTradeCoinLimit.Location = new System.Drawing.Point(156, 2);
+            this.nudSingleTradeCoinLimit.Margin = new System.Windows.Forms.Padding(2);
+            this.nudSingleTradeCoinLimit.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudSingleTradeCoinLimit.Name = "nudSingleTradeCoinLimit";
+            this.nudSingleTradeCoinLimit.Size = new System.Drawing.Size(70, 31);
+            this.nudSingleTradeCoinLimit.TabIndex = 6;
+            this.nudSingleTradeCoinLimit.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.Location = new System.Drawing.Point(0, 0);
+            this.label10.Margin = new System.Windows.Forms.Padding(0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(154, 24);
+            this.label10.TabIndex = 14;
+            this.label10.Text = "单笔最大成交币数";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // flowLayoutPanel6
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.flowLayoutPanel6, 9);
+            this.flowLayoutPanel6.Controls.Add(this.chkAutoTrackPrice);
+            this.flowLayoutPanel6.Controls.Add(this.label9);
+            this.flowLayoutPanel6.Controls.Add(this.nudAutoTrackPeroid);
+            this.flowLayoutPanel6.Controls.Add(this.label17);
+            this.flowLayoutPanel6.Controls.Add(this.label16);
+            this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(0, 145);
+            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(447, 29);
+            this.flowLayoutPanel6.TabIndex = 20;
+            // 
+            // flowLayoutPanel7
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.flowLayoutPanel7, 9);
+            this.flowLayoutPanel7.Controls.Add(this.label10);
+            this.flowLayoutPanel7.Controls.Add(this.nudSingleTradeCoinLimit);
+            this.flowLayoutPanel7.Controls.Add(this.btnPlaceOrder);
+            this.flowLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 177);
+            this.flowLayoutPanel7.Name = "flowLayoutPanel7";
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(441, 30);
+            this.flowLayoutPanel7.TabIndex = 0;
+            // 
+            // chkAutoTrackPrice
+            // 
+            this.chkAutoTrackPrice.AutoSize = true;
+            this.chkAutoTrackPrice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkAutoTrackPrice.Location = new System.Drawing.Point(0, 0);
+            this.chkAutoTrackPrice.Margin = new System.Windows.Forms.Padding(0);
+            this.chkAutoTrackPrice.Name = "chkAutoTrackPrice";
+            this.chkAutoTrackPrice.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.chkAutoTrackPrice.Size = new System.Drawing.Size(190, 28);
+            this.chkAutoTrackPrice.TabIndex = 9;
+            this.chkAutoTrackPrice.Text = "允许自动跟踪价格";
+            this.chkAutoTrackPrice.UseVisualStyleBackColor = true;
+            this.chkAutoTrackPrice.CheckedChanged += new System.EventHandler(this.chkAutoBuy_CheckedChanged);
+            // 
+            // nudAutoTrackPeroid
+            // 
+            this.nudAutoTrackPeroid.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.nudAutoTrackPeroid.Location = new System.Drawing.Point(274, 2);
+            this.nudAutoTrackPeroid.Margin = new System.Windows.Forms.Padding(2);
+            this.nudAutoTrackPeroid.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudAutoTrackPeroid.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudAutoTrackPeroid.Name = "nudAutoTrackPeroid";
+            this.nudAutoTrackPeroid.Size = new System.Drawing.Size(70, 31);
+            this.nudAutoTrackPeroid.TabIndex = 13;
+            this.nudAutoTrackPeroid.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label17.Location = new System.Drawing.Point(346, 0);
+            this.label17.Margin = new System.Windows.Forms.Padding(0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(28, 24);
+            this.label17.TabIndex = 5;
+            this.label17.Text = "秒";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label17.Click += new System.EventHandler(this.label8_Click);
             // 
             // Form6
             // 
@@ -1199,9 +1268,6 @@
             this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAutoBuyLag)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAutoBuyBalancePercentage)).EndInit();
-            this.flowLayoutPanel6.ResumeLayout(false);
-            this.flowLayoutPanel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSingleTradeCoinLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gdvTrades)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gdvOutSitePlacedOrders)).EndInit();
@@ -1210,6 +1276,12 @@
             this.tableLayoutPanel4.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSingleTradeCoinLimit)).EndInit();
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.flowLayoutPanel6.PerformLayout();
+            this.flowLayoutPanel7.ResumeLayout(false);
+            this.flowLayoutPanel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAutoTrackPeroid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1273,14 +1345,18 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown nudAutoBuyBalancePercentage;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown nudSingleTradeCoinLimit;
-        private System.Windows.Forms.Button btnPlaceOrder;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown nudSingleTradeCoinLimit;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnPlaceOrder;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel7;
+        private System.Windows.Forms.CheckBox chkAutoTrackPrice;
+        private System.Windows.Forms.NumericUpDown nudAutoTrackPeroid;
+        private System.Windows.Forms.Label label17;
     }
 }

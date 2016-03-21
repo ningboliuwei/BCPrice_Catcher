@@ -3,8 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -91,6 +93,9 @@ namespace BCPrice_Catcher
         private double _initialTotalCoinAmount;
         private bool _inRealMode;
         private bool _matchConition;
+        private Queue<double> _historyDifferPrices = new Queue<double>();
+        private double _averageBaseDifferPrice;
+
 
         private Dictionary<string, List<PlacedOrderInfo>> _placedOrders = new Dictionary<string, List<PlacedOrderInfo>>
         {
@@ -515,8 +520,8 @@ namespace BCPrice_Catcher
             {
                 var sellOrderIdsToCancel =
                     (from o in _pendingPlacedOrders[_outSiteCode]
-                        where (currentTime - o.Time).TotalSeconds > cancelLag
-                        select o.Id).Select(dummy => (long) dummy).ToList();
+                     where (currentTime - o.Time).TotalSeconds > cancelLag
+                     select o.Id).Select(dummy => (long)dummy).ToList();
 
                 //            from a in _pendingPlacedOrders[_outSiteCode].Where(o=>(currentTime-o.Time).TotalSeconds>cancelLag) select a 
 
@@ -546,8 +551,8 @@ namespace BCPrice_Catcher
             {
                 var buyOrderIdsToCancel =
                     (from o in _pendingPlacedOrders[_inSiteCode]
-                        where (currentTime - o.Time).TotalSeconds > cancelLag
-                        select o.Id).Select(dummy => (long) dummy).ToList();
+                     where (currentTime - o.Time).TotalSeconds > cancelLag
+                     select o.Id).Select(dummy => (long)dummy).ToList();
 
                 if (buyOrderIdsToCancel.Count != 0)
                 {
@@ -599,23 +604,24 @@ namespace BCPrice_Catcher
 
             btnCancelAllPendingPlacedOrders.Enabled = false;
 
-            var siteNames = new Dictionary<string, string> {{"btcc", "BTCC"}, {"huobi", "火币网"}};
+            var siteNames = new Dictionary<string, string> { { "btcc", "BTCC" }, { "huobi", "火币网" } };
             cmbOutSite.DisplayMember = "Name";
             cmbOutSite.ValueMember = "Code";
-            cmbOutSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
+            cmbOutSite.DataSource = (from n in siteNames select new { Code = n.Key, Name = n.Value }).ToList();
             cmbOutSite.SelectedIndex = 0;
 
             cmbInSite.DisplayMember = "Name";
             cmbInSite.ValueMember = "Code";
-            cmbInSite.DataSource = (from n in siteNames select new {Code = n.Key, Name = n.Value}).ToList();
+            cmbInSite.DataSource = (from n in siteNames select new { Code = n.Key, Name = n.Value }).ToList();
             cmbInSite.SelectedIndex = 1;
 
             //            nudPeroid.Enabled = false;
 
             chkAutoCancel.Checked = true;
             chkAutoBuy.Checked = true;
+            chkAutoTrackPrice.Checked = true;
 
-            timer1.Interval = UIRefreshInterval;
+//            timer1.Interval = UIRefreshInterval;
         }
 
 
@@ -680,16 +686,16 @@ namespace BCPrice_Catcher
                     _prices[_inSiteCode] = Convert.ToDouble(infos[$"{_inSiteCode}_price"]);
 
                     _sellBookOrders[_outSiteCode] =
-                        ((List<BookOrderInfo>) infos[$"{_outSiteCode}_bookorders"]).Take(BookOrdersCount).ToList();
+                        ((List<BookOrderInfo>)infos[$"{_outSiteCode}_bookorders"]).Take(BookOrdersCount).ToList();
                     _sellBookOrders[_inSiteCode] =
-                        ((List<BookOrderInfo>) infos[$"{_inSiteCode}_bookorders"]).Take(BookOrdersCount).ToList();
+                        ((List<BookOrderInfo>)infos[$"{_inSiteCode}_bookorders"]).Take(BookOrdersCount).ToList();
 
                     _buyBookOrders[_outSiteCode] =
-                        ((List<BookOrderInfo>) infos[$"{_outSiteCode}_bookorders"]).Skip(BookOrdersCount)
+                        ((List<BookOrderInfo>)infos[$"{_outSiteCode}_bookorders"]).Skip(BookOrdersCount)
                             .Take(BookOrdersCount)
                             .ToList();
                     _buyBookOrders[_inSiteCode] =
-                        ((List<BookOrderInfo>) infos[$"{_inSiteCode}_bookorders"]).Skip(BookOrdersCount)
+                        ((List<BookOrderInfo>)infos[$"{_inSiteCode}_bookorders"]).Skip(BookOrdersCount)
                             .Take(BookOrdersCount)
                             .ToList();
                 }
@@ -750,12 +756,21 @@ namespace BCPrice_Catcher
         private void ShowPrices()
         {
             _baseDifferPrice = Math.Abs(_prices[_outSiteCode] - _prices[_inSiteCode]);
+            _historyDifferPrices.Enqueue(_baseDifferPrice);
+
+            if (_historyDifferPrices.Count > Strategies[0].InputParameters.AutoTrackPeroid)
+            {
+                _historyDifferPrices.Dequeue();
+            }
+
+            _averageBaseDifferPrice = _historyDifferPrices.Average();
+
             lblOutSitePrice.Text
                 = $"{cmbOutSite.Text}最新价格{Environment.NewLine}{_prices[_outSiteCode].ToString("0.000")}";
             lblInSitePrice.Text
                 = $"{cmbInSite.Text}最新价格{Environment.NewLine}{_prices[_inSiteCode].ToString("0.000")}";
             lblDifferPrice.Text
-                = $"差价{Environment.NewLine}{_baseDifferPrice.ToString("0.000")}";
+                = $"当前差价：{_baseDifferPrice.ToString("0.000")}{Environment.NewLine}最近{Strategies[0].InputParameters.AutoTrackPeroid}秒平均差价：{_averageBaseDifferPrice.ToString("0.000")}";
             lblTotalProfits.Text
                 =
                 $"总利润{Environment.NewLine}{(_accounts[_outSiteCode].Balance + _accounts[_inSiteCode].Balance - _initialTotalBalance).ToString("0.000")}{Environment.NewLine}总资产{Environment.NewLine}{(_accounts[_outSiteCode].CoinAmount * _prices[_outSiteCode] + _accounts[_outSiteCode].Balance + _accounts[_inSiteCode].CoinAmount * _prices[_inSiteCode] + _accounts[_inSiteCode].Balance).ToString("0.000")}";
@@ -763,13 +778,30 @@ namespace BCPrice_Catcher
             if (_prices[_outSiteCode] > _prices[_inSiteCode]
                 )
             {
-                lblDifferPrice.Text = lblDifferPrice.Text.Insert(4, "<< ");
+                lblDifferPrice.Text = lblDifferPrice.Text.Insert(0, "<< ");
             }
             else if (
                 _prices[_outSiteCode] < _prices[_inSiteCode])
             {
                 lblDifferPrice.Text = lblDifferPrice.Text + @" >>";
             }
+
+            var v = from h in _historyDifferPrices
+                select h.ToString("0.000");
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                .Append(",")
+                .Append(_baseDifferPrice.ToString("0.000"))
+                .Append(",")
+                .Append(_averageBaseDifferPrice.ToString("0.000"))
+                .Append(",")
+//                .Append("{")
+                .Append(string.Join(",", v.ToList()))
+//                .Append("}")
+                .Append("\n");
+
+            WriteLog(builder.ToString());
         }
 
         private void ShowBookOrders(TableLayoutPanel tableLayoutPanel, List<BookOrderInfo> sellBookOrders,
@@ -780,25 +812,25 @@ namespace BCPrice_Catcher
                 for (var i = 0; i < InitialRowCount; i++)
                 {
                     ((Label)
-                        ((Panel) tableLayoutPanel.Controls["panelSellPrice" + i]).Controls[
+                        ((Panel)tableLayoutPanel.Controls["panelSellPrice" + i]).Controls[
                             $"{ControlName.lblSellPrice}{i}"]).Text
                         =
                         sellBookOrders[i].Price.ToString("0.00");
 
                     ((Label)
-                        ((Panel) tableLayoutPanel.Controls["panelSellAmount" + i]).Controls[
+                        ((Panel)tableLayoutPanel.Controls["panelSellAmount" + i]).Controls[
                             $"{ControlName.lblSellAmount}{i}"])
                         .Text =
                         sellBookOrders[i].Amount.ToString();
 
                     ((Label)
-                        ((Panel) tableLayoutPanel.Controls["panelBuyPrice" + i]).Controls[
+                        ((Panel)tableLayoutPanel.Controls["panelBuyPrice" + i]).Controls[
                             $"{ControlName.lblBuyPrice}{i}"]).Text
                         =
                         buyBookOrders[i].Price.ToString("0.00");
 
                     ((Label)
-                        ((Panel) tableLayoutPanel.Controls["panelBuyAmount" + i]).Controls[
+                        ((Panel)tableLayoutPanel.Controls["panelBuyAmount" + i]).Controls[
                             $"{ControlName.lblBuyAmount}{i}"]).Text
                         =
                         buyBookOrders[i].Amount.ToString();
@@ -825,7 +857,7 @@ namespace BCPrice_Catcher
                                          + "实际买价 " + (s.B + s.InputParameters.b).ToString("0.000") + Environment.NewLine
                                          + "差价 " + s.Differ.ToString("0.000");
 
-                nudAmount.Value = (decimal) s.m;
+                nudAmount.Value = (decimal)s.m;
             }
         }
 
@@ -843,6 +875,7 @@ namespace BCPrice_Catcher
             var s7 = nudAutoBuyLag.Text;
             var s8 = nudAutoBuyBalancePercentage.Text;
             var s9 = nudSingleTradeCoinLimit.Text;
+            var s10 = nudAutoTrackPeroid.Text;
 
             var parameters = new Strategy2.StrategyInputParameters
             {
@@ -855,6 +888,7 @@ namespace BCPrice_Catcher
                 AutoBuyLag = Regex.IsMatch(s7, integerRegex) ? Convert.ToInt32(s7) : 30,
                 AutoBuyBalancePercentage = Regex.IsMatch(s8, integerRegex) ? Convert.ToInt32(s8) : 60,
                 SingleTradeCoinLimit = Regex.IsMatch(s9, floatRegex) ? Convert.ToDouble(s9) : 1,
+                AutoTrackPeroid = Regex.IsMatch(s10, integerRegex) ? Convert.ToInt32(s10) : 30,
                 SellBookOrders = _sellBookOrders[_outSiteCode],
                 BuyBookOrders = _buyBookOrders[_inSiteCode],
                 OutSiteAmount = _accounts[_outSiteCode].CoinAmount,
@@ -1024,21 +1058,21 @@ namespace BCPrice_Catcher
                         });
 
             var totalTrades = from outTrade in outSiteAccountTrades
-                join inTrade in inSiteAccountTrades
-                    on outTrade.SN equals inTrade.SN
-                select new
-                {
-                    序号 = outTrade.SN,
-                    卖出网站 = outTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
-                    卖出价格 = outTrade.Price.ToString("0.000"),
-                    卖出数量 = outTrade.Amount.ToString("0.0000"),
-                    卖出时间 = outTrade.Time.ToString("HH:mm:ss"),
-                    买入网站 = inTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
-                    买入价格 = inTrade.Price.ToString("0.000"),
-                    买入数量 = inTrade.Amount.ToString("0.0000"),
-                    买入时间 = inTrade.Time.ToString("HH:mm:ss"),
-                    利润 = (outTrade.Price * outTrade.Amount - inTrade.Price * inTrade.Amount).ToString("0.000")
-                };
+                              join inTrade in inSiteAccountTrades
+                                  on outTrade.SN equals inTrade.SN
+                              select new
+                              {
+                                  序号 = outTrade.SN,
+                                  卖出网站 = outTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
+                                  卖出价格 = outTrade.Price.ToString("0.000"),
+                                  卖出数量 = outTrade.Amount.ToString("0.0000"),
+                                  卖出时间 = outTrade.Time.ToString("HH:mm:ss"),
+                                  买入网站 = inTrade.SiteCode == "btcc" ? "BTCC" : "火币网",
+                                  买入价格 = inTrade.Price.ToString("0.000"),
+                                  买入数量 = inTrade.Amount.ToString("0.0000"),
+                                  买入时间 = inTrade.Time.ToString("HH:mm:ss"),
+                                  利润 = (outTrade.Price * outTrade.Amount - inTrade.Price * inTrade.Amount).ToString("0.000")
+                              };
 
             gdvTrades.DataSource = totalTrades.ToList();
         }
@@ -1049,49 +1083,49 @@ namespace BCPrice_Catcher
             var outSiteClosedPlacedOrders =
                 _accounts[_outSiteCode].RealPlacedOrders.Where(o => o.Status == OrderStatus.Closed).ToList();
             var outSiteClosedTrades = (from t in _accounts[_outSiteCode].AccountTradeRecords
-                where outSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
-                select t).ToList();
+                                       where outSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
+                                       select t).ToList();
 
             var inSiteClosedPlacedOrders =
                 _accounts[_inSiteCode].RealPlacedOrders.Where(o => o.Status == OrderStatus.Closed).ToList();
             var inSiteClosedTrades = (from t in _accounts[_inSiteCode].AccountTradeRecords
-                where inSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
-                select t).ToList();
+                                      where inSiteClosedPlacedOrders.Exists(o => o.Id == t.OrderId)
+                                      select t).ToList();
 
             var totalTrades = (from outOrder in outSiteClosedTrades
-                join inOrder in inSiteClosedTrades
-                    on outOrder.TradePairGuid equals inOrder.TradePairGuid
-                select new
-                {
-                    卖出网站 = outOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
-                    卖出价格 = outOrder.Price.ToString("0.000"),
-                    卖出数量 = outOrder.Amount.ToString("0.0000"),
-                    卖出时间 = outOrder.Time.ToString("HH:mm:ss"),
-                    买入网站 = inOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
-                    买入价格 = inOrder.Price.ToString("0.000"),
-                    买入数量 = inOrder.Amount.ToString("0.0000"),
-                    买入时间 = inOrder.Time.ToString("HH:mm:ss"),
-                    利润 =
-                        (outOrder.Price * outOrder.Amount - inOrder.Price * inOrder.Amount).ToString(
-                            "0.000")
-                }).ToList();
+                               join inOrder in inSiteClosedTrades
+                                   on outOrder.TradePairGuid equals inOrder.TradePairGuid
+                               select new
+                               {
+                                   卖出网站 = outOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
+                                   卖出价格 = outOrder.Price.ToString("0.000"),
+                                   卖出数量 = outOrder.Amount.ToString("0.0000"),
+                                   卖出时间 = outOrder.Time.ToString("HH:mm:ss"),
+                                   买入网站 = inOrder.SiteCode == "btcc" ? "BTCC" : "火币网",
+                                   买入价格 = inOrder.Price.ToString("0.000"),
+                                   买入数量 = inOrder.Amount.ToString("0.0000"),
+                                   买入时间 = inOrder.Time.ToString("HH:mm:ss"),
+                                   利润 =
+                                       (outOrder.Price * outOrder.Amount - inOrder.Price * inOrder.Amount).ToString(
+                                           "0.000")
+                               }).ToList();
 
             //            long tradeIndex = totalTrades.Count();
             long tradeIndex = 1;
             gdvTrades.DataSource = (from t in totalTrades
-                select new
-                {
-                    序号 = tradeIndex++,
-                    t.卖出网站,
-                    t.卖出价格,
-                    t.卖出数量,
-                    t.卖出时间,
-                    t.买入网站,
-                    t.买入价格,
-                    t.买入数量,
-                    t.买入时间,
-                    t.利润
-                }).OrderByDescending(i => i.买入时间).ToList();
+                                    select new
+                                    {
+                                        序号 = tradeIndex++,
+                                        t.卖出网站,
+                                        t.卖出价格,
+                                        t.卖出数量,
+                                        t.卖出时间,
+                                        t.买入网站,
+                                        t.买入价格,
+                                        t.买入数量,
+                                        t.买入时间,
+                                        t.利润
+                                    }).OrderByDescending(i => i.买入时间).ToList();
         }
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1201,8 +1235,8 @@ namespace BCPrice_Catcher
         {
             //            lock (ThreadLock)
             {
-                _accounts[_outSiteCode] = new RealAccount {Trader = TraderFactory.GetTrader(_outSiteCode)};
-                _accounts[_inSiteCode] = new RealAccount {Trader = TraderFactory.GetTrader(_inSiteCode)};
+                _accounts[_outSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_outSiteCode) };
+                _accounts[_inSiteCode] = new RealAccount { Trader = TraderFactory.GetTrader(_inSiteCode) };
             }
             //            var outSiteAccountInfo = await Task.Run(() => _accounts[_outSiteCode].Trader?.GetAccountInfo());
             //            var inSiteAccountInfo = await Task.Run(() => _accounts[_inSiteCode].Trader?.GetAccountInfo());
@@ -1401,7 +1435,7 @@ namespace BCPrice_Catcher
 
         private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var thisComboBox = (ComboBox) sender;
+            var thisComboBox = (ComboBox)sender;
             var thatComboBox = thisComboBox == cmbOutSite ? cmbInSite : cmbOutSite;
 
             if (thisComboBox.Text == thatComboBox.Text)
@@ -1445,7 +1479,7 @@ namespace BCPrice_Catcher
 
         private void cmbSite_Click(object sender, EventArgs e)
         {
-            _previousSiteIndex = ((ComboBox) sender).SelectedIndex;
+            _previousSiteIndex = ((ComboBox)sender).SelectedIndex;
         }
 
         private void label8_Click(object sender, EventArgs e)
@@ -1473,6 +1507,25 @@ namespace BCPrice_Catcher
         private void chkAutoBuy_CheckedChanged(object sender, EventArgs e)
         {
             _allowAutoBuy = chkAutoBuy.Checked;
+        }
+
+        private void WriteLog(string content)
+        {
+            string path = Application.StartupPath + "\\prices.csv";
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    File.Create(path);
+                }
+
+                StreamWriter writer = File.AppendText(path);
+                writer.Write(content);
+                writer.Close();
+            }
+            catch
+            {
+            }
         }
     }
 }

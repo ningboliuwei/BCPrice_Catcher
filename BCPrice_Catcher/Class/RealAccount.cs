@@ -54,7 +54,7 @@ namespace BCPrice_Catcher.Class
                     .Append(amount)
                     .Append(",")
                     .Append(currentTime).Append(":").Append(currentTime.Millisecond).Append(",").Append(Thread.CurrentThread.ManagedThreadId).Append("\n");
-                WriteLog(builder.ToString());
+//                WriteLog(builder.ToString());
                 return true;
                 //                    }
                 //if sell success
@@ -124,7 +124,7 @@ namespace BCPrice_Catcher.Class
                 .Append(amount)
                 .Append(",")
                 .Append(currentTime).Append(":").Append(currentTime.Millisecond).Append(",").Append(Thread.CurrentThread.ManagedThreadId).Append("\n");
-            WriteLog(builder.ToString());
+//            WriteLog(builder.ToString());
 
 
             return true;
